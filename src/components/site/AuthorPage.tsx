@@ -137,7 +137,6 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
   const bio = author.bio;
   const social = author.social || {};
   const website = author.website;
-  const email = author.email;
 
   const profiles: { icon: typeof Linkedin; label: string; sub: string; href: string }[] = [];
   if (social.linkedin) profiles.push({ icon: Linkedin, label: "LinkedIn", sub: handleFromUrl(social.linkedin, "/in/"), href: social.linkedin });
@@ -146,7 +145,7 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
   if (social.instagram) profiles.push({ icon: Instagram, label: "Instagram", sub: handleFromUrl(social.instagram, "@"), href: social.instagram });
   if (website) profiles.push({ icon: Globe, label: "Website", sub: hostname(website) || website, href: website });
 
-  const hasSidebar = profiles.length > 0 || !!email;
+  const hasSidebar = profiles.length > 0;
 
   return (
     <SiteLayout>
