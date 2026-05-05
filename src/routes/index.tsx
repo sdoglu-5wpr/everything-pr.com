@@ -249,13 +249,15 @@ function ViewAllLink({ categorySlug, invert = false }: { categorySlug: string; i
 
 function ArticleCard({ post, invert = false }: { post: HomePost; invert?: boolean }) {
   return (
-    <Link to="/$slug" params={{ slug: post.slug }} className="group block">
-      <PostImage
-        src={post.featured_image_url}
-        alt={post.title}
-        className="aspect-[16/10] w-full overflow-hidden rounded-md bg-muted"
-        imgClassName="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-      />
+    <div className="group block">
+      <Link to="/$slug" params={{ slug: post.slug }} className="block">
+        <PostImage
+          src={post.featured_image_url}
+          alt={post.title}
+          className="aspect-[16/10] w-full overflow-hidden rounded-md bg-muted"
+          imgClassName="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+        />
+      </Link>
       {post.category ? (
         <p
           className={`mt-3 text-[10px] uppercase tracking-wider font-semibold ${
@@ -266,20 +268,45 @@ function ArticleCard({ post, invert = false }: { post: HomePost; invert?: boolea
         </p>
       ) : null}
       <h3
-        className={`mt-1 font-serif font-bold text-lg leading-snug line-clamp-3 group-hover:text-brand-red transition-colors ${
+        className={`mt-1 font-serif font-bold text-lg leading-snug line-clamp-3 transition-colors ${
           invert ? "text-white" : ""
         }`}
       >
-        {post.title}
+        <Link
+          to="/$slug"
+          params={{ slug: post.slug }}
+          className="hover:text-brand-red"
+        >
+          {post.title}
+        </Link>
       </h3>
       <p
-        className={`mt-2 text-xs ${
+        className={`mt-2 text-xs flex items-center gap-1.5 ${
           invert ? "text-white/60" : "text-muted-foreground"
         }`}
       >
-        {post.author?.display_name ?? "Editorial Team"} · {formatDate(post.published_at)}
+        {post.author?.avatar_url ? (
+          <img
+            src={post.author.avatar_url}
+            alt={post.author.display_name}
+            className="w-5 h-5 rounded-full object-cover"
+          />
+        ) : null}
+        {post.author?.slug ? (
+          <Link
+            to="/author/$slug"
+            params={{ slug: post.author.slug }}
+            className={`font-medium hover:text-brand-blue ${invert ? "text-white/85" : "text-foreground"}`}
+          >
+            {post.author.display_name}
+          </Link>
+        ) : (
+          <span className={invert ? "text-white/85" : "text-foreground"}>Editorial Team</span>
+        )}
+        <span aria-hidden>·</span>
+        <span>{formatDate(post.published_at)}</span>
       </p>
-    </Link>
+    </div>
   );
 }
 
