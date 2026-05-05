@@ -1,6 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getArchive } from "@/server/archives.functions";
-import { ArchiveView } from "@/components/site/ArchiveView";
+import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 
 export const Route = createFileRoute("/category/$slug")({
   loader: async ({ params }) => {
