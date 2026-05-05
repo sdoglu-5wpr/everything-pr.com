@@ -156,8 +156,9 @@ function PostEditor() {
     } catch (e: any) { toast.error(e?.message ?? "Delete failed"); }
   };
 
-  const inlinePick = (): Promise<PickedMedia | null> =>
-    new Promise((resolve) => { inlinePickerResolver.current = resolve; setPickerFor("inline"); });
+  const inlinePick = (): Promise<{ url: string; alt: string | null } | null> =>
+    new Promise<PickedMedia | null>((resolve) => { inlinePickerResolver.current = resolve; setPickerFor("inline"); })
+      .then((m) => (m ? { url: m.url, alt: m.alt_text } : null));
 
   const handlePicked = (m: PickedMedia) => {
     if (pickerFor === "featured") setFeatured({ id: m.id, url: m.url, alt: m.alt_text });
