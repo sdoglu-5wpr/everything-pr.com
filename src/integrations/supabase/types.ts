@@ -871,6 +871,7 @@ export type Database = {
         Returns: Json
       }
       get_article_full: { Args: { slug_param: string }; Returns: Json }
+      get_homepage: { Args: { p_economy_slug?: string }; Returns: Json }
       get_homepage_data: {
         Args: {
           p_crisis_slug?: string
