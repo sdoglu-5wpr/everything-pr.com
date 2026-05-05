@@ -4,6 +4,7 @@ import { getArticleBySlug, type RelatedPost, type ArticlePayload, type ArticleAu
 import { lookupRedirect } from "@/server/redirects.functions";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
+import { ContactPage } from "@/components/site/ContactPage";
 
 export const Route = createFileRoute("/$slug")({
   loader: async ({ params }) => {
@@ -128,6 +129,14 @@ function ArticlePage() {
   const { article, topStories, otherNews } = Route.useLoaderData() as ArticlePayload;
   const primaryCategory = article.categories[0];
   const minutes = readingTime(article.content_html);
+
+  if (article.type === "page" && article.slug === "contact") {
+    return (
+      <SiteLayout>
+        <ContactPage />
+      </SiteLayout>
+    );
+  }
 
   return (
     <SiteLayout>
