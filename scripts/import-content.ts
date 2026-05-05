@@ -2,8 +2,8 @@
  * Everything-PR import script — reads `data/*.jsonl|json` and bulk-loads
  * into Supabase. Run locally with the service role key:
  *
- *   SUPABASE_URL=...                                    \
- *   SUPABASE_SERVICE_ROLE_KEY=...                       \
+ *   EPR_SUPABASE_URL=...                                \
+ *   EPR_SUPABASE_SERVICE_KEY=...                        \
  *   bun run scripts/import-content.ts                   \
  *      [--data ./data] [--only authors,posts] [--truncate]
  *
@@ -30,10 +30,10 @@ const ONLY = (args.get("only") ?? "").split(",").map(s => s.trim()).filter(Boole
 const TRUNCATE = args.get("truncate") === "true";
 const BATCH = Number(args.get("batch") ?? 500);
 
-const SUPABASE_URL = process.env.SUPABASE_URL ?? process.env.VITE_SUPABASE_URL;
-const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
+const SUPABASE_URL = process.env.EPR_SUPABASE_URL ?? process.env.VITE_EPR_SUPABASE_URL;
+const SERVICE_KEY = process.env.EPR_SUPABASE_SERVICE_KEY;
 if (!SUPABASE_URL || !SERVICE_KEY) {
-  console.error("✖ Missing SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY env vars");
+  console.error("✖ Missing EPR_SUPABASE_URL / EPR_SUPABASE_SERVICE_KEY env vars");
   process.exit(1);
 }
 const sb = createClient(SUPABASE_URL, SERVICE_KEY, {
