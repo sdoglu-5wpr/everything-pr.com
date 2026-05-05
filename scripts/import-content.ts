@@ -45,6 +45,25 @@ const should = (name: string) => ONLY.length === 0 || ONLY.includes(name);
 const log = (msg: string) => console.log(`  ${msg}`);
 const head = (msg: string) => console.log(`\n▶ ${msg}`);
 
+// ---------- referential-integrity tracking ----------
+// The migration source is a months-old WordPress snapshot, so dangling FK refs
+// (featured images, authors, parents) are expected. Rather than fail the import
+// we collect the set of valid ids per-table during the media/authors/posts
+// passes and null out any post FK that points at a missing target, logging
+// the orphans for the record.
+//
+// Note on transactions: PostgREST (the layer Supabase JS talks to) executes
+// each .upsert() as its own transaction — there is no way to wrap the whole
+// import in a single BEGIN; SET CONSTRAINTS ALL DEFERRED; COMMIT;. Truncate
+// is a separate phase from upserts already, so re-running with --truncate
+// after a partial failure cleans up correctly.
+const validMediaIds = new Set<number>();
+const validAuthorIds = new Set<number>();
+const validPostIds = new Set<number>();
+const orphanFeaturedMedia = new Set<number>();
+const orphanAuthors = new Set<number>();
+const orphanParents = new Set<number>();
+
 async function upsert<T extends Record<string, unknown>>(
   table: string,
   rows: T[],
@@ -131,6 +150,7 @@ async function importAuthors() {
     post_count: a.post_count ?? 0,
   }));
   await upsert("authors", rows, "id");
+  for (const r of rows) validAuthorIds.add(r.id);
   log(`upserted ${rows.length}`);
 }
 
@@ -186,6 +206,7 @@ async function importAttachments() {
       alt_text: null,
       uploaded_at: toIso(a.date_published),
     });
+    validMediaIds.add(a.id);
     if (buf.length >= BATCH) { await upsert("media", buf, "id"); total += buf.length; buf = []; }
   }
   if (buf.length) { await upsert("media", buf, "id"); total += buf.length; }
@@ -252,6 +273,22 @@ type PostJson = {
 
 const VALID_STATUS = new Set(["publish", "draft", "pending", "private", "future", "trash"]);
 
+/** Pre-scan all post-like jsonl files to collect ids — needed so parent_id
+ *  references resolve across files (a post in posts.jsonl can have a parent
+ *  defined in pages.jsonl, etc.). */
+async function prescanPostIds(files: string[]) {
+  head("pre-scan post ids");
+  for (const file of files) {
+    if (!existsSync(`${DATA_DIR}/${file}`)) continue;
+    for await (const r of streamJsonl(`${DATA_DIR}/${file}`)) {
+      const p = r as PostJson;
+      if (p.type === "attachment") continue;
+      if (typeof p.id === "number") validPostIds.add(p.id);
+    }
+  }
+  log(`collected ${validPostIds.size} post ids`);
+}
+
 async function importPostsFile(file: string, defaultType: "post" | "page" = "post") {
   head(`posts (${file})`);
   const postsBuf: Record<string, unknown>[] = [];
@@ -278,6 +315,26 @@ async function importPostsFile(file: string, defaultType: "post" | "page" = "pos
     const p = r as PostJson;
     if (p.type === "attachment") continue;
     const status = VALID_STATUS.has(p.status) ? p.status : "publish";
+
+    // Null-out-and-log every FK against a missing target. The source is a
+    // months-old WP snapshot, so dangling refs (deleted media/authors/parents)
+    // are expected.
+    let featured_media_id: number | null = p.featured_image?.id ?? null;
+    if (featured_media_id != null && !validMediaIds.has(featured_media_id)) {
+      orphanFeaturedMedia.add(featured_media_id);
+      featured_media_id = null;
+    }
+    let author_id: number | null = p.author?.id ?? null;
+    if (author_id != null && !validAuthorIds.has(author_id)) {
+      orphanAuthors.add(author_id);
+      author_id = null;
+    }
+    let parent_id: number | null = p.parent && p.parent !== 0 ? p.parent : null;
+    if (parent_id != null && !validPostIds.has(parent_id)) {
+      orphanParents.add(parent_id);
+      parent_id = null;
+    }
+
     postsBuf.push({
       id: p.id,
       type: p.type === "page" ? "page" : defaultType,
@@ -287,9 +344,9 @@ async function importPostsFile(file: string, defaultType: "post" | "page" = "pos
       excerpt: p.excerpt || null,
       content_html: p.content || "",
       content_text: stripHtml(p.content || ""),
-      author_id: p.author?.id ?? null,
-      featured_media_id: p.featured_image?.id ?? null,
-      parent_id: p.parent && p.parent !== 0 ? p.parent : null,
+      author_id,
+      featured_media_id,
+      parent_id,
       menu_order: p.menu_order ?? 0,
       published_at: toIso(p.date_published),
       modified_at: toIso(p.date_modified),
@@ -387,14 +444,21 @@ async function importInternalLinks() {
   head("internal_links");
   let buf: Record<string, unknown>[] = [];
   let total = 0;
+  let skippedSource = 0;
+  let nulledTarget = 0;
   for await (const r of streamJsonl(`${DATA_DIR}/internal-links.jsonl`)) {
     const l = r as { source_post_id?: number; from_post_id?: number; target_url: string; target_post_id?: number; anchor?: string };
     const src = l.source_post_id ?? l.from_post_id;
     if (!src) continue;
+    if (!validPostIds.has(src)) { skippedSource++; continue; }
+    let target_post_id: number | null = l.target_post_id ?? null;
+    if (target_post_id != null && !validPostIds.has(target_post_id)) {
+      target_post_id = null; nulledTarget++;
+    }
     buf.push({
       source_post_id: src,
       target_url: l.target_url,
-      target_post_id: l.target_post_id ?? null,
+      target_post_id,
       anchor_text: l.anchor ?? null,
     });
     if (buf.length >= BATCH) {
@@ -404,7 +468,7 @@ async function importInternalLinks() {
     }
   }
   if (buf.length) { const { error } = await sb.from("internal_links").insert(buf); if (error) throw error; total += buf.length; }
-  log(`inserted ${total}`);
+  log(`inserted ${total} (skipped ${skippedSource} w/ missing source, nulled ${nulledTarget} dangling targets)`);
 }
 
 // ---------- verify ----------
@@ -450,12 +514,21 @@ async function count(table: string, modify?: (q: ReturnType<typeof sb.from> exte
   await importTaxonomies();
   await importAttachments();
   await importMediaManifest();
+  await prescanPostIds(["posts.jsonl", "pages.jsonl", "posts-nonpublished.jsonl"]);
   if (should("posts"))           await importPostsFile("posts.jsonl", "post");
   if (should("pages"))           await importPostsFile("pages.jsonl", "page");
   if (should("posts-nonpub"))    await importPostsFile("posts-nonpublished.jsonl", "post");
   await importRedirects();
   await importMenus();
   await importInternalLinks();
+
+  // Orphan-FK summary
+  head("orphan FK summary");
+  const fmt = (s: Set<number>) => [...s].sort((a, b) => a - b).join(", ") || "(none)";
+  log(`featured_media_id nulled (${orphanFeaturedMedia.size} distinct): ${fmt(orphanFeaturedMedia)}`);
+  log(`author_id nulled         (${orphanAuthors.size} distinct): ${fmt(orphanAuthors)}`);
+  log(`parent_id nulled         (${orphanParents.size} distinct): ${fmt(orphanParents)}`);
+
   await verifyCounts();
   console.log("\n✓ Import complete.");
   process.exit(0);
