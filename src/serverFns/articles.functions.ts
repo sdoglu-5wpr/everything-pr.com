@@ -71,60 +71,9 @@ export const getArticleBySlug = createServerFn({ method: "GET" })
 
     return cached(`article:${data.slug}`, 60_000, async () => {
       const t0 = Date.now();
-      const { data: rpc, error } = await (supabaseAnon as any).rpc("get_article_full", {
-        slug_param: data.slug,
-      });
+      const result = await fetchArticleViaRpc(supabaseAnon, data.slug);
       console.log(`[article] ${data.slug} rpc=${Date.now() - t0}ms`);
-      if (error) {
-        console.error("get_article_full failed:", error);
-        return null;
-      }
-      if (!rpc) return null;
-
-      const post = rpc.post;
-      const author = rpc.author ?? null;
-      const media = rpc.featured_media ?? null;
-      const seo = rpc.seo ?? null;
-      const categories = (rpc.categories ?? []) as ArticleCategory[];
-      const topStoriesRaw = (rpc.top_stories ?? []) as any[];
-      const otherNewsRaw = (rpc.other_news ?? []) as any[];
-
-      const inlineFallback = pickFirstImageSrc(post.content_html);
-      const seoOg = rewriteLegacyUrl(seo?.og_image);
-      const featuredUrl = resolvePostImageUrl(media?.url, seoOg, inlineFallback);
-      const featuredFromInline =
-        !media?.url && !seoOg && !!inlineFallback && featuredUrl === inlineFallback;
-
-      const renderedHtml = rewriteLegacyHtml(
-        featuredFromInline ? stripFirstImage(post.content_html) : post.content_html,
-      );
-
-      const rewrittenSeo = seo
-        ? { ...seo, og_image: rewriteLegacyUrl(seo.og_image) || null }
-        : null;
-
-      const article: ArticleRecord = {
-        id: post.id,
-        slug: post.slug,
-        title: post.title,
-        excerpt: post.excerpt,
-        content_html: renderedHtml,
-        published_at: post.published_at,
-        modified_at: post.modified_at,
-        type: post.type,
-        featured_image: featuredUrl
-          ? { url: featuredUrl, alt: media?.alt_text ?? post.title }
-          : null,
-        author,
-        categories,
-        seo: rewrittenSeo,
-      };
-
-      return {
-        article,
-        topStories: topStoriesRaw.map(relatedFromRow),
-        otherNews: otherNewsRaw.map(relatedFromRow),
-      };
+      return result;
     });
   });
 
