@@ -111,6 +111,37 @@ export const getImportJob = createServerFn({ method: "GET" })
     return { ok: true as const, job: row };
   });
 
+export const getLatestImportJob = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await requireStaff(context.supabase, context.userId);
+    const { data: row, error } = await supabaseAdmin
+      .from("import_jobs")
+      .select("*")
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .maybeSingle();
+    if (error) return { ok: false as const, error: error.message };
+    return { ok: true as const, job: row };
+  });
+
+export const resumeImportJob = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator(z.object({ jobId: z.string().uuid(), perPage: z.number().int().min(5).max(50).optional() }).parse)
+  .handler(async ({ data, context }) => {
+    await requireStaff(context.supabase, context.userId);
+    const update: any = { status: "running", completed_at: null };
+    if (data.perPage) update.per_page = data.perPage;
+    const { data: row, error } = await supabaseAdmin
+      .from("import_jobs")
+      .update(update)
+      .eq("id", data.jobId)
+      .select("*")
+      .single();
+    if (error) return { ok: false as const, error: error.message };
+    return { ok: true as const, job: row };
+  });
+
 export const cancelImportJob = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator(z.object({ jobId: z.string().uuid() }).parse)

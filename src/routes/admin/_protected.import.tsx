@@ -6,6 +6,8 @@ import {
   tickImportJob,
   getImportJob,
   cancelImportJob,
+  getLatestImportJob,
+  resumeImportJob,
 } from "@/serverFns/wp-import.functions";
 
 export const Route = createFileRoute("/admin/_protected/import")({
@@ -34,6 +36,16 @@ function ImportPage() {
   const [perPage, setPerPage] = useState(20);
   const [busy, setBusy] = useState(false);
   const tickingRef = useRef(false);
+
+  // Load latest job on mount so we can resume after a page reload
+  useEffect(() => {
+    (async () => {
+      try {
+        const r = await getLatestImportJob();
+        if (r.ok && r.job) setJob(r.job as unknown as Job);
+      } catch (e) { console.error("load latest job failed", e); }
+    })();
+  }, []);
 
   // Auto-tick loop when running
   useEffect(() => {
@@ -88,6 +100,17 @@ function ImportPage() {
     if (j.ok) setJob(j.job as unknown as Job);
   };
 
+  const resume = async () => {
+    if (!job) return;
+    setBusy(true);
+    try {
+      const r = await resumeImportJob({ data: { jobId: job.id, perPage } });
+      if (!r.ok) { toast.error(r.error); return; }
+      toast.success("Resuming import");
+      setJob(r.job as unknown as Job);
+    } finally { setBusy(false); }
+  };
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
@@ -122,6 +145,11 @@ function ImportPage() {
           {job && (job.status === "running" || job.status === "pending") && (
             <button onClick={cancel} className="rounded border px-4 py-2 text-sm hover:bg-muted">
               Cancel
+            </button>
+          )}
+          {job && (job.status === "failed" || job.status === "cancelled" || (job.status === "running" && !tickingRef.current)) && job.phase !== "done" && (
+            <button onClick={resume} disabled={busy} className="rounded border px-4 py-2 text-sm hover:bg-muted disabled:opacity-50">
+              Resume {job.phase} (page {job.page})
             </button>
           )}
         </div>
