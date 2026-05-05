@@ -22,28 +22,27 @@ async function buildTanstackOptions() {
     // Worker pass + dev: no prerender. Use default server entry.
     return {} as Record<string, unknown>;
   }
-  try {
-    const result = await collectUrls();
-    return {
-      pages: result.pages,
-      // Force TanStack's server bundle to be named "server.js" so the
-      // preview-server plugin (which prerender uses to fetch routes)
-      // can locate dist/server/server.js. Without this it defaults to
-      // "server" basename anyway, but the Cloudflare plugin overrides it
-      // to "index" — which is why we ONLY enable prerender in pass 1
-      // (Cloudflare plugin disabled).
-      prerender: {
-        enabled: true,
-        concurrency: 4,
-        autoStaticPathsDiscovery: false,
-        failOnError: false,
-        retryCount: 1,
-      },
-    } as Record<string, unknown>;
-  } catch (e) {
-    console.error("[vite.config] URL collection failed; building without prerender:", e);
-    return {} as Record<string, unknown>;
+  const result = await collectUrls();
+  if (result.pages.length === 0) {
+    throw new Error("[vite.config] URL collection returned 0 pages; refusing to run prerender pass");
   }
+  return {
+    pages: result.pages,
+    // Force TanStack's server bundle to be named "server.js" so the
+    // preview-server plugin (which prerender uses to fetch routes)
+    // can locate dist/server/server.js. Without this it defaults to
+    // "server" basename anyway, but the Cloudflare plugin overrides it
+    // to "index" — which is why we ONLY enable prerender in pass 1
+    // (Cloudflare plugin disabled).
+    prerender: {
+      enabled: true,
+      concurrency: 4,
+      autoStaticPathsDiscovery: false,
+      crawlLinks: false,
+      failOnError: false,
+      retryCount: 1,
+    },
+  } as Record<string, unknown>;
 }
 
 const tanstackStart = await buildTanstackOptions();

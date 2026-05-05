@@ -14,7 +14,7 @@
  * Lovable runs `npm run build`; this script is the build entry.
  */
 import { spawn } from "node:child_process";
-import { cp, rm, mkdir, readFile, writeFile, stat } from "node:fs/promises";
+import { cp, rm, mkdir, readdir, readFile, writeFile, stat } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { join, resolve } from "node:path";
 
@@ -48,6 +48,14 @@ async function countHtml(dir) {
   } catch { return 0; }
 }
 
+async function listTopLevel(dir) {
+  try {
+    return (await readdir(dir)).slice(0, 25).join(", ");
+  } catch {
+    return "[missing]";
+  }
+}
+
 async function main() {
   console.log("\n=== [build] Pass 1: prerender (no Cloudflare plugin) ===\n");
   await rm(DIST, { recursive: true, force: true });
@@ -61,7 +69,12 @@ async function main() {
   const htmlCount = await countHtml(join(DIST, "client"));
   console.log(`\n[build] Pass 1 produced ${htmlCount} prerendered index.html files`);
   if (htmlCount === 0) {
-    throw new Error("Prerender pass produced 0 HTML files; aborting before Cloudflare pass");
+    const clientListing = await listTopLevel(join(DIST, "client"));
+    const serverListing = await listTopLevel(join(DIST, "server"));
+    throw new Error(
+      `Prerender pass produced 0 HTML files; aborting before Cloudflare pass. ` +
+        `dist/client: ${clientListing}; dist/server: ${serverListing}`,
+    );
   }
 
   // Write a _headers file so CF Workers Static Assets serves prerendered HTML
