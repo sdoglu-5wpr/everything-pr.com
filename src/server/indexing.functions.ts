@@ -1,46 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
-import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
 
-export const NOINDEX_HEADER = "noindex, nofollow, noarchive, nosnippet, noimageindex";
-
-export type IndexingState = {
-  enabled: boolean;
-  reason: string | null;
-  source: "env" | "db" | "default";
-};
-
-/** Resolve indexing state. Env var (EPR_INDEXING_ENABLED) wins over DB. */
-export async function resolveIndexingState(): Promise<IndexingState> {
-    let state: IndexingState = { enabled: true, reason: null, source: "default" };
-
-    const env = process.env.EPR_INDEXING_ENABLED?.trim().toLowerCase();
-    if (env !== undefined && env !== "") {
-      state = {
-        enabled: env === "true" || env === "1",
-        reason: "EPR_INDEXING_ENABLED env var",
-        source: "env",
-      };
-    } else {
-      try {
-        const { data } = await supabaseAnon
-          .from("site_settings")
-          .select("key, value")
-          .in("key", ["indexing_enabled", "noindex_reason"]);
-        const map = new Map((data ?? []).map(r => [r.key, r.value as unknown]));
-        const dbEnabled = map.get("indexing_enabled");
-        if (dbEnabled !== undefined) {
-          state = {
-            enabled: dbEnabled === true || dbEnabled === "true",
-            reason: (map.get("noindex_reason") as string | null) ?? null,
-            source: "db",
-          };
-        }
-      } catch (e) {
-        console.error("[indexing] failed to read site_settings:", e);
-      }
-    }
-
-    return state;
-  }
-
-export const getIndexingState = createServerFn({ method: "GET" }).handler(resolveIndexingState);
+export const getIndexingState = createServerFn({ method: "GET" }).handler(async () => {
+  const { resolveIndexingState } = await import("./indexing.server");
+  return resolveIndexingState();
+});
