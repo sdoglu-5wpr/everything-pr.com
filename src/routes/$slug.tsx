@@ -127,8 +127,11 @@ function readingTime(html: string | null | undefined): number {
 }
 
 function ArticlePage() {
-  const { article, topStories, otherNews } = Route.useLoaderData() as ArticlePayload;
-  const primaryCategory = article.categories[0];
+  const loaderData = Route.useLoaderData() as ArticlePayload | undefined;
+  if (!loaderData?.article) return <NotFound />;
+  const { article, topStories = [], otherNews = [] } = loaderData;
+  const categories = article.categories ?? [];
+  const primaryCategory = categories[0];
   const minutes = readingTime(article.content_html);
 
   if (article.type === "page" && article.slug === "contact") {
@@ -226,10 +229,10 @@ function ArticlePage() {
             dangerouslySetInnerHTML={{ __html: article.content_html }}
           />
 
-          {article.categories.length > 1 ? (
+          {categories.length > 1 ? (
             <div className="mt-8 flex flex-wrap items-center gap-2">
               <span className="text-xs uppercase tracking-wider text-muted-foreground mr-2">Tags</span>
-              {article.categories.map(c => (
+              {categories.map(c => (
                 <Link
                   key={c.id}
                   to="/"
