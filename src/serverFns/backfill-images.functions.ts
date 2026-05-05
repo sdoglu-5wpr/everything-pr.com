@@ -91,18 +91,10 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
           continue;
         }
       } else {
-        const { data: maxRow } = await supabase
-          .from("seo_meta")
-          .select("id")
-          .order("id", { ascending: false })
-          .limit(1)
-          .maybeSingle();
-        const nextId = ((maxRow?.id as number | undefined) ?? 0) + 1;
         const urlPath = `/${p.slug}/`;
         const { error: insErr, data: insData } = await supabase
           .from("seo_meta")
           .insert({
-            id: nextId,
             object_type: "post",
             object_id: p.id,
             url_path: urlPath,
