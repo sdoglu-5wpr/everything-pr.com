@@ -156,7 +156,7 @@ export const getArchive = createServerFn({ method: "GET" })
         .maybeSingle();
       if (!term) return null;
 
-      const { data: links, count } = await supabaseAnon
+      const { data: links, count } = await (supabaseAnon as any)
         .from(linkTable)
         .select("post_id", { count: "exact" })
         .eq(linkCol, term.id);
