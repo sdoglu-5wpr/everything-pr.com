@@ -463,7 +463,7 @@ function OtherCard({ post }: { post: RelatedPost }) {
         {post.title}
       </h3>
       {post.excerpt ? (
-        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{post.excerpt}</p>
+        <p className="mt-1 text-sm text-muted-foreground line-clamp-2">{htmlToPlainText(post.excerpt)}</p>
       ) : null}
     </Link>
   );
