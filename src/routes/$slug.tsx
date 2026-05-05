@@ -164,10 +164,29 @@ function readingTime(html: string | null | undefined): number {
   return Math.max(1, Math.round(words / 220));
 }
 
+type LoaderData =
+  | { kind: "article"; data: ArticlePayload }
+  | { kind: "archive"; data: ArchivePayload; slug: string };
+
 function ArticlePage() {
-  const loaderData = Route.useLoaderData() as ArticlePayload | undefined;
-  if (!loaderData?.article) return <NotFound />;
-  const { article, topStories = [], otherNews = [] } = loaderData;
+  const loaderData = Route.useLoaderData() as LoaderData | undefined;
+  if (!loaderData) return <NotFound />;
+
+  if (loaderData.kind === "archive") {
+    const { data, slug } = loaderData;
+    return (
+      <ArchiveView
+        data={data}
+        eyebrow="Category"
+        buildHref={(p): PageHref => {
+          if (p === 1) return { to: "/$slug", params: { slug } };
+          return { to: "/category/$slug/page/$page", params: { slug, page: String(p) } };
+        }}
+      />
+    );
+  }
+
+  const { article, topStories = [], otherNews = [] } = loaderData.data;
   const categories = article.categories ?? [];
   const primaryCategory = categories[0];
   const minutes = readingTime(article.content_html);
