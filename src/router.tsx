@@ -1,6 +1,12 @@
 import { createRouter, useRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
 
+// Side-effect import: installs the /_serverFn/ Authorization header
+// interceptor at app boot, before any route effect can fire a server-fn call.
+if (typeof window !== "undefined") {
+  import("@/lib/server-fn-auth-install");
+}
+
 function DefaultErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
