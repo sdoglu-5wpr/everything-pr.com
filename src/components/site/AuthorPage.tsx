@@ -251,20 +251,6 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
                   ))}
                 </div>
               ) : null}
-              {email ? (
-                <a
-                  href={`mailto:${email}`}
-                  className="flex items-center gap-3 p-3 mt-2 rounded-lg border border-black/5 hover:border-[color:var(--brand-blue)]/40 hover:bg-[color:var(--brand-blue)]/5 transition-colors"
-                >
-                  <span className="bg-[color:var(--ink)] text-white p-2 rounded-md flex-shrink-0">
-                    <Mail className="h-4 w-4" />
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block text-sm font-semibold text-foreground">Email</span>
-                    <span className="block text-xs text-muted-foreground truncate">{email}</span>
-                  </span>
-                </a>
-              ) : null}
             </div>
           </aside>
         ) : null}
