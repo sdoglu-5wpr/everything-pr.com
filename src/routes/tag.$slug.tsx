@@ -1,7 +1,7 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { getArchive } from "@/server/archives.functions";
+import { getArchive } from "@/serverFns/archives.functions";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
-import { buildArchiveHead } from "@/server/seo.head";
+import { buildArchiveHead } from "@/serverFns/seo.head";
 
 export const Route = createFileRoute("/tag/$slug")({
   loader: async ({ params }) => {

@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { resolveIndexingState } from "@/server/indexing.server";
-import { buildPageSitemap, SITEMAP_HEADERS } from "@/server/sitemaps.server";
+import { resolveIndexingState } from "@/serverFns/indexing.server";
+import { buildPageSitemap, SITEMAP_HEADERS } from "@/serverFns/sitemaps.server";
 
 export const Route = createFileRoute("/page-sitemap.xml")({
   server: {

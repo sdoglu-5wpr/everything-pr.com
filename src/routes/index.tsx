@@ -3,8 +3,8 @@ import { ArrowRight, ChevronRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
 import { PostImage } from "@/components/site/PostImage";
-import { getHomepage, type HomePost, type HomeAuthor, type HomePayload } from "@/server/homepage.functions";
-import { buildHomepageHead } from "@/server/seo.head";
+import { getHomepage, type HomePost, type HomeAuthor, type HomePayload } from "@/serverFns/homepage.functions";
+import { buildHomepageHead } from "@/serverFns/seo.head";
 
 export const Route = createFileRoute("/")({
   loader: () => getHomepage(),

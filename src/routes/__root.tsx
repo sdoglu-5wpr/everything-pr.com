@@ -1,6 +1,6 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-import { getIndexingState } from "@/server/indexing.functions";
-import { NOINDEX_HEADER } from "@/server/indexing.constants";
+import { getIndexingState } from "@/serverFns/indexing.functions";
+import { NOINDEX_HEADER } from "@/serverFns/indexing.constants";
 
 import appCss from "../styles.css?url";
 

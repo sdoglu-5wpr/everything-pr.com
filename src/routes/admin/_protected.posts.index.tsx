@@ -7,7 +7,7 @@ import {
   listAdminFilterMeta,
   bulkAdminPosts,
   type AdminPost,
-} from "@/server/admin-posts.functions";
+} from "@/serverFns/admin-posts.functions";
 
 const search = z.object({
   page: z.coerce.number().int().min(1).optional().default(1),

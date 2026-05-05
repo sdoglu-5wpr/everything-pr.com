@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { resolveIndexingState } from "@/server/indexing.server";
-import { buildRssFeed } from "@/server/sitemaps.server";
+import { resolveIndexingState } from "@/serverFns/indexing.server";
+import { buildRssFeed } from "@/serverFns/sitemaps.server";
 
 // RSS feed at /feed (and /feed/ via trailing-slash route match)
 export const Route = createFileRoute("/feed")({

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { claimFirstAdmin } from "@/server/admin.functions";
+import { claimFirstAdmin } from "@/serverFns/admin.functions";
 
 export const Route = createFileRoute("/setup-cowork")({
   component: SetupCowork,

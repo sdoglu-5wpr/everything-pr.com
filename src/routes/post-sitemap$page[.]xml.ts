@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { resolveIndexingState } from "@/server/indexing.server";
-import { buildPostSitemap, SITEMAP_HEADERS } from "@/server/sitemaps.server";
+import { resolveIndexingState } from "@/serverFns/indexing.server";
+import { buildPostSitemap, SITEMAP_HEADERS } from "@/serverFns/sitemaps.server";
 
 // /post-sitemap.xml = page 1, /post-sitemapN.xml = page N
 export const Route = createFileRoute("/post-sitemap$page.xml")({

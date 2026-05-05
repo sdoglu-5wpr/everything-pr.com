@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { getArchive } from "@/server/archives.functions";
+import { getArchive } from "@/serverFns/archives.functions";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
-import { buildArchiveHead } from "@/server/seo.head";
+import { buildArchiveHead } from "@/serverFns/seo.head";
 
 const searchSchema = z.object({
   s: z.string().optional().default(""),

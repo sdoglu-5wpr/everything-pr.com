@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import type { ArchiveItem, ArchivePayload } from "@/server/archives.functions";
+import type { ArchiveItem, ArchivePayload } from "@/serverFns/archives.functions";
 import { SiteLayout } from "./SiteLayout";
 import { PostImage } from "./PostImage";
 

@@ -1,5 +1,5 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-import { getArchive } from "@/server/archives.functions";
+import { getArchive } from "@/serverFns/archives.functions";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 
 export const Route = createFileRoute("/tag/$slug/page/$page")({
