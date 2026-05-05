@@ -29,7 +29,12 @@ import { Route as ApiContactRouteImport } from './routes/api/contact'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminProtectedRouteImport } from './routes/admin/_protected'
 import { Route as AdminProtectedIndexRouteImport } from './routes/admin/_protected.index'
+import { Route as AdminProtectedTagsRouteImport } from './routes/admin/_protected.tags'
+import { Route as AdminProtectedRedirectsRouteImport } from './routes/admin/_protected.redirects'
+import { Route as AdminProtectedMediaRouteImport } from './routes/admin/_protected.media'
 import { Route as AdminProtectedImportRouteImport } from './routes/admin/_protected.import'
+import { Route as AdminProtectedCategoriesRouteImport } from './routes/admin/_protected.categories'
+import { Route as AdminProtectedAuthorsRouteImport } from './routes/admin/_protected.authors'
 import { Route as AdminProtectedPostsIndexRouteImport } from './routes/admin/_protected.posts.index'
 import { Route as TagSlugPagePageRouteImport } from './routes/tag.$slug.page.$page'
 import { Route as CategorySlugPagePageRouteImport } from './routes/category.$slug.page.$page'
@@ -136,9 +141,35 @@ const AdminProtectedIndexRoute = AdminProtectedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminProtectedRoute,
 } as any)
+const AdminProtectedTagsRoute = AdminProtectedTagsRouteImport.update({
+  id: '/tags',
+  path: '/tags',
+  getParentRoute: () => AdminProtectedRoute,
+} as any)
+const AdminProtectedRedirectsRoute = AdminProtectedRedirectsRouteImport.update({
+  id: '/redirects',
+  path: '/redirects',
+  getParentRoute: () => AdminProtectedRoute,
+} as any)
+const AdminProtectedMediaRoute = AdminProtectedMediaRouteImport.update({
+  id: '/media',
+  path: '/media',
+  getParentRoute: () => AdminProtectedRoute,
+} as any)
 const AdminProtectedImportRoute = AdminProtectedImportRouteImport.update({
   id: '/import',
   path: '/import',
+  getParentRoute: () => AdminProtectedRoute,
+} as any)
+const AdminProtectedCategoriesRoute =
+  AdminProtectedCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => AdminProtectedRoute,
+  } as any)
+const AdminProtectedAuthorsRoute = AdminProtectedAuthorsRouteImport.update({
+  id: '/authors',
+  path: '/authors',
   getParentRoute: () => AdminProtectedRoute,
 } as any)
 const AdminProtectedPostsIndexRoute =
@@ -188,7 +219,12 @@ export interface FileRoutesByFullPath {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/authors': typeof AdminProtectedAuthorsRoute
+  '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
+  '/admin/media': typeof AdminProtectedMediaRoute
+  '/admin/redirects': typeof AdminProtectedRedirectsRoute
+  '/admin/tags': typeof AdminProtectedTagsRoute
   '/admin/': typeof AdminProtectedIndexRoute
   '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
@@ -215,7 +251,12 @@ export interface FileRoutesByTo {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/authors': typeof AdminProtectedAuthorsRoute
+  '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
+  '/admin/media': typeof AdminProtectedMediaRoute
+  '/admin/redirects': typeof AdminProtectedRedirectsRoute
+  '/admin/tags': typeof AdminProtectedTagsRoute
   '/admin': typeof AdminProtectedIndexRoute
   '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
@@ -244,7 +285,12 @@ export interface FileRoutesById {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/_protected/authors': typeof AdminProtectedAuthorsRoute
+  '/admin/_protected/categories': typeof AdminProtectedCategoriesRoute
   '/admin/_protected/import': typeof AdminProtectedImportRoute
+  '/admin/_protected/media': typeof AdminProtectedMediaRoute
+  '/admin/_protected/redirects': typeof AdminProtectedRedirectsRoute
+  '/admin/_protected/tags': typeof AdminProtectedTagsRoute
   '/admin/_protected/': typeof AdminProtectedIndexRoute
   '/admin/_protected/posts/$id': typeof AdminProtectedPostsIdRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
@@ -274,7 +320,12 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/authors'
+    | '/admin/categories'
     | '/admin/import'
+    | '/admin/media'
+    | '/admin/redirects'
+    | '/admin/tags'
     | '/admin/'
     | '/admin/posts/$id'
     | '/author/$slug/page/$page'
@@ -301,7 +352,12 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/authors'
+    | '/admin/categories'
     | '/admin/import'
+    | '/admin/media'
+    | '/admin/redirects'
+    | '/admin/tags'
     | '/admin'
     | '/admin/posts/$id'
     | '/author/$slug/page/$page'
@@ -329,7 +385,12 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/_protected/authors'
+    | '/admin/_protected/categories'
     | '/admin/_protected/import'
+    | '/admin/_protected/media'
+    | '/admin/_protected/redirects'
+    | '/admin/_protected/tags'
     | '/admin/_protected/'
     | '/admin/_protected/posts/$id'
     | '/author/$slug/page/$page'
@@ -502,11 +563,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProtectedIndexRouteImport
       parentRoute: typeof AdminProtectedRoute
     }
+    '/admin/_protected/tags': {
+      id: '/admin/_protected/tags'
+      path: '/tags'
+      fullPath: '/admin/tags'
+      preLoaderRoute: typeof AdminProtectedTagsRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
+    '/admin/_protected/redirects': {
+      id: '/admin/_protected/redirects'
+      path: '/redirects'
+      fullPath: '/admin/redirects'
+      preLoaderRoute: typeof AdminProtectedRedirectsRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
+    '/admin/_protected/media': {
+      id: '/admin/_protected/media'
+      path: '/media'
+      fullPath: '/admin/media'
+      preLoaderRoute: typeof AdminProtectedMediaRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
     '/admin/_protected/import': {
       id: '/admin/_protected/import'
       path: '/import'
       fullPath: '/admin/import'
       preLoaderRoute: typeof AdminProtectedImportRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
+    '/admin/_protected/categories': {
+      id: '/admin/_protected/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminProtectedCategoriesRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
+    '/admin/_protected/authors': {
+      id: '/admin/_protected/authors'
+      path: '/authors'
+      fullPath: '/admin/authors'
+      preLoaderRoute: typeof AdminProtectedAuthorsRouteImport
       parentRoute: typeof AdminProtectedRoute
     }
     '/admin/_protected/posts/': {
@@ -548,14 +644,24 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminProtectedRouteChildren {
+  AdminProtectedAuthorsRoute: typeof AdminProtectedAuthorsRoute
+  AdminProtectedCategoriesRoute: typeof AdminProtectedCategoriesRoute
   AdminProtectedImportRoute: typeof AdminProtectedImportRoute
+  AdminProtectedMediaRoute: typeof AdminProtectedMediaRoute
+  AdminProtectedRedirectsRoute: typeof AdminProtectedRedirectsRoute
+  AdminProtectedTagsRoute: typeof AdminProtectedTagsRoute
   AdminProtectedIndexRoute: typeof AdminProtectedIndexRoute
   AdminProtectedPostsIdRoute: typeof AdminProtectedPostsIdRoute
   AdminProtectedPostsIndexRoute: typeof AdminProtectedPostsIndexRoute
 }
 
 const AdminProtectedRouteChildren: AdminProtectedRouteChildren = {
+  AdminProtectedAuthorsRoute: AdminProtectedAuthorsRoute,
+  AdminProtectedCategoriesRoute: AdminProtectedCategoriesRoute,
   AdminProtectedImportRoute: AdminProtectedImportRoute,
+  AdminProtectedMediaRoute: AdminProtectedMediaRoute,
+  AdminProtectedRedirectsRoute: AdminProtectedRedirectsRoute,
+  AdminProtectedTagsRoute: AdminProtectedTagsRoute,
   AdminProtectedIndexRoute: AdminProtectedIndexRoute,
   AdminProtectedPostsIdRoute: AdminProtectedPostsIdRoute,
   AdminProtectedPostsIndexRoute: AdminProtectedPostsIndexRoute,
