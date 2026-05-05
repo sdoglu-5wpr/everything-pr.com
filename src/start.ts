@@ -62,11 +62,15 @@ const responseHeadersMiddleware = createMiddleware().server(async ({ request, ne
   // X-Robots-Tag on every response when staging
   if (!state.enabled) headers.set("X-Robots-Tag", NOINDEX_HEADER);
 
-  // Cache-Control by content type / route family
-  if (!headers.has("cache-control")) {
+  // Cache-Control by content type / route family. We OVERWRITE upstream
+  // headers — loaders/routes emit `no-cache, must-revalidate` by default
+  // which would block edge caching. /admin and /api routes opt out below.
+  const path = url.pathname;
+  const isAdmin = path.startsWith("/admin") || path.startsWith("/api/");
+  if (!isAdmin) {
     if (ct.includes("text/html")) {
       headers.set("Cache-Control", HTML_CACHE);
-    } else if (url.pathname.endsWith(".xml") || url.pathname === "/feed") {
+    } else if (path.endsWith(".xml") || path === "/feed") {
       headers.set("Cache-Control", SITEMAP_CACHE);
     }
   }
