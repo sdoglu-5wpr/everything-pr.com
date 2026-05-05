@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
+import { Route as ApiContactRouteImport } from './routes/api/contact'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminProtectedRouteImport } from './routes/admin/_protected'
 import { Route as AdminProtectedIndexRouteImport } from './routes/admin/_protected.index'
@@ -70,6 +71,11 @@ const AuthorSlugRoute = AuthorSlugRouteImport.update({
   path: '/author/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiContactRoute = ApiContactRouteImport.update({
+  id: '/api/contact',
+  path: '/api/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/admin': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/api/contact': typeof ApiContactRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/setup-cowork': typeof SetupCoworkRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
+  '/api/contact': typeof ApiContactRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/admin/_protected': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
+  '/api/contact': typeof ApiContactRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/sitemap_index.xml'
     | '/admin'
     | '/admin/login'
+    | '/api/contact'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/setup-cowork'
     | '/sitemap_index.xml'
     | '/admin/login'
+    | '/api/contact'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/sitemap_index.xml'
     | '/admin/_protected'
     | '/admin/login'
+    | '/api/contact'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
@@ -214,6 +226,7 @@ export interface RootRouteChildren {
   Sitemap_indexDotxmlRoute: typeof Sitemap_indexDotxmlRoute
   AdminProtectedRoute: typeof AdminProtectedRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
+  ApiContactRoute: typeof ApiContactRoute
   AuthorSlugRoute: typeof AuthorSlugRouteWithChildren
   CategorySlugRoute: typeof CategorySlugRouteWithChildren
   TagSlugRoute: typeof TagSlugRouteWithChildren
@@ -282,6 +295,13 @@ declare module '@tanstack/react-router' {
       path: '/author/$slug'
       fullPath: '/author/$slug'
       preLoaderRoute: typeof AuthorSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/contact': {
+      id: '/api/contact'
+      path: '/api/contact'
+      fullPath: '/api/contact'
+      preLoaderRoute: typeof ApiContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/login': {
@@ -385,6 +405,7 @@ const rootRouteChildren: RootRouteChildren = {
   Sitemap_indexDotxmlRoute: Sitemap_indexDotxmlRoute,
   AdminProtectedRoute: AdminProtectedRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
+  ApiContactRoute: ApiContactRoute,
   AuthorSlugRoute: AuthorSlugRouteWithChildren,
   CategorySlugRoute: CategorySlugRouteWithChildren,
   TagSlugRoute: TagSlugRouteWithChildren,
