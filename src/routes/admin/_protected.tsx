@@ -25,11 +25,11 @@ const NAV: Array<{ label: string; to: string }> = [
   { label: "Tags", to: "/admin/tags" },
   { label: "Authors", to: "/admin/authors" },
   { label: "Redirects", to: "/admin/redirects" },
-  { label: "Menus", to: "/admin" },
-  { label: "SEO", to: "/admin" },
-  { label: "Automations", to: "/admin" },
-  { label: "Settings", to: "/admin" },
-  { label: "Activity", to: "/admin" },
+  { label: "Menus", to: "/admin/menus" },
+  { label: "SEO defaults", to: "/admin/seo" },
+  { label: "Automations", to: "/admin/automations" },
+  { label: "Settings", to: "/admin/settings" },
+  { label: "Activity", to: "/admin/activity" },
 ];
 
 function AdminLayout() {
