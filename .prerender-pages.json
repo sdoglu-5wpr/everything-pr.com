@@ -1,0 +1,2494 @@
+{
+  "pages": [
+    {
+      "path": "/"
+    },
+    {
+      "path": "/editorial-policy"
+    },
+    {
+      "path": "/unsubscribe"
+    },
+    {
+      "path": "/corrections-policy"
+    },
+    {
+      "path": "/about"
+    },
+    {
+      "path": "/contact"
+    },
+    {
+      "path": "/comments-policy"
+    },
+    {
+      "path": "/nonprofit-pr-transparency-study-2026"
+    },
+    {
+      "path": "/municipal-state-pr-spend-study-2026"
+    },
+    {
+      "path": "/ai-company-comms-study-2026"
+    },
+    {
+      "path": "/sectors"
+    },
+    {
+      "path": "/ethics-policy"
+    },
+    {
+      "path": "/best-pr"
+    },
+    {
+      "path": "/home"
+    },
+    {
+      "path": "/all-posts"
+    },
+    {
+      "path": "/newsletter"
+    },
+    {
+      "path": "/pr-spend-transparency-study-2026"
+    },
+    {
+      "path": "/transparency-imperative-pr-trend-study-2026"
+    },
+    {
+      "path": "/foreign-influence-pr-study-2026"
+    },
+    {
+      "path": "/privacy-policy"
+    },
+    {
+      "path": "/terms-of-use"
+    },
+    {
+      "path": "/cookie-policy"
+    },
+    {
+      "path": "/va-department-of-motor-vehicles-issues-sports-marketing-rfp"
+    },
+    {
+      "path": "/marketing-rfp-issued-by-ialr"
+    },
+    {
+      "path": "/communications-rfp-issued-by-state-of-california"
+    },
+    {
+      "path": "/social-media-beat-cancer"
+    },
+    {
+      "path": "/marketing-consultant-services-rfp-issued"
+    },
+    {
+      "path": "/cancer-pr"
+    },
+    {
+      "path": "/state-michigan-issues-marketing-advertising-services-rfp"
+    },
+    {
+      "path": "/mcdonalds-iceland"
+    },
+    {
+      "path": "/conflicting-economic-news"
+    },
+    {
+      "path": "/introducing-jim-weiss-founder-w2o"
+    },
+    {
+      "path": "/bob-parsons-big-yam-agency"
+    },
+    {
+      "path": "/cognito-public-relations"
+    },
+    {
+      "path": "/company-brand-twitter"
+    },
+    {
+      "path": "/sharon-stone-topless"
+    },
+    {
+      "path": "/media-rfp-issued-in-nigeria"
+    },
+    {
+      "path": "/keyword-selection-tips-for-seo"
+    },
+    {
+      "path": "/padilla-crt"
+    },
+    {
+      "path": "/pr-rfp-issued-by-natchez-convention-promotion-commission"
+    },
+    {
+      "path": "/chanel-public-relations"
+    },
+    {
+      "path": "/lakshmi-tatma"
+    },
+    {
+      "path": "/virtual-world-marketing"
+    },
+    {
+      "path": "/ideal-beauty-as-a-social-statement"
+    },
+    {
+      "path": "/hi5-social-media"
+    },
+    {
+      "path": "/why-audience-segmentation-is-important-2"
+    },
+    {
+      "path": "/linkedin-app"
+    },
+    {
+      "path": "/bono-music-value"
+    },
+    {
+      "path": "/nbc-breaking-news-stream"
+    },
+    {
+      "path": "/finra-social-media"
+    },
+    {
+      "path": "/bill-gates-twitter"
+    },
+    {
+      "path": "/facebook-apps-as-security"
+    },
+    {
+      "path": "/the-inconvenient-truth-about-bloggers-and-pr"
+    },
+    {
+      "path": "/facebook-news-portal"
+    },
+    {
+      "path": "/missouri-marketing-analysis"
+    },
+    {
+      "path": "/beckerman-pr-expands"
+    },
+    {
+      "path": "/virtual-strikes"
+    },
+    {
+      "path": "/john-mayer-public-relations"
+    },
+    {
+      "path": "/campbells-neuromarketing-future-advertising"
+    },
+    {
+      "path": "/developing-effective-ctas"
+    },
+    {
+      "path": "/utah-issues-public-relations-rfp"
+    },
+    {
+      "path": "/boise-school-district-issues-advertising-rfp"
+    },
+    {
+      "path": "/hold-next-pop-incredible-places-splacer"
+    },
+    {
+      "path": "/unc-greensboro-issues-marketing-rfp"
+    },
+    {
+      "path": "/pr-agency-needed-for-fighting-health-crisis"
+    },
+    {
+      "path": "/city-of-new-york-department-of-transportation-issues-marketing-rfp"
+    },
+    {
+      "path": "/when-trust-breaks-lessons-from-failed-financial-pr-campaigns"
+    },
+    {
+      "path": "/5-reasons-why-branding-is-essential-to-your-pr-strategy"
+    },
+    {
+      "path": "/united-kingdom-the-university-of-nottingham-issues-rfp-for-advertising-and-marketing-services"
+    },
+    {
+      "path": "/department-of-veterans-affairs-issues-advertising-rfp"
+    },
+    {
+      "path": "/why-explosive-growth-can-be-a-recipe-for-marketing-disaster"
+    },
+    {
+      "path": "/gm-toyota-world-recalling-all-autos"
+    },
+    {
+      "path": "/bing-pr"
+    },
+    {
+      "path": "/google-apps-babel"
+    },
+    {
+      "path": "/imho-cloud-content-distribution"
+    },
+    {
+      "path": "/twitters-real-business-finally-emerges"
+    },
+    {
+      "path": "/oprah-winfrey-biography"
+    },
+    {
+      "path": "/county-of-santa-clara-issues-public-relations-rfp"
+    },
+    {
+      "path": "/pain-needs-wants-and-marketing"
+    },
+    {
+      "path": "/expedia-goes-green"
+    },
+    {
+      "path": "/branding-rfp-for-state-of-iowa"
+    },
+    {
+      "path": "/best-pr-campaign"
+    },
+    {
+      "path": "/skirtbike"
+    },
+    {
+      "path": "/airline-industry"
+    },
+    {
+      "path": "/communicate-to-sell"
+    },
+    {
+      "path": "/david-wells"
+    },
+    {
+      "path": "/smartphone-tv-shows"
+    },
+    {
+      "path": "/opentable-ipad-travel-businesses"
+    },
+    {
+      "path": "/market-research-rfp-issued-by-ussec"
+    },
+    {
+      "path": "/how-to-get-ahead-in-advertising"
+    },
+    {
+      "path": "/the1stmovement"
+    },
+    {
+      "path": "/microsoft-outlook-facebook"
+    },
+    {
+      "path": "/village-niles-seeks-public-relations-assessment-implementation-strategy"
+    },
+    {
+      "path": "/billboard-innovation-showcase"
+    },
+    {
+      "path": "/belle-gibson-bespoke-approach"
+    },
+    {
+      "path": "/newsbasis"
+    },
+    {
+      "path": "/undp-bangladesh-issues-event-management-rfp"
+    },
+    {
+      "path": "/buffalo-communications-signs-dancin-dogg-golf"
+    },
+    {
+      "path": "/marketing-a-youtube-channel-in-2020"
+    },
+    {
+      "path": "/95567-2"
+    },
+    {
+      "path": "/level-dunwoody-college-tech-new-agency-record"
+    },
+    {
+      "path": "/google-music-launch"
+    },
+    {
+      "path": "/calculating-roi-on-pr"
+    },
+    {
+      "path": "/public-relations-marketing-ipad-apps"
+    },
+    {
+      "path": "/public-relations-articles"
+    },
+    {
+      "path": "/government-pr-firms"
+    },
+    {
+      "path": "/top-100-public-relations-twitter"
+    },
+    {
+      "path": "/internet-explorer-9-beta"
+    },
+    {
+      "path": "/marketing-rfp-issued-by-unwto"
+    },
+    {
+      "path": "/mekky-media-relations-inc-profile-q-a"
+    },
+    {
+      "path": "/is-public-relations-worthwhile"
+    },
+    {
+      "path": "/depp-loses-in-court"
+    },
+    {
+      "path": "/tiktok-advertising-marketing-user-acquisition-tools"
+    },
+    {
+      "path": "/tiktok-marketing-how-do-brands-succeed"
+    },
+    {
+      "path": "/gators-coach-responds-to-brawl"
+    },
+    {
+      "path": "/tiktok-brand-advise-for-success"
+    },
+    {
+      "path": "/q-a-priscila-martinez-of-the-brand-agency"
+    },
+    {
+      "path": "/creative-rfp-issued-by-meeker-chamber-of-commerce"
+    },
+    {
+      "path": "/publicity-rfp-issued-by-the-lake-tahoe-visitors-authority"
+    },
+    {
+      "path": "/brand-development-marketing-rfp-issues"
+    },
+    {
+      "path": "/wr-digital-feature-interview"
+    },
+    {
+      "path": "/what-president-biden-means-for-public-relations-industry"
+    },
+    {
+      "path": "/blogger-product-promotion-public-relations"
+    },
+    {
+      "path": "/newsmax-public-relations-image"
+    },
+    {
+      "path": "/laundry-influencer-campaigns-that-work"
+    },
+    {
+      "path": "/kenya-pr-police"
+    },
+    {
+      "path": "/chicago-housing-authority-seeks-firm-digital-marketing-campaign"
+    },
+    {
+      "path": "/3d-television"
+    },
+    {
+      "path": "/marketing-trends-in-frozen-foods"
+    },
+    {
+      "path": "/strong-cannabis-marketing-partnerships"
+    },
+    {
+      "path": "/influencer-marketing-to-the-lgbtq-community-building-authentic-connections-for-long-term-impact"
+    },
+    {
+      "path": "/influencer-marketing-to-senior-citizens-unlocking-a-market-of-untapped-potential"
+    },
+    {
+      "path": "/website-issued-by-tedco"
+    },
+    {
+      "path": "/navigating-leadership-changes-the-role-of-internal-communications-in-ensuring-smooth-transitions"
+    },
+    {
+      "path": "/the-art-of-consumer-pr-how-brands-master-public-relations-to-stand-out"
+    },
+    {
+      "path": "/successfully-marketing-pet-food-on-social-media-navigating-the-digital-age-of-pet-products"
+    },
+    {
+      "path": "/pr-students-anti-bullying"
+    },
+    {
+      "path": "/linkedin-seo-optimize"
+    },
+    {
+      "path": "/partnership-west-inc-business-improvement-district-issues-rfp-marketing-firm"
+    },
+    {
+      "path": "/visitors-film-shanghai-zoo-bear-attack"
+    },
+    {
+      "path": "/everything-pr-qa-with-ceo-of-red-lorry-yellow-lorry"
+    },
+    {
+      "path": "/user-generated-video-content"
+    },
+    {
+      "path": "/how-do-you-create-an-influencer-marketing-strategy"
+    },
+    {
+      "path": "/why-some-pr-stunts-fail"
+    },
+    {
+      "path": "/roberta-mancino"
+    },
+    {
+      "path": "/black-friday-turns-pink"
+    },
+    {
+      "path": "/thanksgiving-marketing"
+    },
+    {
+      "path": "/olson-pr-dig-communications"
+    },
+    {
+      "path": "/brand-values-role-user-centered-designs"
+    },
+    {
+      "path": "/movolo"
+    },
+    {
+      "path": "/police-twitter"
+    },
+    {
+      "path": "/mwwpr-kekst-42-west-pr-news-2"
+    },
+    {
+      "path": "/personal-profile-startup-about-me-is-acquired-by-aol"
+    },
+    {
+      "path": "/multimedia-press-releases"
+    },
+    {
+      "path": "/whitegate-pr"
+    },
+    {
+      "path": "/nash-county-hires-pr"
+    },
+    {
+      "path": "/mww-group-kempner"
+    },
+    {
+      "path": "/media-monitoring-rfp-issued-by-government-of-newfoundland"
+    },
+    {
+      "path": "/how-to-influence-people-online"
+    },
+    {
+      "path": "/pr-sm-seo-marketing-truths"
+    },
+    {
+      "path": "/communication-that-bridges-the-culture-gap"
+    },
+    {
+      "path": "/equality-at-a-major-intersection"
+    },
+    {
+      "path": "/media-monitoring-rfp-issued-by-cape-breton-university"
+    },
+    {
+      "path": "/digital-media-rfp-issued-by-universal-service-fund"
+    },
+    {
+      "path": "/media-rfp-issued-by-southern-nevada-health-district"
+    },
+    {
+      "path": "/the-10-steps-of-crisis-communication"
+    },
+    {
+      "path": "/innovation-in-communication-with-tyto-pr"
+    },
+    {
+      "path": "/marketing-strategy-marketing-management-rfp"
+    },
+    {
+      "path": "/bevel-pr-unique-pr-approaches"
+    },
+    {
+      "path": "/qa-with-tom-coyne-ceo-coyne-pr"
+    },
+    {
+      "path": "/rebranding-rfp-issued-by-fort-bend-subsidence-district"
+    },
+    {
+      "path": "/baltimore-development-corporation-issues-social-media-rfp"
+    },
+    {
+      "path": "/news-from-kaplow-finn-partners-more"
+    },
+    {
+      "path": "/internal-issues-and-communicating-with-the-public"
+    },
+    {
+      "path": "/nc-turnpike-and-nc-quick-pass-marketing-advertising-and-public-relations-services"
+    },
+    {
+      "path": "/marketing-rfp-issued-by-ride-smart"
+    },
+    {
+      "path": "/how-to-use-emotional-marketing-online"
+    },
+    {
+      "path": "/effective-seo-strategies-during-covid-19"
+    },
+    {
+      "path": "/business-development-for-the-future"
+    },
+    {
+      "path": "/virginia-agency-issues-rfp"
+    },
+    {
+      "path": "/office-of-the-united-nations-high-commissioner-for-refugees-seeks-integrated-marketing-firm"
+    },
+    {
+      "path": "/office-of-the-united-nations-high-commissioner-for-refugees-issues-media-buying-rfp"
+    },
+    {
+      "path": "/a-dummies-guide-to-successful-podcasting"
+    },
+    {
+      "path": "/city-of-kirkland-issues-lobbying-rfp"
+    },
+    {
+      "path": "/marketing-rfp-issued-by-city-of-lebanon"
+    },
+    {
+      "path": "/city-of-fruita-issues-marketing-rfp"
+    },
+    {
+      "path": "/google-super-bowl"
+    },
+    {
+      "path": "/network-solutions-go-granny"
+    },
+    {
+      "path": "/will-nascar-take-a-hit-for-banning-the-confederate-flag"
+    },
+    {
+      "path": "/khan-academy"
+    },
+    {
+      "path": "/marian-salzman"
+    },
+    {
+      "path": "/toh-public-relations"
+    },
+    {
+      "path": "/ketchum-public-relations-india"
+    },
+    {
+      "path": "/pr-conference-abu-dhabi"
+    },
+    {
+      "path": "/increase-sales"
+    },
+    {
+      "path": "/playstation-network-stolen"
+    },
+    {
+      "path": "/firefox-addon-tweet"
+    },
+    {
+      "path": "/news-media-pr-exercise"
+    },
+    {
+      "path": "/os-chrome"
+    },
+    {
+      "path": "/buzzbee"
+    },
+    {
+      "path": "/zapaday-global-news-tomorrow"
+    },
+    {
+      "path": "/anna-chapman-pr"
+    },
+    {
+      "path": "/myspace-sold-35million"
+    },
+    {
+      "path": "/pr-agency-book"
+    },
+    {
+      "path": "/social-media-implication"
+    },
+    {
+      "path": "/website-rfp-issued-by-mccordsville-indiana"
+    },
+    {
+      "path": "/welsh-heat-winners"
+    },
+    {
+      "path": "/social-media-policies"
+    },
+    {
+      "path": "/elevate-your-brands-reputation-through-public-relations"
+    },
+    {
+      "path": "/brands-cannot-remain-silent"
+    },
+    {
+      "path": "/liam-neeson"
+    },
+    {
+      "path": "/social-media-judo"
+    },
+    {
+      "path": "/small-brands-big-influence-the-power-of-micro-narratives"
+    },
+    {
+      "path": "/retailer-marketing"
+    },
+    {
+      "path": "/blogher-to-promote-pg"
+    },
+    {
+      "path": "/digital-literacy-for-dummies"
+    },
+    {
+      "path": "/pr-news-from-french-west-vaughan-and-edelman-pr"
+    },
+    {
+      "path": "/china-pr-deals"
+    },
+    {
+      "path": "/andy-getsey"
+    },
+    {
+      "path": "/miss-universe-pr"
+    },
+    {
+      "path": "/niche-digital-marketing-in-saas-how-specialized-brands-are-winning-big"
+    },
+    {
+      "path": "/where-did-the-help-go"
+    },
+    {
+      "path": "/brand-usa-issues-rfp-for-marketing-agency"
+    },
+    {
+      "path": "/broward-county-board-of-county-commissioners-issues-marketing-rfp"
+    },
+    {
+      "path": "/city-of-billings-seeking-media-marketing-consultant"
+    },
+    {
+      "path": "/texas-veterans-commission-issues-social-media-rfp"
+    },
+    {
+      "path": "/bergen-county-issues-marketing-rfp"
+    },
+    {
+      "path": "/why-virgo-pr-is-winning-the-mid-market-pr-battle"
+    },
+    {
+      "path": "/mark-ragan-king-of-content"
+    },
+    {
+      "path": "/ohio-university-issues-digital-advertising-rfp"
+    },
+    {
+      "path": "/the-authenticity-trap-why-growth-can-sabotage-mid-size-brands"
+    },
+    {
+      "path": "/saint-louis-zoo-issues-website-rfp"
+    },
+    {
+      "path": "/north-dakota-department-of-health-issues-media-rfp"
+    },
+    {
+      "path": "/how-digital-marketing-is-transforming-consumer-behavior-in-travel-hospitality"
+    },
+    {
+      "path": "/how-to-get-free-press-coverage%ef%bb%bf"
+    },
+    {
+      "path": "/whats-in-a-trademark-protecting-your-brand-and-business"
+    },
+    {
+      "path": "/the-challenges-and-opportunities-of-food-and-beverage-marketing-for-small-brands"
+    },
+    {
+      "path": "/digital-marketing-triumphs-how-small-financial-brands-can-outshine-the-giants"
+    },
+    {
+      "path": "/creative-rfp-issued-by-theodore-roosevelt-inaugural-site"
+    },
+    {
+      "path": "/when-transparency-and-ethics-are-overlooked-the-dark-side-of-influencer-marketing-in-europe"
+    },
+    {
+      "path": "/digital-marketing-trends-in-2025-navigating-the-future-of-consumer-engagement"
+    },
+    {
+      "path": "/niagra-frontier-transit-metro-issues-marketing-rfp"
+    },
+    {
+      "path": "/state-of-north-carolina-issues-marketing-rfp"
+    },
+    {
+      "path": "/influencer-marketing-done-right-in-the-sports-space-harnessing-the-power-of-digital-voices"
+    },
+    {
+      "path": "/congrats-on-the-promotion"
+    },
+    {
+      "path": "/elizabeth-holmes-and-theranos"
+    },
+    {
+      "path": "/bad-statepr-news"
+    },
+    {
+      "path": "/kivvit-pr-firm-profile-2"
+    },
+    {
+      "path": "/marketing-and-communications-services-for-valley-health-plan"
+    },
+    {
+      "path": "/seo-tips-for-video-content"
+    },
+    {
+      "path": "/thought-leadership"
+    },
+    {
+      "path": "/state-of-indie-gaming"
+    },
+    {
+      "path": "/tech-pr-done-poorly-a-deep-dive-into-the-failures-and-missteps-of-technology-public-relations"
+    },
+    {
+      "path": "/ai-just-ate-the-buyer-journey-tech-pr-has-18-months-to-catch-up"
+    },
+    {
+      "path": "/pierpont-communications-agency-profile"
+    },
+    {
+      "path": "/for-immediate-release-ronn-torossian"
+    },
+    {
+      "path": "/digital-marketing-pudding"
+    },
+    {
+      "path": "/sspr-pr-agency-profile"
+    },
+    {
+      "path": "/arkansas-tech-university-request-for-proposal-marketing-and-advertising-services-rfp-23-033"
+    },
+    {
+      "path": "/bias-in-ai-examples-of-ai-bias-how-to-avoid-it"
+    },
+    {
+      "path": "/how-to-write-an-rfp"
+    },
+    {
+      "path": "/media-training-101-a-guide-to-navigating-the-media-landscape"
+    },
+    {
+      "path": "/what-is-employee-experience-and-its-importance"
+    },
+    {
+      "path": "/kathy-bloomgarden-ruder-finn"
+    },
+    {
+      "path": "/is-hiring-the-top-graduate-the-best-move-for-digital-marketing-agencies"
+    },
+    {
+      "path": "/referral-marketing-and-prs-role"
+    },
+    {
+      "path": "/cook-inlet-aquaculture-association-issues-website-rfp"
+    },
+    {
+      "path": "/philadelphia-parking-authority-seeks-government-relations-firm"
+    },
+    {
+      "path": "/maine-brewers-guild-issues-digital-rfp"
+    },
+    {
+      "path": "/advertising-rfp-issued-university-health-system"
+    },
+    {
+      "path": "/commonwealth-of-virginia-department-of-state-police-issues-public-relations-advertising-rfp"
+    },
+    {
+      "path": "/omaha-council-bluffs-metropolitan-area-planning-agency-issues-public-relations-rfp-for-clean-air-partnership-campaign"
+    },
+    {
+      "path": "/prince-georges-county-issues-marketing-rfp"
+    },
+    {
+      "path": "/nevada-department-of-wildlife-issues-marketing-rfp"
+    },
+    {
+      "path": "/how-chime-is-revolutionizing-fintech-marketing-a-case-study-of-disrupting-traditional-banking"
+    },
+    {
+      "path": "/amazon-kindle-fire"
+    },
+    {
+      "path": "/yellowheart-is-revolutionizing-the-ticketing-industry"
+    },
+    {
+      "path": "/city-casa-grande-issues-rfp-design-city-magazine"
+    },
+    {
+      "path": "/confidence-is-key-when-it-comes-to-female-leaders"
+    },
+    {
+      "path": "/healthcare-communications-for-latinos-done-well-a-pathway-to-better-health-outcomes"
+    },
+    {
+      "path": "/the-future-of-app-digital-marketing-personalization-is-the-key-to-success"
+    },
+    {
+      "path": "/marketing-rfp-issued-by-york-county"
+    },
+    {
+      "path": "/the-power-of-internal-communications-done-right-at-a-tiny-company"
+    },
+    {
+      "path": "/marketing-on-instagram-for-males-tapping-into-the-power-of-visual-content-and-influencer-culture-in-2025"
+    },
+    {
+      "path": "/the-pitfalls-of-failed-litigation-pr-real-life-examples-and-what-went-wrong"
+    },
+    {
+      "path": "/keith-zakheim-beckerman-pr"
+    },
+    {
+      "path": "/facebook-success-formic-media"
+    },
+    {
+      "path": "/city-of-boston-issues-social-media-rfp"
+    },
+    {
+      "path": "/bank-of-america-google-page"
+    },
+    {
+      "path": "/french-west-vaughan-clients"
+    },
+    {
+      "path": "/tech-news-queue"
+    },
+    {
+      "path": "/appscend"
+    },
+    {
+      "path": "/karen-van-bergen-porter-novelli"
+    },
+    {
+      "path": "/worksimple"
+    },
+    {
+      "path": "/anonymous-muslim"
+    },
+    {
+      "path": "/logogarden"
+    },
+    {
+      "path": "/what-is-a-brand-ambassador"
+    },
+    {
+      "path": "/dominique-strauss-khan-sex-scandal"
+    },
+    {
+      "path": "/growth-marketing-a-new-breed-for-new-times"
+    },
+    {
+      "path": "/trapit-goes-mobile"
+    },
+    {
+      "path": "/medialets-private-marketplace"
+    },
+    {
+      "path": "/becca-pr-elegant-pr-agency-2"
+    },
+    {
+      "path": "/pr-world-vision"
+    },
+    {
+      "path": "/gshift-labs"
+    },
+    {
+      "path": "/request-for-qualifications-rfq-advertising-and-marketing-consultant-services-2"
+    },
+    {
+      "path": "/ibm-connections"
+    },
+    {
+      "path": "/yahoo"
+    },
+    {
+      "path": "/managing-negative-feedback"
+    },
+    {
+      "path": "/hemsworth-communications-award-winning-pr-agency"
+    },
+    {
+      "path": "/how-to-prepare-content-for-womens-history-month"
+    },
+    {
+      "path": "/draw-something"
+    },
+    {
+      "path": "/marketing-during-a-pandemic-2"
+    },
+    {
+      "path": "/ohios-bitcoin-tax-payment-plan-called-a-pr-stunt"
+    },
+    {
+      "path": "/nhl-responds-to-inconsistent-covid-protocols"
+    },
+    {
+      "path": "/california-correctional-health-issues-branding-rfp"
+    },
+    {
+      "path": "/department-of-transportation-issues-communications-rfp"
+    },
+    {
+      "path": "/publicity-stunt"
+    },
+    {
+      "path": "/city-of-raleigh-issues-marketing-rfp"
+    },
+    {
+      "path": "/la-crosse-regional-airport-issues-marketing-services-rfp"
+    },
+    {
+      "path": "/when-digital-pr-goes-sideways-how-to-respond"
+    },
+    {
+      "path": "/digital-pr-done-poorly-a-missed-opportunity-for-brands"
+    },
+    {
+      "path": "/verizon-pr-nightmare"
+    },
+    {
+      "path": "/beckerman-pr-3"
+    },
+    {
+      "path": "/town-of-bluffton-issues-marketing-rfp"
+    },
+    {
+      "path": "/top-5-pr-firms-in-portugal"
+    },
+    {
+      "path": "/roanoke-virginia-issues-marketing-rfp"
+    },
+    {
+      "path": "/inkhouse-pr-agency-profile"
+    },
+    {
+      "path": "/carma-connected-a-miami-pr-firm"
+    },
+    {
+      "path": "/strategies-for-making-your-thought-leadership-stand-out"
+    },
+    {
+      "path": "/commonwealth-of-massachusetts-issues-marketing-rfp"
+    },
+    {
+      "path": "/getting-it-right-effectively-using-email-marketing-to-grow-customer-relationships"
+    },
+    {
+      "path": "/government-relations-firm-needed-in-ohio"
+    },
+    {
+      "path": "/brand-awareness-through-experiential-marketing"
+    },
+    {
+      "path": "/hootsuite-apps"
+    },
+    {
+      "path": "/leveraging-market-research-tools-for-pr-success"
+    },
+    {
+      "path": "/meredith-xcelerated-marketing"
+    },
+    {
+      "path": "/the-balance-between-profits-and-responsibility%ef%bb%bf"
+    },
+    {
+      "path": "/kentucky-state-university-marketing-and-enrollment-management-services"
+    },
+    {
+      "path": "/yahoo-london-coverage"
+    },
+    {
+      "path": "/us-mistrust-internet"
+    },
+    {
+      "path": "/ogilvy-nascar"
+    },
+    {
+      "path": "/prs-role-in-rebuilding-brand-trust"
+    },
+    {
+      "path": "/angry-birds-smart-tv"
+    },
+    {
+      "path": "/weber-shandwick-best-place-to-work"
+    },
+    {
+      "path": "/request-for-proposal-for-integrated-marketing-services"
+    },
+    {
+      "path": "/branding-idea-information-dumps-bury-brand-identity"
+    },
+    {
+      "path": "/visa-go-world"
+    },
+    {
+      "path": "/michel-morganella"
+    },
+    {
+      "path": "/facebook-advertising"
+    },
+    {
+      "path": "/pr-news-events-awards-scandals"
+    },
+    {
+      "path": "/id-media"
+    },
+    {
+      "path": "/nike-vault-ambush-marketing"
+    },
+    {
+      "path": "/rihanna-pr-lesson"
+    },
+    {
+      "path": "/neil-armstrong-hero-of-man"
+    },
+    {
+      "path": "/waggener-edstrom-worldwide-asia"
+    },
+    {
+      "path": "/negative-public-relations"
+    },
+    {
+      "path": "/marketing-rfp-issued-by-intiman-theatre"
+    },
+    {
+      "path": "/claudia-dressler-prco"
+    },
+    {
+      "path": "/types-of-crisis-a-company-could-face"
+    },
+    {
+      "path": "/marketing-agency-request-for-proposal-grand-county-colorado-tourism-board-granby-co-contract-advertising-marketing-pr"
+    },
+    {
+      "path": "/how-nonprofits-can-utilize-pr-to-build-a-brand-recognition"
+    },
+    {
+      "path": "/cinemagraph-online-ads"
+    },
+    {
+      "path": "/food-content-online"
+    },
+    {
+      "path": "/holosonic-marketing"
+    },
+    {
+      "path": "/stumbleupon-privacy"
+    },
+    {
+      "path": "/salesforce-launches-worlds-most-comprehensive-suite-for-social-marketing"
+    },
+    {
+      "path": "/affluent-people-prefer-traditional-media"
+    },
+    {
+      "path": "/strong-cybersecurity-digital-campaigns"
+    },
+    {
+      "path": "/five-hotel-publicity-mishaps"
+    },
+    {
+      "path": "/private-equity-firms-that-have-invested-in-pr-communications"
+    },
+    {
+      "path": "/entertainment-media-students"
+    },
+    {
+      "path": "/before-starting-marketing-plan"
+    },
+    {
+      "path": "/best-restaurant-pr-campaigns"
+    },
+    {
+      "path": "/how-the-internet-has-changed-small-business-funding"
+    },
+    {
+      "path": "/holiday-trends"
+    },
+    {
+      "path": "/20-examples-of-great-digital-marketing-by-fast-growing-companies"
+    },
+    {
+      "path": "/mslgroup-food-pr"
+    },
+    {
+      "path": "/bluechip-communication-pr-company-profile"
+    },
+    {
+      "path": "/surveys"
+    },
+    {
+      "path": "/message-me"
+    },
+    {
+      "path": "/adroll-a-company-rolling-along-fast"
+    },
+    {
+      "path": "/pineapple-public-relations-travel-pr-firm"
+    },
+    {
+      "path": "/mdc-partners"
+    },
+    {
+      "path": "/city-of-burnsville-seeks-lobbying-agency"
+    },
+    {
+      "path": "/american-express-sync"
+    },
+    {
+      "path": "/you-and-facebooks-graph-search"
+    },
+    {
+      "path": "/viggle"
+    },
+    {
+      "path": "/top-5-tech-trends"
+    },
+    {
+      "path": "/state-of-new-hampshire-destination-development-marketing-services"
+    },
+    {
+      "path": "/tmp-worldwide"
+    },
+    {
+      "path": "/5-food-beverage-brands-steadily-losing-ground"
+    },
+    {
+      "path": "/press-release-tools"
+    },
+    {
+      "path": "/facebook-big-data"
+    },
+    {
+      "path": "/facebook-update-examples"
+    },
+    {
+      "path": "/haro-business-media"
+    },
+    {
+      "path": "/my-relationship-with-email-marketing"
+    },
+    {
+      "path": "/chemistry-pr-accelerating-business-with-vibrant-public-relations"
+    },
+    {
+      "path": "/public-relations-budget"
+    },
+    {
+      "path": "/social-media-roi"
+    },
+    {
+      "path": "/asdaa-burson-marsteller-arab-youth-survey"
+    },
+    {
+      "path": "/online-search"
+    },
+    {
+      "path": "/the-role-of-storytelling-in-cybersecurity-marketing"
+    },
+    {
+      "path": "/advertising-marketing-and-event-planning-services-rfp-issued"
+    },
+    {
+      "path": "/us-soy-communications-agency-needed"
+    },
+    {
+      "path": "/the-year-that-changed-everything-for-crisis-pr"
+    },
+    {
+      "path": "/brand-angelina-jolie"
+    },
+    {
+      "path": "/is-our-privacy-being-pirated"
+    },
+    {
+      "path": "/tips-for-personalized-campaigns"
+    },
+    {
+      "path": "/seven-dials-simon-kelner"
+    },
+    {
+      "path": "/non-profit-social-media-maven"
+    },
+    {
+      "path": "/a-step-by-step-guide-to-publishing-an-effective-press-release"
+    },
+    {
+      "path": "/media-partner-for-north-dakotas-financial-literacy-campaign"
+    },
+    {
+      "path": "/local-marketing-through-local-blogging"
+    },
+    {
+      "path": "/working-moms-literacy"
+    },
+    {
+      "path": "/mcneely-pigott-fox-public-relation-boosts-digital-services"
+    },
+    {
+      "path": "/high-street-failing"
+    },
+    {
+      "path": "/being-eager-can-be-bad"
+    },
+    {
+      "path": "/cannes-public-relations"
+    },
+    {
+      "path": "/pr-dominates-the-international-herald-tribune"
+    },
+    {
+      "path": "/fti-consulting"
+    },
+    {
+      "path": "/european-newspapers-crisis-pr"
+    },
+    {
+      "path": "/win-at-negotiations"
+    },
+    {
+      "path": "/bc-assessment-issues-media-analysis-rfp"
+    },
+    {
+      "path": "/ends-meet-for-a-compelling-customer-journey"
+    },
+    {
+      "path": "/your-hdtv-is-4-times-worse-than-new-ultra-hd-sets"
+    },
+    {
+      "path": "/travel-influencers-and-their-impact-on-the-digital-pr-landscape"
+    },
+    {
+      "path": "/yahoo-new-logo"
+    },
+    {
+      "path": "/ryanair-mayday-mayday-pr"
+    },
+    {
+      "path": "/mastering-crisis-pr-proven-strategies-to-protect-your-brand"
+    },
+    {
+      "path": "/swift-collective-saeger-media-group"
+    },
+    {
+      "path": "/groupon-affiliate-marketing-platform"
+    },
+    {
+      "path": "/calysto-company-news"
+    },
+    {
+      "path": "/ogilvy-pr"
+    },
+    {
+      "path": "/text-100-germany-energy"
+    },
+    {
+      "path": "/marketing-and-rebranding-school-rfp"
+    },
+    {
+      "path": "/tesla-now-more-popular-than-porsche-in-cali"
+    },
+    {
+      "path": "/measuring-the-true-impact-of-influencer-marketing-campaigns"
+    },
+    {
+      "path": "/twitter-changes"
+    },
+    {
+      "path": "/should-men-also-fight-for-negotiation-gender-bias"
+    },
+    {
+      "path": "/awc-national-conference"
+    },
+    {
+      "path": "/ruder-finn-gina-kelly"
+    },
+    {
+      "path": "/inspiration-networks-on-comcast"
+    },
+    {
+      "path": "/successful-gambling-programs-real-life-examples-and-the-road-ahead"
+    },
+    {
+      "path": "/the-power-of-publicity-in-financial-services-a-case-study-of-american-express"
+    },
+    {
+      "path": "/advertising-rfp-issued-by-sfaa-division-of-procurement-services"
+    },
+    {
+      "path": "/jack-hayford-jay-sekulow-and-david-cerullo-at-nrb-2014-convention-awards"
+    },
+    {
+      "path": "/the-power-of-financial-digital-marketing-a-look-at-how-robinhood-is-leading-the-charge"
+    },
+    {
+      "path": "/clackamas-county-issues-tourism-rfp"
+    },
+    {
+      "path": "/arthur-sadoun"
+    },
+    {
+      "path": "/gary-kaplan-brings-water-to-desolate-african-community"
+    },
+    {
+      "path": "/pr-and-a-food-organizations-growth"
+    },
+    {
+      "path": "/bittorrent-creative-nsa-ads"
+    },
+    {
+      "path": "/negotiations"
+    },
+    {
+      "path": "/staff-surveys-can-help-increase-staff-retention-rates"
+    },
+    {
+      "path": "/wihp-retained-by-louvre-hotels-for-seo-boost"
+    },
+    {
+      "path": "/business-partnership-public-relations-image"
+    },
+    {
+      "path": "/greenpeace"
+    },
+    {
+      "path": "/e-coli-scare-us"
+    },
+    {
+      "path": "/mww-acquires-parys-uk"
+    },
+    {
+      "path": "/how-ai-is-changing-seo-strategies"
+    },
+    {
+      "path": "/great-marketing-definitions"
+    },
+    {
+      "path": "/loews-hotels-resorts-twitter-booking-channel-goes-live"
+    },
+    {
+      "path": "/edelman-spain"
+    },
+    {
+      "path": "/edelman-australia-hires-ian-pope-as-corporate-group-director"
+    },
+    {
+      "path": "/m-commerce-out-pacing-traditional-e-commerce-infographic"
+    },
+    {
+      "path": "/study-shows-preference-for-physical-books-versus-ebooks"
+    },
+    {
+      "path": "/rihanna-marketing"
+    },
+    {
+      "path": "/get-to-know-ditto-pr"
+    },
+    {
+      "path": "/fake-news-dont-be-a-victim"
+    },
+    {
+      "path": "/mww-public-affairs-uk"
+    },
+    {
+      "path": "/business-blog"
+    },
+    {
+      "path": "/golden-globes"
+    },
+    {
+      "path": "/hotel-glasses"
+    },
+    {
+      "path": "/mww-pr-what-mattered-more"
+    },
+    {
+      "path": "/zimbio"
+    },
+    {
+      "path": "/videos-matter-more-than-ever-for-capturing-attention"
+    },
+    {
+      "path": "/engaging-effectively-with-customers"
+    },
+    {
+      "path": "/linkedin-influencer"
+    },
+    {
+      "path": "/online-marketing-lessons-from-dr-seuss"
+    },
+    {
+      "path": "/public-works-and-government-services-of-canada-issues-advertising-rfp"
+    },
+    {
+      "path": "/influencer-outreach"
+    },
+    {
+      "path": "/qatargas-gets-this-weeks-pr-goofy-award-for-fluffiness"
+    },
+    {
+      "path": "/negotiation-tactics"
+    },
+    {
+      "path": "/360-degree-feedback-for-leadership-accomplishment"
+    },
+    {
+      "path": "/social-entrepreneur"
+    },
+    {
+      "path": "/medialink-aiding-unilever-in-digital-revamp"
+    },
+    {
+      "path": "/public-relations-interview"
+    },
+    {
+      "path": "/wtf"
+    },
+    {
+      "path": "/market-web-apps-online"
+    },
+    {
+      "path": "/gender-neutral-marketing"
+    },
+    {
+      "path": "/buffer-law-cyclists"
+    },
+    {
+      "path": "/fahlgren-mortine-pr-firm"
+    },
+    {
+      "path": "/arpr-data-report-on-marketing-in-a-post-covid-world"
+    },
+    {
+      "path": "/mp-silva-public-relations"
+    },
+    {
+      "path": "/missouri-school-journalism"
+    },
+    {
+      "path": "/why-the-press-release-still-matters-a-timeless-tool-in-a-noisy-world"
+    },
+    {
+      "path": "/diy-pr"
+    },
+    {
+      "path": "/atlantic-fires-writer-comments"
+    },
+    {
+      "path": "/alabama-seafood-marketing-rfp"
+    },
+    {
+      "path": "/marketing-communications-services-agency-for-cleveland-cuyahoga-county-port-authority"
+    },
+    {
+      "path": "/why-micro-influencers-matter-and-how-to-partner-with-them"
+    },
+    {
+      "path": "/remote-working"
+    },
+    {
+      "path": "/growing-your-business-media-disruption"
+    },
+    {
+      "path": "/general-electric-big-data"
+    },
+    {
+      "path": "/marlen-kruzhkov"
+    },
+    {
+      "path": "/using-ai-for-your-digital-marketing-strategies"
+    },
+    {
+      "path": "/the-function-of-the-customer-success-industry"
+    },
+    {
+      "path": "/toornament-pr-agency-rfp"
+    },
+    {
+      "path": "/fake-news-and-corporate-reputation"
+    },
+    {
+      "path": "/great-marketing-strategies-to-stay-relevant"
+    },
+    {
+      "path": "/important-leadership-and-management-skills-for-workplace-success"
+    },
+    {
+      "path": "/apple-pay"
+    },
+    {
+      "path": "/marijuana-public-relations"
+    },
+    {
+      "path": "/travel-pr-mistakes-an-in-depth-analysis-of-the-failure-of-thomas-cook"
+    },
+    {
+      "path": "/public-relations-marijuana-industry"
+    },
+    {
+      "path": "/marketing-tips-for-personal-stylists"
+    },
+    {
+      "path": "/u-haul-marketing"
+    },
+    {
+      "path": "/famous-quotes-inspiration"
+    },
+    {
+      "path": "/walmart-public-perception-public-relations-strategy"
+    },
+    {
+      "path": "/promotional-channels-in-fashion-marketing"
+    },
+    {
+      "path": "/mezzetta-public-relations"
+    },
+    {
+      "path": "/event-services-rfp-issued-by-long-beach"
+    },
+    {
+      "path": "/88-of-americas-independent-funeral-homes-are-invisible-in-ai-search"
+    },
+    {
+      "path": "/pr-has-a-new-mandate-engineering-citation-share-in-ai"
+    },
+    {
+      "path": "/the-wedding-industry-just-lost-the-citation-surface-and-most-vendors-dont-know-it-yet"
+    },
+    {
+      "path": "/the-new-reputation-risk-for-luxury-real-estate-ai-engines-have-read-the-closing-records"
+    },
+    {
+      "path": "/5w-releases-cannabis-ai-visibility-index-2026"
+    },
+    {
+      "path": "/inside-the-ai-search-box-coinbase-and-kraken-already-own-u-s-crypto"
+    },
+    {
+      "path": "/seo-vs-geo-why-generative-engine-optimization-is-the-new-discipline"
+    },
+    {
+      "path": "/ahrefs-semrush-and-conductor-push-back-as-geo-pure-plays-raise-hundreds-of-millions"
+    },
+    {
+      "path": "/the-crisis-playbook-every-tech-startup-should-have-locked-before-series-b"
+    },
+    {
+      "path": "/signal-over-noise-how-unilever-uses-ai-to-make-social-media-actually-work"
+    },
+    {
+      "path": "/cco-vs-cmo-why-your-company-probably-needs-both"
+    },
+    {
+      "path": "/when-digital-becomes-noise-where-pepsi-has-struggled-in-modern-cpg-marketing"
+    },
+    {
+      "path": "/top-financial-services-pr-agencies-in-2026"
+    },
+    {
+      "path": "/how-nike-turned-digital-into-a-direct-growth-engine-for-cpg"
+    },
+    {
+      "path": "/precision-without-intrusion-building-high-performance-marketing-in-a-privacy-first-world"
+    },
+    {
+      "path": "/why-legal-digital-marketing-is-no-longer-optional"
+    },
+    {
+      "path": "/the-10-year-loss-index-is-a-real-estate-story-its-also-the-most-important-pr-story-of-the-year"
+    },
+    {
+      "path": "/the-5-questions-i-now-ask-before-green-lighting-a-celebrity-deal"
+    },
+    {
+      "path": "/sonos-lost-500-million-in-market-value-when-the-niche-audio-reviewers-turned"
+    },
+    {
+      "path": "/every-public-gaming-operator-should-read-the-new-5w-playbook"
+    },
+    {
+      "path": "/what-four-ai-engines-told-us-about-50-celebrities-and-what-every-brand-marketer"
+    },
+    {
+      "path": "/funded-isn-t-famous-why-series-a-ceos-need-public-relations-now"
+    },
+    {
+      "path": "/pr-vs-marketing-whats-the-difference"
+    },
+    {
+      "path": "/geo-just-got-its-first-real-benchmark-seo-professionals-should-read-it-carefully"
+    },
+    {
+      "path": "/influencer-marketing-isnt-a-tactic-anymore-its-the-core-of-modern-pr"
+    },
+    {
+      "path": "/most-influencer-campaigns-fail-not-because-of-creators-but-because-of-strategy"
+    },
+    {
+      "path": "/how-a-cybersecurity-firm-handled-the-largest-it-outage-in-history-with-mixed-results"
+    },
+    {
+      "path": "/berlins-peec-ai-rockets-to-4m-arr-in-ten-months-raises-21m-series-a-to-open-new-york-office"
+    },
+    {
+      "path": "/profound-reaches-1-billion-valuation-with-96m-series-c-cementing-category-leadership-in-ai-search-marketing"
+    },
+    {
+      "path": "/bluefish-closes-43m-series-b-positioning-itself-as-the-geo-platform-for-the-fortune-500"
+    },
+    {
+      "path": "/there-are-two-kinds-of-celebrities-now-in-tune-with-ai-and-everyone-else"
+    },
+    {
+      "path": "/the-legal-industry-just-became-the-cleanest-case-study-in-why-pr-is-the-new-distribution-channel"
+    },
+    {
+      "path": "/the-ai-coding-tools-ai-visibility-index-2026"
+    },
+    {
+      "path": "/we-found-the-paper-that-launched-geo-heres-whats-actually-in-it"
+    },
+    {
+      "path": "/the-leading-digital-marketing-influencer-and-pr-agencies-in-toronto-2026"
+    },
+    {
+      "path": "/every-pr-firm-will-need-a-generative-engine-optimization-practice-by-2027-heres-why"
+    },
+    {
+      "path": "/the-leading-digital-marketing-influencer-and-pr-agencies-in-dubai-and-the-uae-2026"
+    },
+    {
+      "path": "/ai-turned-pr-into-a-content-machine-but-without-real-digital-capabilities-its-falling-apart"
+    },
+    {
+      "path": "/pr-is-becoming-a-digital-performance-channel-and-agencies-like-5wpr-are-already-there"
+    },
+    {
+      "path": "/from-patagonia-to-ikea-what-25-sustainability-campaigns-teach-us-about-the-power-and-limits-of-brand-activism"
+    },
+    {
+      "path": "/investment-marketing-and-pr-storytelling-that-moves-capital"
+    },
+    {
+      "path": "/25-digital-marketing-campaigns-that-redefined-hr-tech-growth"
+    },
+    {
+      "path": "/ai-platform-citation-source-index-2026"
+    },
+    {
+      "path": "/ronn-torossian-on-crisis-communications-in-the-ai-era-the-old-playbook-is-broken"
+    },
+    {
+      "path": "/marketing-through-photos-why-images-now-speak-louder-than-strategy"
+    },
+    {
+      "path": "/how-anheuser-busch-lost-over-1-billion-and-the-1-beer-title-in-90-days"
+    },
+    {
+      "path": "/saint-tropez-is-still-number-one-santorini-just-fell-off-the-map-every-luxury-marketing-budget-in-the-world-should-be-looking-at-why"
+    },
+    {
+      "path": "/israel-uses-ai-more-than-any-country-on-earth-so-why-are-its-most-promising-startups-invisible-inside-ai"
+    },
+    {
+      "path": "/the-medical-aesthetics-industry-just-got-its-first-ai-visibility-audit-and-the-results-are-a-wake-up-call-for-the-category"
+    },
+    {
+      "path": "/luxury-real-estate-has-an-ai-problem-it-also-has-the-biggest-opportunity-in-a-decade"
+    },
+    {
+      "path": "/the-leading-digital-marketing-influencer-and-pr-agencies-in-london-2026"
+    },
+    {
+      "path": "/5w-just-published-free-research-on-pr-education"
+    },
+    {
+      "path": "/new-5w-research-the-b2b-software-brands-quietly-disappearing-from-ai-buyer-research-and-the-smaller-players-beating-them"
+    },
+    {
+      "path": "/the-pr-measurement-gap-study-2026-how-pr-agencies-are-measuring-results-and-why-most-of-it-still-doesnt-connect-to-business-outcomes"
+    },
+    {
+      "path": "/what-is-thought-leadership-the-pr-professionals-complete-guide"
+    },
+    {
+      "path": "/25-successful-healthcare-digital-marketing-campaigns"
+    },
+    {
+      "path": "/25-successful-political-digital-campaigns-and-what-they-reveal-about-influence-attention-and-power"
+    },
+    {
+      "path": "/the-kingdoms-moment-is-a-cmo-problem-not-a-geopolitics-problem"
+    },
+    {
+      "path": "/how-to-rank-on-google-gemini"
+    },
+    {
+      "path": "/25-successful-travel-hospitality-digital-marketing-campaigns"
+    },
+    {
+      "path": "/investment-pr-how-strategic-storytelling-shapes-capital-confidence-and-corporate-value"
+    },
+    {
+      "path": "/geo-marketing-is-becoming-the-most-powerful-lever-in-digital-strategy"
+    },
+    {
+      "path": "/the-pr-agency-consolidation-study-2026-how-the-big-six-became-three-and-what-the-industry-lost-in-the-process"
+    },
+    {
+      "path": "/how-to-measure-pr-roi-and-report-it-to-the-c-suite"
+    },
+    {
+      "path": "/casino-marketings-measurement-obsession-is-making-it-worse"
+    },
+    {
+      "path": "/5wpr-hiring-editor-to-lead-everythingpr-network-expansion"
+    },
+    {
+      "path": "/25-successful-luxury-digital-marketing-campaigns"
+    },
+    {
+      "path": "/the-38-5-billion-industry-that-cant-run-a-google-ad-a-new-report-documents-what-that-actually-costs"
+    },
+    {
+      "path": "/25-successful-saas-digital-marketing-campaigns"
+    },
+    {
+      "path": "/new-5wpr-report-saas-companies-are-spending-millions-on-content-marketing-and-most-of-it-isnt-working"
+    },
+    {
+      "path": "/how-to-rank-on-perplexity"
+    },
+    {
+      "path": "/research-saudi-arabia-marketing-brand-study-2026-everything-pr"
+    },
+    {
+      "path": "/the-legal-tech-ai-visibility-index-2026"
+    },
+    {
+      "path": "/real-estate-has-the-lowest-ai-visibility-of-any-industry-new-research-explains-why-it-matters"
+    },
+    {
+      "path": "/the-crisis-response-speed-study-2026"
+    },
+    {
+      "path": "/what-israels-1-ranking-on-the-anthropic-ai-usage-index-means-for-every-pr-practitioner"
+    },
+    {
+      "path": "/new-5wpr-research-puts-a-dollar-figure-on-bad-crisis-communications"
+    },
+    {
+      "path": "/the-death-of-the-saas-playbook-and-why-thats-a-good-thing"
+    },
+    {
+      "path": "/25-successful-fintech-digital-marketing-campaigns-and-what-they-reveal-about-trust-money-and-digital-behavior"
+    },
+    {
+      "path": "/25-successful-parent-child-baby-digital-marketing-campaigns"
+    },
+    {
+      "path": "/5wpr-and-talent-resources-publish-first-sector-by-sector-framework-for-celebrity-brand-deployment"
+    },
+    {
+      "path": "/25-successful-maternal-health-digital-marketing-pr-campaigns"
+    },
+    {
+      "path": "/what-does-a-travel-marketing-agency-do"
+    },
+    {
+      "path": "/25-successful-sustainability-digital-marketing-pr-campaigns"
+    },
+    {
+      "path": "/israeli-tech-has-a-7-3-billion-footprint-in-florida-a-new-report-documents-the-full-story"
+    },
+    {
+      "path": "/the-foreign-influence-pr-study-2026"
+    },
+    {
+      "path": "/5wpr-releases-new-research-the-hospitality-celebrity-index"
+    },
+    {
+      "path": "/25-corporate-communication-campaigns-that-prove-systems-beat-stunts"
+    },
+    {
+      "path": "/automotive-digital-marketing-from-tesla-volvo-ford"
+    },
+    {
+      "path": "/great-casino-marketing-25-amazing-gambling-marketing-campaigns"
+    },
+    {
+      "path": "/2028-marketing-outlook-forum-request-for-host-destination-and-hotel-bid"
+    },
+    {
+      "path": "/the-loyalty-program-is-not-a-marketing-strategy"
+    },
+    {
+      "path": "/the-saas-marketing-playbook-that-worked-in-2019-is-actively-hurting-you-in-2026"
+    },
+    {
+      "path": "/25-successful-casino-marketing-campaigns"
+    },
+    {
+      "path": "/25-successful-automotive-digital-marketing-campaigns"
+    },
+    {
+      "path": "/142000-millionaires-are-on-the-move-and-most-pr-firms-are-still-using-a-2020-audience-map"
+    },
+    {
+      "path": "/142000-people-just-redrew-the-luxury-audience-map"
+    },
+    {
+      "path": "/how-to-pitch-a-financial-journalist"
+    },
+    {
+      "path": "/shelf-space-isnt-enough-25-digital-pr-campaigns-that-redefined-cpg-brand-power"
+    },
+    {
+      "path": "/category/pr-editorial"
+    },
+    {
+      "path": "/category/pr-editorial/page/2"
+    },
+    {
+      "path": "/category/pr-editorial/page/3"
+    },
+    {
+      "path": "/category/pr-editorial/page/4"
+    },
+    {
+      "path": "/category/pr-news"
+    },
+    {
+      "path": "/category/pr-news/page/2"
+    },
+    {
+      "path": "/category/pr-news/page/3"
+    },
+    {
+      "path": "/category/pr-news/page/4"
+    },
+    {
+      "path": "/category/pr-insights"
+    },
+    {
+      "path": "/category/pr-insights/page/2"
+    },
+    {
+      "path": "/category/pr-insights/page/3"
+    },
+    {
+      "path": "/category/pr-insights/page/4"
+    },
+    {
+      "path": "/category/social-media"
+    },
+    {
+      "path": "/category/social-media/page/2"
+    },
+    {
+      "path": "/category/social-media/page/3"
+    },
+    {
+      "path": "/category/social-media/page/4"
+    },
+    {
+      "path": "/category/marketing"
+    },
+    {
+      "path": "/category/marketing/page/2"
+    },
+    {
+      "path": "/category/marketing/page/3"
+    },
+    {
+      "path": "/category/marketing/page/4"
+    },
+    {
+      "path": "/category/technology-pr"
+    },
+    {
+      "path": "/category/technology-pr/page/2"
+    },
+    {
+      "path": "/category/technology-pr/page/3"
+    },
+    {
+      "path": "/category/technology-pr/page/4"
+    },
+    {
+      "path": "/category/public-relations"
+    },
+    {
+      "path": "/category/public-relations/page/2"
+    },
+    {
+      "path": "/category/public-relations/page/3"
+    },
+    {
+      "path": "/category/public-relations/page/4"
+    },
+    {
+      "path": "/category/entertainment-pr"
+    },
+    {
+      "path": "/category/entertainment-pr/page/2"
+    },
+    {
+      "path": "/category/entertainment-pr/page/3"
+    },
+    {
+      "path": "/category/entertainment-pr/page/4"
+    },
+    {
+      "path": "/category/featured"
+    },
+    {
+      "path": "/category/featured/page/2"
+    },
+    {
+      "path": "/category/featured/page/3"
+    },
+    {
+      "path": "/category/featured/page/4"
+    },
+    {
+      "path": "/category/corporate-pr"
+    },
+    {
+      "path": "/category/corporate-pr/page/2"
+    },
+    {
+      "path": "/category/corporate-pr/page/3"
+    },
+    {
+      "path": "/category/corporate-pr/page/4"
+    },
+    {
+      "path": "/category/rfp"
+    },
+    {
+      "path": "/category/rfp/page/2"
+    },
+    {
+      "path": "/category/rfp/page/3"
+    },
+    {
+      "path": "/category/rfp/page/4"
+    },
+    {
+      "path": "/category/crisis-pr"
+    },
+    {
+      "path": "/category/crisis-pr/page/2"
+    },
+    {
+      "path": "/category/crisis-pr/page/3"
+    },
+    {
+      "path": "/category/crisis-pr/page/4"
+    },
+    {
+      "path": "/category/pr-jobs"
+    },
+    {
+      "path": "/category/pr-jobs/page/2"
+    },
+    {
+      "path": "/category/pr-jobs/page/3"
+    },
+    {
+      "path": "/category/pr-jobs/page/4"
+    },
+    {
+      "path": "/category/consumer-pr"
+    },
+    {
+      "path": "/category/consumer-pr/page/2"
+    },
+    {
+      "path": "/category/consumer-pr/page/3"
+    },
+    {
+      "path": "/category/consumer-pr/page/4"
+    },
+    {
+      "path": "/category/public-relations-insider"
+    },
+    {
+      "path": "/category/public-relations-insider/page/2"
+    },
+    {
+      "path": "/category/public-relations-insider/page/3"
+    },
+    {
+      "path": "/category/public-relations-insider/page/4"
+    },
+    {
+      "path": "/category/agency-of-record"
+    },
+    {
+      "path": "/category/agency-of-record/page/2"
+    },
+    {
+      "path": "/category/agency-of-record/page/3"
+    },
+    {
+      "path": "/category/agency-of-record/page/4"
+    },
+    {
+      "path": "/category/university-pr"
+    },
+    {
+      "path": "/category/university-pr/page/2"
+    },
+    {
+      "path": "/category/university-pr/page/3"
+    },
+    {
+      "path": "/category/university-pr/page/4"
+    },
+    {
+      "path": "/category/press-release"
+    },
+    {
+      "path": "/category/press-release/page/2"
+    },
+    {
+      "path": "/category/press-release/page/3"
+    },
+    {
+      "path": "/category/press-release/page/4"
+    },
+    {
+      "path": "/category/pr-firms"
+    },
+    {
+      "path": "/category/pr-firms/page/2"
+    },
+    {
+      "path": "/category/pr-firms/page/3"
+    },
+    {
+      "path": "/category/pr-firms/page/4"
+    },
+    {
+      "path": "/category/insights"
+    },
+    {
+      "path": "/category/insights/page/2"
+    },
+    {
+      "path": "/category/insights/page/3"
+    },
+    {
+      "path": "/category/insights/page/4"
+    },
+    {
+      "path": "/category/pr-leaders"
+    },
+    {
+      "path": "/category/pr-leaders/page/2"
+    },
+    {
+      "path": "/category/pr-leaders/page/3"
+    },
+    {
+      "path": "/category/pr-leaders/page/4"
+    },
+    {
+      "path": "/category/ask-the-experts"
+    },
+    {
+      "path": "/category/ask-the-experts/page/2"
+    },
+    {
+      "path": "/category/ask-the-experts/page/3"
+    },
+    {
+      "path": "/category/ask-the-experts/page/4"
+    },
+    {
+      "path": "/category/news"
+    },
+    {
+      "path": "/category/news/page/2"
+    },
+    {
+      "path": "/category/news/page/3"
+    },
+    {
+      "path": "/category/news/page/4"
+    },
+    {
+      "path": "/category/healthcare-pr"
+    },
+    {
+      "path": "/category/healthcare-pr/page/2"
+    },
+    {
+      "path": "/category/healthcare-pr/page/3"
+    },
+    {
+      "path": "/category/healthcare-pr/page/4"
+    },
+    {
+      "path": "/category/general-management"
+    },
+    {
+      "path": "/category/top-pr"
+    },
+    {
+      "path": "/category/request-for-proposal-posts"
+    },
+    {
+      "path": "/category/fashion"
+    },
+    {
+      "path": "/category/fashion/page/2"
+    },
+    {
+      "path": "/category/beauty-pr"
+    },
+    {
+      "path": "/category/beauty-pr/page/2"
+    },
+    {
+      "path": "/category/beauty-pr/page/3"
+    },
+    {
+      "path": "/category/beauty-pr/page/4"
+    },
+    {
+      "path": "/category/travel-pr"
+    },
+    {
+      "path": "/category/travel-pr/page/2"
+    },
+    {
+      "path": "/category/travel-pr/page/3"
+    },
+    {
+      "path": "/category/digital-pr"
+    },
+    {
+      "path": "/category/digital-pr/page/2"
+    },
+    {
+      "path": "/category/digital-pr/page/3"
+    },
+    {
+      "path": "/category/digital-pr/page/4"
+    },
+    {
+      "path": "/category/research"
+    },
+    {
+      "path": "/category/research/page/2"
+    },
+    {
+      "path": "/category/adtech-pr"
+    },
+    {
+      "path": "/category/ai-pr"
+    },
+    {
+      "path": "/category/cpg-pr"
+    },
+    {
+      "path": "/category/cybersecurity-pr"
+    },
+    {
+      "path": "/category/financial-services-pr"
+    },
+    {
+      "path": "/category/gambling-pr"
+    },
+    {
+      "path": "/category/health-tech-pr"
+    },
+    {
+      "path": "/category/hospitality-pr"
+    },
+    {
+      "path": "/category/cannabis-pr"
+    },
+    {
+      "path": "/author/everything-pr-staff"
+    },
+    {
+      "path": "/author/everything-pr-staff/page/2"
+    },
+    {
+      "path": "/author/everything-pr-staff/page/3"
+    },
+    {
+      "path": "/author/everything-pr-staff/page/4"
+    },
+    {
+      "path": "/author/ronn-torossian"
+    },
+    {
+      "path": "/author/ronn-torossian/page/2"
+    },
+    {
+      "path": "/author/ronn-torossian/page/3"
+    },
+    {
+      "path": "/author/ronn-torossian/page/4"
+    },
+    {
+      "path": "/author/analytics-shortlist"
+    },
+    {
+      "path": "/author/analytics-shortlist/page/2"
+    },
+    {
+      "path": "/author/analytics-shortlist/page/3"
+    },
+    {
+      "path": "/author/analytics-shortlist/page/4"
+    },
+    {
+      "path": "/author/john-goode"
+    },
+    {
+      "path": "/author/john-goode/page/2"
+    },
+    {
+      "path": "/author/john-goode/page/3"
+    },
+    {
+      "path": "/author/john-goode/page/4"
+    },
+    {
+      "path": "/author/jaldo"
+    },
+    {
+      "path": "/author/jaldo/page/2"
+    },
+    {
+      "path": "/author/jaldo/page/3"
+    },
+    {
+      "path": "/author/jaldo/page/4"
+    },
+    {
+      "path": "/author/benito09102015"
+    },
+    {
+      "path": "/author/benito09102015/page/2"
+    },
+    {
+      "path": "/author/benito09102015/page/3"
+    },
+    {
+      "path": "/author/benito09102015/page/4"
+    },
+    {
+      "path": "/author/ssemilof"
+    },
+    {
+      "path": "/author/ssemilof/page/2"
+    },
+    {
+      "path": "/author/ssemilof/page/3"
+    },
+    {
+      "path": "/author/ssemilof/page/4"
+    },
+    {
+      "path": "/author/theentrepreneur111"
+    },
+    {
+      "path": "/author/theentrepreneur111/page/2"
+    },
+    {
+      "path": "/author/theentrepreneur111/page/3"
+    },
+    {
+      "path": "/author/theentrepreneur111/page/4"
+    },
+    {
+      "path": "/author/jessicaversteeg"
+    },
+    {
+      "path": "/author/jessicaversteeg/page/2"
+    },
+    {
+      "path": "/author/jessicaversteeg/page/3"
+    },
+    {
+      "path": "/author/jessicaversteeg/page/4"
+    },
+    {
+      "path": "/author/mark-ginsbergangoramedia-com"
+    },
+    {
+      "path": "/author/mark-ginsbergangoramedia-com/page/2"
+    },
+    {
+      "path": "/author/mark-ginsbergangoramedia-com/page/3"
+    },
+    {
+      "path": "/author/mark-ginsbergangoramedia-com/page/4"
+    },
+    {
+      "path": "/author/mheller"
+    },
+    {
+      "path": "/author/mheller/page/2"
+    },
+    {
+      "path": "/author/mheller/page/3"
+    },
+    {
+      "path": "/author/mheller/page/4"
+    },
+    {
+      "path": "/author/gabriel-paredes"
+    },
+    {
+      "path": "/author/gabriel-paredes/page/2"
+    },
+    {
+      "path": "/author/gabriel-paredes/page/3"
+    },
+    {
+      "path": "/author/gabriel-paredes/page/4"
+    },
+    {
+      "path": "/author/theo-trapalis"
+    },
+    {
+      "path": "/author/theo-trapalis/page/2"
+    },
+    {
+      "path": "/author/theo-trapalis/page/3"
+    },
+    {
+      "path": "/author/theo-trapalis/page/4"
+    },
+    {
+      "path": "/author/yorkvilleadvisors"
+    },
+    {
+      "path": "/author/yorkvilleadvisors/page/2"
+    },
+    {
+      "path": "/author/yorkvilleadvisors/page/3"
+    },
+    {
+      "path": "/author/yorkvilleadvisors/page/4"
+    },
+    {
+      "path": "/author/jaysekulow"
+    },
+    {
+      "path": "/author/jaysekulow/page/2"
+    },
+    {
+      "path": "/author/jaysekulow/page/3"
+    },
+    {
+      "path": "/author/jaysekulow/page/4"
+    },
+    {
+      "path": "/author/nikkiparker"
+    },
+    {
+      "path": "/author/nikkiparker/page/2"
+    },
+    {
+      "path": "/author/nikkiparker/page/3"
+    },
+    {
+      "path": "/author/nikkiparker/page/4"
+    },
+    {
+      "path": "/author/benito"
+    },
+    {
+      "path": "/author/benito/page/2"
+    },
+    {
+      "path": "/author/benito/page/3"
+    },
+    {
+      "path": "/author/benito/page/4"
+    },
+    {
+      "path": "/author/mginsberg"
+    },
+    {
+      "path": "/author/mginsberg/page/2"
+    },
+    {
+      "path": "/author/mginsberg/page/3"
+    },
+    {
+      "path": "/author/mginsberg/page/4"
+    },
+    {
+      "path": "/author/kporter"
+    },
+    {
+      "path": "/author/kporter/page/2"
+    },
+    {
+      "path": "/author/kporter/page/3"
+    },
+    {
+      "path": "/author/kporter/page/4"
+    },
+    {
+      "path": "/author/kmercuri"
+    },
+    {
+      "path": "/author/kmercuri/page/2"
+    },
+    {
+      "path": "/author/kmercuri/page/3"
+    },
+    {
+      "path": "/author/kmercuri/page/4"
+    },
+    {
+      "path": "/author/lax-studio"
+    },
+    {
+      "path": "/author/lax-studio/page/2"
+    },
+    {
+      "path": "/author/lax-studio/page/3"
+    },
+    {
+      "path": "/author/lax-studio/page/4"
+    },
+    {
+      "path": "/robots.txt"
+    },
+    {
+      "path": "/feed"
+    }
+  ]
+}
