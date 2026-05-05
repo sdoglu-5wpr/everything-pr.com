@@ -163,7 +163,7 @@ export async function buildRssFeed(): Promise<string> {
         `      <dc:creator><![CDATA[${creator}]]></dc:creator>`,
         cats,
         `      <description><![CDATA[${p.excerpt ?? ""}]]></description>`,
-        `      <content:encoded><![CDATA[${p.content_html ?? ""}]]></content:encoded>`,
+        `      <content:encoded><![CDATA[${rewriteLegacyHtml(p.content_html ?? "")}]]></content:encoded>`,
         `    </item>`,
       ].filter(Boolean).join("\n");
     })
