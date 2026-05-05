@@ -1,4 +1,5 @@
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
+import { rewriteLegacyHtml, rewriteLegacyUrl } from "@/lib/legacy-urls";
 import { SITE_URL, SITEMAP_PAGE_SIZE } from "./seo.constants";
 
 const XML_HEADER = `<?xml version="1.0" encoding="UTF-8"?>`;
