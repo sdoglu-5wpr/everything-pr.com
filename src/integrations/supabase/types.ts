@@ -208,6 +208,60 @@ export type Database = {
           },
         ]
       }
+      import_jobs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          created_by: string | null
+          download_media: boolean
+          errors: Json
+          id: string
+          inserted: Json
+          last_message: string | null
+          page: number
+          per_page: number
+          phase: Database["public"]["Enums"]["import_job_phase"]
+          skipped: Json
+          status: Database["public"]["Enums"]["import_job_status"]
+          totals: Json
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          download_media?: boolean
+          errors?: Json
+          id?: string
+          inserted?: Json
+          last_message?: string | null
+          page?: number
+          per_page?: number
+          phase?: Database["public"]["Enums"]["import_job_phase"]
+          skipped?: Json
+          status?: Database["public"]["Enums"]["import_job_status"]
+          totals?: Json
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          created_by?: string | null
+          download_media?: boolean
+          errors?: Json
+          id?: string
+          inserted?: Json
+          last_message?: string | null
+          page?: number
+          per_page?: number
+          phase?: Database["public"]["Enums"]["import_job_phase"]
+          skipped?: Json
+          status?: Database["public"]["Enums"]["import_job_status"]
+          totals?: Json
+          updated_at?: string
+        }
+        Relationships: []
+      }
       internal_links: {
         Row: {
           anchor_text: string | null
@@ -837,6 +891,20 @@ export type Database = {
     Enums: {
       app_role: "admin" | "editor" | "author"
       content_type: "post" | "page"
+      import_job_phase:
+        | "authors"
+        | "categories"
+        | "tags"
+        | "media"
+        | "posts"
+        | "pages"
+        | "done"
+      import_job_status:
+        | "pending"
+        | "running"
+        | "completed"
+        | "failed"
+        | "cancelled"
       post_status:
         | "publish"
         | "draft"
@@ -973,6 +1041,22 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "editor", "author"],
       content_type: ["post", "page"],
+      import_job_phase: [
+        "authors",
+        "categories",
+        "tags",
+        "media",
+        "posts",
+        "pages",
+        "done",
+      ],
+      import_job_status: [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "cancelled",
+      ],
       post_status: [
         "publish",
         "draft",
