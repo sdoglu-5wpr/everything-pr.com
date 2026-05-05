@@ -57,6 +57,7 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
     let updated = 0;
     let skipped = 0;
     const examples: Array<{ id: number; slug: string; og_image: string | null }> = [];
+    const errors: Array<{ id: number; slug: string; error: string }> = [];
 
     for (const p of targets) {
       // Skip if seo_meta already has an og_image
