@@ -208,7 +208,7 @@ function ArticlePage() {
           <ChevronRight className="w-3 h-3" />
           {primaryCategory ? (
             <>
-              <Link to="/" className="hover:text-foreground">{primaryCategory.name}</Link>
+              <Link to="/$slug" params={{ slug: primaryCategory.slug }} className="hover:text-foreground">{primaryCategory.name}</Link>
               <ChevronRight className="w-3 h-3" />
             </>
           ) : null}
