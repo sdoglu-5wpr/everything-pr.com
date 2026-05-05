@@ -147,9 +147,9 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
 
   return (
     <SiteLayout>
-      {/* Hero */}
+      {/* Hero with overlapping profile card */}
       <section className="relative bg-gradient-to-br from-[color:var(--ink)] via-[color:var(--ink)] to-[oklch(0.32_0.18_270)] text-white">
-        <div className="mx-auto max-w-7xl px-6 pt-12 pb-16">
+        <div className="mx-auto max-w-7xl px-6 pt-10 pb-32 md:pb-40">
           <nav className="text-xs text-white/60 mb-6 flex items-center gap-2">
             <Link to="/" className="hover:text-white">HOME</Link>
             <span>/</span>
@@ -169,10 +169,9 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
         <div className="h-1 bg-[color:var(--brand-blue)]" />
       </section>
 
-      {/* Profile card overlapping hero */}
       <section className="bg-surface-soft">
-        <div className="mx-auto max-w-7xl px-6 -mt-10 pb-10">
-          <div className="bg-white rounded-2xl shadow-card border border-black/5 p-6 md:p-8 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-center">
+        <div className="mx-auto max-w-7xl px-6 -mt-24 md:-mt-28 relative z-10 pb-10">
+          <div className="bg-white rounded-2xl shadow-2xl border border-black/5 p-6 md:p-8 grid grid-cols-1 md:grid-cols-[auto_1fr_auto] gap-6 md:gap-10 items-center">
             <div className="relative">
               {author.avatar_url ? (
                 <img
@@ -191,11 +190,10 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
             </div>
 
             <div className="min-w-0">
-              <h2 className="font-serif text-3xl md:text-4xl font-bold">{display}</h2>
-              <p className="text-sm text-muted-foreground mt-2">
+              <p className="text-sm text-muted-foreground">
                 Contributor · <span className="text-[color:var(--brand-blue)] font-semibold">Everything-PR</span>
               </p>
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 mt-3">
                 <span className="text-[11px] font-semibold uppercase tracking-wider bg-[color:var(--brand-blue)] text-white px-3 py-1.5 rounded">
                   Contributor
                 </span>
