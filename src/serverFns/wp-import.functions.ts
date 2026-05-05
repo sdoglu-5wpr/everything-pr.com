@@ -111,7 +111,7 @@ export const getImportJob = createServerFn({ method: "GET" })
     return { ok: true as const, job: row };
   });
 
-export const getLatestImportJob = createServerFn({ method: "GET" })
+export const getLatestImportJob = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     await requireStaff(context.supabase, context.userId);
