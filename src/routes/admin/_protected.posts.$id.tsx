@@ -189,7 +189,7 @@ function PostEditor() {
   }
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB]">
+    <div className="-m-6 min-h-full bg-admin-surface">
       {/* Sticky toolbar */}
       <div className="sticky top-0 z-20 flex items-center justify-between border-b bg-background/95 px-6 py-3 backdrop-blur">
         <div className="flex items-center gap-3">

@@ -181,7 +181,7 @@ function PostsListPage() {
     navigate({ search: { page: 1, status: "all", type: "all", q: "", sort: "modified_at", dir: "desc" } as any });
 
   return (
-    <div className="min-h-full bg-[#F7F8FB] -m-6 p-6">
+    <div className="min-h-full bg-admin-surface -m-6 p-6">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Posts</h1>
         <Link
@@ -241,9 +241,9 @@ function PostsListPage() {
       {selected.size > 0 && (
         <div className="rounded-lg bg-white border p-2 flex items-center gap-2 mb-3 text-sm">
           <span className="text-muted-foreground">{selected.size} selected</span>
-          <button onClick={() => bulk("publish")} className="rounded border px-2 py-1 hover:bg-[#F2F4F9]">Publish</button>
-          <button onClick={() => bulk("unpublish")} className="rounded border px-2 py-1 hover:bg-[#F2F4F9]">Unpublish</button>
-          <button onClick={() => bulk("duplicate")} className="rounded border px-2 py-1 hover:bg-[#F2F4F9]">Duplicate</button>
+          <button onClick={() => bulk("publish")} className="rounded border px-2 py-1 hover:bg-admin-hover">Publish</button>
+          <button onClick={() => bulk("unpublish")} className="rounded border px-2 py-1 hover:bg-admin-hover">Unpublish</button>
+          <button onClick={() => bulk("duplicate")} className="rounded border px-2 py-1 hover:bg-admin-hover">Duplicate</button>
           <button onClick={() => bulk("trash")} className="rounded border px-2 py-1 hover:bg-red-50 text-red-700">Trash</button>
           <button onClick={() => setSelected(new Set())} className="ml-auto text-muted-foreground hover:underline">Cancel</button>
         </div>
@@ -276,7 +276,7 @@ function PostsListPage() {
                 )}
               </td></tr>
             ) : items.map((p) => (
-              <tr key={p.id} className="border-t border-[#E5E7EB] hover:bg-[#F2F4F9]">
+              <tr key={p.id} className="border-t border-[#E5E7EB] hover:bg-admin-hover">
                 <td className="px-3 py-3"><input type="checkbox" checked={selected.has(p.id)} onChange={() => toggle(p.id)} /></td>
                 <td className="px-3 py-3">
                   {p.thumbnail_url ? (
@@ -306,9 +306,9 @@ function PostsListPage() {
                   </button>
                   {openMenu === p.id && (
                     <div className="absolute right-3 top-10 z-20 w-40 rounded-md border bg-white shadow-lg text-sm">
-                      <Link to="/admin/posts/$id" params={{ id: String(p.id) }} className="block px-3 py-2 hover:bg-[#F2F4F9]" onClick={() => setOpenMenu(null)}>Edit</Link>
-                      <button onClick={() => rowAction(p.id, "duplicate")} className="block w-full text-left px-3 py-2 hover:bg-[#F2F4F9]">Duplicate</button>
-                      <a href={`/${p.slug}/`} target="_blank" rel="noopener noreferrer" className="block px-3 py-2 hover:bg-[#F2F4F9]" onClick={() => setOpenMenu(null)}>View on site</a>
+                      <Link to="/admin/posts/$id" params={{ id: String(p.id) }} className="block px-3 py-2 hover:bg-admin-hover" onClick={() => setOpenMenu(null)}>Edit</Link>
+                      <button onClick={() => rowAction(p.id, "duplicate")} className="block w-full text-left px-3 py-2 hover:bg-admin-hover">Duplicate</button>
+                      <a href={`/${p.slug}/`} target="_blank" rel="noopener noreferrer" className="block px-3 py-2 hover:bg-admin-hover" onClick={() => setOpenMenu(null)}>View on site</a>
                       <button onClick={() => rowAction(p.id, "trash")} className="block w-full text-left px-3 py-2 hover:bg-red-50 text-red-700">Trash</button>
                     </div>
                   )}

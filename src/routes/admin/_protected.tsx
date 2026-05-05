@@ -1,7 +1,15 @@
-import { createFileRoute, Link, Outlet, redirect, useNavigate, useRouterState } from "@tanstack/react-router";
+import { createFileRoute, Outlet, redirect, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { LogOut, ChevronDown } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 const STAFF_ROLES = ["admin", "editor", "author"] as const;
 
@@ -16,25 +24,8 @@ export const Route = createFileRoute("/admin/_protected")({
   component: AdminLayout,
 });
 
-const NAV: Array<{ label: string; to: string }> = [
-  { label: "Dashboard", to: "/admin" },
-  { label: "Posts", to: "/admin/posts" },
-  { label: "Import (WP)", to: "/admin/import" },
-  { label: "Media", to: "/admin/media" },
-  { label: "Categories", to: "/admin/categories" },
-  { label: "Tags", to: "/admin/tags" },
-  { label: "Authors", to: "/admin/authors" },
-  { label: "Redirects", to: "/admin/redirects" },
-  { label: "Menus", to: "/admin/menus" },
-  { label: "SEO defaults", to: "/admin/seo" },
-  { label: "Automations", to: "/admin/automations" },
-  { label: "Settings", to: "/admin/settings" },
-  { label: "Activity", to: "/admin/activity" },
-];
-
 function AdminLayout() {
   const navigate = useNavigate();
-  const pathname = useRouterState({ select: s => s.location.pathname });
   const [me, setMe] = useState<Me | null>(null);
   const [accessError, setAccessError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -100,39 +91,50 @@ function AdminLayout() {
     );
   }
 
+  const initials = (me.email ?? "?").slice(0, 2).toUpperCase();
+  const primaryRole = me.roles[0] ?? "user";
+
   return (
-    <div className="min-h-screen flex bg-background">
-      <aside className="w-56 shrink-0 border-r bg-surface-soft">
-        <div className="px-4 py-4 border-b font-serif text-lg font-bold">Everything-PR</div>
-        <nav className="p-2 space-y-1 text-sm">
-          {NAV.map(item => (
-            <Link
-              key={item.label}
-              to={item.to}
-              className={`block rounded px-3 py-1.5 hover:bg-muted ${
-                pathname === item.to ? "bg-muted font-semibold" : ""
-              }`}
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="h-14 border-b flex items-center justify-between px-4">
-          <div className="text-sm text-muted-foreground">Admin</div>
-          <div className="flex items-center gap-3 text-sm">
-            <span className="text-foreground">{me.email ?? me.userId}</span>
-            <span className="text-xs text-muted-foreground">[{me.roles.join(", ")}]</span>
-            <button onClick={logout} className="rounded border px-3 py-1.5 hover:bg-muted">
-              Logout
-            </button>
-          </div>
-        </header>
-        <main className="flex-1 p-6 overflow-auto">
-          <Outlet />
-        </main>
+    <SidebarProvider>
+      <div className="min-h-screen flex w-full bg-admin-surface">
+        <AdminSidebar />
+        <SidebarInset className="bg-admin-surface">
+          <header className="sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b bg-background/80 backdrop-blur px-4">
+            <div className="flex items-center gap-2">
+              <SidebarTrigger />
+              <div className="hidden sm:block h-5 w-px bg-border" />
+              <div className="hidden sm:block text-sm text-muted-foreground">Admin workspace</div>
+            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-muted text-sm">
+                <Avatar className="h-7 w-7">
+                  <AvatarFallback className="bg-primary text-primary-foreground text-[11px] font-medium">
+                    {initials}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="hidden md:flex flex-col items-start leading-tight">
+                  <span className="text-foreground">{me.email ?? me.userId}</span>
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{primaryRole}</span>
+                </div>
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel className="font-normal">
+                  <div className="font-medium">{me.email}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{me.roles.join(", ")}</div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={logout} className="text-destructive focus:text-destructive">
+                  <LogOut className="h-4 w-4 mr-2" /> Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </header>
+          <main className="flex-1 p-6 overflow-auto">
+            <Outlet />
+          </main>
+        </SidebarInset>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

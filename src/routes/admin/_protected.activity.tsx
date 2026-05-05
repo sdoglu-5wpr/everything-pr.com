@@ -35,7 +35,7 @@ function ActivityPage() {
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <h1 className="text-2xl font-bold mb-4">Activity log</h1>
 
       <div className="rounded-lg bg-white border p-3 mb-3 flex items-center gap-3">
@@ -46,7 +46,7 @@ function ActivityPage() {
 
       <div className="rounded-lg bg-white border overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="border-b bg-[#FAFBFE]">
+          <thead className="border-b bg-admin-surface-2">
             <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground">
               <th className="px-3 py-2 w-44">When</th>
               <th className="px-3 py-2 w-24">Action</th>
@@ -60,7 +60,7 @@ function ActivityPage() {
             {loading ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">Loading…</td></tr>
               : rows.length === 0 ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">No activity.</td></tr>
               : rows.map((r) => (
-                <tr key={r.id} className="border-t hover:bg-[#F2F4F9]">
+                <tr key={r.id} className="border-t hover:bg-admin-hover">
                   <td className="px-3 py-2 text-xs">{new Date(r.occurred_at).toLocaleString()}</td>
                   <td className="px-3 py-2"><span className="inline-block rounded bg-neutral-100 px-1.5 text-xs">{r.action}</span></td>
                   <td className="px-3 py-2 font-mono text-xs">{r.table_name}</td>

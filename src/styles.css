@@ -29,6 +29,10 @@
   --color-brand-blue: var(--brand-blue);
   --color-brand-blue-glow: var(--brand-blue-glow);
   --color-surface-soft: var(--surface-soft);
+  --color-admin-surface: var(--admin-surface);
+  --color-admin-surface-2: var(--admin-surface-2);
+  --color-admin-hover: var(--admin-hover);
+  --color-admin-active: var(--admin-active);
   --gradient-newsletter: var(--gradient-newsletter);
   --shadow-card: var(--shadow-card);
   --radius-sm: calc(var(--radius) - 4px);
@@ -85,6 +89,10 @@
   --brand-blue: oklch(0.55 0.18 255);
   --brand-blue-glow: oklch(0.7 0.15 250);
   --surface-soft: oklch(0.985 0.005 250);
+  --admin-surface: oklch(0.985 0.004 256);     /* page bg behind cards */
+  --admin-surface-2: oklch(0.975 0.005 256);   /* table header rows */
+  --admin-hover: oklch(0.96 0.006 256);        /* row hover */
+  --admin-active: oklch(0.94 0.02 260);        /* active sidebar item */
   --gradient-newsletter: linear-gradient(135deg, oklch(0.55 0.2 255) 0%, oklch(0.42 0.22 265) 60%, oklch(0.32 0.18 270) 100%);
   --shadow-card: 0 1px 2px oklch(0 0 0 / 4%), 0 8px 24px -12px oklch(0.18 0.07 268 / 12%);
   --card: oklch(1 0 0);

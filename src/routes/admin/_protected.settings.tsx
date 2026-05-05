@@ -89,7 +89,7 @@ function SettingsPage() {
   const groups = Array.from(new Set(KNOWN_FIELDS.map((f) => f.group)));
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Settings</h1>
         <button onClick={() => setShowCustom(true)}

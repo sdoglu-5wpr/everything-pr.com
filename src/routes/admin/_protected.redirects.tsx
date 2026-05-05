@@ -70,7 +70,7 @@ function RedirectsPage() {
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Redirects</h1>
         <button onClick={() => setEditing({ id: undefined, source_path: "", target_path: "", status_code: 301, is_regex: false, enabled: true })}
@@ -104,7 +104,7 @@ function RedirectsPage() {
             {loading ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">Loading…</td></tr>
               : items.length === 0 ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">No redirects.</td></tr>
               : items.map((r) => (
-                <tr key={r.id} className={`border-t hover:bg-[#F2F4F9] ${!r.enabled ? "opacity-60" : ""}`}>
+                <tr key={r.id} className={`border-t hover:bg-admin-hover ${!r.enabled ? "opacity-60" : ""}`}>
                   <td className="px-3 py-2">
                     <button onClick={() => toggle(r)}
                       className={`relative h-5 w-9 rounded-full transition-colors ${r.enabled ? "bg-primary" : "bg-neutral-300"}`}

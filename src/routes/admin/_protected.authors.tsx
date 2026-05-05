@@ -53,7 +53,7 @@ function AuthorsPage() {
     : items;
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Authors</h1>
         <button onClick={() => setEditing({ id: undefined, display_name: "", slug: "" })}
@@ -80,7 +80,7 @@ function AuthorsPage() {
             {loading ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">Loading…</td></tr>
               : filtered.length === 0 ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">No authors.</td></tr>
               : filtered.map((a) => (
-                <tr key={a.id} className="border-t hover:bg-[#F2F4F9]">
+                <tr key={a.id} className="border-t hover:bg-admin-hover">
                   <td className="px-3 py-2">
                     {a.avatar_url ? <img src={a.avatar_url} alt="" className="h-8 w-8 rounded-full object-cover" />
                       : <div className="h-8 w-8 rounded-full bg-neutral-200 flex items-center justify-center text-xs font-medium">{a.display_name.charAt(0)}</div>}

@@ -86,7 +86,7 @@ function MenusPage() {
   };
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Menus</h1>
         <button onClick={() => setEditingMenu({ id: undefined, name: "", slug: "", location: "" })}
@@ -102,7 +102,7 @@ function MenusPage() {
             : menus.length === 0 ? <div className="p-4 text-sm text-muted-foreground">No menus yet.</div>
             : menus.map((m) => (
               <button key={m.id} onClick={() => setActiveId(m.id)}
-                className={`w-full text-left px-3 py-2 text-sm hover:bg-[#F2F4F9] flex items-center justify-between ${activeId === m.id ? "bg-[#EEF2FF]" : ""}`}>
+                className={`w-full text-left px-3 py-2 text-sm hover:bg-admin-hover flex items-center justify-between ${activeId === m.id ? "bg-admin-active" : ""}`}>
                 <div>
                   <div className="font-medium">{m.name}</div>
                   <div className="text-xs text-muted-foreground">{m.location || m.slug}</div>
@@ -135,7 +135,7 @@ function MenusPage() {
             : activeItems.length === 0 ? <div className="p-8 text-center text-sm text-muted-foreground">No items.</div>
             : (
               <table className="w-full text-sm">
-                <thead className="border-b bg-[#FAFBFE]">
+                <thead className="border-b bg-admin-surface-2">
                   <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground">
                     <th className="px-3 py-2 w-12">#</th>
                     <th className="px-3 py-2">Label</th>
@@ -146,7 +146,7 @@ function MenusPage() {
                 </thead>
                 <tbody>
                   {activeItems.map((i) => (
-                    <tr key={i.id} className="border-t hover:bg-[#F2F4F9]">
+                    <tr key={i.id} className="border-t hover:bg-admin-hover">
                       <td className="px-3 py-2 text-muted-foreground">{i.position}</td>
                       <td className="px-3 py-2 font-medium">{i.label}</td>
                       <td className="px-3 py-2 font-mono text-xs text-muted-foreground break-all">{i.url}</td>

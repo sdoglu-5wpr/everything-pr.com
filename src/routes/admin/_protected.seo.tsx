@@ -52,7 +52,7 @@ function SeoDefaultsPage() {
   };
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <h1 className="text-2xl font-bold mb-1">SEO defaults</h1>
       <p className="text-sm text-muted-foreground mb-4">Sitewide fallbacks used when a post or page has no specific SEO meta.</p>
 

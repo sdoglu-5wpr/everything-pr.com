@@ -76,7 +76,7 @@ function AutomationsPage() {
   };
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Automations</h1>
         <button onClick={() => open({ id: undefined, name: "", trigger_type: "cron", enabled: true, config: {} })}
@@ -87,7 +87,7 @@ function AutomationsPage() {
 
       <div className="rounded-lg bg-white border overflow-hidden">
         <table className="w-full text-sm">
-          <thead className="border-b bg-[#FAFBFE]">
+          <thead className="border-b bg-admin-surface-2">
             <tr className="text-left text-xs uppercase tracking-wide text-muted-foreground">
               <th className="px-3 py-2 w-16">On</th>
               <th className="px-3 py-2">Name</th>
@@ -101,7 +101,7 @@ function AutomationsPage() {
             {loading ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">Loading…</td></tr>
               : items.length === 0 ? <tr><td colSpan={6} className="px-3 py-8 text-center text-muted-foreground">No automations.</td></tr>
               : items.map((a) => (
-                <tr key={a.id} className={`border-t hover:bg-[#F2F4F9] ${!a.enabled ? "opacity-60" : ""}`}>
+                <tr key={a.id} className={`border-t hover:bg-admin-hover ${!a.enabled ? "opacity-60" : ""}`}>
                   <td className="px-3 py-2">
                     <button onClick={() => toggle(a)}
                       className={`relative h-5 w-9 rounded-full transition-colors ${a.enabled ? "bg-primary" : "bg-neutral-300"}`}>

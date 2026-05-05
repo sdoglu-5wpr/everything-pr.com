@@ -47,7 +47,7 @@ function CategoriesPage() {
   const filtered = q ? items.filter((c) => c.name.toLowerCase().includes(q.toLowerCase()) || c.slug.includes(q.toLowerCase())) : items;
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Categories</h1>
         <button onClick={() => setEditing({ id: undefined, name: "", slug: "", description: "", parent_id: null })}
@@ -74,7 +74,7 @@ function CategoriesPage() {
             {loading ? <tr><td colSpan={5} className="px-3 py-8 text-center text-muted-foreground">Loading…</td></tr>
               : filtered.length === 0 ? <tr><td colSpan={5} className="px-3 py-8 text-center text-muted-foreground">No categories.</td></tr>
               : filtered.map((c) => (
-                <tr key={c.id} className="border-t hover:bg-[#F2F4F9]">
+                <tr key={c.id} className="border-t hover:bg-admin-hover">
                   <td className="px-3 py-2 font-medium">{c.name}</td>
                   <td className="px-3 py-2 text-muted-foreground">/{c.slug}/</td>
                   <td className="px-3 py-2 text-muted-foreground truncate max-w-md">{c.description ?? "—"}</td>

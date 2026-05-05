@@ -44,7 +44,7 @@ function TagsPage() {
   const filtered = q ? items.filter((c) => c.name.toLowerCase().includes(q.toLowerCase()) || c.slug.includes(q.toLowerCase())) : items;
 
   return (
-    <div className="-m-6 min-h-full bg-[#F7F8FB] p-6">
+    <div className="space-y-4">
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold">Tags</h1>
         <button onClick={() => setEditing({ id: undefined, name: "", slug: "", description: "" })}
@@ -72,7 +72,7 @@ function TagsPage() {
             {loading ? <tr><td colSpan={5} className="px-3 py-8 text-center text-muted-foreground">Loading…</td></tr>
               : filtered.length === 0 ? <tr><td colSpan={5} className="px-3 py-8 text-center text-muted-foreground">No tags.</td></tr>
               : filtered.map((t) => (
-                <tr key={t.id} className="border-t hover:bg-[#F2F4F9]">
+                <tr key={t.id} className="border-t hover:bg-admin-hover">
                   <td className="px-3 py-2 font-medium">{t.name}</td>
                   <td className="px-3 py-2 text-muted-foreground">/{t.slug}/</td>
                   <td className="px-3 py-2 text-muted-foreground truncate max-w-md">{t.description ?? "—"}</td>
