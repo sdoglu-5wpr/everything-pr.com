@@ -58,14 +58,10 @@ export const listAdminPosts = createServerFn({ method: "GET" })
     let q = supabase
       .from("posts")
       .select(
-        "id, slug, title, status, type, published_at, modified_at, author_id",
+        "id, slug, title, status, type, published_at, modified_at, author_id, featured_media_id",
         { count: "exact" },
       );
 
-    // Status filter — "scheduled" maps to status='future' in WP-style schema,
-    // but our enum uses 'future' as a separate status. Treat 'scheduled' as
-    // 'future' if present, else publish-future. The schema's post_status enum
-    // is unknown here, so accept 'future' as "scheduled".
     if (data.status !== "all") {
       const s = data.status === "scheduled" ? "future" : data.status;
       q = q.eq("status", s);
@@ -74,8 +70,6 @@ export const listAdminPosts = createServerFn({ method: "GET" })
     if (data.authorId != null) q = q.eq("author_id", data.authorId);
     if (data.q.trim()) {
       const term = data.q.trim();
-      // Use full-text search on search_vector when possible; fall back to
-      // ILIKE on title.
       const tsQuery = term
         .replace(/['\\:&|!()<>]/g, " ")
         .split(/\s+/)
@@ -101,17 +95,15 @@ export const listAdminPosts = createServerFn({ method: "GET" })
       q = q.in("id", ids);
     }
 
-    // Sorting
-    const sortable: Record<string, string | null> = {
+    const sortable: Record<string, string> = {
       title: "title",
       status: "status",
       type: "type",
       modified_at: "modified_at",
       published_at: "published_at",
-      // author / category sort handled client-side via name resolution
       author: "author_id",
-      category: null,
-      comment_count: null,
+      category: "modified_at",
+      comment_count: "modified_at",
     };
     const orderCol = sortable[data.sort] ?? "modified_at";
     q = q.order(orderCol, { ascending: data.dir === "asc", nullsFirst: false });
@@ -124,17 +116,21 @@ export const listAdminPosts = createServerFn({ method: "GET" })
     if (error) throw new Error(error.message);
 
     const postIds = (rows ?? []).map((r: any) => r.id);
-    const authorIds = (rows ?? []).map((r: any) => r.author_id).filter(Boolean);
+    const authorIds = Array.from(new Set((rows ?? []).map((r: any) => r.author_id).filter(Boolean)));
+    const mediaIds = Array.from(new Set((rows ?? []).map((r: any) => r.featured_media_id).filter(Boolean)));
 
-    const [authorRes, pcRes] = await Promise.all([
+    const [authorRes, pcRes, mediaRes] = await Promise.all([
       authorIds.length
-        ? supabase.from("authors").select("id, display_name").in("id", authorIds)
+        ? supabase.from("authors").select("id, display_name, slug").in("id", authorIds)
         : Promise.resolve({ data: [] as any[] }),
       postIds.length
         ? supabase.from("post_categories").select("post_id, category_id").in("post_id", postIds)
         : Promise.resolve({ data: [] as any[] }),
+      mediaIds.length
+        ? supabase.from("media").select("id, url").in("id", mediaIds)
+        : Promise.resolve({ data: [] as any[] }),
     ]);
-    const catIds = (pcRes.data ?? []).map((r: any) => r.category_id);
+    const catIds = Array.from(new Set((pcRes.data ?? []).map((r: any) => r.category_id)));
     const { data: cats } = catIds.length
       ? await supabase.from("categories").select("id, name, slug").in("id", catIds)
       : { data: [] as any[] };
@@ -147,6 +143,9 @@ export const listAdminPosts = createServerFn({ method: "GET" })
       }
     }
     const authorMap = new Map((authorRes.data ?? []).map((a: any) => [a.id, a]));
+    const mediaMap = new Map((mediaRes.data ?? []).map((m: any) => [m.id, m.url as string]));
+
+    const { rewriteLegacyUrl } = await import("@/lib/legacy-urls");
 
     const items: AdminPost[] = (rows ?? []).map((r: any) => ({
       id: r.id,
@@ -158,6 +157,9 @@ export const listAdminPosts = createServerFn({ method: "GET" })
       modified_at: r.modified_at,
       author: r.author_id ? (authorMap.get(r.author_id) ?? null) : null,
       category: postCat.get(r.id) ?? null,
+      thumbnail_url: r.featured_media_id
+        ? (rewriteLegacyUrl(mediaMap.get(r.featured_media_id) ?? "") || null)
+        : null,
       comment_count: 0,
     }));
 
