@@ -57,22 +57,20 @@ const STUDY_SLUG_HINTS = [
   "ai-visibility-index",
 ];
 
-/** Fetch all rows of a select() in chunks of 1000 to bypass Supabase's row cap. */
+/** Fetch all rows of a builder in chunks of 1000 to bypass Supabase's row cap. */
 async function fetchAll<T>(
-  build: () => ReturnType<ReturnType<typeof getBuildSupabase>["from"]>["select"],
+  build: () => { range: (a: number, b: number) => PromiseLike<{ data: unknown; error: unknown }> },
   pageSize = 1000,
 ): Promise<T[]> {
   const out: T[] = [];
   let from = 0;
-  // eslint-disable-next-line no-constant-condition
   while (true) {
-    const q = build().range(from, from + pageSize - 1);
-    // @ts-expect-error builder type erased intentionally
-    const { data, error } = await q;
+    const { data, error } = await build().range(from, from + pageSize - 1);
     if (error) throw error;
-    if (!data || data.length === 0) break;
-    out.push(...(data as T[]));
-    if (data.length < pageSize) break;
+    const rows = (data ?? []) as T[];
+    if (rows.length === 0) break;
+    out.push(...rows);
+    if (rows.length < pageSize) break;
     from += pageSize;
   }
   return out;
