@@ -13,6 +13,10 @@
 import { createClient } from "@supabase/supabase-js";
 import { writeFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
+import {
+  PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+  PUBLIC_SUPABASE_URL,
+} from "./integrations/supabase/public-env";
 
 const MAX_PRERENDER = 2500;
 const ARCHIVE_PAGE_SIZE = 10; // mirrors src/server/archives.functions.ts PAGE_SIZE
@@ -36,14 +40,27 @@ type CollectResult = {
 };
 
 function getBuildSupabase() {
-  const url = process.env.EPR_SUPABASE_URL || process.env.SUPABASE_URL;
+  const url =
+    process.env.EPR_SUPABASE_URL ||
+    process.env.VITE_EPR_SUPABASE_URL ||
+    process.env.SUPABASE_URL ||
+    process.env.VITE_SUPABASE_URL ||
+    PUBLIC_SUPABASE_URL;
   const key =
     process.env.EPR_SUPABASE_SERVICE_KEY ||
-    process.env.SUPABASE_SERVICE_ROLE_KEY;
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.EPR_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.VITE_EPR_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) {
     throw new Error(
-      "[prerender] EPR_SUPABASE_URL / EPR_SUPABASE_SERVICE_KEY missing — required for build-time URL collection",
+      "[prerender] Supabase URL / key missing — required for build-time URL collection",
     );
+  }
+  if (!process.env.EPR_SUPABASE_SERVICE_KEY && !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    console.warn("[prerender] Service key not available; collecting public URLs with the publishable key");
   }
   return createClient(url, key, {
     auth: { persistSession: false, autoRefreshToken: false },
