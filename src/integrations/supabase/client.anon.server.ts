@@ -3,13 +3,25 @@
 // of supabaseAdmin, so policies like "status = 'publish'" filter rows.
 import { createClient } from "@supabase/supabase-js";
 import type { Database } from "./types";
+import { PUBLIC_SUPABASE_PUBLISHABLE_KEY, PUBLIC_SUPABASE_URL } from "./public-env";
 
 function build() {
-  const url = process.env.EPR_SUPABASE_URL;
-  const key = process.env.EPR_SUPABASE_PUBLISHABLE_KEY;
+  const url =
+    process.env.EPR_SUPABASE_URL ||
+    process.env.VITE_EPR_SUPABASE_URL ||
+    process.env.SUPABASE_URL ||
+    process.env.VITE_SUPABASE_URL ||
+    PUBLIC_SUPABASE_URL;
+  const key =
+    process.env.EPR_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.VITE_EPR_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) {
     throw new Error(
-      "Missing EPR_SUPABASE_URL or EPR_SUPABASE_PUBLISHABLE_KEY in Project Secrets."
+      "Missing Supabase URL or publishable key."
     );
   }
   return createClient<Database>(url, key, {
