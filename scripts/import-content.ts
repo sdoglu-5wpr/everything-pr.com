@@ -530,12 +530,14 @@ async function importMenus() {
   head("menus + menu_items");
   const j = readJson<{ data?: MenuJson[] } | MenuJson[]>(`${DATA_DIR}/menus.json`);
   const list = (Array.isArray(j) ? j : j?.data) ?? [];
-  const menus = list.map(m => ({ id: m.tt_id, slug: m.slug, name: m.name, location: null }));
+  const menusRaw = list.map(m => ({ id: m.tt_id, slug: m.slug, name: m.name, location: null }));
+  const menusById = dedupeBy("menus:id", menusRaw, r => r.id);
+  const menus = dedupeBy("menus:slug", menusById, r => r.slug);
   await upsert("menus", menus, "id");
-  const items: Record<string, unknown>[] = [];
+  const itemsRaw: Record<string, unknown>[] = [];
   for (const m of list) {
     for (const it of m.items ?? []) {
-      items.push({
+      itemsRaw.push({
         id: it.id, menu_id: m.tt_id,
         parent_id: it.parent_item && it.parent_item !== 0 ? it.parent_item : null,
         position: it.menu_order ?? 0,
@@ -545,6 +547,7 @@ async function importMenus() {
       });
     }
   }
+  const items = dedupeBy("menu_items:id", itemsRaw, r => r.id as number);
   await upsert("menu_items", items, "id");
   log(`upserted ${menus.length} menus, ${items.length} items`);
 }
