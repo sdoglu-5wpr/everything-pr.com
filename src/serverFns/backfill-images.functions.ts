@@ -50,7 +50,7 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
       .eq("type", "post")
       .is("featured_media_id", null)
       .order("published_at", { ascending: false, nullsFirst: false })
-      .limit(data.limit);
+      .range(data.offset, data.offset + data.limit - 1);
     if (error) throw new Error(error.message);
 
     const targets = (candidates ?? []).filter(
