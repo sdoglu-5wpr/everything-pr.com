@@ -29,14 +29,18 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "everything-pr.com" },
+      { name: "description", content: "Pixel Perfect is a web application that replicates a given screenshot precisely." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "everything-pr.com" },
+      { property: "og:description", content: "Pixel Perfect is a web application that replicates a given screenshot precisely." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "everything-pr.com" },
+      { name: "twitter:description", content: "Pixel Perfect is a web application that replicates a given screenshot precisely." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/249cd3ba-4538-4139-b52a-ff443537d627/id-preview-0ec24879--26a01a69-d9fa-41da-8ffc-c4df18505710.lovable.app-1777958303586.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/249cd3ba-4538-4139-b52a-ff443537d627/id-preview-0ec24879--26a01a69-d9fa-41da-8ffc-c4df18505710.lovable.app-1777958303586.png" },
     ],
     links: [
       {
