@@ -306,25 +306,6 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
         </div>
       </section>
 
-      {/* Editorial standards strip */}
-      <section className="bg-[color:var(--ink)] text-white">
-        <div className="mx-auto max-w-7xl px-6 py-6 flex flex-col md:flex-row items-center gap-4 text-sm">
-          <div className="bg-white/10 p-2 rounded-full">
-            <ShieldCheck className="h-5 w-5" />
-          </div>
-          <p className="text-white/80 text-center md:text-left">
-            All articles by this author follow Everything-PR's{" "}
-            <Link
-              to="/$slug"
-              params={{ slug: "editorial-policy" }}
-              className="text-white underline font-semibold"
-            >
-              Editorial Standards
-            </Link>
-            , including disclosure of client relationships and corrections policy.
-          </p>
-        </div>
-      </section>
     </SiteLayout>
   );
 }
