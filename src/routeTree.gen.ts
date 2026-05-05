@@ -38,6 +38,7 @@ import { Route as AdminProtectedMediaRouteImport } from './routes/admin/_protect
 import { Route as AdminProtectedImportRouteImport } from './routes/admin/_protected.import'
 import { Route as AdminProtectedCategoriesRouteImport } from './routes/admin/_protected.categories'
 import { Route as AdminProtectedAuthorsRouteImport } from './routes/admin/_protected.authors'
+import { Route as AdminProtectedActivityRouteImport } from './routes/admin/_protected.activity'
 import { Route as AdminProtectedPostsIndexRouteImport } from './routes/admin/_protected.posts.index'
 import { Route as TagSlugPagePageRouteImport } from './routes/tag.$slug.page.$page'
 import { Route as CategorySlugPagePageRouteImport } from './routes/category.$slug.page.$page'
@@ -190,6 +191,11 @@ const AdminProtectedAuthorsRoute = AdminProtectedAuthorsRouteImport.update({
   path: '/authors',
   getParentRoute: () => AdminProtectedRoute,
 } as any)
+const AdminProtectedActivityRoute = AdminProtectedActivityRouteImport.update({
+  id: '/activity',
+  path: '/activity',
+  getParentRoute: () => AdminProtectedRoute,
+} as any)
 const AdminProtectedPostsIndexRoute =
   AdminProtectedPostsIndexRouteImport.update({
     id: '/posts/',
@@ -237,6 +243,7 @@ export interface FileRoutesByFullPath {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/activity': typeof AdminProtectedActivityRoute
   '/admin/authors': typeof AdminProtectedAuthorsRoute
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
@@ -272,6 +279,7 @@ export interface FileRoutesByTo {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/activity': typeof AdminProtectedActivityRoute
   '/admin/authors': typeof AdminProtectedAuthorsRoute
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
@@ -309,6 +317,7 @@ export interface FileRoutesById {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/_protected/activity': typeof AdminProtectedActivityRoute
   '/admin/_protected/authors': typeof AdminProtectedAuthorsRoute
   '/admin/_protected/categories': typeof AdminProtectedCategoriesRoute
   '/admin/_protected/import': typeof AdminProtectedImportRoute
@@ -347,6 +356,7 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/activity'
     | '/admin/authors'
     | '/admin/categories'
     | '/admin/import'
@@ -382,6 +392,7 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/activity'
     | '/admin/authors'
     | '/admin/categories'
     | '/admin/import'
@@ -418,6 +429,7 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/_protected/activity'
     | '/admin/_protected/authors'
     | '/admin/_protected/categories'
     | '/admin/_protected/import'
@@ -662,6 +674,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProtectedAuthorsRouteImport
       parentRoute: typeof AdminProtectedRoute
     }
+    '/admin/_protected/activity': {
+      id: '/admin/_protected/activity'
+      path: '/activity'
+      fullPath: '/admin/activity'
+      preLoaderRoute: typeof AdminProtectedActivityRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
     '/admin/_protected/posts/': {
       id: '/admin/_protected/posts/'
       path: '/posts'
@@ -701,6 +720,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminProtectedRouteChildren {
+  AdminProtectedActivityRoute: typeof AdminProtectedActivityRoute
   AdminProtectedAuthorsRoute: typeof AdminProtectedAuthorsRoute
   AdminProtectedCategoriesRoute: typeof AdminProtectedCategoriesRoute
   AdminProtectedImportRoute: typeof AdminProtectedImportRoute
@@ -716,6 +736,7 @@ interface AdminProtectedRouteChildren {
 }
 
 const AdminProtectedRouteChildren: AdminProtectedRouteChildren = {
+  AdminProtectedActivityRoute: AdminProtectedActivityRoute,
   AdminProtectedAuthorsRoute: AdminProtectedAuthorsRoute,
   AdminProtectedCategoriesRoute: AdminProtectedCategoriesRoute,
   AdminProtectedImportRoute: AdminProtectedImportRoute,
