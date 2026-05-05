@@ -60,7 +60,7 @@ function toPost(r: any, fallbackCategory?: { name: string; slug: string }): Home
     title: r.title,
     excerpt: r.excerpt,
     published_at: r.published_at,
-    featured_image_url: resolvePostImageUrl(r.media_url, pickFirstImageSrc(r.content_html)),
+    featured_image_url: resolvePostImageUrl(r.media_url, pickFirstImageSrc(r.content_html), r.og_image),
     author: a
       ? {
           id: a.id,
