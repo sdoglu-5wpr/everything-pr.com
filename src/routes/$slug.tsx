@@ -108,7 +108,7 @@ function formatDate(iso: string | null | undefined, opts: Intl.DateTimeFormatOpt
 }
 
 function ArticlePage() {
-  const { article, topStories, otherNews } = Route.useLoaderData();
+  const { article, topStories, otherNews } = Route.useLoaderData() as ArticlePayload;
   const primaryCategory = article.categories[0];
 
   return (
