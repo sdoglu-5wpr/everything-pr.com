@@ -43,7 +43,7 @@ const sb = createClient(SUPABASE_URL, SERVICE_KEY, {
 // ---------- helpers ----------
 const should = (name: string) => ONLY.length === 0 || ONLY.includes(name);
 const log = (msg: string) => console.log(`  ${msg}`);
-const head = (msg: string) => console.log(`\n▶ ${msg}`);
+const head = (msg: string) => { badDatePhase = msg; console.log(`\n▶ ${msg}`); };
 
 // ---------- referential-integrity tracking ----------
 // The migration source is a months-old WordPress snapshot, so dangling FK refs
