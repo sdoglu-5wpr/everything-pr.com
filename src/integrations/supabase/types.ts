@@ -800,6 +800,19 @@ export type Database = {
     }
     Functions: {
       claim_first_admin: { Args: never; Returns: Json }
+      get_archive_list: {
+        Args: {
+          p_day?: number
+          p_kind: string
+          p_month?: number
+          p_page?: number
+          p_page_size?: number
+          p_q?: string
+          p_slug?: string
+          p_year?: number
+        }
+        Returns: Json
+      }
       get_article_full: { Args: { slug_param: string }; Returns: Json }
       get_homepage_data: {
         Args: {
