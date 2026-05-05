@@ -67,7 +67,7 @@ export const Route = createFileRoute("/$slug")({
     const title = article.seo?.title || `${article.title} · Everything-PR`;
     const description =
       article.seo?.description ||
-      article.excerpt ||
+      htmlToPlainText(article.excerpt) ||
       `${article.title} — read the full story on Everything-PR.`;
     const ogImage = article.seo?.og_image || article.featured_image?.url || undefined;
     const canonical = article.seo?.canonical_url || undefined;
