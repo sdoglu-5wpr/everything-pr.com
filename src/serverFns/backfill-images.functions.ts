@@ -58,9 +58,10 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
     let skipped = 0;
     const examples: Array<{ id: number; slug: string; og_image: string | null }> = [];
     const errors: Array<{ id: number; slug: string; error: string }> = [];
+    const skipReasons: Record<string, number> = {};
+    const bump = (k: string) => { skipReasons[k] = (skipReasons[k] ?? 0) + 1; };
 
     for (const p of targets) {
-      // Skip if seo_meta already has an og_image
       const { data: existingSeo } = await supabase
         .from("seo_meta")
         .select("id, og_image")
@@ -68,15 +69,16 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
         .eq("object_id", p.id)
         .maybeSingle();
       if (existingSeo?.og_image) {
-        skipped++;
+        skipped++; bump("already_has_og");
         continue;
       }
 
-      const og = await fetchYoastOg(p.id);
-      if (!og) {
-        skipped++;
+      const fetched = await fetchYoastOg(p.id);
+      if (!fetched.url) {
+        skipped++; bump(fetched.reason);
         continue;
       }
+      const og = fetched.url;
 
       if (existingSeo?.id) {
         const { error: upErr } = await supabase
@@ -84,19 +86,18 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
           .update({ og_image: og })
           .eq("id", existingSeo.id);
         if (upErr) {
-          errors.push({ id: p.id, slug: p.slug, error: upErr.message });
-          skipped++;
+          errors.push({ id: p.id, slug: p.slug, error: `update:${upErr.message}` });
+          skipped++; bump("update_error");
           continue;
         }
       } else {
-        // Find a free id by scanning from max upward to avoid PK conflicts.
         const { data: maxRow } = await supabase
           .from("seo_meta")
           .select("id")
           .order("id", { ascending: false })
           .limit(1)
           .maybeSingle();
-        let nextId = ((maxRow?.id as number | undefined) ?? 0) + 1;
+        const nextId = ((maxRow?.id as number | undefined) ?? 0) + 1;
         const urlPath = `/${p.slug}/`;
         const { error: insErr, data: insData } = await supabase
           .from("seo_meta")
@@ -112,8 +113,8 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
           .select("id")
           .maybeSingle();
         if (insErr || !insData) {
-          errors.push({ id: p.id, slug: p.slug, error: insErr?.message ?? "insert returned no row" });
-          skipped++;
+          errors.push({ id: p.id, slug: p.slug, error: `insert:${insErr?.message ?? "no row"}` });
+          skipped++; bump("insert_error");
           continue;
         }
       }
@@ -122,5 +123,5 @@ export const backfillMissingImages = createServerFn({ method: "POST" })
       if (examples.length < 5) examples.push({ id: p.id, slug: p.slug, og_image: og });
     }
 
-    return { scanned: targets.length, updated, skipped, examples, errors };
+    return { scanned: targets.length, updated, skipped, examples, errors, skipReasons };
   });
