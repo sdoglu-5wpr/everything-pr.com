@@ -32,13 +32,12 @@ async function loadHomepage(): Promise<HomePayload> {
   if (typeof window !== "undefined") {
     return fetchHomepageViaRpc(supabase);
   }
-  // Server (SSR): return empty payload immediately so SSR doesn't block on the slow RPC.
-  // The client will hydrate with real data via the effect in HomePage.
-  // For static prerender (production build), use the real server fetch so SEO/HTML is populated.
-  if (process.env.LOVABLE_PRERENDER === "1" || process.env.PRERENDER === "1") {
-    return getHomepage();
+  // Server (SSR/prerender): always fetch real data so the first paint is populated.
+  try {
+    return await getHomepage();
+  } catch {
+    return EMPTY_PAYLOAD;
   }
-  return EMPTY_PAYLOAD;
 }
 
 export const Route = createFileRoute("/")({
