@@ -4,10 +4,19 @@ import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
 import { PostImage } from "@/components/site/PostImage";
 import { getHomepage, type HomePost, type HomeAuthor, type HomePayload } from "@/serverFns/homepage.functions";
+import { fetchHomepageViaRpc } from "@/lib/homepage.shared";
+import { supabase } from "@/integrations/supabase/client";
 import { buildHomepageHead } from "@/serverFns/seo.head";
 
+async function loadHomepage(): Promise<HomePayload> {
+  if (typeof window !== "undefined") {
+    return fetchHomepageViaRpc(supabase);
+  }
+  return getHomepage();
+}
+
 export const Route = createFileRoute("/")({
-  loader: () => getHomepage(),
+  loader: () => loadHomepage(),
   head: () => buildHomepageHead({}),
   component: HomePage,
 });

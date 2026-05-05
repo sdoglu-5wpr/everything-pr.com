@@ -1,13 +1,16 @@
 import { createFileRoute, Link, notFound, redirect, useRouter } from "@tanstack/react-router";
 import { ChevronRight, ArrowRight, Clock, Share2, Twitter, Linkedin, Facebook, Link as LinkIcon } from "lucide-react";
 import { getArticleBySlug, type RelatedPost, type ArticlePayload, type ArticleAuthor } from "@/serverFns/articles.functions";
+import { getArchive, type ArchivePayload } from "@/serverFns/archives.functions";
 import { lookupRedirect } from "@/serverFns/redirects.functions";
 import { fetchArticleViaRpc } from "@/lib/articles.shared";
+import { fetchArchiveViaRpc } from "@/lib/archives.shared";
 import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
 import { PostImage } from "@/components/site/PostImage";
 import { ContactPage } from "@/components/site/ContactPage";
+import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 
 async function loadArticle(slug: string): Promise<ArticlePayload | null> {
   // In the browser (e.g. Netlify static hosting where TanStack server functions
@@ -37,10 +40,17 @@ export const Route = createFileRoute("/$slug")({
   loader: async ({ params }) => {
     if (!params.slug || params.slug.includes(".")) throw notFound();
 
-    // RLS on `posts` already filters status='publish' for anon, so a missing
-    // row means either unpublished or genuinely absent.
+    // Try article first
     const data = await loadArticle(params.slug);
-    if (data) return data;
+    if (data) return { kind: "article" as const, data };
+
+    // Fall back to category archive (legacy permalinks like /social-media)
+    const archive = typeof window !== "undefined"
+      ? await fetchArchiveViaRpc(supabase, { kind: "category", slug: params.slug, page: 1 })
+      : await getArchive({ data: { kind: "category", slug: params.slug, page: 1 } });
+    if (archive && archive.items.length > 0) {
+      return { kind: "archive" as const, data: archive, slug: params.slug };
+    }
 
     const r = typeof window !== "undefined"
       ? await lookupRedirectInBrowser(`/${params.slug}`)
@@ -51,8 +61,8 @@ export const Route = createFileRoute("/$slug")({
     throw notFound();
   },
   head: ({ loaderData }) => {
-    if (!loaderData) return { meta: [{ title: "Not found · Everything-PR" }] };
-    const { article } = loaderData;
+    if (!loaderData || loaderData.kind !== "article") return { meta: [{ title: "Everything-PR" }] };
+    const { article } = loaderData.data;
     const title = article.seo?.title || `${article.title} · Everything-PR`;
     const description =
       article.seo?.description ||
@@ -154,10 +164,29 @@ function readingTime(html: string | null | undefined): number {
   return Math.max(1, Math.round(words / 220));
 }
 
+type LoaderData =
+  | { kind: "article"; data: ArticlePayload }
+  | { kind: "archive"; data: ArchivePayload; slug: string };
+
 function ArticlePage() {
-  const loaderData = Route.useLoaderData() as ArticlePayload | undefined;
-  if (!loaderData?.article) return <NotFound />;
-  const { article, topStories = [], otherNews = [] } = loaderData;
+  const loaderData = Route.useLoaderData() as LoaderData | undefined;
+  if (!loaderData) return <NotFound />;
+
+  if (loaderData.kind === "archive") {
+    const { data, slug } = loaderData;
+    return (
+      <ArchiveView
+        data={data}
+        eyebrow="Category"
+        buildHref={(p): PageHref => {
+          if (p === 1) return { to: "/$slug", params: { slug } };
+          return { to: "/category/$slug/page/$page", params: { slug, page: String(p) } };
+        }}
+      />
+    );
+  }
+
+  const { article, topStories = [], otherNews = [] } = loaderData.data;
   const categories = article.categories ?? [];
   const primaryCategory = categories[0];
   const minutes = readingTime(article.content_html);

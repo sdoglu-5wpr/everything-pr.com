@@ -1,11 +1,15 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { getArchive } from "@/serverFns/archives.functions";
+import { fetchArchiveViaRpc } from "@/lib/archives.shared";
+import { supabase } from "@/integrations/supabase/client";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 import { buildArchiveHead } from "@/serverFns/seo.head";
 
 export const Route = createFileRoute("/category/$slug")({
   loader: async ({ params }) => {
-    const data = await getArchive({ data: { kind: "category", slug: params.slug, page: 1 } });
+    const data = typeof window !== "undefined"
+      ? await fetchArchiveViaRpc(supabase, { kind: "category", slug: params.slug, page: 1 })
+      : await getArchive({ data: { kind: "category", slug: params.slug, page: 1 } });
     if (!data) throw notFound();
     return data;
   },

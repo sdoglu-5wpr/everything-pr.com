@@ -67,7 +67,7 @@ const NAV: NavItem[] = [
 function LeafLinkEl({ leaf, className }: { leaf: LeafLink; className?: string }) {
   if (leaf.kind === "category") {
     return (
-      <Link to="/category/$slug" params={{ slug: leaf.slug }} className={className}>
+      <Link to="/$slug" params={{ slug: leaf.slug }} className={className}>
         {leaf.label}
       </Link>
     );
@@ -107,7 +107,7 @@ export function SiteHeader() {
               return (
                 <Link
                   key={item.label}
-                  to="/category/$slug"
+                  to="/$slug"
                   params={{ slug: item.slug }}
                   className="px-3 py-2 rounded hover:text-[color:var(--brand-blue)] transition-colors"
                   activeProps={{ className: "text-[color:var(--brand-blue)]" }}
