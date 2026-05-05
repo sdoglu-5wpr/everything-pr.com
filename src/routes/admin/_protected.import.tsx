@@ -71,8 +71,13 @@ function ImportPage() {
     try {
       const res = await startImportJob({ data: { downloadMedia, perPage } });
       if (!res.ok) { toast.error(res.error); return; }
+      toast.success("Import started");
       const j = await getImportJob({ data: { jobId: res.jobId } });
       if (j.ok) setJob(j.job as unknown as Job);
+      else toast.error(j.error);
+    } catch (e: any) {
+      console.error("start import failed", e);
+      toast.error(e?.message ?? "Failed to start import");
     } finally { setBusy(false); }
   };
 
