@@ -1,5 +1,5 @@
 import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/react-router";
-import { getIndexingState } from "@/server/indexing.functions";
+import { getIndexingState, NOINDEX_HEADER } from "@/server/indexing.functions";
 
 import appCss from "../styles.css?url";
 
@@ -31,7 +31,7 @@ export const Route = createRootRoute({
   loader: () => getIndexingState(),
   head: ({ loaderData }) => {
     const indexing = loaderData as { enabled: boolean } | undefined;
-    const robotsContent = indexing?.enabled === false ? "noindex, nofollow" : "index, follow";
+    const robotsContent = indexing?.enabled === false ? NOINDEX_HEADER : "index, follow";
     return {
       meta: [
         { charSet: "utf-8" },
