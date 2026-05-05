@@ -2,7 +2,7 @@ import { createFileRoute, redirect, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { getMyRoles } from "@/server/admin-shell.functions";
+const STAFF_ROLES = ["admin", "editor", "author"] as const;
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
@@ -36,17 +36,20 @@ function AdminLogin() {
         return;
       }
 
-      // Role gate
-      let info;
-      try {
-        info = await getMyRoles();
-      } catch (err: any) {
-        const msg = `Could not verify your role: ${err?.message ?? String(err)}`;
+      // Role gate — RLS lets the user read their own user_roles rows.
+      const { data: roleRows, error: roleErr } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", data.session.user.id);
+      if (roleErr) {
+        const msg = `Could not verify your role: ${roleErr.message}`;
         toast.error(msg);
         setInlineError(msg);
         return;
       }
-      if (!info.isStaff) {
+      const roles = (roleRows ?? []).map(r => r.role as string);
+      const isStaff = roles.some(r => (STAFF_ROLES as readonly string[]).includes(r));
+      if (!isStaff) {
         await supabase.auth.signOut();
         const msg = `Access denied — your account exists but doesn't have admin/editor/author privileges. Contact ${CONTACT}.`;
         toast.error(msg);
