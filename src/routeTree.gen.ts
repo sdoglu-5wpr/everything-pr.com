@@ -31,6 +31,7 @@ import { Route as AdminProtectedRouteImport } from './routes/admin/_protected'
 import { Route as AdminProtectedIndexRouteImport } from './routes/admin/_protected.index'
 import { Route as AdminProtectedTagsRouteImport } from './routes/admin/_protected.tags'
 import { Route as AdminProtectedRedirectsRouteImport } from './routes/admin/_protected.redirects'
+import { Route as AdminProtectedMenusRouteImport } from './routes/admin/_protected.menus'
 import { Route as AdminProtectedMediaRouteImport } from './routes/admin/_protected.media'
 import { Route as AdminProtectedImportRouteImport } from './routes/admin/_protected.import'
 import { Route as AdminProtectedCategoriesRouteImport } from './routes/admin/_protected.categories'
@@ -151,6 +152,11 @@ const AdminProtectedRedirectsRoute = AdminProtectedRedirectsRouteImport.update({
   path: '/redirects',
   getParentRoute: () => AdminProtectedRoute,
 } as any)
+const AdminProtectedMenusRoute = AdminProtectedMenusRouteImport.update({
+  id: '/menus',
+  path: '/menus',
+  getParentRoute: () => AdminProtectedRoute,
+} as any)
 const AdminProtectedMediaRoute = AdminProtectedMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -223,6 +229,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
   '/admin/media': typeof AdminProtectedMediaRoute
+  '/admin/menus': typeof AdminProtectedMenusRoute
   '/admin/redirects': typeof AdminProtectedRedirectsRoute
   '/admin/tags': typeof AdminProtectedTagsRoute
   '/admin/': typeof AdminProtectedIndexRoute
@@ -255,6 +262,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
   '/admin/media': typeof AdminProtectedMediaRoute
+  '/admin/menus': typeof AdminProtectedMenusRoute
   '/admin/redirects': typeof AdminProtectedRedirectsRoute
   '/admin/tags': typeof AdminProtectedTagsRoute
   '/admin': typeof AdminProtectedIndexRoute
@@ -289,6 +297,7 @@ export interface FileRoutesById {
   '/admin/_protected/categories': typeof AdminProtectedCategoriesRoute
   '/admin/_protected/import': typeof AdminProtectedImportRoute
   '/admin/_protected/media': typeof AdminProtectedMediaRoute
+  '/admin/_protected/menus': typeof AdminProtectedMenusRoute
   '/admin/_protected/redirects': typeof AdminProtectedRedirectsRoute
   '/admin/_protected/tags': typeof AdminProtectedTagsRoute
   '/admin/_protected/': typeof AdminProtectedIndexRoute
@@ -324,6 +333,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/import'
     | '/admin/media'
+    | '/admin/menus'
     | '/admin/redirects'
     | '/admin/tags'
     | '/admin/'
@@ -356,6 +366,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/import'
     | '/admin/media'
+    | '/admin/menus'
     | '/admin/redirects'
     | '/admin/tags'
     | '/admin'
@@ -389,6 +400,7 @@ export interface FileRouteTypes {
     | '/admin/_protected/categories'
     | '/admin/_protected/import'
     | '/admin/_protected/media'
+    | '/admin/_protected/menus'
     | '/admin/_protected/redirects'
     | '/admin/_protected/tags'
     | '/admin/_protected/'
@@ -577,6 +589,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProtectedRedirectsRouteImport
       parentRoute: typeof AdminProtectedRoute
     }
+    '/admin/_protected/menus': {
+      id: '/admin/_protected/menus'
+      path: '/menus'
+      fullPath: '/admin/menus'
+      preLoaderRoute: typeof AdminProtectedMenusRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
     '/admin/_protected/media': {
       id: '/admin/_protected/media'
       path: '/media'
@@ -648,6 +667,7 @@ interface AdminProtectedRouteChildren {
   AdminProtectedCategoriesRoute: typeof AdminProtectedCategoriesRoute
   AdminProtectedImportRoute: typeof AdminProtectedImportRoute
   AdminProtectedMediaRoute: typeof AdminProtectedMediaRoute
+  AdminProtectedMenusRoute: typeof AdminProtectedMenusRoute
   AdminProtectedRedirectsRoute: typeof AdminProtectedRedirectsRoute
   AdminProtectedTagsRoute: typeof AdminProtectedTagsRoute
   AdminProtectedIndexRoute: typeof AdminProtectedIndexRoute
@@ -660,6 +680,7 @@ const AdminProtectedRouteChildren: AdminProtectedRouteChildren = {
   AdminProtectedCategoriesRoute: AdminProtectedCategoriesRoute,
   AdminProtectedImportRoute: AdminProtectedImportRoute,
   AdminProtectedMediaRoute: AdminProtectedMediaRoute,
+  AdminProtectedMenusRoute: AdminProtectedMenusRoute,
   AdminProtectedRedirectsRoute: AdminProtectedRedirectsRoute,
   AdminProtectedTagsRoute: AdminProtectedTagsRoute,
   AdminProtectedIndexRoute: AdminProtectedIndexRoute,
