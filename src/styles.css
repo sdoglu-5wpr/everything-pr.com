@@ -79,7 +79,7 @@
   --foreground: oklch(0.145 0.02 264);
   --ink: oklch(0.18 0.07 268);          /* deep navy used in header/footer */
   --ink-foreground: oklch(0.99 0 0);
-  --ticker: oklch(0.62 0.21 27);        /* red ticker bar */
+  --ticker: oklch(0.55 0.18 255);       /* blue ticker bar */
   --ticker-foreground: oklch(0.99 0 0);
   --brand-red: oklch(0.6 0.22 28);
   --brand-blue: oklch(0.55 0.18 255);
