@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { getIndexingState } from "@/serverFns/indexing.functions";
 import { NOINDEX_HEADER } from "@/serverFns/indexing.constants";
 import { Toaster } from "@/components/ui/sonner";
-import { installServerFnAuth } from "@/lib/server-fn-auth.client";
+
 
 import appCss from "../styles.css?url";
 
@@ -79,7 +79,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   useEffect(() => {
-    installServerFnAuth();
+    import("@/lib/server-fn-auth.client").then((m) => m.installServerFnAuth());
   }, []);
   return (
     <>
