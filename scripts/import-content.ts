@@ -379,6 +379,7 @@ async function importPostsFile(file: string, defaultType: "post" | "page" = "pos
 
   let total = 0;
   let emptySlugCount = 0;
+  let dupesDropped = 0;
   const flush = async () => {
     if (postsBuf.length) {
       // Dedupe within batch by (type, slug), keep most recent modified_at, then highest id
@@ -387,18 +388,30 @@ async function importPostsFile(file: string, defaultType: "post" | "page" = "pos
         const key = `${row.type}::${row.slug}`;
         const prev = byKey.get(key);
         if (!prev) { byKey.set(key, row); continue; }
+        dupesDropped++;
         const pm = (prev.modified_at as string | null) ?? "";
         const rm = (row.modified_at as string | null) ?? "";
         if (rm > pm || (rm === pm && (row.id as number) > (prev.id as number))) {
           byKey.set(key, row);
         }
       }
-      await upsert("posts", [...byKey.values()], "type,slug");
-      total += byKey.size;
+      // Also dedupe by id in case the same WP id appears twice
+      const byId = dedupeBy(`posts:id (${file})`, [...byKey.values()], r => r.id as number);
+      await upsert("posts", byId, "type,slug");
+      total += byId.length;
     }
-    if (seoBuf.length) await upsert("seo_meta", seoBuf, "url_path");
-    if (pcBuf.length) await upsert("post_categories", pcBuf, "post_id,category_id");
-    if (ptBuf.length) await upsert("post_tags", ptBuf, "post_id,tag_id");
+    if (seoBuf.length) {
+      const seoDedup = dedupeBy(`seo_meta:url_path (${file})`, seoBuf, r => r.url_path as string);
+      await upsert("seo_meta", seoDedup, "url_path");
+    }
+    if (pcBuf.length) {
+      const pcDedup = dedupeBy(`post_categories (${file})`, pcBuf, r => `${r.post_id}:${r.category_id}`);
+      await upsert("post_categories", pcDedup, "post_id,category_id");
+    }
+    if (ptBuf.length) {
+      const ptDedup = dedupeBy(`post_tags (${file})`, ptBuf, r => `${r.post_id}:${r.tag_id}`);
+      await upsert("post_tags", ptDedup, "post_id,tag_id");
+    }
     postsBuf.length = 0; seoBuf.length = 0; pcBuf.length = 0; ptBuf.length = 0;
   };
 
