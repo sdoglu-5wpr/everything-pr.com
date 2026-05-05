@@ -1,6 +1,22 @@
 import { Link } from "@tanstack/react-router";
 
-export function SiteFooter() {
+export type FooterMenuItem = { label: string; href: string };
+
+const DEFAULT_MENU: FooterMenuItem[] = [
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Comments Policy", href: "/comments-policy" },
+  { label: "Contact", href: "/contact" },
+];
+
+const POLICY_LINKS: FooterMenuItem[] = [
+  { label: "Editorial Policy", href: "/editorial-policy" },
+  { label: "Ethics Policy", href: "/ethics-policy" },
+  { label: "Corrections Policy", href: "/corrections-policy" },
+];
+
+export function SiteFooter({ menu }: { menu?: FooterMenuItem[] }) {
+  const navLinks = menu && menu.length ? menu : DEFAULT_MENU;
   return (
     <footer className="bg-ink text-ink-foreground mt-16">
       <div className="h-1 bg-ticker" />
@@ -12,18 +28,8 @@ export function SiteFooter() {
             crisis, brands, and the people behind the work.
           </p>
         </div>
-        <FooterCol title="Pages" links={[
-          { label: "Home", to: "/" },
-          { label: "About us", to: "/about" },
-          { label: "Authors", to: "/authors" },
-          { label: "Subscription", to: "/subscribe" },
-        ]} />
-        <FooterCol title="More" links={[
-          { label: "Contact us", to: "/contact" },
-          { label: "Changelog", to: "/changelog" },
-          { label: "License", to: "/license" },
-          { label: "404 page", to: "/404" },
-        ]} />
+        <FooterCol title="Site" links={navLinks} />
+        <FooterCol title="Policies" links={POLICY_LINKS} />
         <div>
           <h4 className="text-sm font-semibold mb-3 uppercase tracking-wider text-ink-foreground/60">Contact</h4>
           <ul className="text-sm space-y-2 text-ink-foreground/80">
@@ -36,7 +42,7 @@ export function SiteFooter() {
         <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row items-center justify-between text-xs text-ink-foreground/60">
           <span>© {new Date().getFullYear()} Everything-PR. All Rights Reserved.</span>
           <div className="flex gap-5 mt-2 md:mt-0">
-            <Link to="/privacy" className="hover:text-ink-foreground">Privacy Policy</Link>
+            <Link to="/privacy-policy" className="hover:text-ink-foreground">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-ink-foreground">Terms &amp; Conditions</Link>
           </div>
         </div>
@@ -45,14 +51,19 @@ export function SiteFooter() {
   );
 }
 
-function FooterCol({ title, links }: { title: string; links: { label: string; to: string }[] }) {
+function FooterCol({ title, links }: { title: string; links: FooterMenuItem[] }) {
   return (
     <div>
       <h4 className="text-sm font-semibold mb-3 uppercase tracking-wider text-ink-foreground/60">{title}</h4>
       <ul className="text-sm space-y-2">
-        {links.map(l => (
-          <li key={l.to}>
-            <Link to={l.to} className="text-ink-foreground/80 hover:text-ink-foreground">{l.label}</Link>
+        {links.map((l, i) => (
+          <li key={`${l.href}-${i}`}>
+            <a
+              href={l.href}
+              className="text-ink-foreground/80 hover:text-ink-foreground"
+            >
+              {l.label}
+            </a>
           </li>
         ))}
       </ul>

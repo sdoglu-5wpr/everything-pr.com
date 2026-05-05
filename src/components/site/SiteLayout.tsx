@@ -1,16 +1,22 @@
 import { TopTicker } from "./TopTicker";
 import { SiteHeader } from "./SiteHeader";
-import { SiteFooter } from "./SiteFooter";
+import { SiteFooter, type FooterMenuItem } from "./SiteFooter";
 import { InlineNewsletter } from "./InlineNewsletter";
 
-export function SiteLayout({ children }: { children: React.ReactNode }) {
+type Props = {
+  children: React.ReactNode;
+  tickerItems?: { slug: string; title: string }[];
+  footerMenu?: FooterMenuItem[];
+};
+
+export function SiteLayout({ children, tickerItems, footerMenu }: Props) {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SiteHeader />
-      <TopTicker />
+      <TopTicker items={tickerItems} />
       <main className="flex-1">{children}</main>
       <InlineNewsletter />
-      <SiteFooter />
+      <SiteFooter menu={footerMenu} />
     </div>
   );
 }
