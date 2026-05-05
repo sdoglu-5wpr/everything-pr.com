@@ -28,15 +28,43 @@ function SetupCowork() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      const { data } = await supabase.auth.getSession();
-      if (cancelled) return;
-      if (!data.session) { setState({ kind: "needs-auth" }); return; }
-      setState({ kind: "claiming" });
-      const res = await claim();
-      if (cancelled) return;
-      if (res.ok) setState({ kind: "success", userId: res.user_id ?? "" });
-      else if (res.error === "already_setup") setState({ kind: "already-setup" });
-      else setState({ kind: "error", message: res.error ?? "Unknown error" });
+      try {
+        const { data, error: sessErr } = await supabase.auth.getSession();
+        if (cancelled) return;
+        if (sessErr) {
+          const msg = `Session check failed: ${sessErr.message}`;
+          console.error("[setup-cowork]", sessErr);
+          toast.error(msg);
+          setState({ kind: "error", message: msg });
+          return;
+        }
+        if (!data.session) { setState({ kind: "needs-auth" }); return; }
+        setState({ kind: "claiming" });
+        const res = await claim();
+        if (cancelled) return;
+        if (res.ok) {
+          setState({ kind: "success", userId: res.user_id ?? "" });
+        } else if (res.error === "already_setup") {
+          setState({ kind: "already-setup" });
+        } else {
+          const msg = `claim_first_admin failed: ${res.error ?? "(no error message returned)"}`;
+          console.error("[setup-cowork] claim returned error:", res);
+          toast.error(msg);
+          setState({ kind: "error", message: msg });
+        }
+      } catch (e: any) {
+        if (cancelled) return;
+        const detail = [
+          e?.message,
+          e?.code ? `code=${e.code}` : null,
+          e?.details ? `details=${e.details}` : null,
+          e?.hint ? `hint=${e.hint}` : null,
+        ].filter(Boolean).join(" · ");
+        const msg = `Bootstrap threw: ${detail || String(e)}`;
+        console.error("[setup-cowork] threw:", e);
+        toast.error(msg);
+        setState({ kind: "error", message: msg });
+      }
     })();
     return () => { cancelled = true; };
   }, [claim]);
