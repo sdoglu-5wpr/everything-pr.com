@@ -37,6 +37,7 @@ import { Route as AdminProtectedMenusRouteImport } from './routes/admin/_protect
 import { Route as AdminProtectedMediaRouteImport } from './routes/admin/_protected.media'
 import { Route as AdminProtectedImportRouteImport } from './routes/admin/_protected.import'
 import { Route as AdminProtectedCategoriesRouteImport } from './routes/admin/_protected.categories'
+import { Route as AdminProtectedAutomationsRouteImport } from './routes/admin/_protected.automations'
 import { Route as AdminProtectedAuthorsRouteImport } from './routes/admin/_protected.authors'
 import { Route as AdminProtectedActivityRouteImport } from './routes/admin/_protected.activity'
 import { Route as AdminProtectedPostsIndexRouteImport } from './routes/admin/_protected.posts.index'
@@ -186,6 +187,12 @@ const AdminProtectedCategoriesRoute =
     path: '/categories',
     getParentRoute: () => AdminProtectedRoute,
   } as any)
+const AdminProtectedAutomationsRoute =
+  AdminProtectedAutomationsRouteImport.update({
+    id: '/automations',
+    path: '/automations',
+    getParentRoute: () => AdminProtectedRoute,
+  } as any)
 const AdminProtectedAuthorsRoute = AdminProtectedAuthorsRouteImport.update({
   id: '/authors',
   path: '/authors',
@@ -245,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/tag/$slug': typeof TagSlugRouteWithChildren
   '/admin/activity': typeof AdminProtectedActivityRoute
   '/admin/authors': typeof AdminProtectedAuthorsRoute
+  '/admin/automations': typeof AdminProtectedAutomationsRoute
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
   '/admin/media': typeof AdminProtectedMediaRoute
@@ -281,6 +289,7 @@ export interface FileRoutesByTo {
   '/tag/$slug': typeof TagSlugRouteWithChildren
   '/admin/activity': typeof AdminProtectedActivityRoute
   '/admin/authors': typeof AdminProtectedAuthorsRoute
+  '/admin/automations': typeof AdminProtectedAutomationsRoute
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
   '/admin/media': typeof AdminProtectedMediaRoute
@@ -319,6 +328,7 @@ export interface FileRoutesById {
   '/tag/$slug': typeof TagSlugRouteWithChildren
   '/admin/_protected/activity': typeof AdminProtectedActivityRoute
   '/admin/_protected/authors': typeof AdminProtectedAuthorsRoute
+  '/admin/_protected/automations': typeof AdminProtectedAutomationsRoute
   '/admin/_protected/categories': typeof AdminProtectedCategoriesRoute
   '/admin/_protected/import': typeof AdminProtectedImportRoute
   '/admin/_protected/media': typeof AdminProtectedMediaRoute
@@ -358,6 +368,7 @@ export interface FileRouteTypes {
     | '/tag/$slug'
     | '/admin/activity'
     | '/admin/authors'
+    | '/admin/automations'
     | '/admin/categories'
     | '/admin/import'
     | '/admin/media'
@@ -394,6 +405,7 @@ export interface FileRouteTypes {
     | '/tag/$slug'
     | '/admin/activity'
     | '/admin/authors'
+    | '/admin/automations'
     | '/admin/categories'
     | '/admin/import'
     | '/admin/media'
@@ -431,6 +443,7 @@ export interface FileRouteTypes {
     | '/tag/$slug'
     | '/admin/_protected/activity'
     | '/admin/_protected/authors'
+    | '/admin/_protected/automations'
     | '/admin/_protected/categories'
     | '/admin/_protected/import'
     | '/admin/_protected/media'
@@ -667,6 +680,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProtectedCategoriesRouteImport
       parentRoute: typeof AdminProtectedRoute
     }
+    '/admin/_protected/automations': {
+      id: '/admin/_protected/automations'
+      path: '/automations'
+      fullPath: '/admin/automations'
+      preLoaderRoute: typeof AdminProtectedAutomationsRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
     '/admin/_protected/authors': {
       id: '/admin/_protected/authors'
       path: '/authors'
@@ -722,6 +742,7 @@ declare module '@tanstack/react-router' {
 interface AdminProtectedRouteChildren {
   AdminProtectedActivityRoute: typeof AdminProtectedActivityRoute
   AdminProtectedAuthorsRoute: typeof AdminProtectedAuthorsRoute
+  AdminProtectedAutomationsRoute: typeof AdminProtectedAutomationsRoute
   AdminProtectedCategoriesRoute: typeof AdminProtectedCategoriesRoute
   AdminProtectedImportRoute: typeof AdminProtectedImportRoute
   AdminProtectedMediaRoute: typeof AdminProtectedMediaRoute
@@ -738,6 +759,7 @@ interface AdminProtectedRouteChildren {
 const AdminProtectedRouteChildren: AdminProtectedRouteChildren = {
   AdminProtectedActivityRoute: AdminProtectedActivityRoute,
   AdminProtectedAuthorsRoute: AdminProtectedAuthorsRoute,
+  AdminProtectedAutomationsRoute: AdminProtectedAutomationsRoute,
   AdminProtectedCategoriesRoute: AdminProtectedCategoriesRoute,
   AdminProtectedImportRoute: AdminProtectedImportRoute,
   AdminProtectedMediaRoute: AdminProtectedMediaRoute,
