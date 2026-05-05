@@ -444,14 +444,21 @@ async function importInternalLinks() {
   head("internal_links");
   let buf: Record<string, unknown>[] = [];
   let total = 0;
+  let skippedSource = 0;
+  let nulledTarget = 0;
   for await (const r of streamJsonl(`${DATA_DIR}/internal-links.jsonl`)) {
     const l = r as { source_post_id?: number; from_post_id?: number; target_url: string; target_post_id?: number; anchor?: string };
     const src = l.source_post_id ?? l.from_post_id;
     if (!src) continue;
+    if (!validPostIds.has(src)) { skippedSource++; continue; }
+    let target_post_id: number | null = l.target_post_id ?? null;
+    if (target_post_id != null && !validPostIds.has(target_post_id)) {
+      target_post_id = null; nulledTarget++;
+    }
     buf.push({
       source_post_id: src,
       target_url: l.target_url,
-      target_post_id: l.target_post_id ?? null,
+      target_post_id,
       anchor_text: l.anchor ?? null,
     });
     if (buf.length >= BATCH) {
@@ -461,7 +468,7 @@ async function importInternalLinks() {
     }
   }
   if (buf.length) { const { error } = await sb.from("internal_links").insert(buf); if (error) throw error; total += buf.length; }
-  log(`inserted ${total}`);
+  log(`inserted ${total} (skipped ${skippedSource} w/ missing source, nulled ${nulledTarget} dangling targets)`);
 }
 
 // ---------- verify ----------
