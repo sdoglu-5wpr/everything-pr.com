@@ -79,7 +79,7 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   useEffect(() => {
-    import("@/lib/server-fn-auth.client").then((m) => m.installServerFnAuth());
+    import("@/lib/server-fn-auth-install").then((m) => m.installServerFnAuth());
   }, []);
   return (
     <>
