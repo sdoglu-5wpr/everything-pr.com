@@ -1,6 +1,12 @@
 import { createStartHandler, defaultStreamHandler } from "@tanstack/react-start/server";
+import redirectsData from "./generated/redirects.json" with { type: "json" };
 
 const tanstackFetch = createStartHandler(defaultStreamHandler);
+
+type Redirect = { source: string; target: string; status: number };
+const REDIRECT_MAP = new Map<string, Redirect>(
+  (redirectsData as Redirect[]).map((r) => [r.source.replace(/\/$/, "") || "/", r]),
+);
 
 const NOINDEX_HEADER = "noindex, nofollow, noarchive, nosnippet, noimageindex";
 
@@ -38,7 +44,20 @@ export default {
     const path = url.pathname;
     const noindex = isIndexingDisabled(env ?? {});
 
-    // 1. Try static assets first for non-dynamic paths
+    // 1. Redirects (pre-empt both static + SSR)
+    const key = path.replace(/\/$/, "") || "/";
+    const r = REDIRECT_MAP.get(key);
+    if (r) {
+      return new Response(null, {
+        status: (r.status === 302 ? 302 : 301) as 301 | 302,
+        headers: {
+          Location: r.target,
+          "Cache-Control": "public, max-age=3600, s-maxage=86400",
+        },
+      });
+    }
+
+    // 2. Try static assets first for non-dynamic paths
     if (!isDynamicPath(path) && env?.ASSETS) {
       try {
         const assetRes = await env.ASSETS.fetch(request);
