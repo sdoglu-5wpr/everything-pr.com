@@ -4,14 +4,14 @@ import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
 import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyUrl } from "@/lib/legacy-urls";
 
 function setArchiveCache() {
-  if (process.env.INDEXING_ENABLED === "true") {
-    try {
-      setResponseHeader(
-        "Cache-Control",
-        "public, max-age=60, s-maxage=120, stale-while-revalidate=300",
-      );
-    } catch {}
-  }
+  try {
+    setResponseHeader(
+      "Cache-Control",
+      process.env.INDEXING_ENABLED === "true"
+        ? "public, max-age=60, s-maxage=120, stale-while-revalidate=300"
+        : "private, max-age=0, must-revalidate",
+    );
+  } catch {}
 }
 
 export const PAGE_SIZE = 10;
@@ -151,7 +151,9 @@ export const getArchive = createServerFn({ method: "GET" })
       params.p_q = data.q;
     }
 
+    const t0 = Date.now();
     const { data: rpc, error } = await (supabaseAnon as any).rpc("get_archive_list", params);
+    console.log(`[archive] kind=${data.kind} page=${page} rpc=${Date.now() - t0}ms`);
     if (error) {
       console.error("get_archive_list failed:", error);
       return null;

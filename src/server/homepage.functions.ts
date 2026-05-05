@@ -75,11 +75,13 @@ function toPost(r: any, fallbackCategory?: { name: string; slug: string }): Home
 
 export const getHomepage = createServerFn({ method: "GET" }).handler(async (): Promise<HomePayload> => {
   const sectionSlugs = SECTION_DEFS.map((s) => s.slug);
+  const t0 = Date.now();
   const { data: rpc, error } = await (supabaseAnon as any).rpc("get_homepage_data", {
     p_section_slugs: sectionSlugs,
     p_crisis_slug: "crisis-pr",
     p_economy_slug: "corporate-pr",
   });
+  console.log(`[homepage] rpc=${Date.now() - t0}ms`);
 
   if (error) {
     console.error("get_homepage_data failed:", error);
@@ -141,14 +143,14 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async (): P
     href: normalizeFooterUrl(i.url ?? "/"),
   }));
 
-  if (process.env.INDEXING_ENABLED === "true") {
-    try {
-      setResponseHeader(
-        "Cache-Control",
-        "public, max-age=30, s-maxage=60, stale-while-revalidate=300",
-      );
-    } catch {}
-  }
+  try {
+    setResponseHeader(
+      "Cache-Control",
+      process.env.INDEXING_ENABLED === "true"
+        ? "public, max-age=30, s-maxage=60, stale-while-revalidate=300"
+        : "private, max-age=0, must-revalidate",
+    );
+  } catch {}
 
   return {
     ticker,

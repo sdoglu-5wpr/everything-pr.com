@@ -78,9 +78,11 @@ export const getArticleBySlug = createServerFn({ method: "GET" })
     return { slug: input.slug.replace(/^\/|\/$/g, "") };
   })
   .handler(async ({ data }): Promise<ArticlePayload | null> => {
+    const t0 = Date.now();
     const { data: rpc, error } = await (supabaseAnon as any).rpc("get_article_full", {
       slug_param: data.slug,
     });
+    console.log(`[article] ${data.slug} rpc=${Date.now() - t0}ms`);
     if (error) {
       console.error("get_article_full failed:", error);
       return null;
@@ -126,15 +128,14 @@ export const getArticleBySlug = createServerFn({ method: "GET" })
       seo: rewrittenSeo,
     };
 
-    // Edge cache (only when indexing enabled / production)
-    if (process.env.INDEXING_ENABLED === "true") {
-      try {
-        setResponseHeader(
-          "Cache-Control",
-          "public, max-age=60, s-maxage=300, stale-while-revalidate=600",
-        );
-      } catch {}
-    }
+    try {
+      setResponseHeader(
+        "Cache-Control",
+        process.env.INDEXING_ENABLED === "true"
+          ? "public, max-age=60, s-maxage=300, stale-while-revalidate=600"
+          : "private, max-age=0, must-revalidate",
+      );
+    } catch {}
 
     return {
       article,
