@@ -2,27 +2,16 @@ import { createFileRoute, Link, Outlet, redirect, useNavigate, useRouterState } 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
-import { getMyRoles } from "@/server/admin-shell.functions";
 
-type MeInfo = Awaited<ReturnType<typeof getMyRoles>>;
+const STAFF_ROLES = ["admin", "editor", "author"] as const;
+
+type Me = { userId: string; email: string | null; roles: string[]; isStaff: boolean };
 
 export const Route = createFileRoute("/admin/_protected")({
-  // Client-side gate: ensure we have a session before calling getMyRoles
-  // (which requires a bearer token).
   beforeLoad: async () => {
     if (typeof window === "undefined") return;
     const { data } = await supabase.auth.getSession();
-    if (!data.session) {
-      throw redirect({ to: "/admin/login" });
-    }
-  },
-  loader: async () => {
-    try {
-      const me = await getMyRoles();
-      return { me, accessError: null as string | null };
-    } catch (e: any) {
-      return { me: null as MeInfo | null, accessError: e?.message ?? String(e) };
-    }
+    if (!data.session) throw redirect({ to: "/admin/login" });
   },
   component: AdminLayout,
 });
@@ -44,15 +33,45 @@ const NAV: Array<{ label: string; to: string }> = [
 ];
 
 function AdminLayout() {
-  const { me, accessError } = Route.useLoaderData();
   const navigate = useNavigate();
   const pathname = useRouterState({ select: s => s.location.pathname });
+  const [me, setMe] = useState<Me | null>(null);
+  const [accessError, setAccessError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const { data: sess } = await supabase.auth.getSession();
+        if (!sess.session) { navigate({ to: "/admin/login" }); return; }
+        const userId = sess.session.user.id;
+        const email = sess.session.user.email ?? null;
+        const { data: rows, error } = await supabase
+          .from("user_roles").select("role").eq("user_id", userId);
+        if (cancelled) return;
+        if (error) { setAccessError(error.message); return; }
+        const roles = (rows ?? []).map(r => r.role as string);
+        const isStaff = roles.some(r => (STAFF_ROLES as readonly string[]).includes(r));
+        setMe({ userId, email, roles, isStaff });
+      } catch (e: any) {
+        if (!cancelled) setAccessError(e?.message ?? String(e));
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [navigate]);
 
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) toast.error(`Logout failed: ${error.message}`);
     navigate({ to: "/admin/login" });
   };
+
+  if (loading) {
+    return <main className="p-8 text-sm text-muted-foreground">Loading…</main>;
+  }
 
   if (accessError || !me) {
     return (
@@ -105,10 +124,7 @@ function AdminLayout() {
           <div className="flex items-center gap-3 text-sm">
             <span className="text-foreground">{me.email ?? me.userId}</span>
             <span className="text-xs text-muted-foreground">[{me.roles.join(", ")}]</span>
-            <button
-              onClick={logout}
-              className="rounded border px-3 py-1.5 hover:bg-muted"
-            >
+            <button onClick={logout} className="rounded border px-3 py-1.5 hover:bg-muted">
               Logout
             </button>
           </div>
