@@ -589,12 +589,18 @@ async function importInternalLinks() {
       anchor_text: l.anchor ?? null,
     });
     if (buf.length >= BATCH) {
-      const { error } = await sb.from("internal_links").insert(buf);
+      const dedup = dedupeBy("internal_links:src+url+anchor", buf, r => `${r.source_post_id}|${r.target_url}|${r.anchor_text ?? ""}`);
+      const { error } = await sb.from("internal_links").insert(dedup);
       if (error) throw error;
-      total += buf.length; buf = [];
+      total += dedup.length; buf = [];
     }
   }
-  if (buf.length) { const { error } = await sb.from("internal_links").insert(buf); if (error) throw error; total += buf.length; }
+  if (buf.length) {
+    const dedup = dedupeBy("internal_links:src+url+anchor (final)", buf, r => `${r.source_post_id}|${r.target_url}|${r.anchor_text ?? ""}`);
+    const { error } = await sb.from("internal_links").insert(dedup);
+    if (error) throw error;
+    total += dedup.length;
+  }
   log(`inserted ${total} (skipped ${skippedSource} w/ missing source, nulled ${nulledTarget} dangling targets)`);
 }
 
