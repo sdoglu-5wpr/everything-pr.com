@@ -37,14 +37,28 @@ function ImportPage() {
   const [busy, setBusy] = useState(false);
   const tickingRef = useRef(false);
 
-  // Load latest job on mount so we can resume after a page reload
+  // Load latest job on mount so we can resume after a page reload.
+  // Wait for the Supabase session before calling — otherwise the
+  // server-fn fetch fires before our auth interceptor is ready and the
+  // 401 surfaces as an unhandled "[object Response]" runtime error.
   useEffect(() => {
+    let cancelled = false;
     (async () => {
       try {
+        const { supabase } = await import("@/integrations/supabase/client");
+        const { data } = await supabase.auth.getSession();
+        if (!data.session) return;
+        // tiny delay so the fetch interceptor in __root has installed
+        await new Promise((r) => setTimeout(r, 50));
+        if (cancelled) return;
         const r = await getLatestImportJob();
+        if (cancelled) return;
         if (r.ok && r.job) setJob(r.job as unknown as Job);
-      } catch (e) { console.error("load latest job failed", e); }
+      } catch (e) {
+        console.error("load latest job failed", e);
+      }
     })();
+    return () => { cancelled = true; };
   }, []);
 
   // Auto-tick loop when running
