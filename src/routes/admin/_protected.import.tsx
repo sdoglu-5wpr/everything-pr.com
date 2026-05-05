@@ -6,6 +6,8 @@ import {
   tickImportJob,
   getImportJob,
   cancelImportJob,
+  getLatestImportJob,
+  resumeImportJob,
 } from "@/serverFns/wp-import.functions";
 
 export const Route = createFileRoute("/admin/_protected/import")({
