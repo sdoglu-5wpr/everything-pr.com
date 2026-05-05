@@ -49,6 +49,7 @@ function buildHeader(input: ArchiveInput, term: any, total: number): ArchiveHead
         avatar_url: rewriteLegacyUrl(term?.avatar_url ?? "") || null,
         bio: term?.bio ?? null,
         website: term?.website ?? null,
+        email: term?.email ?? null,
         social: term?.social ?? null,
       },
     };
