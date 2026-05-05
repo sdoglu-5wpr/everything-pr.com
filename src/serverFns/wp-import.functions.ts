@@ -155,7 +155,8 @@ export const tickImportJob = createServerFn({ method: "POST" })
 
     try {
       if (phase === "authors") {
-        const { data: items, total, totalPages } = await wpFetch(`/users?per_page=${job.per_page}&page=${page}&context=edit`);
+        // Only import users with the "author" role — skip subscribers/spammers.
+        const { data: items, total, totalPages } = await wpFetch(`/users?per_page=${job.per_page}&page=${page}&context=edit&roles=author`);
         setTotal("authors", total);
         const ids = (items as any[]).map((x) => x.id);
         const { data: existing } = await supabaseAdmin.from("authors").select("id").in("id", ids);
