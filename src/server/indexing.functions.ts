@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
-import { setResponseHeaders } from "@tanstack/react-start/server";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
+
+export const NOINDEX_HEADER = "noindex, nofollow, noarchive, nosnippet, noimageindex";
 
 export type IndexingState = {
   enabled: boolean;
@@ -8,16 +9,11 @@ export type IndexingState = {
   source: "env" | "db" | "default";
 };
 
-/**
- * Resolve indexing state. Env var (EPR_INDEXING_ENABLED) wins over DB
- * (site_settings.indexing_enabled). Also sets the X-Robots-Tag response
- * header so indexing is enforced even before the HTML <meta> renders.
- */
-export const getIndexingState = createServerFn({ method: "GET" }).handler(
-  async (): Promise<IndexingState> => {
+/** Resolve indexing state. Env var (EPR_INDEXING_ENABLED) wins over DB. */
+export async function resolveIndexingState(): Promise<IndexingState> {
     let state: IndexingState = { enabled: true, reason: null, source: "default" };
 
-    const env = process.env.EPR_INDEXING_ENABLED;
+    const env = process.env.EPR_INDEXING_ENABLED?.trim().toLowerCase();
     if (env !== undefined && env !== "") {
       state = {
         enabled: env === "true" || env === "1",
@@ -44,15 +40,7 @@ export const getIndexingState = createServerFn({ method: "GET" }).handler(
       }
     }
 
-    if (!state.enabled) {
-      try {
-        setResponseHeaders(
-          new Headers({ "X-Robots-Tag": "noindex, nofollow" })
-        );
-      } catch {
-        // setResponseHeaders only works inside a request — ignore otherwise.
-      }
-    }
     return state;
   }
-);
+
+export const getIndexingState = createServerFn({ method: "GET" }).handler(resolveIndexingState);
