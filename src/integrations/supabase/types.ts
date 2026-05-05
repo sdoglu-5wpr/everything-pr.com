@@ -14,16 +14,627 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      authors: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          created_at: string
+          display_name: string
+          email: string | null
+          id: number
+          post_count: number
+          slug: string
+          social: Json
+          updated_at: string
+          user_id: string | null
+          website: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name: string
+          email?: string | null
+          id: number
+          post_count?: number
+          slug: string
+          social?: Json
+          updated_at?: string
+          user_id?: string | null
+          website?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          created_at?: string
+          display_name?: string
+          email?: string | null
+          id?: number
+          post_count?: number
+          slug?: string
+          social?: Json
+          updated_at?: string
+          user_id?: string | null
+          website?: string | null
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          name: string
+          parent_id: number | null
+          post_count: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id: number
+          name: string
+          parent_id?: number | null
+          post_count?: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string
+          parent_id?: number | null
+          post_count?: number
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "categories_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      internal_links: {
+        Row: {
+          anchor_text: string | null
+          created_at: string
+          id: number
+          source_post_id: number
+          target_post_id: number | null
+          target_url: string
+        }
+        Insert: {
+          anchor_text?: string | null
+          created_at?: string
+          id?: never
+          source_post_id: number
+          target_post_id?: number | null
+          target_url: string
+        }
+        Update: {
+          anchor_text?: string | null
+          created_at?: string
+          id?: never
+          source_post_id?: number
+          target_post_id?: number | null
+          target_url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "internal_links_source_post_id_fkey"
+            columns: ["source_post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "internal_links_target_post_id_fkey"
+            columns: ["target_post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      media: {
+        Row: {
+          alt_text: string | null
+          caption: string | null
+          created_at: string
+          filename: string | null
+          filesize: number | null
+          height: number | null
+          id: number
+          mime_type: string | null
+          storage_path: string | null
+          title: string | null
+          updated_at: string
+          uploaded_at: string | null
+          url: string
+          width: number | null
+        }
+        Insert: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string
+          filename?: string | null
+          filesize?: number | null
+          height?: number | null
+          id: number
+          mime_type?: string | null
+          storage_path?: string | null
+          title?: string | null
+          updated_at?: string
+          uploaded_at?: string | null
+          url: string
+          width?: number | null
+        }
+        Update: {
+          alt_text?: string | null
+          caption?: string | null
+          created_at?: string
+          filename?: string | null
+          filesize?: number | null
+          height?: number | null
+          id?: number
+          mime_type?: string | null
+          storage_path?: string | null
+          title?: string | null
+          updated_at?: string
+          uploaded_at?: string | null
+          url?: string
+          width?: number | null
+        }
+        Relationships: []
+      }
+      menu_items: {
+        Row: {
+          created_at: string
+          id: number
+          label: string
+          menu_id: number
+          object_id: number | null
+          object_type: string | null
+          parent_id: number | null
+          position: number
+          rel: string | null
+          target: string | null
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          created_at?: string
+          id: number
+          label: string
+          menu_id: number
+          object_id?: number | null
+          object_type?: string | null
+          parent_id?: number | null
+          position?: number
+          rel?: string | null
+          target?: string | null
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          label?: string
+          menu_id?: number
+          object_id?: number | null
+          object_type?: string | null
+          parent_id?: number | null
+          position?: number
+          rel?: string | null
+          target?: string | null
+          updated_at?: string
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "menu_items_menu_id_fkey"
+            columns: ["menu_id"]
+            isOneToOne: false
+            referencedRelation: "menus"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "menu_items_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "menu_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      menus: {
+        Row: {
+          created_at: string
+          id: number
+          location: string | null
+          name: string
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id: number
+          location?: string | null
+          name: string
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          location?: string | null
+          name?: string
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      post_categories: {
+        Row: {
+          category_id: number
+          post_id: number
+        }
+        Insert: {
+          category_id: number
+          post_id: number
+        }
+        Update: {
+          category_id?: number
+          post_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_categories_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_categories_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      post_tags: {
+        Row: {
+          post_id: number
+          tag_id: number
+        }
+        Insert: {
+          post_id: number
+          tag_id: number
+        }
+        Update: {
+          post_id?: number
+          tag_id?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "post_tags_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "post_tags_tag_id_fkey"
+            columns: ["tag_id"]
+            isOneToOne: false
+            referencedRelation: "tags"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      posts: {
+        Row: {
+          author_id: number | null
+          comment_status: string
+          content_html: string
+          content_text: string | null
+          created_at: string
+          excerpt: string | null
+          featured_media_id: number | null
+          id: number
+          menu_order: number
+          modified_at: string | null
+          parent_id: number | null
+          password: string | null
+          published_at: string | null
+          search_vector: unknown
+          slug: string
+          status: Database["public"]["Enums"]["post_status"]
+          title: string
+          type: Database["public"]["Enums"]["content_type"]
+          updated_at: string
+        }
+        Insert: {
+          author_id?: number | null
+          comment_status?: string
+          content_html?: string
+          content_text?: string | null
+          created_at?: string
+          excerpt?: string | null
+          featured_media_id?: number | null
+          id: number
+          menu_order?: number
+          modified_at?: string | null
+          parent_id?: number | null
+          password?: string | null
+          published_at?: string | null
+          search_vector?: unknown
+          slug: string
+          status?: Database["public"]["Enums"]["post_status"]
+          title: string
+          type?: Database["public"]["Enums"]["content_type"]
+          updated_at?: string
+        }
+        Update: {
+          author_id?: number | null
+          comment_status?: string
+          content_html?: string
+          content_text?: string | null
+          created_at?: string
+          excerpt?: string | null
+          featured_media_id?: number | null
+          id?: number
+          menu_order?: number
+          modified_at?: string | null
+          parent_id?: number | null
+          password?: string | null
+          published_at?: string | null
+          search_vector?: unknown
+          slug?: string
+          status?: Database["public"]["Enums"]["post_status"]
+          title?: string
+          type?: Database["public"]["Enums"]["content_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "posts_author_id_fkey"
+            columns: ["author_id"]
+            isOneToOne: false
+            referencedRelation: "authors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_featured_media_id_fkey"
+            columns: ["featured_media_id"]
+            isOneToOne: false
+            referencedRelation: "media"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "posts_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      redirects: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          hits: number
+          id: number
+          is_regex: boolean
+          last_hit_at: string | null
+          notes: string | null
+          source_path: string
+          status_code: number
+          target_path: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          hits?: number
+          id?: never
+          is_regex?: boolean
+          last_hit_at?: string | null
+          notes?: string | null
+          source_path: string
+          status_code?: number
+          target_path: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          hits?: number
+          id?: never
+          is_regex?: boolean
+          last_hit_at?: string | null
+          notes?: string | null
+          source_path?: string
+          status_code?: number
+          target_path?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      seo_meta: {
+        Row: {
+          breadcrumbs: Json | null
+          canonical_url: string | null
+          created_at: string
+          description: string | null
+          id: number
+          object_id: number | null
+          object_type: string
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
+          og_type: string | null
+          raw: Json | null
+          robots: string | null
+          schema_jsonld: Json | null
+          title: string | null
+          twitter_card: string | null
+          twitter_description: string | null
+          twitter_image: string | null
+          twitter_title: string | null
+          updated_at: string
+          url_path: string
+        }
+        Insert: {
+          breadcrumbs?: Json | null
+          canonical_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: never
+          object_id?: number | null
+          object_type: string
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          og_type?: string | null
+          raw?: Json | null
+          robots?: string | null
+          schema_jsonld?: Json | null
+          title?: string | null
+          twitter_card?: string | null
+          twitter_description?: string | null
+          twitter_image?: string | null
+          twitter_title?: string | null
+          updated_at?: string
+          url_path: string
+        }
+        Update: {
+          breadcrumbs?: Json | null
+          canonical_url?: string | null
+          created_at?: string
+          description?: string | null
+          id?: never
+          object_id?: number | null
+          object_type?: string
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
+          og_type?: string | null
+          raw?: Json | null
+          robots?: string | null
+          schema_jsonld?: Json | null
+          title?: string | null
+          twitter_card?: string | null
+          twitter_description?: string | null
+          twitter_image?: string | null
+          twitter_title?: string | null
+          updated_at?: string
+          url_path?: string
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
+      tags: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: number
+          name: string
+          post_count: number
+          slug: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id: number
+          name: string
+          post_count?: number
+          slug: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: number
+          name?: string
+          post_count?: number
+          slug?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "editor" | "author"
+      content_type: "post" | "page"
+      post_status:
+        | "publish"
+        | "draft"
+        | "pending"
+        | "private"
+        | "future"
+        | "trash"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +761,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "editor", "author"],
+      content_type: ["post", "page"],
+      post_status: [
+        "publish",
+        "draft",
+        "pending",
+        "private",
+        "future",
+        "trash",
+      ],
+    },
   },
 } as const
