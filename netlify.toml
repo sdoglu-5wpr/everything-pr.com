@@ -1,0 +1,42 @@
+[build]
+  command = "npm run build"
+  publish = "dist/client"
+
+[build.environment]
+  NODE_VERSION = "22.12.0"
+
+# Image proxy to legacy WordPress (Phase 1 per § 3.2)
+[[redirects]]
+  from = "/wp-content/uploads/*"
+  to = "https://sareld.wpengine.com/wp-content/uploads/:splat"
+  status = 200
+  force = true
+
+# Legacy URL redirects
+[[redirects]]
+  from = "/research"
+  to = "/category/research/"
+  status = 301
+[[redirects]]
+  from = "/rfp"
+  to = "/category/rfp/"
+  status = 301
+
+# SPA fallback only for routes the static build didn't pre-render
+# (must come AFTER specific redirects above)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Cache headers for static assets
+[[headers]]
+  for = "/wp-content/uploads/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=60, stale-while-revalidate=86400"
+    X-Robots-Tag = "noindex, nofollow, noarchive, nosnippet, noimageindex"
