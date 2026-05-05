@@ -59,13 +59,11 @@ async function listTopLevel(dir) {
 }
 
 async function collectPrerenderPages() {
-  const { collectUrls } = await import(pathToFileURL(join(ROOT, "src/prerender.ts")).toString());
-  const result = await collectUrls();
-  if (!result.pages?.length) {
-    throw new Error("URL collection returned 0 pages; refusing to run prerender pass");
-  }
-  await writeFile(PRERENDER_DATA, JSON.stringify({ pages: result.pages }, null, 2), "utf8");
-  console.log(`[build] Collected ${result.pages.length} URLs for prerender`);
+  // Use tsx to execute the TS entry — Node's plain ESM loader cannot import
+  // .ts files directly, but tsx registers a TS loader on demand.
+  await run("npx", ["tsx", "scripts/collect-prerender.ts"], {
+    NODE_ENV: "production",
+  });
 }
 
 async function main() {
