@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
-import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyHtml, rewriteLegacyUrl } from "@/lib/legacy-urls";
+import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyHtml, rewriteLegacyUrl, stripFirstImage } from "@/lib/legacy-urls";
 
 export type ArticleAuthor = {
   id: number;
