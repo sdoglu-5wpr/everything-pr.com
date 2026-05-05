@@ -130,6 +130,14 @@ function ArticlePage() {
   const primaryCategory = article.categories[0];
   const minutes = readingTime(article.content_html);
 
+  if (article.type === "page" && article.slug === "contact") {
+    return (
+      <SiteLayout>
+        <ContactPage />
+      </SiteLayout>
+    );
+  }
+
   return (
     <SiteLayout>
       {/* Breadcrumb */}
