@@ -29,6 +29,7 @@ import { Route as ApiContactRouteImport } from './routes/api/contact'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminProtectedRouteImport } from './routes/admin/_protected'
 import { Route as AdminProtectedIndexRouteImport } from './routes/admin/_protected.index'
+import { Route as AdminProtectedPostsRouteImport } from './routes/admin/_protected.posts'
 import { Route as TagSlugPagePageRouteImport } from './routes/tag.$slug.page.$page'
 import { Route as CategorySlugPagePageRouteImport } from './routes/category.$slug.page.$page'
 import { Route as AuthorSlugPagePageRouteImport } from './routes/author.$slug.page.$page'
@@ -133,6 +134,11 @@ const AdminProtectedIndexRoute = AdminProtectedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AdminProtectedRoute,
 } as any)
+const AdminProtectedPostsRoute = AdminProtectedPostsRouteImport.update({
+  id: '/posts',
+  path: '/posts',
+  getParentRoute: () => AdminProtectedRoute,
+} as any)
 const TagSlugPagePageRoute = TagSlugPagePageRouteImport.update({
   id: '/page/$page',
   path: '/page/$page',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/posts': typeof AdminProtectedPostsRoute
   '/admin/': typeof AdminProtectedIndexRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
@@ -193,6 +200,7 @@ export interface FileRoutesByTo {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/posts': typeof AdminProtectedPostsRoute
   '/admin': typeof AdminProtectedIndexRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
@@ -219,6 +227,7 @@ export interface FileRoutesById {
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
+  '/admin/_protected/posts': typeof AdminProtectedPostsRoute
   '/admin/_protected/': typeof AdminProtectedIndexRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
@@ -246,6 +255,7 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/posts'
     | '/admin/'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
@@ -270,6 +280,7 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/posts'
     | '/admin'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
@@ -295,6 +306,7 @@ export interface FileRouteTypes {
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
+    | '/admin/_protected/posts'
     | '/admin/_protected/'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
@@ -465,6 +477,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProtectedIndexRouteImport
       parentRoute: typeof AdminProtectedRoute
     }
+    '/admin/_protected/posts': {
+      id: '/admin/_protected/posts'
+      path: '/posts'
+      fullPath: '/admin/posts'
+      preLoaderRoute: typeof AdminProtectedPostsRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
     '/tag/$slug/page/$page': {
       id: '/tag/$slug/page/$page'
       path: '/page/$page'
@@ -490,10 +509,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminProtectedRouteChildren {
+  AdminProtectedPostsRoute: typeof AdminProtectedPostsRoute
   AdminProtectedIndexRoute: typeof AdminProtectedIndexRoute
 }
 
 const AdminProtectedRouteChildren: AdminProtectedRouteChildren = {
+  AdminProtectedPostsRoute: AdminProtectedPostsRoute,
   AdminProtectedIndexRoute: AdminProtectedIndexRoute,
 }
 

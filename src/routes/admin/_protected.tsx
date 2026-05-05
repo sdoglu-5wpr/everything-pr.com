@@ -18,7 +18,7 @@ export const Route = createFileRoute("/admin/_protected")({
 
 const NAV: Array<{ label: string; to: string }> = [
   { label: "Dashboard", to: "/admin" },
-  { label: "Posts", to: "/admin" },
+  { label: "Posts", to: "/admin/posts" },
   { label: "Pages", to: "/admin" },
   { label: "Media", to: "/admin" },
   { label: "Categories", to: "/admin" },

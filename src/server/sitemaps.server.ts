@@ -1,4 +1,5 @@
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
+import { rewriteLegacyHtml, rewriteLegacyUrl } from "@/lib/legacy-urls";
 import { SITE_URL, SITEMAP_PAGE_SIZE } from "./seo.constants";
 
 const XML_HEADER = `<?xml version="1.0" encoding="UTF-8"?>`;
@@ -73,7 +74,7 @@ export async function buildPostSitemap(page: number): Promise<string | null> {
     urlEntry(
       `${SITE_URL}/${p.slug}/`,
       p.modified_at ?? p.published_at,
-      p.featured_media_id ? (mediaMap.get(p.featured_media_id) ?? null) : null,
+      p.featured_media_id ? (rewriteLegacyUrl(mediaMap.get(p.featured_media_id) ?? "") || null) : null,
     ),
   );
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
@@ -162,7 +163,7 @@ export async function buildRssFeed(): Promise<string> {
         `      <dc:creator><![CDATA[${creator}]]></dc:creator>`,
         cats,
         `      <description><![CDATA[${p.excerpt ?? ""}]]></description>`,
-        `      <content:encoded><![CDATA[${p.content_html ?? ""}]]></content:encoded>`,
+        `      <content:encoded><![CDATA[${rewriteLegacyHtml(p.content_html ?? "")}]]></content:encoded>`,
         `    </item>`,
       ].filter(Boolean).join("\n");
     })
