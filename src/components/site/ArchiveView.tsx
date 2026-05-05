@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import type { ArchiveItem, ArchivePayload } from "@/server/archives.functions";
 import { SiteLayout } from "./SiteLayout";
+import { PostImage } from "./PostImage";
 
 function formatDate(iso: string | null | undefined) {
   if (!iso) return "";
@@ -19,16 +20,12 @@ export function ArticleListItem({ post }: { post: ArchiveItem }) {
         params={{ slug: post.slug }}
         className="col-span-12 sm:col-span-4 md:col-span-3 group"
       >
-        <div className="aspect-[4/3] overflow-hidden rounded-md bg-muted">
-          {post.featured_image_url ? (
-            <img
-              src={post.featured_image_url}
-              alt={post.title}
-              loading="lazy"
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-            />
-          ) : null}
-        </div>
+        <PostImage
+          src={post.featured_image_url}
+          alt={post.title}
+          className="aspect-[4/3] overflow-hidden rounded-md bg-muted"
+          imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform"
+        />
       </Link>
       <div className="col-span-12 sm:col-span-8 md:col-span-9 min-w-0">
         {post.category ? (

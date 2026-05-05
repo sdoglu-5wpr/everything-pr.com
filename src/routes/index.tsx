@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
+import { PostImage } from "@/components/site/PostImage";
 import { getHomepage, type HomePost, type HomeAuthor, type HomePayload } from "@/server/homepage.functions";
 import { buildHomepageHead } from "@/server/seo.head";
 
@@ -69,16 +70,13 @@ function Hero({ hero, topStories }: { hero: HomePost | null; topStories: HomePos
     <section className="grid grid-cols-1 lg:grid-cols-12 gap-10">
       <div className="lg:col-span-8">
         <Link to="/$slug" params={{ slug: hero.slug }} className="block group">
-          <div className="aspect-[16/9] w-full overflow-hidden rounded-lg bg-muted">
-            {hero.featured_image_url ? (
-              <img
-                src={hero.featured_image_url}
-                alt={hero.title}
-                className="h-full w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
-                loading="eager"
-              />
-            ) : null}
-          </div>
+          <PostImage
+            src={hero.featured_image_url}
+            alt={hero.title}
+            className="aspect-[16/9] w-full overflow-hidden rounded-lg bg-muted"
+            imgClassName="h-full w-full object-cover group-hover:scale-[1.02] transition-transform duration-500"
+            loading="eager"
+          />
           {hero.category ? (
             <span className="inline-flex mt-5 px-3 py-1 text-[11px] font-bold uppercase tracking-wider bg-brand-red text-white rounded-sm">
               {hero.category.name}
@@ -128,16 +126,11 @@ function TopStoryItem({ post }: { post: HomePost }) {
           {formatDate(post.published_at)}
         </p>
       </div>
-      <div className="w-24 h-24 shrink-0 overflow-hidden rounded bg-muted">
-        {post.featured_image_url ? (
-          <img
-            src={post.featured_image_url}
-            alt={post.title}
-            className="w-full h-full object-cover"
-            loading="lazy"
-          />
-        ) : null}
-      </div>
+      <PostImage
+        src={post.featured_image_url}
+        alt={post.title}
+        className="w-24 h-24 shrink-0 overflow-hidden rounded bg-muted"
+      />
     </Link>
   );
 }
@@ -232,16 +225,12 @@ function ViewAllLink({ categorySlug, invert = false }: { categorySlug: string; i
 function ArticleCard({ post, invert = false }: { post: HomePost; invert?: boolean }) {
   return (
     <Link to="/$slug" params={{ slug: post.slug }} className="group block">
-      <div className="aspect-[16/10] w-full overflow-hidden rounded-md bg-muted">
-        {post.featured_image_url ? (
-          <img
-            src={post.featured_image_url}
-            alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
-            loading="lazy"
-          />
-        ) : null}
-      </div>
+      <PostImage
+        src={post.featured_image_url}
+        alt={post.title}
+        className="aspect-[16/10] w-full overflow-hidden rounded-md bg-muted"
+        imgClassName="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500"
+      />
       {post.category ? (
         <p
           className={`mt-3 text-[10px] uppercase tracking-wider font-semibold ${
@@ -304,16 +293,11 @@ function DarkFeatureSection({
                 params={{ slug: p.slug }}
                 className="group flex gap-4"
               >
-                <div className="w-32 h-24 shrink-0 overflow-hidden rounded bg-white/10">
-                  {p.featured_image_url ? (
-                    <img
-                      src={p.featured_image_url}
-                      alt={p.title}
-                      className="w-full h-full object-cover"
-                      loading="lazy"
-                    />
-                  ) : null}
-                </div>
+                <PostImage
+                  src={p.featured_image_url}
+                  alt={p.title}
+                  className="w-32 h-24 shrink-0 overflow-hidden rounded bg-muted"
+                />
                 <div className="flex-1 min-w-0">
                   {p.category ? (
                     <p className="text-[10px] uppercase tracking-wider font-semibold text-brand-red">
@@ -390,16 +374,11 @@ function EconomyFeature({ post }: { post: HomePost }) {
   return (
     <section className="mx-auto max-w-7xl px-6 mt-16">
       <article className="rounded-2xl bg-surface-soft border overflow-hidden grid grid-cols-1 md:grid-cols-2">
-        <div className="aspect-[4/3] md:aspect-auto bg-muted">
-          {post.featured_image_url ? (
-            <img
-              src={post.featured_image_url}
-              alt={post.title}
-              className="w-full h-full object-cover"
-              loading="lazy"
-            />
-          ) : null}
-        </div>
+        <PostImage
+          src={post.featured_image_url}
+          alt={post.title}
+          className="aspect-[4/3] md:aspect-auto bg-muted"
+        />
         <div className="p-8 md:p-12 flex flex-col justify-center">
           {post.category ? (
             <p className="text-[10px] uppercase tracking-wider font-semibold text-brand-red">

@@ -4,6 +4,7 @@ import { getArticleBySlug, type RelatedPost, type ArticlePayload, type ArticleAu
 import { lookupRedirect } from "@/server/redirects.functions";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
+import { PostImage } from "@/components/site/PostImage";
 import { ContactPage } from "@/components/site/ContactPage";
 
 export const Route = createFileRoute("/$slug")({
@@ -348,16 +349,12 @@ function SidebarHeader({ title }: { title: string }) {
 function SidebarItem({ post }: { post: RelatedPost }) {
   return (
     <Link to="/$slug" params={{ slug: post.slug }} className="group flex gap-3">
-      <div className="w-24 h-20 shrink-0 overflow-hidden rounded-md bg-muted">
-        {post.featured_image_url ? (
-          <img
-            src={post.featured_image_url}
-            alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-            loading="lazy"
-          />
-        ) : null}
-      </div>
+      <PostImage
+        src={post.featured_image_url}
+        alt={post.title}
+        className="w-24 h-20 shrink-0 overflow-hidden rounded-md bg-muted"
+        imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform"
+      />
       <div className="min-w-0 flex-1">
         <div className="text-[11px] uppercase tracking-wider text-muted-foreground mb-1">
           {post.category_name ?? "News"} · {formatDate(post.published_at, { month: "short", day: "numeric", year: "numeric" })}
@@ -373,16 +370,12 @@ function SidebarItem({ post }: { post: RelatedPost }) {
 function OtherCard({ post }: { post: RelatedPost }) {
   return (
     <Link to="/$slug" params={{ slug: post.slug }} className="group block">
-      <div className="aspect-[16/10] overflow-hidden rounded-lg bg-muted">
-        {post.featured_image_url ? (
-          <img
-            src={post.featured_image_url}
-            alt={post.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            loading="lazy"
-          />
-        ) : null}
-      </div>
+      <PostImage
+        src={post.featured_image_url}
+        alt={post.title}
+        className="aspect-[16/10] overflow-hidden rounded-lg bg-muted"
+        imgClassName="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+      />
       <div className="mt-3 text-xs text-muted-foreground">
         <span className="font-medium text-foreground">{post.author_name ?? "Editorial Team"}</span>
         {" · "}
