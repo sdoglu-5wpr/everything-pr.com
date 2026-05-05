@@ -236,20 +236,35 @@ function ArticlePage() {
           </p>
         ) : null}
         <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
-          {article.author?.avatar_url ? (
-            <img
-              src={article.author.avatar_url}
-              alt={article.author.display_name}
-              className="w-9 h-9 rounded-full object-cover"
-            />
+          {article.author?.slug ? (
+            <Link
+              to="/author/$slug"
+              params={{ slug: article.author.slug }}
+              className="flex items-center gap-3 group"
+            >
+              {article.author.avatar_url ? (
+                <img
+                  src={article.author.avatar_url}
+                  alt={article.author.display_name}
+                  className="w-9 h-9 rounded-full object-cover ring-2 ring-transparent group-hover:ring-[color:var(--brand-blue)]/30 transition"
+                />
+              ) : (
+                <span className="w-9 h-9 rounded-full bg-muted inline-flex items-center justify-center text-xs font-semibold text-foreground">
+                  {(article.author.display_name ?? "EP").slice(0, 2).toUpperCase()}
+                </span>
+              )}
+              <span className="font-semibold text-foreground group-hover:text-[color:var(--brand-blue)] transition-colors">
+                By {article.author.display_name}
+              </span>
+            </Link>
           ) : (
-            <span className="w-9 h-9 rounded-full bg-muted inline-flex items-center justify-center text-xs font-semibold text-foreground">
-              {(article.author?.display_name ?? "EP").slice(0, 2).toUpperCase()}
-            </span>
+            <>
+              <span className="w-9 h-9 rounded-full bg-muted inline-flex items-center justify-center text-xs font-semibold text-foreground">
+                EP
+              </span>
+              <span className="font-semibold text-foreground">By Editorial Team</span>
+            </>
           )}
-          <span className="font-semibold text-foreground">
-            By {article.author?.display_name ?? "Editorial Team"}
-          </span>
           <span aria-hidden>·</span>
           <time dateTime={article.published_at ?? undefined}>
             {formatDate(article.published_at)}
