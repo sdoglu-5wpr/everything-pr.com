@@ -208,7 +208,7 @@ function ArticlePage() {
           <ChevronRight className="w-3 h-3" />
           {primaryCategory ? (
             <>
-              <Link to="/" className="hover:text-foreground">{primaryCategory.name}</Link>
+              <Link to="/$slug" params={{ slug: primaryCategory.slug }} className="hover:text-foreground">{primaryCategory.name}</Link>
               <ChevronRight className="w-3 h-3" />
             </>
           ) : null}
@@ -219,7 +219,8 @@ function ArticlePage() {
       <div className="mx-auto max-w-7xl px-6 pt-10 pb-4">
         {primaryCategory ? (
           <Link
-            to="/"
+            to="/$slug"
+            params={{ slug: primaryCategory.slug }}
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-ticker hover:text-brand-blue mb-4"
           >
             <span className="inline-block w-2 h-2 bg-ticker" aria-hidden />
@@ -292,7 +293,8 @@ function ArticlePage() {
               {categories.map(c => (
                 <Link
                   key={c.id}
-                  to="/"
+                  to="/$slug"
+                  params={{ slug: c.slug }}
                   className="text-xs font-medium px-2.5 py-1 rounded-full bg-surface-soft border hover:border-brand-blue hover:text-brand-blue transition-colors"
                 >
                   {c.name}
