@@ -2,10 +2,22 @@ import { createFileRoute, Link, notFound, redirect, useRouter } from "@tanstack/
 import { ChevronRight, ArrowRight, Clock, Share2, Twitter, Linkedin, Facebook, Link as LinkIcon } from "lucide-react";
 import { getArticleBySlug, type RelatedPost, type ArticlePayload, type ArticleAuthor } from "@/serverFns/articles.functions";
 import { lookupRedirect } from "@/serverFns/redirects.functions";
+import { fetchArticleViaRpc } from "@/lib/articles.shared";
+import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
 import { PostImage } from "@/components/site/PostImage";
 import { ContactPage } from "@/components/site/ContactPage";
+
+async function loadArticle(slug: string): Promise<ArticlePayload | null> {
+  // In the browser (e.g. Netlify static hosting where TanStack server functions
+  // are not deployed), call Supabase directly. On the server, use the typed
+  // server function so we get response-cache headers + loader cache.
+  if (typeof window !== "undefined") {
+    return fetchArticleViaRpc(supabase, slug);
+  }
+  return getArticleBySlug({ data: { slug } });
+}
 
 export const Route = createFileRoute("/$slug")({
   loader: async ({ params }) => {
@@ -13,7 +25,7 @@ export const Route = createFileRoute("/$slug")({
 
     // RLS on `posts` already filters status='publish' for anon, so a missing
     // row means either unpublished or genuinely absent.
-    const data = await getArticleBySlug({ data: { slug: params.slug } });
+    const data = await loadArticle(params.slug);
     if (data) return data;
 
     const r = await lookupRedirect({ data: { path: `/${params.slug}` } });
