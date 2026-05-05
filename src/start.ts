@@ -4,7 +4,7 @@ const NOINDEX_HEADER = "noindex, nofollow, noarchive, nosnippet, noimageindex";
 
 const robotsHeaderMiddleware = createMiddleware().server(async ({ next }) => {
   const result = await next();
-  const { resolveIndexingState } = await import("./server/indexing.functions");
+  const { resolveIndexingState } = await import("./server/indexing.server");
   const state = await resolveIndexingState();
 
   if (!state.enabled) {

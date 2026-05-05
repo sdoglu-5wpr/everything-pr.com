@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { resolveIndexingState } from "@/server/indexing.functions";
+import { resolveIndexingState } from "@/server/indexing.server";
 
 const ALLOW_ROBOTS = `User-agent: *
 Allow: /
