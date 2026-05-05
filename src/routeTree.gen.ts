@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as Sitemap_indexDotxmlRouteImport } from './routes/sitemap_index[.xml]'
 import { Route as SetupCoworkRouteImport } from './routes/setup-cowork'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.txt]'
 import { Route as SlugRouteImport } from './routes/$slug'
@@ -17,6 +18,11 @@ import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminProtectedRouteImport } from './routes/admin/_protected'
 import { Route as AdminProtectedIndexRouteImport } from './routes/admin/_protected.index'
 
+const Sitemap_indexDotxmlRoute = Sitemap_indexDotxmlRouteImport.update({
+  id: '/sitemap_index.xml',
+  path: '/sitemap_index.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SetupCoworkRoute = SetupCoworkRouteImport.update({
   id: '/setup-cowork',
   path: '/setup-cowork',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/$slug': typeof SlugRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/setup-cowork': typeof SetupCoworkRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/admin': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/': typeof AdminProtectedIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/$slug': typeof SlugRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/setup-cowork': typeof SetupCoworkRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin': typeof AdminProtectedIndexRoute
 }
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/$slug': typeof SlugRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/setup-cowork': typeof SetupCoworkRoute
+  '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/admin/_protected': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/admin/_protected/': typeof AdminProtectedIndexRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/$slug'
     | '/robots.txt'
     | '/setup-cowork'
+    | '/sitemap_index.xml'
     | '/admin'
     | '/admin/login'
     | '/admin/'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/$slug'
     | '/robots.txt'
     | '/setup-cowork'
+    | '/sitemap_index.xml'
     | '/admin/login'
     | '/admin'
   id:
@@ -104,6 +115,7 @@ export interface FileRouteTypes {
     | '/$slug'
     | '/robots.txt'
     | '/setup-cowork'
+    | '/sitemap_index.xml'
     | '/admin/_protected'
     | '/admin/login'
     | '/admin/_protected/'
@@ -114,12 +126,20 @@ export interface RootRouteChildren {
   SlugRoute: typeof SlugRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SetupCoworkRoute: typeof SetupCoworkRoute
+  Sitemap_indexDotxmlRoute: typeof Sitemap_indexDotxmlRoute
   AdminProtectedRoute: typeof AdminProtectedRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap_index.xml': {
+      id: '/sitemap_index.xml'
+      path: '/sitemap_index.xml'
+      fullPath: '/sitemap_index.xml'
+      preLoaderRoute: typeof Sitemap_indexDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/setup-cowork': {
       id: '/setup-cowork'
       path: '/setup-cowork'
@@ -189,6 +209,7 @@ const rootRouteChildren: RootRouteChildren = {
   SlugRoute: SlugRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SetupCoworkRoute: SetupCoworkRoute,
+  Sitemap_indexDotxmlRoute: Sitemap_indexDotxmlRoute,
   AdminProtectedRoute: AdminProtectedRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
 }

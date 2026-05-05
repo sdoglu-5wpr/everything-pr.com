@@ -7,6 +7,8 @@ import { NewsletterBanner } from "@/components/site/NewsletterBanner";
 
 export const Route = createFileRoute("/$slug")({
   loader: async ({ params }) => {
+    if (!params.slug || params.slug.includes(".")) throw notFound();
+
     // RLS on `posts` already filters status='publish' for anon, so a missing
     // row means either unpublished or genuinely absent.
     const data = await getArticleBySlug({ data: { slug: params.slug } });
