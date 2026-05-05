@@ -82,10 +82,33 @@ async function upsert<T extends Record<string, unknown>>(
 }
 
 async function truncate(tables: string[]) {
+  // Chunked delete avoids the default Postgres statement_timeout when a table
+  // has hundreds of thousands of rows (e.g. ~181K orphan media). PostgREST
+  // doesn't expose `SET LOCAL statement_timeout = 0`, so we page through ids.
+  const CHUNK = 5000;
   for (const t of tables) {
-    const { error } = await sb.from(t).delete().not("id", "is", null);
-    if (error && !/does not exist/i.test(error.message))
-      console.warn(`  truncate ${t}: ${error.message}`);
+    let total = 0;
+    if (t === "post_categories" || t === "post_tags") {
+      const { error } = await sb.from(t).delete().not("post_id", "is", null);
+      if (error && !/does not exist/i.test(error.message))
+        console.warn(`  truncate ${t}: ${error.message}`);
+      continue;
+    }
+    while (true) {
+      const { data, error: selErr } = await sb.from(t).select("id").limit(CHUNK);
+      if (selErr) {
+        if (!/does not exist/i.test(selErr.message))
+          console.warn(`  truncate ${t} (select): ${selErr.message}`);
+        break;
+      }
+      if (!data || data.length === 0) break;
+      const ids = (data as { id: number | string }[]).map(r => r.id);
+      const { error: delErr } = await sb.from(t).delete().in("id", ids);
+      if (delErr) { console.warn(`  truncate ${t} (delete): ${delErr.message}`); break; }
+      total += ids.length;
+      if (ids.length < CHUNK) break;
+    }
+    if (total) console.log(`  truncated ${t}: ${total} rows`);
   }
 }
 
