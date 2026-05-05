@@ -132,7 +132,7 @@ export const listAuthors = createServerFn({ method: "POST" })
     await ensureStaff(supabase, userId);
     const { data, error } = await supabase
       .from("authors")
-      .select("id, display_name, slug, email, bio, website, avatar_url, post_count")
+      .select("id, display_name, slug, email, bio, website, avatar_url, social, post_count")
       .order("display_name");
     if (error) throw new Error(error.message);
     return { items: data ?? [] };
@@ -146,6 +146,12 @@ const AuthorInput = z.object({
   bio: z.string().nullable().optional(),
   website: z.string().nullable().optional(),
   avatar_url: z.string().nullable().optional(),
+  social: z.object({
+    linkedin: z.string().nullable().optional(),
+    twitter: z.string().nullable().optional(),
+    facebook: z.string().nullable().optional(),
+    instagram: z.string().nullable().optional(),
+  }).optional().default({}),
 });
 
 export const saveAuthor = createServerFn({ method: "POST" })
@@ -155,10 +161,15 @@ export const saveAuthor = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     await ensureStaff(supabase, userId);
     const slug = slugify(data.slug || data.display_name);
+    const cleanSocial: Record<string, string> = {};
+    for (const [k, v] of Object.entries(data.social ?? {})) {
+      if (v && String(v).trim()) cleanSocial[k] = String(v).trim();
+    }
     const row = {
       display_name: data.display_name, slug,
       email: data.email ?? null, bio: data.bio ?? null,
       website: data.website ?? null, avatar_url: data.avatar_url ?? null,
+      social: cleanSocial,
     };
     if (data.id == null) {
       const id = await nextId(supabase, "authors");

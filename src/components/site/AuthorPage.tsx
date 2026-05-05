@@ -137,6 +137,7 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
   const bio = author.bio;
   const social = author.social || {};
   const website = author.website;
+  const email = author.email;
 
   const profiles: { icon: typeof Linkedin; label: string; sub: string; href: string }[] = [];
   if (social.linkedin) profiles.push({ icon: Linkedin, label: "LinkedIn", sub: handleFromUrl(social.linkedin, "/in/"), href: social.linkedin });
@@ -145,9 +146,11 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
   if (social.instagram) profiles.push({ icon: Instagram, label: "Instagram", sub: handleFromUrl(social.instagram, "@"), href: social.instagram });
   if (website) profiles.push({ icon: Globe, label: "Website", sub: hostname(website) || website, href: website });
 
+  const hasSidebar = profiles.length > 0 || !!email;
+
   return (
     <SiteLayout>
-      {/* Hero with overlapping profile card */}
+      {/* Hero with overlapping profile card — name only, no bio duplication */}
       <section className="relative bg-gradient-to-br from-[color:var(--ink)] via-[color:var(--ink)] to-[oklch(0.32_0.18_270)] text-white">
         <div className="mx-auto max-w-7xl px-6 pt-10 pb-32 md:pb-40">
           <nav className="text-xs text-white/60 mb-6 flex items-center gap-2">
@@ -157,14 +160,9 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
             <span>/</span>
             <span className="text-white uppercase tracking-wider">{display}</span>
           </nav>
-          <h1 className="font-serif text-5xl md:text-6xl font-bold tracking-tight mb-4">
+          <h1 className="font-serif text-5xl md:text-6xl font-bold tracking-tight">
             {display}
           </h1>
-          {bio ? (
-            <p className="text-white/80 max-w-3xl text-base md:text-lg leading-relaxed line-clamp-3">
-              {htmlToPlainText(bio)}
-            </p>
-          ) : null}
         </div>
         <div className="h-1 bg-[color:var(--brand-blue)]" />
       </section>
@@ -220,8 +218,8 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
       </section>
 
       {/* Bio + sidebar */}
-      <section className="mx-auto max-w-7xl px-6 grid grid-cols-1 lg:grid-cols-3 gap-8 pb-12">
-        <div className="lg:col-span-2">
+      <section className={`mx-auto max-w-7xl px-6 grid grid-cols-1 ${hasSidebar ? "lg:grid-cols-3" : ""} gap-8 pb-12`}>
+        <div className={hasSidebar ? "lg:col-span-2" : ""}>
           {bio ? (
             <div className="border-l-4 border-[color:var(--brand-blue)] pl-5">
               <h3 className="font-serif text-2xl font-bold mb-4">About {display.split(" ")[0]}</h3>
@@ -240,35 +238,37 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
             </div>
           )}
         </div>
-        <aside className="lg:col-span-1">
-          <div className="bg-white rounded-xl border border-black/5 shadow-card p-6">
-            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] border-b border-black/10 pb-3 mb-4">
-              <BadgeCheck className="h-4 w-4 text-[color:var(--brand-blue)]" />
-              <span>Verified Profiles</span>
-            </div>
-            {profiles.length > 0 ? (
-              <div className="space-y-2">
-                {profiles.map((p) => (
-                  <ProfileLink key={p.label} {...p} />
-                ))}
+        {hasSidebar ? (
+          <aside className="lg:col-span-1">
+            <div className="bg-white rounded-xl border border-black/5 shadow-card p-6">
+              <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] border-b border-black/10 pb-3 mb-4">
+                <BadgeCheck className="h-4 w-4 text-[color:var(--brand-blue)]" />
+                <span>Verified Profiles</span>
               </div>
-            ) : (
-              <p className="text-sm text-muted-foreground py-2">No public profiles linked.</p>
-            )}
-            <a
-              href="mailto:info@everything-pr.com"
-              className="flex items-center gap-3 p-3 mt-2 rounded-lg border border-black/5 hover:border-[color:var(--brand-blue)]/40 hover:bg-[color:var(--brand-blue)]/5 transition-colors"
-            >
-              <span className="bg-[color:var(--ink)] text-white p-2 rounded-md flex-shrink-0">
-                <Mail className="h-4 w-4" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block text-sm font-semibold text-foreground">Email</span>
-                <span className="block text-xs text-muted-foreground truncate">info@everything-pr.com</span>
-              </span>
-            </a>
-          </div>
-        </aside>
+              {profiles.length > 0 ? (
+                <div className="space-y-2">
+                  {profiles.map((p) => (
+                    <ProfileLink key={p.label} {...p} />
+                  ))}
+                </div>
+              ) : null}
+              {email ? (
+                <a
+                  href={`mailto:${email}`}
+                  className="flex items-center gap-3 p-3 mt-2 rounded-lg border border-black/5 hover:border-[color:var(--brand-blue)]/40 hover:bg-[color:var(--brand-blue)]/5 transition-colors"
+                >
+                  <span className="bg-[color:var(--ink)] text-white p-2 rounded-md flex-shrink-0">
+                    <Mail className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block text-sm font-semibold text-foreground">Email</span>
+                    <span className="block text-xs text-muted-foreground truncate">{email}</span>
+                  </span>
+                </a>
+              ) : null}
+            </div>
+          </aside>
+        ) : null}
       </section>
 
       {/* Latest articles */}
