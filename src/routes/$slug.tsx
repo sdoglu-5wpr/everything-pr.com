@@ -2,10 +2,36 @@ import { createFileRoute, Link, notFound, redirect, useRouter } from "@tanstack/
 import { ChevronRight, ArrowRight, Clock, Share2, Twitter, Linkedin, Facebook, Link as LinkIcon } from "lucide-react";
 import { getArticleBySlug, type RelatedPost, type ArticlePayload, type ArticleAuthor } from "@/serverFns/articles.functions";
 import { lookupRedirect } from "@/serverFns/redirects.functions";
+import { fetchArticleViaRpc } from "@/lib/articles.shared";
+import { supabase } from "@/integrations/supabase/client";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
 import { PostImage } from "@/components/site/PostImage";
 import { ContactPage } from "@/components/site/ContactPage";
+
+async function loadArticle(slug: string): Promise<ArticlePayload | null> {
+  // In the browser (e.g. Netlify static hosting where TanStack server functions
+  // are not deployed), call Supabase directly. On the server, use the typed
+  // server function so we get response-cache headers + loader cache.
+  if (typeof window !== "undefined") {
+    return fetchArticleViaRpc(supabase, slug);
+  }
+  return getArticleBySlug({ data: { slug } });
+}
+
+async function lookupRedirectInBrowser(path: string) {
+  const variants = [path];
+  if (path.endsWith("/")) variants.push(path.replace(/\/+$/, ""));
+  else variants.push(`${path}/`);
+  const { data } = await (supabase as any)
+    .from("redirects")
+    .select("source_path, target_path, status_code")
+    .in("source_path", variants)
+    .eq("enabled", true)
+    .limit(1)
+    .maybeSingle();
+  return data ? { target_path: data.target_path, status_code: data.status_code } : null;
+}
 
 export const Route = createFileRoute("/$slug")({
   loader: async ({ params }) => {
@@ -13,10 +39,12 @@ export const Route = createFileRoute("/$slug")({
 
     // RLS on `posts` already filters status='publish' for anon, so a missing
     // row means either unpublished or genuinely absent.
-    const data = await getArticleBySlug({ data: { slug: params.slug } });
+    const data = await loadArticle(params.slug);
     if (data) return data;
 
-    const r = await lookupRedirect({ data: { path: `/${params.slug}` } });
+    const r = typeof window !== "undefined"
+      ? await lookupRedirectInBrowser(`/${params.slug}`)
+      : await lookupRedirect({ data: { path: `/${params.slug}` } });
     if (r?.target_path) {
       throw redirect({ href: r.target_path, statusCode: (r.status_code ?? 301) as 301 | 302 });
     }
