@@ -60,11 +60,11 @@ function ArticleCard({ post }: { post: ArchiveItem }) {
             params={{ slug: post.slug }}
             className="text-foreground hover:text-[color:var(--brand-blue)]"
           >
-            {post.title}
+            {decodeHtmlEntities(post.title)}
           </Link>
         </h3>
         {post.excerpt ? (
-          <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{post.excerpt}</p>
+          <p className="mt-2 text-sm text-muted-foreground line-clamp-3">{htmlToPlainText(post.excerpt)}</p>
         ) : null}
         <div className="mt-auto pt-4 flex items-center justify-between text-xs text-muted-foreground border-t border-black/5">
           <span>{readingTime(post.excerpt)} min read</span>
