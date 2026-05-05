@@ -219,7 +219,8 @@ function ArticlePage() {
       <div className="mx-auto max-w-7xl px-6 pt-10 pb-4">
         {primaryCategory ? (
           <Link
-            to="/"
+            to="/$slug"
+            params={{ slug: primaryCategory.slug }}
             className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.18em] text-ticker hover:text-brand-blue mb-4"
           >
             <span className="inline-block w-2 h-2 bg-ticker" aria-hidden />
