@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
 import { ArrowRight, ChevronRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { NewsletterBanner } from "@/components/site/NewsletterBanner";
@@ -8,11 +9,35 @@ import { fetchHomepageViaRpc } from "@/lib/homepage.shared";
 import { supabase } from "@/integrations/supabase/client";
 import { buildHomepageHead } from "@/serverFns/seo.head";
 
+const EMPTY_PAYLOAD: HomePayload = {
+  ticker: [],
+  hero: null,
+  topStories: [],
+  sections: [
+    { key: "pr-news", title: "PR News", slug: "pr-news", posts: [] },
+    { key: "pr-insights", title: "Insights", slug: "pr-insights", posts: [] },
+    { key: "marketing", title: "Marketing", slug: "marketing", posts: [] },
+    { key: "social-media", title: "Social Media", slug: "social-media", posts: [] },
+  ],
+  crisis: { title: "Crisis", slug: "crisis-pr", posts: [] },
+  topAuthors: [],
+  economy: null,
+  otherNews: [],
+  footerMenu: [],
+};
+
 async function loadHomepage(): Promise<HomePayload> {
+  // Browser: fetch directly via RPC (fast, like Netlify static build does post-hydration).
   if (typeof window !== "undefined") {
     return fetchHomepageViaRpc(supabase);
   }
-  return getHomepage();
+  // Server (SSR): return empty payload immediately so SSR doesn't block on the slow RPC.
+  // The client will hydrate with real data via the effect in HomePage.
+  // For static prerender (production build), use the real server fetch so SEO/HTML is populated.
+  if (process.env.LOVABLE_PRERENDER === "1" || process.env.PRERENDER === "1") {
+    return getHomepage();
+  }
+  return EMPTY_PAYLOAD;
 }
 
 export const Route = createFileRoute("/")({
@@ -31,7 +56,15 @@ function formatDate(iso: string | null | undefined) {
 }
 
 function HomePage() {
-  const data = Route.useLoaderData() as HomePayload;
+  const initial = Route.useLoaderData() as HomePayload;
+  const [data, setData] = useState<HomePayload>(initial);
+
+  useEffect(() => {
+    if (!initial.hero && initial.topStories.length === 0) {
+      fetchHomepageViaRpc(supabase).then(setData).catch(() => {});
+    }
+  }, [initial]);
+
   return (
     <SiteLayout tickerItems={data.ticker} footerMenu={data.footerMenu}>
       <div className="mx-auto max-w-7xl px-6 pt-10">
