@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
-import { rewriteLegacyHtml, rewriteLegacyUrl } from "@/lib/legacy-urls";
+import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyHtml, rewriteLegacyUrl } from "@/lib/legacy-urls";
 
 export type ArticleAuthor = {
   id: number;
@@ -54,12 +54,6 @@ export type ArticlePayload = {
 
 /* ------------------------- helpers ------------------------- */
 
-function pickFirstImage(html: string | null | undefined): string | null {
-  if (!html) return null;
-  const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
-  return m?.[1] ?? null;
-}
-
 async function buildRelated(rows: any[]): Promise<RelatedPost[]> {
   if (!rows.length) return [];
   const mediaIds = rows.map(r => r.featured_media_id).filter(Boolean);
@@ -98,11 +92,10 @@ async function buildRelated(rows: any[]): Promise<RelatedPost[]> {
     title: r.title,
     excerpt: r.excerpt,
     published_at: r.published_at,
-    featured_image_url: rewriteLegacyUrl(
-      (r.featured_media_id && mediaMap.get(r.featured_media_id)) ||
-        pickFirstImage(r.content_html) ||
-        ""
-    ) || null,
+    featured_image_url: resolvePostImageUrl(
+      r.featured_media_id && mediaMap.get(r.featured_media_id),
+      pickFirstImageSrc(r.content_html),
+    ),
     author_name: r.author_id ? authorMap.get(r.author_id) ?? null : null,
     category_name: postCat.get(r.id) ?? null,
   }));
@@ -183,8 +176,8 @@ export const getArticleBySlug = createServerFn({ method: "GET" })
       buildRelated(otherNewsRaw),
     ]);
 
-    const fallbackImage = pickFirstImage(post.content_html);
-    const featuredUrl = rewriteLegacyUrl(media?.url || fallbackImage || "");
+    const fallbackImage = pickFirstImageSrc(post.content_html);
+    const featuredUrl = resolvePostImageUrl(media?.url, fallbackImage);
 
     const rewrittenSeo = seo
       ? { ...seo, og_image: rewriteLegacyUrl(seo.og_image) || null, canonical_url: seo.canonical_url }

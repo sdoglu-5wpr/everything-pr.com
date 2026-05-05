@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
-import { rewriteLegacyUrl } from "@/lib/legacy-urls";
+import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyUrl } from "@/lib/legacy-urls";
 
 export const PAGE_SIZE = 10;
 
@@ -42,12 +42,6 @@ type ArchiveInput =
   | { kind: "author"; slug: string; page?: number }
   | { kind: "date"; year: number; month?: number; day?: number; page?: number }
   | { kind: "search"; q: string; page?: number };
-
-function pickFirstImage(html: string | null | undefined): string | null {
-  if (!html) return null;
-  const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
-  return m?.[1] ?? null;
-}
 
 async function enrich(rows: any[]): Promise<ArchiveItem[]> {
   if (!rows.length) return [];
@@ -97,12 +91,10 @@ async function enrich(rows: any[]): Promise<ArchiveItem[]> {
       title: r.title,
       excerpt: r.excerpt,
       published_at: r.published_at,
-      featured_image_url:
-        rewriteLegacyUrl(
-          (r.featured_media_id && mediaMap.get(r.featured_media_id)) ||
-            pickFirstImage(r.content_html) ||
-            ""
-        ) || null,
+      featured_image_url: resolvePostImageUrl(
+        r.featured_media_id && mediaMap.get(r.featured_media_id),
+        pickFirstImageSrc(r.content_html),
+      ),
       author: a
         ? { id: a.id, display_name: a.display_name, slug: a.slug }
         : null,

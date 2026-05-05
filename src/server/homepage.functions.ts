@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
-import { rewriteLegacyUrl } from "@/lib/legacy-urls";
+import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyUrl } from "@/lib/legacy-urls";
 
 export type HomePost = {
   id: number;
@@ -42,12 +42,6 @@ const SECTION_DEFS: { key: string; title: string; slug: string }[] = [
   { key: "marketing", title: "Marketing", slug: "marketing" },
   { key: "social-media", title: "Social Media", slug: "social-media" },
 ];
-
-function pickFirstImage(html: string | null | undefined): string | null {
-  if (!html) return null;
-  const m = html.match(/<img[^>]+src=["']([^"']+)["']/i);
-  return m?.[1] ?? null;
-}
 
 function normalizeFooterUrl(url: string): string {
   if (!url) return "/";
@@ -154,12 +148,10 @@ async function enrichPosts(
       title: r.title,
       excerpt: r.excerpt,
       published_at: r.published_at,
-      featured_image_url:
-        rewriteLegacyUrl(
-          (r.featured_media_id && mediaMap.get(r.featured_media_id)) ||
-            pickFirstImage(r.content_html) ||
-            ""
-        ) || null,
+      featured_image_url: resolvePostImageUrl(
+        r.featured_media_id && mediaMap.get(r.featured_media_id),
+        pickFirstImageSrc(r.content_html),
+      ),
       author: a
         ? {
             id: a.id,

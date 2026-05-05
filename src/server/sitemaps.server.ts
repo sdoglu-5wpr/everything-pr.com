@@ -1,5 +1,5 @@
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
-import { rewriteLegacyHtml, rewriteLegacyUrl } from "@/lib/legacy-urls";
+import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyHtml, rewriteLegacyUrl } from "@/lib/legacy-urls";
 import { SITE_URL, SITEMAP_PAGE_SIZE } from "./seo.constants";
 
 const XML_HEADER = `<?xml version="1.0" encoding="UTF-8"?>`;
@@ -57,7 +57,7 @@ export async function buildPostSitemap(page: number): Promise<string | null> {
   const to = from + SITEMAP_PAGE_SIZE - 1;
   const { data: posts } = await supabaseAnon
     .from("posts")
-    .select("slug, modified_at, published_at, featured_media_id")
+    .select("slug, modified_at, published_at, featured_media_id, content_html")
     .eq("status", "publish")
     .eq("type", "post")
     .order("published_at", { ascending: false, nullsFirst: false })
@@ -74,7 +74,10 @@ export async function buildPostSitemap(page: number): Promise<string | null> {
     urlEntry(
       `${SITE_URL}/${p.slug}/`,
       p.modified_at ?? p.published_at,
-      p.featured_media_id ? (rewriteLegacyUrl(mediaMap.get(p.featured_media_id) ?? "") || null) : null,
+      resolvePostImageUrl(
+        p.featured_media_id && mediaMap.get(p.featured_media_id),
+        pickFirstImageSrc(p.content_html),
+      ),
     ),
   );
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;

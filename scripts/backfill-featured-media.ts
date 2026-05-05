@@ -87,9 +87,9 @@ async function main() {
   for await (const r of streamJsonl(file)) {
     scanned++;
     const slug = (r?.slug ?? "").toString().trim();
-    const fid = r?.featured_image?.id;
+    const fid = r?.featured_image?.id ? parseInt(String(r.featured_image.id), 10) : null;
     if (!slug) continue;
-    if (typeof fid !== "number") {
+    if (!fid || !Number.isFinite(fid)) {
       skippedNoId++;
       continue;
     }
