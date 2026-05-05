@@ -1,5 +1,6 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
-import { collectUrls } from "./src/prerender";
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 
 // Two-pass production build (driven by scripts/build.mjs):
 //   LOVABLE_BUILD_PASS=prerender → no Cloudflare plugin, prerender enabled.
@@ -15,19 +16,25 @@ import { collectUrls } from "./src/prerender";
 //     during build only.
 const PASS = process.env.LOVABLE_BUILD_PASS;
 const isPrerenderPass = PASS === "prerender";
-const isWorkerPass = PASS === "worker";
+const PRERENDER_DATA_PATH = resolve(process.cwd(), ".prerender-pages.json");
 
-async function buildTanstackOptions() {
+function loadPrerenderPages() {
+  const raw = readFileSync(PRERENDER_DATA_PATH, "utf8");
+  const data = JSON.parse(raw) as { pages?: Array<{ path: string }> };
+  const pages = data.pages ?? [];
+  if (pages.length === 0) {
+    throw new Error("[vite.config] .prerender-pages.json contains 0 pages; refusing to run prerender pass");
+  }
+  return pages;
+}
+
+function buildTanstackOptions() {
   if (!isPrerenderPass) {
     // Worker pass + dev: no prerender. Use default server entry.
     return {} as Record<string, unknown>;
   }
-  const result = await collectUrls();
-  if (result.pages.length === 0) {
-    throw new Error("[vite.config] URL collection returned 0 pages; refusing to run prerender pass");
-  }
   return {
-    pages: result.pages,
+    pages: loadPrerenderPages(),
     // Force TanStack's server bundle to be named "server.js" so the
     // preview-server plugin (which prerender uses to fetch routes)
     // can locate dist/server/server.js. Without this it defaults to
@@ -45,7 +52,7 @@ async function buildTanstackOptions() {
   } as Record<string, unknown>;
 }
 
-const tanstackStart = await buildTanstackOptions();
+const tanstackStart = buildTanstackOptions();
 
 export default defineConfig({
   tanstackStart,
