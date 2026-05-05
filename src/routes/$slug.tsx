@@ -231,11 +231,6 @@ function ArticlePage() {
         <h1 className="font-serif text-4xl md:text-5xl font-bold leading-[1.05] tracking-tight max-w-4xl">
           {article.title}
         </h1>
-        {article.excerpt ? (
-          <p className="mt-5 text-lg md:text-xl text-muted-foreground leading-relaxed max-w-3xl">
-            {htmlToPlainText(article.excerpt)}
-          </p>
-        ) : null}
         <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
           {article.author?.slug ? (
             <Link
