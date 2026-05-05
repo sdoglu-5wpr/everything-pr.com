@@ -176,19 +176,25 @@ export const getArticleBySlug = createServerFn({ method: "GET" })
       buildRelated(otherNewsRaw),
     ]);
 
-    const fallbackImage = pickFirstImageSrc(post.content_html);
-    const featuredUrl = resolvePostImageUrl(media?.url, fallbackImage);
+    const inlineFallback = pickFirstImageSrc(post.content_html);
+    const seoOg = rewriteLegacyUrl(seo?.og_image);
+    const featuredUrl = resolvePostImageUrl(media?.url, seoOg, inlineFallback);
+    const featuredFromInline = !media?.url && !seoOg && !!inlineFallback && featuredUrl === inlineFallback;
 
     const rewrittenSeo = seo
       ? { ...seo, og_image: rewriteLegacyUrl(seo.og_image) || null, canonical_url: seo.canonical_url }
       : null;
+
+    const renderedHtml = rewriteLegacyHtml(
+      featuredFromInline ? stripFirstImage(post.content_html) : post.content_html,
+    );
 
     const article: ArticleRecord = {
       id: post.id,
       slug: post.slug,
       title: post.title,
       excerpt: post.excerpt,
-      content_html: rewriteLegacyHtml(post.content_html),
+      content_html: renderedHtml,
       published_at: post.published_at,
       modified_at: post.modified_at,
       type: post.type,
