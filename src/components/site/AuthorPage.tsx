@@ -137,6 +137,7 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
   const bio = author.bio;
   const social = author.social || {};
   const website = author.website;
+  const email = author.email;
 
   const profiles: { icon: typeof Linkedin; label: string; sub: string; href: string }[] = [];
   if (social.linkedin) profiles.push({ icon: Linkedin, label: "LinkedIn", sub: handleFromUrl(social.linkedin, "/in/"), href: social.linkedin });
@@ -145,9 +146,11 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
   if (social.instagram) profiles.push({ icon: Instagram, label: "Instagram", sub: handleFromUrl(social.instagram, "@"), href: social.instagram });
   if (website) profiles.push({ icon: Globe, label: "Website", sub: hostname(website) || website, href: website });
 
+  const hasSidebar = profiles.length > 0 || !!email;
+
   return (
     <SiteLayout>
-      {/* Hero with overlapping profile card */}
+      {/* Hero with overlapping profile card — name only, no bio duplication */}
       <section className="relative bg-gradient-to-br from-[color:var(--ink)] via-[color:var(--ink)] to-[oklch(0.32_0.18_270)] text-white">
         <div className="mx-auto max-w-7xl px-6 pt-10 pb-32 md:pb-40">
           <nav className="text-xs text-white/60 mb-6 flex items-center gap-2">
@@ -157,14 +160,9 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
             <span>/</span>
             <span className="text-white uppercase tracking-wider">{display}</span>
           </nav>
-          <h1 className="font-serif text-5xl md:text-6xl font-bold tracking-tight mb-4">
+          <h1 className="font-serif text-5xl md:text-6xl font-bold tracking-tight">
             {display}
           </h1>
-          {bio ? (
-            <p className="text-white/80 max-w-3xl text-base md:text-lg leading-relaxed line-clamp-3">
-              {htmlToPlainText(bio)}
-            </p>
-          ) : null}
         </div>
         <div className="h-1 bg-[color:var(--brand-blue)]" />
       </section>
