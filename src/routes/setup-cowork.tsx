@@ -50,13 +50,42 @@ function SetupCowork() {
 
   const signIn = async (mode: "signin" | "signup") => {
     setAuthBusy(true);
-    const fn = mode === "signup" ? supabase.auth.signUp : supabase.auth.signInWithPassword;
-    const { error } = await fn({ email, password });
-    setAuthBusy(false);
-    if (error) { setState({ kind: "error", message: error.message }); return; }
-    setState({ kind: "checking" });
-    // Re-trigger effect by reload
-    window.location.reload();
+    try {
+      const { data, error } =
+        mode === "signup"
+          ? await supabase.auth.signUp({
+              email,
+              password,
+              options: { emailRedirectTo: `${window.location.origin}/setup-cowork` },
+            })
+          : await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        toast.error(`${mode === "signup" ? "Sign up" : "Sign in"} failed: ${error.message}`);
+        setState({ kind: "error", message: error.message });
+        return;
+      }
+
+      if (mode === "signup" && !data.session) {
+        // Email confirmation is enabled — no session returned, signup won't proceed to claim.
+        toast.info("Check your inbox to confirm your email, then return here.");
+        setState({
+          kind: "error",
+          message:
+            "Email confirmation required. Confirm via the email we sent, then reload. For staging, disable 'Confirm email' in Supabase Auth settings.",
+        });
+        return;
+      }
+
+      setState({ kind: "checking" });
+      window.location.reload();
+    } catch (e: any) {
+      const message = e?.message ?? String(e);
+      toast.error(`Unexpected error: ${message}`);
+      setState({ kind: "error", message });
+    } finally {
+      setAuthBusy(false);
+    }
   };
 
   return (
