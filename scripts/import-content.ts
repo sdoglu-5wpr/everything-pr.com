@@ -171,6 +171,30 @@ function coerceDate(v: unknown): string | null {
 // Back-compat alias — every existing call site funnels through coerceDate now.
 const toIso = coerceDate;
 
+/** Dedupe an array of rows by a derived key. `pick(prev, next)` decides which
+ *  row wins on collision; defaults to keeping the later row. Logs the number
+ *  of dropped duplicates under `label` (always logs, even when zero, so each
+ *  phase has an audit trail). */
+function dedupeBy<T>(
+  label: string,
+  rows: T[],
+  keyOf: (r: T) => string | number | null | undefined,
+  pick: (prev: T, next: T) => T = (_p, n) => n,
+): T[] {
+  const seen = new Map<string | number, T>();
+  let dropped = 0;
+  for (const r of rows) {
+    const k = keyOf(r);
+    if (k == null) continue;
+    const prev = seen.get(k);
+    if (prev === undefined) { seen.set(k, r); continue; }
+    seen.set(k, pick(prev, r));
+    dropped++;
+  }
+  console.log(`  [${label}] ${dropped} duplicate ${dropped === 1 ? "row" : "rows"} dropped (kept best variant)`);
+  return [...seen.values()];
+}
+
 // ---------- importers ----------
 type AuthorJson = {
   id: number; username: string; slug: string; display_name: string;
@@ -194,9 +218,11 @@ async function importAuthors() {
     },
     post_count: a.post_count ?? 0,
   }));
-  await upsert("authors", rows, "id");
-  for (const r of rows) validAuthorIds.add(r.id);
-  log(`upserted ${rows.length}`);
+  const byId = dedupeBy("authors:id", rows, r => r.id);
+  const bySlug = dedupeBy("authors:slug", byId, r => r.slug);
+  await upsert("authors", bySlug, "id");
+  for (const r of bySlug) validAuthorIds.add(r.id);
+  log(`upserted ${bySlug.length}`);
 }
 
 type TaxJson = {
@@ -211,21 +237,26 @@ async function importTaxonomies() {
   const cats = data?.category ?? [];
   const tags = data?.post_tag ?? [];
   // Insert categories twice: first pass (no parents), second pass (with parents) so FK resolves
-  const catRows = cats.map(c => ({
+  const catRowsRaw = cats.map(c => ({
     id: c.term_id, slug: c.slug, name: c.name,
     description: c.description || null, post_count: c.count ?? 0, parent_id: null as number | null,
   }));
+  const catById = dedupeBy("categories:id", catRowsRaw, r => r.id);
+  const catRows = dedupeBy("categories:slug", catById, r => r.slug);
   await upsert("categories", catRows, "id");
   const withParents = cats
     .filter(c => c.parent && c.parent !== 0)
     .map(c => ({ id: c.term_id, slug: c.slug, name: c.name, parent_id: c.parent }));
-  if (withParents.length) await upsert("categories", withParents, "id");
+  const withParentsDeduped = dedupeBy("categories(parents):id", withParents, r => r.id);
+  if (withParentsDeduped.length) await upsert("categories", withParentsDeduped, "id");
   log(`upserted ${catRows.length} categories`);
 
-  const tagRows = tags.map(t => ({
+  const tagRowsRaw = tags.map(t => ({
     id: t.term_id, slug: t.slug, name: t.name,
     description: t.description || null, post_count: t.count ?? 0,
   }));
+  const tagById = dedupeBy("tags:id", tagRowsRaw, r => r.id);
+  const tagRows = dedupeBy("tags:slug", tagById, r => r.slug);
   await upsert("tags", tagRows, "id");
   log(`upserted ${tagRows.length} tags`);
 }
@@ -348,6 +379,7 @@ async function importPostsFile(file: string, defaultType: "post" | "page" = "pos
 
   let total = 0;
   let emptySlugCount = 0;
+  let dupesDropped = 0;
   const flush = async () => {
     if (postsBuf.length) {
       // Dedupe within batch by (type, slug), keep most recent modified_at, then highest id
@@ -356,18 +388,30 @@ async function importPostsFile(file: string, defaultType: "post" | "page" = "pos
         const key = `${row.type}::${row.slug}`;
         const prev = byKey.get(key);
         if (!prev) { byKey.set(key, row); continue; }
+        dupesDropped++;
         const pm = (prev.modified_at as string | null) ?? "";
         const rm = (row.modified_at as string | null) ?? "";
         if (rm > pm || (rm === pm && (row.id as number) > (prev.id as number))) {
           byKey.set(key, row);
         }
       }
-      await upsert("posts", [...byKey.values()], "type,slug");
-      total += byKey.size;
+      // Also dedupe by id in case the same WP id appears twice
+      const byId = dedupeBy(`posts:id (${file})`, [...byKey.values()], r => r.id as number);
+      await upsert("posts", byId, "type,slug");
+      total += byId.length;
     }
-    if (seoBuf.length) await upsert("seo_meta", seoBuf, "url_path");
-    if (pcBuf.length) await upsert("post_categories", pcBuf, "post_id,category_id");
-    if (ptBuf.length) await upsert("post_tags", ptBuf, "post_id,tag_id");
+    if (seoBuf.length) {
+      const seoDedup = dedupeBy(`seo_meta:url_path (${file})`, seoBuf, r => r.url_path as string);
+      await upsert("seo_meta", seoDedup, "url_path");
+    }
+    if (pcBuf.length) {
+      const pcDedup = dedupeBy(`post_categories (${file})`, pcBuf, r => `${r.post_id}:${r.category_id}`);
+      await upsert("post_categories", pcDedup, "post_id,category_id");
+    }
+    if (ptBuf.length) {
+      const ptDedup = dedupeBy(`post_tags (${file})`, ptBuf, r => `${r.post_id}:${r.tag_id}`);
+      await upsert("post_tags", ptDedup, "post_id,tag_id");
+    }
     postsBuf.length = 0; seoBuf.length = 0; pcBuf.length = 0; ptBuf.length = 0;
   };
 
@@ -462,6 +506,7 @@ async function importPostsFile(file: string, defaultType: "post" | "page" = "pos
   if (emptySlugCount > 0) {
     log(`[${file}] ${emptySlugCount} rows had empty slugs, replaced with draft-{id}`);
   }
+  log(`[${file}] ${dupesDropped} (type,slug) duplicates dropped within batches`);
   log(`upserted ${total} ${defaultType}s`);
 }
 
@@ -471,7 +516,7 @@ async function importRedirects() {
   head("redirects");
   const j = readJson<{ data?: RedirectJson[] } | RedirectJson[]>(`${DATA_DIR}/redirects.json`);
   const list = (Array.isArray(j) ? j : j?.data) ?? [];
-  const rows = list.map(r => ({
+  const rowsRaw = list.map(r => ({
     source_path: r.source,
     target_path: r.target,
     status_code: r.code ?? 301,
@@ -480,6 +525,14 @@ async function importRedirects() {
     hits: r.hits ?? 0,
     notes: r.title || null,
   }));
+  // Prefer enabled=true on collision; else the row that came later (often
+  // the higher Redirection-plugin id).
+  const rows = dedupeBy(
+    "redirects:source_path",
+    rowsRaw,
+    r => r.source_path,
+    (prev, next) => (prev.enabled && !next.enabled ? prev : next),
+  );
   await upsert("redirects", rows, "source_path");
   log(`upserted ${rows.length}`);
 }
@@ -491,12 +544,14 @@ async function importMenus() {
   head("menus + menu_items");
   const j = readJson<{ data?: MenuJson[] } | MenuJson[]>(`${DATA_DIR}/menus.json`);
   const list = (Array.isArray(j) ? j : j?.data) ?? [];
-  const menus = list.map(m => ({ id: m.tt_id, slug: m.slug, name: m.name, location: null }));
+  const menusRaw = list.map(m => ({ id: m.tt_id, slug: m.slug, name: m.name, location: null }));
+  const menusById = dedupeBy("menus:id", menusRaw, r => r.id);
+  const menus = dedupeBy("menus:slug", menusById, r => r.slug);
   await upsert("menus", menus, "id");
-  const items: Record<string, unknown>[] = [];
+  const itemsRaw: Record<string, unknown>[] = [];
   for (const m of list) {
     for (const it of m.items ?? []) {
-      items.push({
+      itemsRaw.push({
         id: it.id, menu_id: m.tt_id,
         parent_id: it.parent_item && it.parent_item !== 0 ? it.parent_item : null,
         position: it.menu_order ?? 0,
@@ -506,6 +561,7 @@ async function importMenus() {
       });
     }
   }
+  const items = dedupeBy("menu_items:id", itemsRaw, r => r.id as number);
   await upsert("menu_items", items, "id");
   log(`upserted ${menus.length} menus, ${items.length} items`);
 }
@@ -533,12 +589,18 @@ async function importInternalLinks() {
       anchor_text: l.anchor ?? null,
     });
     if (buf.length >= BATCH) {
-      const { error } = await sb.from("internal_links").insert(buf);
+      const dedup = dedupeBy("internal_links:src+url+anchor", buf, r => `${r.source_post_id}|${r.target_url}|${r.anchor_text ?? ""}`);
+      const { error } = await sb.from("internal_links").insert(dedup);
       if (error) throw error;
-      total += buf.length; buf = [];
+      total += dedup.length; buf = [];
     }
   }
-  if (buf.length) { const { error } = await sb.from("internal_links").insert(buf); if (error) throw error; total += buf.length; }
+  if (buf.length) {
+    const dedup = dedupeBy("internal_links:src+url+anchor (final)", buf, r => `${r.source_post_id}|${r.target_url}|${r.anchor_text ?? ""}`);
+    const { error } = await sb.from("internal_links").insert(dedup);
+    if (error) throw error;
+    total += dedup.length;
+  }
   log(`inserted ${total} (skipped ${skippedSource} w/ missing source, nulled ${nulledTarget} dangling targets)`);
 }
 
