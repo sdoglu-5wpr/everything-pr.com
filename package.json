@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "import": "bun run scripts/import-content.ts"
+    "import": "bun run scripts/import-content.ts",
+    "backfill-featured": "bun run scripts/backfill-featured-media.ts"
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.25.5",
