@@ -100,6 +100,17 @@ function ImportPage() {
     if (j.ok) setJob(j.job as unknown as Job);
   };
 
+  const resume = async () => {
+    if (!job) return;
+    setBusy(true);
+    try {
+      const r = await resumeImportJob({ data: { jobId: job.id, perPage } });
+      if (!r.ok) { toast.error(r.error); return; }
+      toast.success("Resuming import");
+      setJob(r.job as unknown as Job);
+    } finally { setBusy(false); }
+  };
+
   return (
     <div className="space-y-6 max-w-3xl">
       <div>
