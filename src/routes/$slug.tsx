@@ -19,6 +19,20 @@ async function loadArticle(slug: string): Promise<ArticlePayload | null> {
   return getArticleBySlug({ data: { slug } });
 }
 
+async function lookupRedirectInBrowser(path: string) {
+  const variants = [path];
+  if (path.endsWith("/")) variants.push(path.replace(/\/+$/, ""));
+  else variants.push(`${path}/`);
+  const { data } = await (supabase as any)
+    .from("redirects")
+    .select("source_path, target_path, status_code")
+    .in("source_path", variants)
+    .eq("enabled", true)
+    .limit(1)
+    .maybeSingle();
+  return data ? { target_path: data.target_path, status_code: data.status_code } : null;
+}
+
 export const Route = createFileRoute("/$slug")({
   loader: async ({ params }) => {
     if (!params.slug || params.slug.includes(".")) throw notFound();
@@ -28,7 +42,9 @@ export const Route = createFileRoute("/$slug")({
     const data = await loadArticle(params.slug);
     if (data) return data;
 
-    const r = await lookupRedirect({ data: { path: `/${params.slug}` } });
+    const r = typeof window !== "undefined"
+      ? await lookupRedirectInBrowser(`/${params.slug}`)
+      : await lookupRedirect({ data: { path: `/${params.slug}` } });
     if (r?.target_path) {
       throw redirect({ href: r.target_path, statusCode: (r.status_code ?? 301) as 301 | 302 });
     }
