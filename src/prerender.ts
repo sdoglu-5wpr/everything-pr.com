@@ -79,9 +79,8 @@ async function fetchAll<T>(
 export async function collectUrls(): Promise<CollectResult> {
   const start = Date.now();
   const sb = getBuildSupabase();
-  const indexingEnabled =
-    (process.env.EPR_INDEXING_ENABLED ?? "").toLowerCase() === "true" ||
-    process.env.EPR_INDEXING_ENABLED === "1";
+  const idxRaw = (process.env.INDEXING_ENABLED ?? process.env.EPR_INDEXING_ENABLED ?? "").toLowerCase();
+  const indexingEnabled = idxRaw === "true" || idxRaw === "1";
 
   // ---- raw fetches (parallel) ----
   const [
