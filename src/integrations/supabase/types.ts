@@ -14,6 +14,69 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_log: {
+        Row: {
+          action: string
+          actor_id: string | null
+          diff: Json | null
+          id: number
+          occurred_at: string
+          row_id: string | null
+          table_name: string
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          diff?: Json | null
+          id?: number
+          occurred_at?: string
+          row_id?: string | null
+          table_name: string
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          diff?: Json | null
+          id?: number
+          occurred_at?: string
+          row_id?: string | null
+          table_name?: string
+        }
+        Relationships: []
+      }
+      analytics_404: {
+        Row: {
+          first_hit_at: string
+          hit_count: number
+          id: number
+          last_hit_at: string
+          path: string
+          referrer: string | null
+          resolved: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          first_hit_at?: string
+          hit_count?: number
+          id?: number
+          last_hit_at?: string
+          path: string
+          referrer?: string | null
+          resolved?: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          first_hit_at?: string
+          hit_count?: number
+          id?: number
+          last_hit_at?: string
+          path?: string
+          referrer?: string | null
+          resolved?: boolean
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       authors: {
         Row: {
           avatar_url: string | null
@@ -56,6 +119,51 @@ export type Database = {
           updated_at?: string
           user_id?: string | null
           website?: string | null
+        }
+        Relationships: []
+      }
+      automations: {
+        Row: {
+          config: Json
+          created_at: string
+          description: string | null
+          enabled: boolean
+          id: number
+          last_error: string | null
+          last_run_at: string | null
+          last_status: string | null
+          name: string
+          schedule: string | null
+          trigger_type: string
+          updated_at: string
+        }
+        Insert: {
+          config?: Json
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: number
+          last_error?: string | null
+          last_run_at?: string | null
+          last_status?: string | null
+          name: string
+          schedule?: string | null
+          trigger_type?: string
+          updated_at?: string
+        }
+        Update: {
+          config?: Json
+          created_at?: string
+          description?: string | null
+          enabled?: boolean
+          id?: number
+          last_error?: string | null
+          last_run_at?: string | null
+          last_status?: string | null
+          name?: string
+          schedule?: string | null
+          trigger_type?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -193,6 +301,45 @@ export type Database = {
         }
         Relationships: []
       }
+      media_variants: {
+        Row: {
+          created_at: string
+          filesize: number | null
+          height: number | null
+          id: number
+          kind: string
+          media_id: number
+          mime_type: string | null
+          storage_path: string | null
+          url: string
+          width: number | null
+        }
+        Insert: {
+          created_at?: string
+          filesize?: number | null
+          height?: number | null
+          id?: number
+          kind: string
+          media_id: number
+          mime_type?: string | null
+          storage_path?: string | null
+          url: string
+          width?: number | null
+        }
+        Update: {
+          created_at?: string
+          filesize?: number | null
+          height?: number | null
+          id?: number
+          kind?: string
+          media_id?: number
+          mime_type?: string | null
+          storage_path?: string | null
+          url?: string
+          width?: number | null
+        }
+        Relationships: []
+      }
       menu_items: {
         Row: {
           created_at: string
@@ -309,6 +456,42 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      post_revisions: {
+        Row: {
+          author_id: string | null
+          content_html: string | null
+          content_text: string | null
+          created_at: string
+          excerpt: string | null
+          id: number
+          kind: string
+          post_id: number
+          title: string | null
+        }
+        Insert: {
+          author_id?: string | null
+          content_html?: string | null
+          content_text?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: number
+          kind?: string
+          post_id: number
+          title?: string | null
+        }
+        Update: {
+          author_id?: string | null
+          content_html?: string | null
+          content_text?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: number
+          kind?: string
+          post_id?: number
+          title?: string | null
+        }
+        Relationships: []
       }
       post_tags: {
         Row: {
