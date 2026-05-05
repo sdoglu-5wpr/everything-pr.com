@@ -409,6 +409,27 @@ function DarkFeatureSection({
 
 function TopCreatorsRow({ authors }: { authors: HomeAuthor[] }) {
   if (!authors.length) return null;
+
+  // Ensure preferred ordering: Seth Semilof 3rd, Kevin Mercuri 4th when present
+  const ordered = (() => {
+    const list = [...authors];
+    const pull = (pred: (a: HomeAuthor) => boolean) => {
+      const i = list.findIndex(pred);
+      return i >= 0 ? list.splice(i, 1)[0] : null;
+    };
+    const seth = pull((a) => /seth.*semilof/i.test(a.display_name) || a.slug === "seth-semilof");
+    const merc = pull((a) => /mercuri/i.test(a.display_name) || a.slug === "kmercuri" || a.slug === "kevin-mercuri");
+    const result = list.slice(0, 2);
+    if (seth) result.push(seth);
+    if (merc) result.push(merc);
+    // fill remaining slots up to 4 if we don't have seth/merc
+    for (const a of list.slice(2)) {
+      if (result.length >= 4) break;
+      if (!result.includes(a)) result.push(a);
+    }
+    return result.slice(0, 4);
+  })();
+
   return (
     <section className="mx-auto max-w-7xl px-6 mt-16">
       <div className="flex items-end justify-between gap-3 mb-6">
@@ -418,12 +439,12 @@ function TopCreatorsRow({ authors }: { authors: HomeAuthor[] }) {
         </h2>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {authors.map((a) => (
+        {ordered.map((a) => (
           <article
             key={a.id}
-            className="rounded-xl border bg-card p-6 flex flex-col items-center text-center"
+            className="rounded-xl border bg-card p-6 flex flex-col items-center text-center overflow-hidden"
           >
-            <div className="w-20 h-20 rounded-full overflow-hidden bg-muted mb-3">
+            <div className="w-20 h-20 rounded-full overflow-hidden bg-muted mb-3 flex-shrink-0">
               {a.avatar_url ? (
                 <img
                   src={a.avatar_url}
@@ -437,15 +458,18 @@ function TopCreatorsRow({ authors }: { authors: HomeAuthor[] }) {
               )}
             </div>
             <h3 className="font-serif font-bold text-base">{a.display_name}</h3>
-            <p className="mt-1 text-xs text-muted-foreground line-clamp-3 min-h-[3rem]">
-              {a.bio ?? `${a.post_count.toLocaleString()} stories published.`}
+            <p className="mt-1 text-xs text-muted-foreground line-clamp-3 min-h-[3rem] break-words">
+              {a.bio
+                ? htmlToPlainText(a.bio)
+                : `${a.post_count.toLocaleString()} stories published.`}
             </p>
-            <a
-              href={`/author/${a.slug}`}
+            <Link
+              to="/author/$slug"
+              params={{ slug: a.slug }}
               className="mt-4 text-xs font-semibold inline-flex items-center gap-1 text-brand-red hover:underline"
             >
               View profile <ChevronRight className="w-3 h-3" />
-            </a>
+            </Link>
           </article>
         ))}
       </div>
