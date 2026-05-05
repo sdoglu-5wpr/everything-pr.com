@@ -22,7 +22,7 @@ export function SiteFooter({ menu }: { menu?: FooterMenuItem[] }) {
       <div className="h-1 bg-ticker" />
       <div className="mx-auto max-w-7xl px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
         <div className="md:col-span-1">
-          <div className="font-serif text-2xl font-bold mb-3">Everything-PR</div>
+          <img src="/everything-pr-logo.png" alt="Everything PR News" className="h-12 w-auto bg-white rounded-md px-3 py-2 mb-3" />
           <p className="text-sm text-ink-foreground/70 leading-relaxed">
             Daily reporting on the public relations industry — agencies, campaigns,
             crisis, brands, and the people behind the work.

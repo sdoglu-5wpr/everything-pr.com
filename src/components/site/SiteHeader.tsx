@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import logoUrl from "@/assets/everything-pr-logo.png";
 
 const NAV = [
   { label: "All Pages", to: "/" },
@@ -20,8 +21,13 @@ export function SiteHeader() {
         <span>Vol. 127, No. 43,891 &nbsp;•&nbsp; Everything-PR</span>
       </div>
       <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between gap-8">
-        <Link to="/" className="font-serif text-3xl font-bold tracking-tight text-ink-foreground">
-          Everything-PR
+        <Link to="/" aria-label="Everything PR News — Home" className="flex items-center">
+          <img
+            src={logoUrl}
+            alt="Everything PR News"
+            className="h-12 md:h-14 w-auto bg-white rounded-md px-3 py-2"
+            loading="eager"
+          />
         </Link>
         <nav className="hidden md:flex items-center gap-7 text-sm text-ink-foreground/85">
           {NAV.map(n => (
