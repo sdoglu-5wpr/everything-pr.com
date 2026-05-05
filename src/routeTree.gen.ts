@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SetupCoworkRouteImport } from './routes/setup-cowork'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.txt]'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
@@ -19,6 +20,11 @@ import { Route as AdminProtectedIndexRouteImport } from './routes/admin/_protect
 const SetupCoworkRoute = SetupCoworkRouteImport.update({
   id: '/setup-cowork',
   path: '/setup-cowork',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SlugRoute = SlugRouteImport.update({
@@ -50,6 +56,7 @@ const AdminProtectedIndexRoute = AdminProtectedIndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/setup-cowork': typeof SetupCoworkRoute
   '/admin': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/setup-cowork': typeof SetupCoworkRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin': typeof AdminProtectedIndexRoute
@@ -66,6 +74,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/setup-cowork': typeof SetupCoworkRoute
   '/admin/_protected': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
@@ -76,16 +85,24 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$slug'
+    | '/robots.txt'
     | '/setup-cowork'
     | '/admin'
     | '/admin/login'
     | '/admin/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$slug' | '/setup-cowork' | '/admin/login' | '/admin'
+  to:
+    | '/'
+    | '/$slug'
+    | '/robots.txt'
+    | '/setup-cowork'
+    | '/admin/login'
+    | '/admin'
   id:
     | '__root__'
     | '/'
     | '/$slug'
+    | '/robots.txt'
     | '/setup-cowork'
     | '/admin/_protected'
     | '/admin/login'
@@ -95,6 +112,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SlugRoute: typeof SlugRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   SetupCoworkRoute: typeof SetupCoworkRoute
   AdminProtectedRoute: typeof AdminProtectedRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
@@ -107,6 +125,13 @@ declare module '@tanstack/react-router' {
       path: '/setup-cowork'
       fullPath: '/setup-cowork'
       preLoaderRoute: typeof SetupCoworkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$slug': {
@@ -162,6 +187,7 @@ const AdminProtectedRouteWithChildren = AdminProtectedRoute._addFileChildren(
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SlugRoute: SlugRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   SetupCoworkRoute: SetupCoworkRoute,
   AdminProtectedRoute: AdminProtectedRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
