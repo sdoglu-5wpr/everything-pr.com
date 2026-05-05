@@ -43,7 +43,7 @@ const sb = createClient(SUPABASE_URL, SERVICE_KEY, {
 // ---------- helpers ----------
 const should = (name: string) => ONLY.length === 0 || ONLY.includes(name);
 const log = (msg: string) => console.log(`  ${msg}`);
-const head = (msg: string) => console.log(`\n▶ ${msg}`);
+const head = (msg: string) => { badDatePhase = msg; console.log(`\n▶ ${msg}`); };
 
 // ---------- referential-integrity tracking ----------
 // The migration source is a months-old WordPress snapshot, so dangling FK refs
@@ -82,10 +82,33 @@ async function upsert<T extends Record<string, unknown>>(
 }
 
 async function truncate(tables: string[]) {
+  // Chunked delete avoids the default Postgres statement_timeout when a table
+  // has hundreds of thousands of rows (e.g. ~181K orphan media). PostgREST
+  // doesn't expose `SET LOCAL statement_timeout = 0`, so we page through ids.
+  const CHUNK = 5000;
   for (const t of tables) {
-    const { error } = await sb.from(t).delete().not("id", "is", null);
-    if (error && !/does not exist/i.test(error.message))
-      console.warn(`  truncate ${t}: ${error.message}`);
+    let total = 0;
+    if (t === "post_categories" || t === "post_tags") {
+      const { error } = await sb.from(t).delete().not("post_id", "is", null);
+      if (error && !/does not exist/i.test(error.message))
+        console.warn(`  truncate ${t}: ${error.message}`);
+      continue;
+    }
+    while (true) {
+      const { data, error: selErr } = await sb.from(t).select("id").limit(CHUNK);
+      if (selErr) {
+        if (!/does not exist/i.test(selErr.message))
+          console.warn(`  truncate ${t} (select): ${selErr.message}`);
+        break;
+      }
+      if (!data || data.length === 0) break;
+      const ids = (data as { id: number | string }[]).map(r => r.id);
+      const { error: delErr } = await sb.from(t).delete().in("id", ids);
+      if (delErr) { console.warn(`  truncate ${t} (delete): ${delErr.message}`); break; }
+      total += ids.length;
+      if (ids.length < CHUNK) break;
+    }
+    if (total) console.log(`  truncated ${t}: ${total} rows`);
   }
 }
 
@@ -119,12 +142,34 @@ const stripHtml = (html: string) =>
 const toBool = (v: unknown): boolean | null =>
   v === null || v === undefined ? null : v === 1 || v === "1" || v === true;
 
-const toIso = (v: unknown): string | null => {
-  if (!v || typeof v !== "string") return null;
-  // "2009-01-07 13:41:24" → ISO UTC
-  const m = v.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/);
-  return m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : v;
-};
+// Per-phase counter of bad date values coerced to NULL. Set the phase label
+// at the top of each importer; coerceDate() / toIso() bumps it on bad input.
+let badDatePhase = "global";
+const badDateCounts = new Map<string, number>();
+function bumpBadDate() {
+  badDateCounts.set(badDatePhase, (badDateCounts.get(badDatePhase) ?? 0) + 1);
+}
+
+/** Coerce any incoming date value to an ISO string, or NULL.
+ *  Handles WP placeholders like "0000-00-00 00:00:00", empty strings,
+ *  the literal "null", non-strings, and unparseable values. */
+function coerceDate(v: unknown): string | null {
+  if (v == null) return null;
+  if (typeof v !== "string") return null;
+  const trimmed = v.trim();
+  if (trimmed === "" || trimmed.toLowerCase() === "null" || trimmed.startsWith("0000")) {
+    bumpBadDate();
+    return null;
+  }
+  // Normalize "2009-01-07 13:41:24" → "2009-01-07T13:41:24Z" before parsing
+  const m = trimmed.match(/^(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/);
+  const candidate = m ? `${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:${m[6]}Z` : trimmed;
+  const d = new Date(candidate);
+  if (isNaN(d.getTime())) { bumpBadDate(); return null; }
+  return d.toISOString();
+}
+// Back-compat alias — every existing call site funnels through coerceDate now.
+const toIso = coerceDate;
 
 // ---------- importers ----------
 type AuthorJson = {
@@ -528,6 +573,13 @@ async function count(table: string, modify?: (q: ReturnType<typeof sb.from> exte
   log(`featured_media_id nulled (${orphanFeaturedMedia.size} distinct): ${fmt(orphanFeaturedMedia)}`);
   log(`author_id nulled         (${orphanAuthors.size} distinct): ${fmt(orphanAuthors)}`);
   log(`parent_id nulled         (${orphanParents.size} distinct): ${fmt(orphanParents)}`);
+
+  head("bad-date summary");
+  if (badDateCounts.size === 0) {
+    log("(no bad dates coerced)");
+  } else {
+    for (const [phase, n] of badDateCounts) log(`[${phase}] ${n} rows had bad dates coerced to NULL`);
+  }
 
   await verifyCounts();
   console.log("\n✓ Import complete.");
