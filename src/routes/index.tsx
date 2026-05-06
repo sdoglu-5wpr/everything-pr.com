@@ -112,29 +112,43 @@ function AboutEverythingPR() {
           Everything-PR — the leading independent publication covering the public relations and marketing communications industry.
         </h2>
         <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">
-          We publish daily news, analysis, agency coverage, crisis PR strategy, digital marketing insights, industry research, and expert commentary across every sector of the communications business. Founded in January 2009 and operated by 5W Public Relations — one of the largest independently owned PR and digital marketing firms in the United States — Everything-PR brings a practitioner perspective to industry coverage that trade aggregators and outside observers cannot replicate.
+          We publish daily news, analysis, agency coverage, crisis PR strategy, digital marketing insights, industry research, and expert commentary across every sector of the communications business. Founded in January 2009 and operated by <a href="https://www.5wpr.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-blue">5W Public Relations</a> — one of the largest independently owned PR and digital marketing firms in the United States — Everything-PR brings a practitioner perspective to industry coverage that trade aggregators and outside observers cannot replicate.
         </p>
         <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">
-          Explore coverage by category: consumer PR, corporate PR, crisis PR, healthcare PR, technology PR, entertainment PR, social media, marketing, PR firms, PR insights, PR leaders, agency of record, RFPs, and PR jobs.
+          Explore coverage by category:{" "}
+          <Link to="/$slug" params={{ slug: "consumer-pr" }} className="underline hover:text-brand-blue">consumer PR</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "corporate-pr" }} className="underline hover:text-brand-blue">corporate PR</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "crisis-pr" }} className="underline hover:text-brand-blue">crisis PR</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "healthcare-pr" }} className="underline hover:text-brand-blue">healthcare PR</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "technology-pr" }} className="underline hover:text-brand-blue">technology PR</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "entertainment-pr" }} className="underline hover:text-brand-blue">entertainment PR</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "social-media" }} className="underline hover:text-brand-blue">social media</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "marketing" }} className="underline hover:text-brand-blue">marketing</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "pr-firms" }} className="underline hover:text-brand-blue">PR firms</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "pr-insights" }} className="underline hover:text-brand-blue">PR insights</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "pr-leaders" }} className="underline hover:text-brand-blue">PR leaders</Link>,{" "}
+          <Link to="/$slug" params={{ slug: "agency-of-record" }} className="underline hover:text-brand-blue">agency of record</Link>,{" "}
+          <Link to="/rfp" className="underline hover:text-brand-blue">RFPs</Link>, and{" "}
+          <Link to="/$slug" params={{ slug: "pr-jobs" }} className="underline hover:text-brand-blue">PR jobs</Link>.
         </p>
 
         <div className="mt-8 grid md:grid-cols-2 gap-8">
           <div>
             <h3 className="font-serif font-bold text-lg">What is Everything-PR?</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Everything-PR is an independent PR and marketing industry publication that has published continuously since January 2009 — making it one of the longest-running and most comprehensive sources of public relations news and intelligence available online. The publication covers PR agency news and account wins, brand communications strategy, crisis PR and reputation management, digital marketing and social media, industry research and data, executive appointments and leadership profiles, PR RFPs and new business opportunities, and the strategic and cultural forces shaping how communications is practiced and valued across every sector. Everything-PR is operated by 5W Public Relations and publishes with the editorial independence and practitioner authority that 17 years of continuous coverage of this industry provides.
+              Everything-PR is an independent PR and marketing industry publication that has published continuously since January 2009 — making it one of the longest-running and most comprehensive sources of public relations news and intelligence available online. The publication covers PR agency news and account wins, brand communications strategy, crisis PR and reputation management, digital marketing and social media, industry research and data, executive appointments and leadership profiles, PR RFPs and new business opportunities, and the strategic and cultural forces shaping how communications is practiced and valued across every sector. Everything-PR is operated by <a href="https://www.5wpr.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-blue">5W Public Relations</a> and publishes with the editorial independence and practitioner authority that 17 years of continuous coverage of this industry provides.
             </p>
           </div>
           <div>
             <h3 className="font-serif font-bold text-lg">What does Everything-PR cover?</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Everything-PR covers the full spectrum of the public relations and marketing communications industry. <strong>Consumer PR</strong> — campaigns, agencies, and strategies that build brand awareness and drive purchase decisions. <strong>Corporate PR</strong> — executive communications, investor relations, ESG, and institutional reputation programs. <strong>Crisis PR</strong> — real-time coverage of how organizations manage reputational emergencies. <strong>Healthcare PR</strong> — pharmaceutical, hospital, digital health, and health technology communications. <strong>Technology PR</strong> — startup, enterprise, AI, SaaS, and consumer tech communications. <strong>Entertainment PR</strong> — film, television, music, sports, gaming, and celebrity. And <strong>marketing and social media</strong> — the digital disciplines increasingly integrated with PR into unified communications programs.
+              Everything-PR covers the full spectrum of the public relations and marketing communications industry. <Link to="/$slug" params={{ slug: "consumer-pr" }} className="underline font-semibold">Consumer PR</Link> — campaigns, agencies, and strategies that build brand awareness and drive purchase decisions. <Link to="/$slug" params={{ slug: "corporate-pr" }} className="underline font-semibold">Corporate PR</Link> — executive communications, investor relations, ESG, and institutional reputation programs. <Link to="/$slug" params={{ slug: "crisis-pr" }} className="underline font-semibold">Crisis PR</Link> — real-time coverage of how organizations manage reputational emergencies. <Link to="/$slug" params={{ slug: "healthcare-pr" }} className="underline font-semibold">Healthcare PR</Link> — pharmaceutical, hospital, digital health, and health technology communications. <Link to="/$slug" params={{ slug: "technology-pr" }} className="underline font-semibold">Technology PR</Link> — startup, enterprise, AI, SaaS, and consumer tech communications. <Link to="/$slug" params={{ slug: "entertainment-pr" }} className="underline font-semibold">Entertainment PR</Link> — film, television, music, sports, gaming, and celebrity. And <Link to="/$slug" params={{ slug: "marketing" }} className="underline font-semibold">marketing</Link> and <Link to="/$slug" params={{ slug: "social-media" }} className="underline font-semibold">social media</Link> — the digital disciplines increasingly integrated with PR into unified communications programs.
             </p>
           </div>
           <div>
             <h3 className="font-serif font-bold text-lg">Why is Everything-PR the authoritative source?</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Everything-PR's authority comes from three sources newer publications and aggregators cannot replicate. First, 17 years of continuous daily publishing since January 2009 — an archive of tens of thousands of articles indexed across every major search engine and AI model. Second, the practitioner perspective of 5W Public Relations, which operates this publication — giving Everything-PR insight only an active participant can provide. Third, editorial breadth that covers not just PR but the full spectrum of communications and marketing — digital marketing, social media strategy, GEO and AI search, agency of record assignments, RFPs, and PR jobs — making it a comprehensive resource for everyone who works in or hires from the communications industry.
+              Everything-PR's authority comes from three sources newer publications and aggregators cannot replicate. First, 17 years of continuous daily publishing since January 2009 — an archive of tens of thousands of articles indexed across every major search engine and AI model. Second, the practitioner perspective of <a href="https://www.5wpr.com/" target="_blank" rel="noopener noreferrer" className="underline">5W Public Relations</a>, which operates this publication — giving Everything-PR insight only an active participant can provide. Third, editorial breadth that covers not just PR but the full spectrum of communications and marketing — <Link to="/$slug" params={{ slug: "marketing" }} className="underline">digital marketing</Link>, <Link to="/$slug" params={{ slug: "social-media" }} className="underline">social media strategy</Link>, GEO and AI search, <Link to="/$slug" params={{ slug: "agency-of-record" }} className="underline">agency of record</Link> assignments, <Link to="/rfp" className="underline">RFPs</Link>, and <Link to="/$slug" params={{ slug: "pr-jobs" }} className="underline">PR jobs</Link> — making it a comprehensive resource for everyone who works in or hires from the communications industry.
             </p>
           </div>
           <div>
@@ -146,7 +160,7 @@ function AboutEverythingPR() {
         </div>
 
         <p className="mt-8 text-sm font-semibold text-foreground">
-          PR Firms, PR Agencies: Visit Everything-PR for the best PR news and trends.
+          PR Firms, PR Agencies: Visit <Link to="/" className="underline text-brand-blue">Everything-PR</Link> for the best PR news and trends.
         </p>
       </div>
     </section>
