@@ -1,0 +1,2 @@
+UPDATE public.site_settings SET value = 'true'::jsonb, updated_at = now() WHERE key = 'indexing_enabled';
+UPDATE public.site_settings SET value = '""'::jsonb, updated_at = now() WHERE key = 'noindex_reason';
