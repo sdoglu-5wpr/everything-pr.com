@@ -303,12 +303,23 @@ function MediaBackfillPage() {
               if (rewriting) return;
               setRewriting(true);
               try {
-                const r = await rewriteAllLegacyUrls();
-                if (r.error) { toast.error(r.error); }
-                else {
-                  toast.success(`SQL rewrite: SEO ${r.seo_updated}, inline ${r.posts_inline_updated}, HTML ${r.posts_html_updated}`);
-                  setLog((l) => [`${new Date().toLocaleTimeString()}  SQL rewrite: seo=${r.seo_updated} inline=${r.posts_inline_updated} html=${r.posts_html_updated} (map=${r.mapping_size})`, ...l].slice(0, 50));
+                const seo = await rewriteSeoMetaSql();
+                if (seo.error) throw new Error(seo.error);
+                const inline = await rewritePostsInlineSql();
+                if (inline.error) throw new Error(inline.error);
+                setLog((l) => [`${new Date().toLocaleTimeString()}  SQL: og=${seo.og_updated} tw=${seo.tw_updated} inline=${inline.inline_updated}`, ...l].slice(0, 50));
+
+                // Loop HTML chunks until drained or stopped
+                let totalHtml = 0;
+                let safety = 0;
+                while (!stopRewriteRef.current && safety++ < 500) {
+                  const r = await rewritePostsHtmlSqlChunk({ data: { limit: 15 } });
+                  if (r.error) throw new Error(r.error);
+                  totalHtml += r.updated ?? 0;
+                  setLog((l) => [`${new Date().toLocaleTimeString()}  SQL html chunk: +${r.updated} (remaining=${r.remaining})`, ...l].slice(0, 50));
+                  if ((r.updated ?? 0) === 0) break;
                 }
+                toast.success(`SQL rewrite done — html ${totalHtml}, inline ${inline.inline_updated}, og ${seo.og_updated}, tw ${seo.tw_updated}`);
                 await refresh();
               } catch (e: any) {
                 toast.error(e?.message ?? "SQL rewrite failed");
@@ -316,7 +327,9 @@ function MediaBackfillPage() {
             }}
             disabled={rewriting}
             className="inline-flex items-center gap-1 rounded bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50">
-            ⚡ Rewrite ALL via SQL (instant)
+            ⚡ Rewrite ALL via SQL (chunked)
+          </button>
+          {rewriting && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
           </button>
           {rewriting && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
         </div>
