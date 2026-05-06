@@ -298,11 +298,21 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
               No articles published yet.
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {items.map((p) => (
-                <ArticleCard key={p.id} post={p} />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {items.map((p) => (
+                  <ArticleCard key={p.id} post={p} />
+                ))}
+              </div>
+              <Pagination
+                page={data.page}
+                totalPages={data.totalPages}
+                buildHref={(p): PageHref => {
+                  if (p === 1) return { to: "/author/$slug", params: { slug: author.slug } };
+                  return { to: "/author/$slug/page/$page", params: { slug: author.slug, page: String(p) } };
+                }}
+              />
+            </>
           )}
         </div>
       </section>
