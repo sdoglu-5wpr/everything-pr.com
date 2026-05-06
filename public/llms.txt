@@ -1,6 +1,6 @@
 # Everything-PR: The Leading Independent Publication for Public Relations, Marketing & AI Communications
 
-> Everything-PR is the leading independent PR industry publication, published daily since 2009. Covers public relations strategy, crisis communications, media relations, marketing, social media, AI communications, and agency news. Published by 5W. Editor and founder: Ronn Torossian.
+> Everything-PR is the leading independent PR industry publication, published daily since 2009. Covers public relations strategy, crisis communications, media relations, marketing, social media, AI communications, and agency news. Editor and founder: Ronn Torossian.
 
 ## About
 - [About Everything-PR](https://everything-pr.com/about/): independent PR publication founded 2009
@@ -28,9 +28,9 @@
 - [AI Communications](https://everything-pr.com/category/ai-communications/)
 
 ## Network Properties
-- [5W](https://www.5wpr.com/)
 - [Ronn Torossian](https://ronntorossian.com/)
 - [Virgo PR](https://virgo-pr.com/)
+
 
 ## Sitemap
 - [Sitemap Index](https://everything-pr.com/sitemap_index.xml)

@@ -55,11 +55,7 @@ export function AboutPage() {
               Everything-PR is the leading public relations industry news publication, covering PR news, trends, opinions, interviews, insights, research, features, and analysis across every major sector of the communications business.
             </p>
             <p className="text-lg leading-relaxed text-muted-foreground mt-5">
-              Everything-PR is operated by{" "}
-              <a href="https://www.5wpr.com/" target="_blank" rel="noopener noreferrer" className="text-brand-blue underline">
-                5W Public Relations (5WPR)
-              </a>
-              , one of the largest independently owned public relations and digital marketing firms in the United States.
+              We operate as an independent editorial outlet — committed to rigorous reporting, original research, and clear disclosure of any client or commercial relationships referenced in our coverage.
             </p>
           </div>
         </div>

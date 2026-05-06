@@ -4,7 +4,7 @@ import { SiteLayout } from "./SiteLayout";
 import { PostImage } from "./PostImage";
 import { decodeHtmlEntities, htmlToPlainText } from "@/lib/text";
 import type { PillarPayload } from "@/lib/pillars.shared";
-import fivewprBanner from "@/assets/5wpr-banner.jpg";
+
 import virgoPrBanner from "@/assets/virgo-pr-banner.gif";
 
 function formatDate(iso: string | null | undefined) {
@@ -72,8 +72,7 @@ export function PillarView({ data }: { data: PillarPayload }) {
             )}
           </div>
         </div>
-        <div className="relative mx-auto max-w-7xl px-6 pb-6 flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-white/40 border-t border-white/10 pt-4">
-          <span><span className="text-white font-bold">5W</span> · The AI Communications Firm</span>
+        <div className="relative mx-auto max-w-7xl px-6 pb-6 flex items-center justify-end text-[11px] uppercase tracking-[0.2em] text-white/40 border-t border-white/10 pt-4">
           <span>Pillar · {pillar.title}</span>
         </div>
       </section>
@@ -105,14 +104,6 @@ export function PillarView({ data }: { data: PillarPayload }) {
 
         <aside className="lg:col-span-4">
           <div className="sticky top-6 space-y-6">
-            <a
-              href="https://www.5wpr.com/?utm_source=everything-pr&utm_medium=banner&utm_campaign=5wpr-banner"
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="block overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
-            >
-              <img src={fivewprBanner} alt="5WPR — Built for now" className="w-full h-auto" loading="lazy" />
-            </a>
 
             <div className="rounded-lg border bg-white p-5 shadow-sm">
               <div className="text-xs font-bold uppercase tracking-[0.18em] text-[#FF3366] mb-3 flex items-center gap-2">
