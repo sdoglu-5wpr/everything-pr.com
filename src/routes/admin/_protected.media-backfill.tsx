@@ -97,6 +97,39 @@ function MediaBackfillPage() {
     }
   };
 
+  const startSeoRewrite = async () => {
+    if (rewriting) return;
+    setRewriting(true); stopRewriteRef.current = false;
+    let cursor = 0; let totalUpdated = 0; let retry = 0;
+    try {
+      while (!stopRewriteRef.current) {
+        try {
+          const r = await rewriteSeoBatch({ data: { batchSize: 100, afterId: cursor } });
+          retry = 0;
+          totalUpdated += r.updated;
+          cursor = r.lastId;
+          setLog((l) => [`${new Date().toLocaleTimeString()}  seo: +${r.updated}/${r.processed} (lastId=${r.lastId})`, ...l].slice(0, 50));
+          if (r.processed === 0) {
+            if (cursor === 0) break;
+            cursor = 0; // sweep again from start in case rows skipped
+            const r2 = await rewriteSeoBatch({ data: { batchSize: 100, afterId: 0 } });
+            if (r2.processed === 0) break;
+            cursor = r2.lastId; totalUpdated += r2.updated;
+          }
+        } catch (e: any) {
+          retry++;
+          const wait = Math.min(15000, 500 * 2 ** retry);
+          setLog((l) => [`${new Date().toLocaleTimeString()}  seo err (retry ${retry} in ${wait}ms): ${e?.message ?? e}`, ...l].slice(0, 50));
+          await new Promise((r) => setTimeout(r, wait));
+        }
+      }
+      toast.success(`SEO rewritten: ${totalUpdated}`);
+      await refresh();
+    } finally {
+      setRewriting(false);
+    }
+  };
+
   useEffect(() => {
     let cancelled = false;
     (async () => {
