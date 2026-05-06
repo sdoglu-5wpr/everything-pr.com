@@ -29,29 +29,35 @@ export const Route = createFileRoute("/api/contact")({
         }
 
         const submission = parsed.data;
+        const userAgent = request.headers.get("user-agent") ?? null;
 
-        // Log to activity_log (email integration is a follow-up).
-        try {
-          await supabaseAdmin.from("activity_log").insert({
-            action: "contact.form.submitted",
-            table_name: "contact",
-            row_id: null,
-            actor_id: null,
-            diff: {
-              after: {
-                name: submission.name,
-                email: submission.email,
-                phone: submission.phone || null,
-                message: submission.message,
-              },
-            },
-          });
-        } catch (err) {
-          console.error("contact.form: failed to log submission", err);
+        const { error } = await supabaseAdmin.from("contact_messages").insert({
+          name: submission.name,
+          email: submission.email,
+          phone: submission.phone || null,
+          message: submission.message,
+          user_agent: userAgent,
+        });
+
+        if (error) {
+          console.error("contact.form: insert failed", error);
           return Response.json(
             { error: "Could not record submission" },
             { status: 500 }
           );
+        }
+
+        // Best-effort activity log
+        try {
+          await supabaseAdmin.from("activity_log").insert({
+            action: "contact.form.submitted",
+            table_name: "contact_messages",
+            row_id: null,
+            actor_id: null,
+            diff: { after: { email: submission.email } },
+          });
+        } catch (err) {
+          console.error("contact.form: log failed", err);
         }
 
         return Response.json({ ok: true });

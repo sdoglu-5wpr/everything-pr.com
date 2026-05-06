@@ -27,6 +27,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
+import { Route as ApiNewsletterRouteImport } from './routes/api/newsletter'
 import { Route as ApiContactRouteImport } from './routes/api/contact'
 import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as AdminProtectedRouteImport } from './routes/admin/_protected'
@@ -136,6 +137,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
 const AuthorSlugRoute = AuthorSlugRouteImport.update({
   id: '/author/$slug',
   path: '/author/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNewsletterRoute = ApiNewsletterRouteImport.update({
+  id: '/api/newsletter',
+  path: '/api/newsletter',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiContactRoute = ApiContactRouteImport.update({
@@ -261,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/api/contact': typeof ApiContactRoute
+  '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
@@ -300,6 +307,7 @@ export interface FileRoutesByTo {
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
   '/api/contact': typeof ApiContactRoute
+  '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
@@ -341,6 +349,7 @@ export interface FileRoutesById {
   '/admin/_protected': typeof AdminProtectedRouteWithChildren
   '/admin/login': typeof AdminLoginRoute
   '/api/contact': typeof ApiContactRoute
+  '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
@@ -383,6 +392,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/admin/login'
     | '/api/contact'
+    | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
@@ -422,6 +432,7 @@ export interface FileRouteTypes {
     | '/sitemap_index.xml'
     | '/admin/login'
     | '/api/contact'
+    | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
@@ -462,6 +473,7 @@ export interface FileRouteTypes {
     | '/admin/_protected'
     | '/admin/login'
     | '/api/contact'
+    | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
@@ -503,6 +515,7 @@ export interface RootRouteChildren {
   AdminProtectedRoute: typeof AdminProtectedRouteWithChildren
   AdminLoginRoute: typeof AdminLoginRoute
   ApiContactRoute: typeof ApiContactRoute
+  ApiNewsletterRoute: typeof ApiNewsletterRoute
   AuthorSlugRoute: typeof AuthorSlugRouteWithChildren
   CategorySlugRoute: typeof CategorySlugRouteWithChildren
   TagSlugRoute: typeof TagSlugRouteWithChildren
@@ -634,6 +647,13 @@ declare module '@tanstack/react-router' {
       path: '/author/$slug'
       fullPath: '/author/$slug'
       preLoaderRoute: typeof AuthorSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/newsletter': {
+      id: '/api/newsletter'
+      path: '/api/newsletter'
+      fullPath: '/api/newsletter'
+      preLoaderRoute: typeof ApiNewsletterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/contact': {
@@ -871,6 +891,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminProtectedRoute: AdminProtectedRouteWithChildren,
   AdminLoginRoute: AdminLoginRoute,
   ApiContactRoute: ApiContactRoute,
+  ApiNewsletterRoute: ApiNewsletterRoute,
   AuthorSlugRoute: AuthorSlugRouteWithChildren,
   CategorySlugRoute: CategorySlugRouteWithChildren,
   TagSlugRoute: TagSlugRouteWithChildren,
