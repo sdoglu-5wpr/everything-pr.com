@@ -165,21 +165,38 @@ export const runBackfillBatch = createServerFn({ method: "POST" })
   });
 
 
-// ---------- Rewrite EVERYTHING via SQL (fast path) ----------
-export const rewriteAllLegacyUrls = createServerFn({ method: "POST" })
+// ---------- Rewrite via SQL: chunked endpoints ----------
+export const rewriteSeoMetaSql = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
     await ensureStaff(supabase, userId);
-    const { data, error } = await supabaseAdmin.rpc("rewrite_legacy_media_urls");
+    const { data, error } = await supabaseAdmin.rpc("rewrite_seo_meta_legacy");
     if (error) throw new Error(error.message);
-    return (data ?? {}) as {
-      seo_updated?: number;
-      posts_inline_updated?: number;
-      posts_html_updated?: number;
-      mapping_size?: number;
-      error?: string;
-    };
+    return (data ?? {}) as { og_updated?: number; tw_updated?: number; error?: string };
+  });
+
+export const rewritePostsInlineSql = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabase, userId } = context;
+    await ensureStaff(supabase, userId);
+    const { data, error } = await supabaseAdmin.rpc("rewrite_posts_inline_legacy");
+    if (error) throw new Error(error.message);
+    return (data ?? {}) as { inline_updated?: number; error?: string };
+  });
+
+export const rewritePostsHtmlSqlChunk = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ limit: z.number().int().min(1).max(50).default(15) }).parse(input),
+  )
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    await ensureStaff(supabase, userId);
+    const { data: r, error } = await supabaseAdmin.rpc("rewrite_posts_html_legacy_chunk", { p_limit: data.limit });
+    if (error) throw new Error(error.message);
+    return (r ?? {}) as { updated?: number; remaining?: number; error?: string };
   });
 
 // ---------- Rewrite posts: swap legacy URLs → Supabase URLs ----------

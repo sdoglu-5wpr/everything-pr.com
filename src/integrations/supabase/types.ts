@@ -1063,6 +1063,12 @@ export type Database = {
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
       rewrite_legacy_media_urls: { Args: never; Returns: Json }
+      rewrite_posts_html_legacy_chunk: {
+        Args: { p_limit?: number }
+        Returns: Json
+      }
+      rewrite_posts_inline_legacy: { Args: never; Returns: Json }
+      rewrite_seo_meta_legacy: { Args: never; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "editor" | "author"
