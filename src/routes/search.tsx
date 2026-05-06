@@ -32,11 +32,22 @@ export const Route = createFileRoute("/search")({
 });
 
 function Page() {
-  const data = Route.useLoaderData()!;
+  const data = Route.useLoaderData();
   const { s } = Route.useSearch();
+  const safeData = data ?? {
+    header: {
+      kind: "search" as const,
+      title: s ? `Search: "${s}"` : "Search",
+      subtitle: "No results",
+    },
+    items: [],
+    page: 1,
+    totalItems: 0,
+    totalPages: 1,
+  };
   return (
     <ArchiveView
-      data={data}
+      data={safeData}
       eyebrow="Search"
       buildHref={(p): PageHref => ({ to: "/search", search: { s, page: p } })}
     />
