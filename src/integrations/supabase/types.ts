@@ -481,6 +481,51 @@ export type Database = {
         }
         Relationships: []
       }
+      pillars: {
+        Row: {
+          body_html: string
+          byline: string | null
+          created_at: string
+          faq: Json
+          hero_image_url: string | null
+          id: number
+          published: boolean
+          schema_jsonld: Json | null
+          slug: string
+          subtitle: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body_html?: string
+          byline?: string | null
+          created_at?: string
+          faq?: Json
+          hero_image_url?: string | null
+          id: number
+          published?: boolean
+          schema_jsonld?: Json | null
+          slug: string
+          subtitle?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body_html?: string
+          byline?: string | null
+          created_at?: string
+          faq?: Json
+          hero_image_url?: string | null
+          id?: number
+          published?: boolean
+          schema_jsonld?: Json | null
+          slug?: string
+          subtitle?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       post_categories: {
         Row: {
           category_id: number
@@ -878,6 +923,10 @@ export type Database = {
           p_economy_slug?: string
           p_section_slugs?: string[]
         }
+        Returns: Json
+      }
+      get_pillar: {
+        Args: { p_page?: number; p_page_size?: number; p_slug: string }
         Returns: Json
       }
       has_role: {
