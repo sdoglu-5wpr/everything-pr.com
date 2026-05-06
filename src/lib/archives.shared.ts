@@ -1,6 +1,7 @@
 // Shared archive-fetch logic that runs in both browser (Netlify static
 // post-hydration nav) and on the server.
 import { resolvePostImageUrl, rewriteLegacyUrl } from "@/lib/legacy-urls";
+import { htmlToPlainText } from "@/lib/text";
 import type { ArchivePayload, ArchiveItem, ArchiveHeader } from "@/serverFns/archives.functions";
 
 export const PAGE_SIZE = 10;
