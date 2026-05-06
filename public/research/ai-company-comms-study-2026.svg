@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06091F"/>
+      <stop offset="1" stop-color="#0B144B"/>
+    </linearGradient>
+    <radialGradient id="glow4" cx="0.82" cy="0.5" r="0.45">
+      <stop offset="0" stop-color="#E14B2C" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#E14B2C" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg4)"/>
+  <rect width="1200" height="630" fill="url(#glow4)"/>
+
+  <!-- neural network nodes -->
+  <g transform="translate(820,315)" opacity="0.96">
+    <!-- layer 1 -->
+    <circle cx="-180" cy="-150" r="10" fill="#F08763"/>
+    <circle cx="-180" cy="-50" r="10" fill="#F08763"/>
+    <circle cx="-180" cy="50" r="10" fill="#F08763"/>
+    <circle cx="-180" cy="150" r="10" fill="#F08763"/>
+    <!-- layer 2 (hidden) -->
+    <circle cx="-30" cy="-180" r="12" fill="#E14B2C"/>
+    <circle cx="-30" cy="-60" r="12" fill="#E14B2C"/>
+    <circle cx="-30" cy="60" r="12" fill="#E14B2C"/>
+    <circle cx="-30" cy="180" r="12" fill="#E14B2C"/>
+    <!-- layer 3 (output) -->
+    <circle cx="120" cy="-100" r="14" fill="#FFFFFF"/>
+    <circle cx="120" cy="0" r="14" fill="#FFFFFF"/>
+    <circle cx="120" cy="100" r="14" fill="#FFFFFF"/>
+    <!-- connections — sparse for clarity -->
+    <g stroke="#FFFFFF" stroke-opacity="0.18" stroke-width="1.2" fill="none">
+      <line x1="-180" y1="-150" x2="-30" y2="-180"/>
+      <line x1="-180" y1="-150" x2="-30" y2="-60"/>
+      <line x1="-180" y1="-50" x2="-30" y2="-180"/>
+      <line x1="-180" y1="-50" x2="-30" y2="-60"/>
+      <line x1="-180" y1="-50" x2="-30" y2="60"/>
+      <line x1="-180" y1="50" x2="-30" y2="-60"/>
+      <line x1="-180" y1="50" x2="-30" y2="60"/>
+      <line x1="-180" y1="50" x2="-30" y2="180"/>
+      <line x1="-180" y1="150" x2="-30" y2="60"/>
+      <line x1="-180" y1="150" x2="-30" y2="180"/>
+      <line x1="-30" y1="-180" x2="120" y2="-100"/>
+      <line x1="-30" y1="-60" x2="120" y2="-100"/>
+      <line x1="-30" y1="-60" x2="120" y2="0"/>
+      <line x1="-30" y1="60" x2="120" y2="0"/>
+      <line x1="-30" y1="60" x2="120" y2="100"/>
+      <line x1="-30" y1="180" x2="120" y2="100"/>
+    </g>
+  </g>
+
+  <!-- top-left wordmark -->
+  <text x="80" y="92" fill="#FFFFFF" fill-opacity="0.7" font-family="Inter, system-ui, sans-serif" font-size="20" font-weight="700" letter-spacing="2">EVERYTHING-PR</text>
+  <line x1="80" y1="106" x2="180" y2="106" stroke="#E14B2C" stroke-width="3"/>
+
+  <text x="80" y="160" fill="#E14B2C" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" letter-spacing="3">RESEARCH STUDY • 2026</text>
+
+  <!-- title -->
+  <text x="80" y="260" fill="#FFFFFF" font-family="'Bricolage Grotesque','Plus Jakarta Sans',Inter,system-ui,sans-serif" font-size="76" font-weight="800" letter-spacing="-2">The AI Company</text>
+  <text x="80" y="340" fill="#FFFFFF" font-family="'Bricolage Grotesque','Plus Jakarta Sans',Inter,system-ui,sans-serif" font-size="76" font-weight="800" letter-spacing="-2">Comms</text>
+  <text x="80" y="420" fill="#F08763" font-family="'Bricolage Grotesque','Plus Jakarta Sans',Inter,system-ui,sans-serif" font-size="76" font-weight="800" letter-spacing="-2">Study 2026</text>
+
+  <text x="80" y="490" fill="#FFFFFF" fill-opacity="0.55" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="500">How Fortune 500 AI companies approach communications and PR</text>
+
+  <text x="1120" y="590" fill="#FFFFFF" fill-opacity="0.45" font-family="Inter, system-ui, sans-serif" font-size="14" font-weight="500" letter-spacing="1" text-anchor="end">everything-pr.com</text>
+</svg>
