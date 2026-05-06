@@ -40,19 +40,60 @@ function MediaBackfillPage() {
   const startRewrite = async () => {
     if (rewriting) return;
     stopRewriteRef.current = false; setRewriting(true);
-    while (!stopRewriteRef.current) {
-      try {
-        const r = await rewritePostsBatch({ data: { batchSize: 25 } });
-        setLog((l) => [`${new Date().toLocaleTimeString()}  rewrite: updated=${r.updated}/${r.processed}, remaining=${r.remaining}`, ...l].slice(0, 50));
-        await refresh();
-        if (r.processed === 0 || r.remaining === 0) { toast.success("Posts rewritten"); break; }
-      } catch (e: any) {
-        toast.error(e?.message ?? "Rewrite failed");
-        setLog((l) => [`${new Date().toLocaleTimeString()}  ERROR rewrite ${e?.message}`, ...l].slice(0, 50));
-        break;
+    const PARALLEL = 4;
+    const BATCH = 80;
+    // Independent cursors per worker so they don't fight over the same rows.
+    const cursors = Array.from({ length: PARALLEL }, () => 0);
+    let totalUpdated = 0;
+    let totalProcessed = 0;
+    let consecutiveEmpty = 0;
+    let tick = 0;
+
+    const runWorker = async (i: number) => {
+      let retry = 0;
+      while (!stopRewriteRef.current) {
+        try {
+          const wantCount = (++tick) % 8 === 0;
+          const r = await rewritePostsBatch({
+            data: { batchSize: BATCH, afterId: cursors[i], withCount: wantCount },
+          });
+          retry = 0;
+          totalUpdated += r.updated;
+          totalProcessed += r.processed;
+          cursors[i] = r.lastId;
+          if (r.processed === 0) {
+            // Restart this worker from the beginning so it can pick up rows
+            // that other workers couldn't reach (or new ones).
+            consecutiveEmpty++;
+            cursors[i] = 0;
+            if (consecutiveEmpty >= PARALLEL * 2) {
+              setLog((l) => [`${new Date().toLocaleTimeString()}  rewrite drained · total updated=${totalUpdated}`, ...l].slice(0, 50));
+              stopRewriteRef.current = true;
+              break;
+            }
+          } else {
+            consecutiveEmpty = 0;
+          }
+          if (wantCount) {
+            setLog((l) => [`${new Date().toLocaleTimeString()}  rewrite: +${r.updated}/${r.processed} (worker ${i}, lastId=${r.lastId}, remaining=${r.remaining})`, ...l].slice(0, 50));
+            await refresh();
+          }
+        } catch (e: any) {
+          retry++;
+          const wait = Math.min(15000, 500 * 2 ** retry);
+          setLog((l) => [`${new Date().toLocaleTimeString()}  worker ${i} err (retry ${retry} in ${wait}ms): ${e?.message ?? e}`, ...l].slice(0, 50));
+          await new Promise((r) => setTimeout(r, wait));
+        }
       }
+    };
+
+    try {
+      await Promise.all(Array.from({ length: PARALLEL }, (_, i) => runWorker(i)));
+      toast.success("Posts rewritten");
+      await refresh();
+    } finally {
+      setRewriting(false);
     }
-    setRewriting(false);
   };
 
   useEffect(() => {

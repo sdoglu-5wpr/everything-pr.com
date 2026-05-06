@@ -210,7 +210,11 @@ export const getRewriteStats = createServerFn({ method: "GET" })
 
 export const rewritePostsBatch = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) =>
-    z.object({ batchSize: z.number().int().min(1).max(100).default(25) }).parse(input),
+    z.object({
+      batchSize: z.number().int().min(1).max(200).default(80),
+      afterId: z.number().int().min(0).default(0),
+      withCount: z.boolean().default(false),
+    }).parse(input),
   )
   .middleware([requireSupabaseAuth])
   .handler(async ({ data, context }) => {
@@ -218,7 +222,7 @@ export const rewritePostsBatch = createServerFn({ method: "POST" })
     await ensureStaff(supabase, userId);
 
     const SUPABASE_URL = process.env.EPR_SUPABASE_URL!;
-    const deadline = Date.now() + 22000;
+    const deadline = Date.now() + 24000;
 
     // Load full URL → storage_key map of all successfully migrated images.
     const map = new Map<string, string>();
@@ -235,12 +239,13 @@ export const rewritePostsBatch = createServerFn({ method: "POST" })
       if (rows.length < 1000) break;
       off += 1000;
     }
-    if (map.size === 0) return { processed: 0, updated: 0, remaining: 0 };
+    if (map.size === 0) return { processed: 0, updated: 0, lastId: data.afterId, done: true, remaining: 0 };
 
-    // Fetch a batch of posts that still contain a legacy URL.
+    // Cursor scan by id — much faster than re-running ORed ilike + sort each call.
     const { data: posts, error: pErr } = await supabaseAdmin
       .from("posts")
       .select("id, content_html, first_inline_image")
+      .gt("id", data.afterId)
       .or(
         "content_html.ilike.%everything-pr.com/wp-content/uploads/%,first_inline_image.ilike.%everything-pr.com/wp-content/uploads/%",
       )
@@ -248,8 +253,11 @@ export const rewritePostsBatch = createServerFn({ method: "POST" })
       .limit(data.batchSize);
     if (pErr) throw new Error(pErr.message);
 
+    const updates: Promise<unknown>[] = [];
     let updated = 0;
+    let lastId = data.afterId;
     for (const p of posts ?? []) {
+      lastId = p.id;
       if (Date.now() > deadline) break;
       let html = p.content_html ?? "";
       let inline = p.first_inline_image ?? null;
@@ -272,19 +280,34 @@ export const rewritePostsBatch = createServerFn({ method: "POST" })
         const patch: { content_html?: string; first_inline_image?: string | null } = {};
         if (html !== original) patch.content_html = html;
         if (inline !== originalInline) patch.first_inline_image = inline;
-        const { error: uErr } = await supabaseAdmin.from("posts").update(patch).eq("id", p.id);
-        if (!uErr) updated++;
+        updates.push(
+          (async () => {
+            const r = await supabaseAdmin.from("posts").update(patch).eq("id", p.id);
+            if (!r.error) updated++;
+          })(),
+        );
       }
     }
+    await Promise.all(updates);
 
-    const { count: remaining } = await supabaseAdmin
-      .from("posts")
-      .select("id", { count: "exact", head: true })
-      .or(
-        "content_html.ilike.%everything-pr.com/wp-content/uploads/%,first_inline_image.ilike.%everything-pr.com/wp-content/uploads/%",
-      );
+    let remaining: number | null = null;
+    if (data.withCount) {
+      const { count } = await supabaseAdmin
+        .from("posts")
+        .select("id", { count: "exact", head: true })
+        .or(
+          "content_html.ilike.%everything-pr.com/wp-content/uploads/%,first_inline_image.ilike.%everything-pr.com/wp-content/uploads/%",
+        );
+      remaining = count ?? 0;
+    }
 
-    return { processed: posts?.length ?? 0, updated, remaining: remaining ?? 0 };
+    return {
+      processed: posts?.length ?? 0,
+      updated,
+      lastId,
+      done: (posts?.length ?? 0) < data.batchSize,
+      remaining: remaining ?? -1,
+    };
   });
 
 // ---------- Reset failed → pending ----------
