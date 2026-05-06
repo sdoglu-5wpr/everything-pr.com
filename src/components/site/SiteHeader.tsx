@@ -113,7 +113,7 @@ export function SiteHeader() {
   });
 
   return (
-    <header className="bg-white text-foreground border-b border-black/10">
+    <header className="bg-white text-foreground border-b border-black/10 sticky top-0 z-40 shadow-sm">
       {/* Top blue utility bar */}
       <div className="bg-[color:var(--ink)] text-white text-xs">
         <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-between">
