@@ -126,7 +126,7 @@ function MediaBackfillPage() {
 
         <div className="flex items-center gap-2 pt-2 border-t">
           <label className="text-xs text-muted-foreground">Batch</label>
-          <input type="number" min={1} max={20} value={batchSize}
+          <input type="number" min={1} max={10} value={batchSize}
             onChange={(e) => setBatchSize(Math.max(1, Math.min(20, Number(e.target.value) || 8)))}
             disabled={running}
             className="w-20 rounded border px-2 py-1 text-sm" />
