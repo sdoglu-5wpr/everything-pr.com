@@ -122,7 +122,7 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async (): P
 
     const sectionsObj = (rpc?.sections ?? {}) as Record<string, any[]>;
     const sections = SECTION_DEFS.map((s) => {
-      const limit = s.slug === "research" ? 4 : s.slug === "marketing" || s.slug === "social-media" ? 4 : 3;
+      const limit = 3;
       const posts = (sectionsObj[s.slug] ?? [])
         .map((r) => toPost(r, { name: s.title, slug: s.slug }))
         .filter((p) => !usedIds.has(p.id))
