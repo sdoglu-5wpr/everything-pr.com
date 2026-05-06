@@ -929,6 +929,10 @@ export type Database = {
         Args: { p_page?: number; p_page_size?: number; p_slug: string }
         Returns: Json
       }
+      get_research_list: {
+        Args: { p_page?: number; p_page_size?: number }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
