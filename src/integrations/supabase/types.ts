@@ -208,6 +208,36 @@ export type Database = {
           },
         ]
       }
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: number
+          message: string
+          name: string
+          phone: string | null
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: number
+          message: string
+          name: string
+          phone?: string | null
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: number
+          message?: string
+          name?: string
+          phone?: string | null
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       import_jobs: {
         Row: {
           completed_at: string | null
@@ -478,6 +508,27 @@ export type Database = {
           name?: string
           slug?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          created_at: string
+          email: string
+          id: number
+          source: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: number
+          source?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: number
+          source?: string | null
         }
         Relationships: []
       }
