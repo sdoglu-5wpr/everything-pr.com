@@ -25,6 +25,9 @@ function MediaBackfillPage() {
   const [batchSize, setBatchSize] = useState(5);
   const [log, setLog] = useState<string[]>([]);
   const [recentErrors, setRecentErrors] = useState<Array<{ url: string; error: string }>>([]);
+  const [rewriteStats, setRewriteStats] = useState<{ remaining: number; remainingInline: number } | null>(null);
+  const [rewriting, setRewriting] = useState(false);
+  const stopRewriteRef = useRef(false);
   const stopRef = useRef(false);
 
   const refresh = async () => {
