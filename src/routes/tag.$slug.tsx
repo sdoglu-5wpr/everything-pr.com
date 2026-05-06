@@ -19,6 +19,7 @@ export const Route = createFileRoute("/tag/$slug")({
       totalItems: loaderData.totalItems,
       items: loaderData.items.map((i) => ({ title: i.title, slug: i.slug })),
       pathPrefix: `/tag/${(params as { slug: string }).slug}`,
+      seoOverrides: loaderData.header.seo,
     });
   },
   component: Page,
