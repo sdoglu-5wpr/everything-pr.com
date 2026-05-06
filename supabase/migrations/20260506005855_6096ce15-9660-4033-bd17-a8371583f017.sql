@@ -1,0 +1,1 @@
+UPDATE public.authors SET avatar_url = '/authors/epr-editorial-team.jpg', updated_at = now() WHERE id = 1052;
