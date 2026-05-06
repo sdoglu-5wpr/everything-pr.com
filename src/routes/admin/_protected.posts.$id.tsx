@@ -102,8 +102,9 @@ function PostEditor() {
     if (isNew && !slugTouched) setSlug(slugify(title));
   }, [title, isNew, slugTouched]);
 
+  const plainExcerpt = useMemo(() => htmlToPlainText(excerpt), [excerpt]);
   const titleLen = (seo.title || title).length;
-  const descLen = (seo.description || excerpt).length;
+  const descLen = (seo.description || plainExcerpt).length;
 
   const save = async (overrideStatus?: typeof status) => {
     if (!title.trim()) { toast.error("Title is required"); return; }
