@@ -128,9 +128,57 @@ function CategoriesPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-medium mb-1">Description</label>
+                <label className="block text-xs font-medium mb-1">Description <span className="text-muted-foreground">(shown on archive page)</span></label>
                 <textarea value={editing.description ?? ""} onChange={(e) => setEditing({ ...editing, description: e.target.value })}
                   rows={3} className="w-full rounded border px-3 py-1.5 text-sm" />
+              </div>
+
+              <div className="border-t pt-3 mt-2">
+                <h3 className="text-sm font-semibold mb-3">SEO</h3>
+                <div className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-medium mb-1">Focus keyword</label>
+                    <input value={editing.focus_keyword ?? ""} onChange={(e) => setEditing({ ...editing, focus_keyword: e.target.value })}
+                      placeholder="e.g. cybersecurity PR" className="w-full rounded border px-3 py-1.5 text-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      Meta title <span className="text-muted-foreground">({(editing.seo_title ?? "").length}/60)</span>
+                    </label>
+                    <input value={editing.seo_title ?? ""} onChange={(e) => setEditing({ ...editing, seo_title: e.target.value })}
+                      placeholder={editing.name ?? ""} className="w-full rounded border px-3 py-1.5 text-sm" />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1">
+                      Meta description <span className={`${(editing.seo_description ?? "").length > 160 ? "text-red-600" : "text-muted-foreground"}`}>({(editing.seo_description ?? "").length}/160)</span>
+                    </label>
+                    <textarea value={editing.seo_description ?? ""} onChange={(e) => setEditing({ ...editing, seo_description: e.target.value })}
+                      rows={2} placeholder={editing.description ?? ""} className="w-full rounded border px-3 py-1.5 text-sm" />
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium mb-1">Canonical URL</label>
+                      <input value={editing.canonical_url ?? ""} onChange={(e) => setEditing({ ...editing, canonical_url: e.target.value })}
+                        placeholder="(auto)" className="w-full rounded border px-3 py-1.5 text-sm" />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium mb-1">Robots</label>
+                      <select value={editing.robots ?? ""} onChange={(e) => setEditing({ ...editing, robots: e.target.value || null })}
+                        className="w-full rounded border px-3 py-1.5 text-sm">
+                        <option value="">— default —</option>
+                        <option value="index,follow">index, follow</option>
+                        <option value="index,nofollow">index, nofollow</option>
+                        <option value="noindex,follow">noindex, follow</option>
+                        <option value="noindex,nofollow">noindex, nofollow</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-medium mb-1">OG image URL <span className="text-muted-foreground">(social sharing)</span></label>
+                    <input value={editing.og_image ?? ""} onChange={(e) => setEditing({ ...editing, og_image: e.target.value })}
+                      placeholder="https://…/image.jpg" className="w-full rounded border px-3 py-1.5 text-sm" />
+                  </div>
+                </div>
               </div>
             </div>
             <div className="border-t px-4 py-3 flex justify-end gap-2">
