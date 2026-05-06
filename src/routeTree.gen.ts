@@ -21,6 +21,7 @@ import { Route as PageSitemapDotxmlRouteImport } from './routes/page-sitemap[.xm
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as CategorySitemapDotxmlRouteImport } from './routes/category-sitemap[.xml]'
 import { Route as AuthorSitemapDotxmlRouteImport } from './routes/author-sitemap[.xml]'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
@@ -105,6 +106,11 @@ const CategorySitemapDotxmlRoute = CategorySitemapDotxmlRouteImport.update({
 const AuthorSitemapDotxmlRoute = AuthorSitemapDotxmlRouteImport.update({
   id: '/author-sitemap.xml',
   path: '/author-sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SlugRoute = SlugRouteImport.update({
@@ -239,6 +245,7 @@ const AdminProtectedPostsIdRoute = AdminProtectedPostsIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/about': typeof AboutRoute
   '/author-sitemap.xml': typeof AuthorSitemapDotxmlRoute
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
   '/feed': typeof FeedRoute
@@ -278,6 +285,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/about': typeof AboutRoute
   '/author-sitemap.xml': typeof AuthorSitemapDotxmlRoute
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
   '/feed': typeof FeedRoute
@@ -317,6 +325,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/$slug': typeof SlugRoute
+  '/about': typeof AboutRoute
   '/author-sitemap.xml': typeof AuthorSitemapDotxmlRoute
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
   '/feed': typeof FeedRoute
@@ -358,6 +367,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/$slug'
+    | '/about'
     | '/author-sitemap.xml'
     | '/category-sitemap.xml'
     | '/feed'
@@ -397,6 +407,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/$slug'
+    | '/about'
     | '/author-sitemap.xml'
     | '/category-sitemap.xml'
     | '/feed'
@@ -435,6 +446,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/$slug'
+    | '/about'
     | '/author-sitemap.xml'
     | '/category-sitemap.xml'
     | '/feed'
@@ -475,6 +487,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   SlugRoute: typeof SlugRoute
+  AboutRoute: typeof AboutRoute
   AuthorSitemapDotxmlRoute: typeof AuthorSitemapDotxmlRoute
   CategorySitemapDotxmlRoute: typeof CategorySitemapDotxmlRoute
   FeedRoute: typeof FeedRoute
@@ -579,6 +592,13 @@ declare module '@tanstack/react-router' {
       path: '/author-sitemap.xml'
       fullPath: '/author-sitemap.xml'
       preLoaderRoute: typeof AuthorSitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/$slug': {
@@ -835,6 +855,7 @@ const TagSlugRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   SlugRoute: SlugRoute,
+  AboutRoute: AboutRoute,
   AuthorSitemapDotxmlRoute: AuthorSitemapDotxmlRoute,
   CategorySitemapDotxmlRoute: CategorySitemapDotxmlRoute,
   FeedRoute: FeedRoute,

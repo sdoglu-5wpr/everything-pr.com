@@ -126,7 +126,7 @@ export function SiteHeader() {
             <span>{today}</span>
           </div>
           <nav className="flex items-center gap-5 text-white/90 font-medium">
-            <Link to="/$slug" params={{ slug: "about" }} className="hover:text-white">
+            <Link to="/about" className="hover:text-white">
               About Us
             </Link>
             <span aria-hidden className="text-white/30">/</span>
@@ -303,7 +303,7 @@ export function SiteHeader() {
               );
             })}
             <div className="border-t pt-3 mt-3 grid grid-cols-2 gap-2 normal-case font-normal">
-              <Link to="/$slug" params={{ slug: "about" }} onClick={closeMobile} className="block px-2 py-2 rounded hover:bg-black/5 text-sm">
+              <Link to="/about" onClick={closeMobile} className="block px-2 py-2 rounded hover:bg-black/5 text-sm">
                 About Us
               </Link>
               <Link to="/$slug" params={{ slug: "contact" }} onClick={closeMobile} className="block px-2 py-2 rounded hover:bg-black/5 text-sm">
