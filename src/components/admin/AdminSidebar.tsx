@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, FileText, FilePlus2, Image, FolderTree, Tag, Users,
-  ArrowRightLeft, Menu as MenuIcon, Search, Zap, Settings, History, Download,
+  ArrowRightLeft, Menu as MenuIcon, Search, Zap, Settings, History, Download, CloudDownload,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -32,6 +32,7 @@ const STRUCTURE: Item[] = [
 const SYSTEM: Item[] = [
   { title: "Automations", url: "/admin/automations", icon: Zap },
   { title: "Import (WP)", url: "/admin/import", icon: Download },
+  { title: "Media backfill", url: "/admin/media-backfill", icon: CloudDownload },
   { title: "Settings", url: "/admin/settings", icon: Settings },
   { title: "Activity", url: "/admin/activity", icon: History },
 ];

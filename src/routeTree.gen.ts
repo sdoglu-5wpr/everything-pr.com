@@ -37,6 +37,7 @@ import { Route as AdminProtectedSettingsRouteImport } from './routes/admin/_prot
 import { Route as AdminProtectedSeoRouteImport } from './routes/admin/_protected.seo'
 import { Route as AdminProtectedRedirectsRouteImport } from './routes/admin/_protected.redirects'
 import { Route as AdminProtectedMenusRouteImport } from './routes/admin/_protected.menus'
+import { Route as AdminProtectedMediaBackfillRouteImport } from './routes/admin/_protected.media-backfill'
 import { Route as AdminProtectedMediaRouteImport } from './routes/admin/_protected.media'
 import { Route as AdminProtectedImportRouteImport } from './routes/admin/_protected.import'
 import { Route as AdminProtectedCategoriesRouteImport } from './routes/admin/_protected.categories'
@@ -191,6 +192,12 @@ const AdminProtectedMenusRoute = AdminProtectedMenusRouteImport.update({
   path: '/menus',
   getParentRoute: () => AdminProtectedRoute,
 } as any)
+const AdminProtectedMediaBackfillRoute =
+  AdminProtectedMediaBackfillRouteImport.update({
+    id: '/media-backfill',
+    path: '/media-backfill',
+    getParentRoute: () => AdminProtectedRoute,
+  } as any)
 const AdminProtectedMediaRoute = AdminProtectedMediaRouteImport.update({
   id: '/media',
   path: '/media',
@@ -291,6 +298,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
   '/admin/media': typeof AdminProtectedMediaRoute
+  '/admin/media-backfill': typeof AdminProtectedMediaBackfillRoute
   '/admin/menus': typeof AdminProtectedMenusRoute
   '/admin/redirects': typeof AdminProtectedRedirectsRoute
   '/admin/seo': typeof AdminProtectedSeoRoute
@@ -333,6 +341,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminProtectedCategoriesRoute
   '/admin/import': typeof AdminProtectedImportRoute
   '/admin/media': typeof AdminProtectedMediaRoute
+  '/admin/media-backfill': typeof AdminProtectedMediaBackfillRoute
   '/admin/menus': typeof AdminProtectedMenusRoute
   '/admin/redirects': typeof AdminProtectedRedirectsRoute
   '/admin/seo': typeof AdminProtectedSeoRoute
@@ -377,6 +386,7 @@ export interface FileRoutesById {
   '/admin/_protected/categories': typeof AdminProtectedCategoriesRoute
   '/admin/_protected/import': typeof AdminProtectedImportRoute
   '/admin/_protected/media': typeof AdminProtectedMediaRoute
+  '/admin/_protected/media-backfill': typeof AdminProtectedMediaBackfillRoute
   '/admin/_protected/menus': typeof AdminProtectedMenusRoute
   '/admin/_protected/redirects': typeof AdminProtectedRedirectsRoute
   '/admin/_protected/seo': typeof AdminProtectedSeoRoute
@@ -422,6 +432,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/import'
     | '/admin/media'
+    | '/admin/media-backfill'
     | '/admin/menus'
     | '/admin/redirects'
     | '/admin/seo'
@@ -464,6 +475,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/import'
     | '/admin/media'
+    | '/admin/media-backfill'
     | '/admin/menus'
     | '/admin/redirects'
     | '/admin/seo'
@@ -507,6 +519,7 @@ export interface FileRouteTypes {
     | '/admin/_protected/categories'
     | '/admin/_protected/import'
     | '/admin/_protected/media'
+    | '/admin/_protected/media-backfill'
     | '/admin/_protected/menus'
     | '/admin/_protected/redirects'
     | '/admin/_protected/seo'
@@ -747,6 +760,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProtectedMenusRouteImport
       parentRoute: typeof AdminProtectedRoute
     }
+    '/admin/_protected/media-backfill': {
+      id: '/admin/_protected/media-backfill'
+      path: '/media-backfill'
+      fullPath: '/admin/media-backfill'
+      preLoaderRoute: typeof AdminProtectedMediaBackfillRouteImport
+      parentRoute: typeof AdminProtectedRoute
+    }
     '/admin/_protected/media': {
       id: '/admin/_protected/media'
       path: '/media'
@@ -848,6 +868,7 @@ interface AdminProtectedRouteChildren {
   AdminProtectedCategoriesRoute: typeof AdminProtectedCategoriesRoute
   AdminProtectedImportRoute: typeof AdminProtectedImportRoute
   AdminProtectedMediaRoute: typeof AdminProtectedMediaRoute
+  AdminProtectedMediaBackfillRoute: typeof AdminProtectedMediaBackfillRoute
   AdminProtectedMenusRoute: typeof AdminProtectedMenusRoute
   AdminProtectedRedirectsRoute: typeof AdminProtectedRedirectsRoute
   AdminProtectedSeoRoute: typeof AdminProtectedSeoRoute
@@ -865,6 +886,7 @@ const AdminProtectedRouteChildren: AdminProtectedRouteChildren = {
   AdminProtectedCategoriesRoute: AdminProtectedCategoriesRoute,
   AdminProtectedImportRoute: AdminProtectedImportRoute,
   AdminProtectedMediaRoute: AdminProtectedMediaRoute,
+  AdminProtectedMediaBackfillRoute: AdminProtectedMediaBackfillRoute,
   AdminProtectedMenusRoute: AdminProtectedMenusRoute,
   AdminProtectedRedirectsRoute: AdminProtectedRedirectsRoute,
   AdminProtectedSeoRoute: AdminProtectedSeoRoute,
