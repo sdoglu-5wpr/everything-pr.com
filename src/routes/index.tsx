@@ -15,6 +15,7 @@ const EMPTY_PAYLOAD: HomePayload = {
   hero: null,
   topStories: [],
   sections: [
+    { key: "research", title: "Research", slug: "research", posts: [] },
     { key: "pr-news", title: "PR News", slug: "pr-news", posts: [] },
     { key: "pr-insights", title: "Insights", slug: "pr-insights", posts: [] },
     { key: "marketing", title: "Marketing", slug: "marketing", posts: [] },
