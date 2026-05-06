@@ -309,7 +309,7 @@ function PostEditor() {
                     Meta description <span className={`ml-1 ${descLen > 160 ? "text-red-600" : "text-muted-foreground"}`}>({descLen}/160)</span>
                   </label>
                   <textarea value={seo.description} onChange={(e) => setSeo({ ...seo, description: e.target.value })}
-                    rows={2} placeholder={excerpt} className="w-full rounded border px-3 py-1.5 text-sm" />
+                    rows={2} placeholder={plainExcerpt} className="w-full rounded border px-3 py-1.5 text-sm" />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
