@@ -24,6 +24,7 @@ export const Route = createFileRoute("/author/$slug")({
       totalItems: loaderData.totalItems,
       items: loaderData.items.map((i) => ({ title: i.title, slug: i.slug })),
       pathPrefix: `/author/${(params as { slug: string }).slug}`,
+      author: loaderData.header.author,
     });
   },
   component: Page,
