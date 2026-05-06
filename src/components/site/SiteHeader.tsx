@@ -46,7 +46,7 @@ const NAV: NavItem[] = [
   { label: "Research", kind: "path", to: "/research" },
   { label: "PR Firms", kind: "category", slug: "pr-firms" },
   { label: "RFPs", kind: "category", slug: "rfp" },
-  { label: "About", kind: "category", slug: "about" },
+  { label: "About", kind: "path", to: "/about" },
 ];
 
 function LeafLinkEl({ leaf, className, onClick }: { leaf: LeafLink; className?: string; onClick?: () => void }) {
