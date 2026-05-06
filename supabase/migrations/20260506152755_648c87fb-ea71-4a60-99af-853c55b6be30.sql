@@ -1,0 +1,1 @@
+UPDATE public.pillars SET hero_image_url = '/pillars/cybersecurity.png', updated_at = now() WHERE slug = 'cybersecurity';
