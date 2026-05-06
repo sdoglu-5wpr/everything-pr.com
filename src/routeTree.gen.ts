@@ -13,6 +13,7 @@ import { Route as Sitemap_indexDotxmlRouteImport } from './routes/sitemap_index[
 import { Route as SetupCoworkRouteImport } from './routes/setup-cowork'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.txt]'
+import { Route as ResearchRouteImport } from './routes/research'
 import { Route as Post_tagSitemapDotxmlRouteImport } from './routes/post_tag-sitemap[.xml]'
 import { Route as PostSitemapDotxmlRouteImport } from './routes/post-sitemap[.xml]'
 import { Route as PostSitemappageDotxmlRouteImport } from './routes/post-sitemap$page[.]xml'
@@ -64,6 +65,11 @@ const SearchRoute = SearchRouteImport.update({
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
   id: '/robots.txt',
   path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResearchRoute = ResearchRouteImport.update({
+  id: '/research',
+  path: '/research',
   getParentRoute: () => rootRouteImport,
 } as any)
 const Post_tagSitemapDotxmlRoute = Post_tagSitemapDotxmlRouteImport.update({
@@ -240,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/post_tag-sitemap.xml': typeof Post_tagSitemapDotxmlRoute
+  '/research': typeof ResearchRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/setup-cowork': typeof SetupCoworkRoute
@@ -278,6 +285,7 @@ export interface FileRoutesByTo {
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/post_tag-sitemap.xml': typeof Post_tagSitemapDotxmlRoute
+  '/research': typeof ResearchRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/setup-cowork': typeof SetupCoworkRoute
@@ -316,6 +324,7 @@ export interface FileRoutesById {
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/post_tag-sitemap.xml': typeof Post_tagSitemapDotxmlRoute
+  '/research': typeof ResearchRoute
   '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/setup-cowork': typeof SetupCoworkRoute
@@ -356,6 +365,7 @@ export interface FileRouteTypes {
     | '/post-sitemap$page.xml'
     | '/post-sitemap.xml'
     | '/post_tag-sitemap.xml'
+    | '/research'
     | '/robots.txt'
     | '/search'
     | '/setup-cowork'
@@ -394,6 +404,7 @@ export interface FileRouteTypes {
     | '/post-sitemap$page.xml'
     | '/post-sitemap.xml'
     | '/post_tag-sitemap.xml'
+    | '/research'
     | '/robots.txt'
     | '/search'
     | '/setup-cowork'
@@ -431,6 +442,7 @@ export interface FileRouteTypes {
     | '/post-sitemap$page.xml'
     | '/post-sitemap.xml'
     | '/post_tag-sitemap.xml'
+    | '/research'
     | '/robots.txt'
     | '/search'
     | '/setup-cowork'
@@ -470,6 +482,7 @@ export interface RootRouteChildren {
   PostSitemappageDotxmlRoute: typeof PostSitemappageDotxmlRoute
   PostSitemapDotxmlRoute: typeof PostSitemapDotxmlRoute
   Post_tagSitemapDotxmlRoute: typeof Post_tagSitemapDotxmlRoute
+  ResearchRoute: typeof ResearchRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SearchRoute: typeof SearchRoute
   SetupCoworkRoute: typeof SetupCoworkRoute
@@ -510,6 +523,13 @@ declare module '@tanstack/react-router' {
       path: '/robots.txt'
       fullPath: '/robots.txt'
       preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/research': {
+      id: '/research'
+      path: '/research'
+      fullPath: '/research'
+      preLoaderRoute: typeof ResearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/post_tag-sitemap.xml': {
@@ -822,6 +842,7 @@ const rootRouteChildren: RootRouteChildren = {
   PostSitemappageDotxmlRoute: PostSitemappageDotxmlRoute,
   PostSitemapDotxmlRoute: PostSitemapDotxmlRoute,
   Post_tagSitemapDotxmlRoute: Post_tagSitemapDotxmlRoute,
+  ResearchRoute: ResearchRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SearchRoute: SearchRoute,
   SetupCoworkRoute: SetupCoworkRoute,
