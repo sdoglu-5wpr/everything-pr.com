@@ -24,8 +24,8 @@ function MediaBackfillPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [running, setRunning] = useState(false);
   const [building, setBuilding] = useState(false);
-  const [batchSize, setBatchSize] = useState(25);
-  const [parallel, setParallel] = useState(4);
+  const [batchSize, setBatchSize] = useState(50);
+  const [parallel, setParallel] = useState(6);
   const [log, setLog] = useState<string[]>([]);
   const [recentErrors, setRecentErrors] = useState<Array<{ url: string; error: string }>>([]);
   const [rewriteStats, setRewriteStats] = useState<{ remaining: number; remainingInline: number; remainingSeo: number } | null>(null);
