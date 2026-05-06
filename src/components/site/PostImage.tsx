@@ -36,7 +36,14 @@ export function PostImage({
   if (src) {
     return (
       <div className={className}>
-        <img src={src} alt={alt} className={imgClassName} loading={loading} />
+        <img
+          src={src}
+          alt={alt}
+          className={imgClassName}
+          loading={loading}
+          decoding="async"
+          fetchPriority={loading === "eager" ? "high" : "low"}
+        />
       </div>
     );
   }

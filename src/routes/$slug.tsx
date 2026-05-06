@@ -271,6 +271,10 @@ function ArticlePage() {
                 alt={article.featured_image.alt ?? article.title}
                 className="w-full h-auto rounded-lg object-cover"
                 loading="eager"
+                decoding="async"
+                fetchPriority="high"
+                width={1200}
+                height={675}
               />
               {article.featured_image.alt ? (
                 <figcaption className="mt-2 text-sm text-muted-foreground">
