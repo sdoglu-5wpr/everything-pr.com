@@ -1,6 +1,7 @@
 import { TopTicker } from "./TopTicker";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter, type FooterMenuItem } from "./SiteFooter";
+import { BackToTop } from "./BackToTop";
 
 type Props = {
   children: React.ReactNode;
@@ -17,6 +18,8 @@ export function SiteLayout({ children, tickerItems, footerMenu, afterNewsletter 
       <main className="flex-1">{children}</main>
       {afterNewsletter}
       <SiteFooter menu={footerMenu} />
+      <BackToTop />
     </div>
   );
 }
+
