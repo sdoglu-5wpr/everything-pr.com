@@ -72,8 +72,7 @@ export function PillarView({ data }: { data: PillarPayload }) {
             )}
           </div>
         </div>
-        <div className="relative mx-auto max-w-7xl px-6 pb-6 flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-white/40 border-t border-white/10 pt-4">
-          <span><span className="text-white font-bold">5W</span> · The AI Communications Firm</span>
+        <div className="relative mx-auto max-w-7xl px-6 pb-6 flex items-center justify-end text-[11px] uppercase tracking-[0.2em] text-white/40 border-t border-white/10 pt-4">
           <span>Pillar · {pillar.title}</span>
         </div>
       </section>
