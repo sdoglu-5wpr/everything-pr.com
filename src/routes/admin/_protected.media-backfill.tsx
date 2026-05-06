@@ -10,6 +10,7 @@ import {
   resetFailedBackfill,
   getRewriteStats,
   rewritePostsBatch,
+  rewriteSeoBatch,
 } from "@/serverFns/media-backfill.functions";
 
 export const Route = createFileRoute("/admin/_protected/media-backfill")({
@@ -25,7 +26,7 @@ function MediaBackfillPage() {
   const [batchSize, setBatchSize] = useState(5);
   const [log, setLog] = useState<string[]>([]);
   const [recentErrors, setRecentErrors] = useState<Array<{ url: string; error: string }>>([]);
-  const [rewriteStats, setRewriteStats] = useState<{ remaining: number; remainingInline: number } | null>(null);
+  const [rewriteStats, setRewriteStats] = useState<{ remaining: number; remainingInline: number; remainingSeo: number } | null>(null);
   const [rewriting, setRewriting] = useState(false);
   const stopRewriteRef = useRef(false);
   const stopRef = useRef(false);
@@ -90,6 +91,39 @@ function MediaBackfillPage() {
     try {
       await Promise.all(Array.from({ length: PARALLEL }, (_, i) => runWorker(i)));
       toast.success("Posts rewritten");
+      await refresh();
+    } finally {
+      setRewriting(false);
+    }
+  };
+
+  const startSeoRewrite = async () => {
+    if (rewriting) return;
+    setRewriting(true); stopRewriteRef.current = false;
+    let cursor = 0; let totalUpdated = 0; let retry = 0;
+    try {
+      while (!stopRewriteRef.current) {
+        try {
+          const r = await rewriteSeoBatch({ data: { batchSize: 100, afterId: cursor } });
+          retry = 0;
+          totalUpdated += r.updated;
+          cursor = r.lastId;
+          setLog((l) => [`${new Date().toLocaleTimeString()}  seo: +${r.updated}/${r.processed} (lastId=${r.lastId})`, ...l].slice(0, 50));
+          if (r.processed === 0) {
+            if (cursor === 0) break;
+            cursor = 0; // sweep again from start in case rows skipped
+            const r2 = await rewriteSeoBatch({ data: { batchSize: 100, afterId: 0 } });
+            if (r2.processed === 0) break;
+            cursor = r2.lastId; totalUpdated += r2.updated;
+          }
+        } catch (e: any) {
+          retry++;
+          const wait = Math.min(15000, 500 * 2 ** retry);
+          setLog((l) => [`${new Date().toLocaleTimeString()}  seo err (retry ${retry} in ${wait}ms): ${e?.message ?? e}`, ...l].slice(0, 50));
+          await new Promise((r) => setTimeout(r, wait));
+        }
+      }
+      toast.success(`SEO rewritten: ${totalUpdated}`);
       await refresh();
     } finally {
       setRewriting(false);
@@ -225,15 +259,16 @@ function MediaBackfillPage() {
             content and inline-image fields with the matching Supabase Storage URL.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-2 text-sm">
+        <div className="grid grid-cols-3 gap-2 text-sm">
           <Stat label="Posts w/ legacy HTML" value={rewriteStats?.remaining ?? 0} />
           <Stat label="Posts w/ legacy inline" value={rewriteStats?.remainingInline ?? 0} />
+          <Stat label="SEO meta w/ legacy" value={rewriteStats?.remainingSeo ?? 0} />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {!rewriting ? (
             <button onClick={startRewrite} disabled={(rewriteStats?.remaining ?? 0) + (rewriteStats?.remainingInline ?? 0) === 0}
               className="inline-flex items-center gap-1 rounded bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
-              <Play className="h-4 w-4" /> Start rewrite
+              <Play className="h-4 w-4" /> Start rewrite (posts)
             </button>
           ) : (
             <button onClick={() => { stopRewriteRef.current = true; }}
@@ -241,6 +276,10 @@ function MediaBackfillPage() {
               <Square className="h-4 w-4" /> Stop
             </button>
           )}
+          <button onClick={startSeoRewrite} disabled={rewriting || (rewriteStats?.remainingSeo ?? 0) === 0}
+            className="inline-flex items-center gap-1 rounded border bg-white px-3 py-1.5 text-sm font-medium hover:bg-muted disabled:opacity-50">
+            <Play className="h-4 w-4" /> Rewrite SEO meta
+          </button>
           {rewriting && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
         </div>
       </div>
