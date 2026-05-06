@@ -310,14 +310,6 @@ function ArticlePage() {
 
         <aside className="lg:col-span-1">
           <div className="sticky top-6 space-y-8">
-            <a
-              href="https://www.5wpr.com/?utm_source=everything-pr&utm_medium=banner&utm_campaign=5wpr-banner"
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="block overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
-            >
-              <img src={fivewprBanner} alt="5WPR — Built for now" className="w-full h-auto" loading="lazy" />
-            </a>
             <div>
               <SidebarHeader title="Top Stories" />
               <ul className="mt-4 space-y-4">
