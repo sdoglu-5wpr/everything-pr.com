@@ -74,6 +74,15 @@ export function buildHomepageHead(opts: { title?: string; description?: string }
 
 type ArchiveKind = "category" | "tag" | "author" | "search";
 
+type AuthorMeta = {
+  display_name: string;
+  slug: string;
+  avatar_url: string | null;
+  bio: string | null;
+  website: string | null;
+  social: { twitter?: string | null; linkedin?: string | null; facebook?: string | null; instagram?: string | null } | null;
+} | undefined;
+
 export function buildArchiveHead(opts: {
   kind: ArchiveKind;
   termTitle: string;
@@ -83,30 +92,41 @@ export function buildArchiveHead(opts: {
   items: Array<{ title: string; slug: string }>;
   pathPrefix: string; // e.g. "/category/news-slug"
   searchPhrase?: string;
+  author?: AuthorMeta;
 }): HeadOutput {
-  const { kind, termTitle, termDescription, page, totalItems, items, pathPrefix, searchPhrase } = opts;
+  const { kind, termTitle, termDescription, page, totalItems, items, pathPrefix, searchPhrase, author } = opts;
 
   let titleTemplate: string;
   let descTemplate: string;
+  let breadcrumbLabel: string;
   switch (kind) {
     case "category":
+      titleTemplate = `${termTitle} | ${SITE_NAME}`;
+      descTemplate = termDescription || `Latest ${termTitle} articles, news, and analysis from ${SITE_NAME}.`;
+      breadcrumbLabel = "Categories";
+      break;
     case "tag":
       titleTemplate = `${termTitle} | ${SITE_NAME}`;
       descTemplate = termDescription || `Latest ${termTitle} articles, news, and analysis from ${SITE_NAME}.`;
+      breadcrumbLabel = "Tags";
       break;
     case "author":
       titleTemplate = `${termTitle} - ${SITE_NAME}`;
       descTemplate = termDescription || `Articles by ${termTitle} on ${SITE_NAME}.`;
+      breadcrumbLabel = "Contributors";
       break;
     case "search":
       titleTemplate = `You searched for ${searchPhrase ?? termTitle} | ${SITE_NAME}`;
       descTemplate = `${totalItems} result${totalItems === 1 ? "" : "s"} for "${searchPhrase ?? termTitle}" on ${SITE_NAME}.`;
+      breadcrumbLabel = "Search";
       break;
   }
   const title = page > 1 ? `${titleTemplate} — Page ${page}` : titleTemplate;
   const description = truncate(descTemplate);
   const url = page > 1 ? `${SITE_URL}${pathPrefix}/page/${page}/` : `${SITE_URL}${pathPrefix}/`;
-  const meta = baseMeta(title, description, url, DEFAULT_OG_IMAGE, "website");
+  const ogType = kind === "author" ? "article" : "website";
+  const ogImage = kind === "author" && author?.avatar_url ? author.avatar_url : DEFAULT_OG_IMAGE;
+  const meta = baseMeta(title, description, url, ogImage, ogType);
   const links: Link = [{ rel: "canonical", href: url }];
 
   const itemList = {
@@ -118,6 +138,58 @@ export function buildArchiveHead(opts: {
       name: it.title,
     })),
   };
+
+  const breadcrumbId = `${url}#breadcrumb`;
+  const breadcrumbNode = {
+    "@type": "BreadcrumbList",
+    "@id": breadcrumbId,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: breadcrumbLabel },
+      { "@type": "ListItem", position: 3, name: termTitle, item: `${SITE_URL}${pathPrefix}/` },
+    ],
+  };
+
+  // Author archive → ProfilePage + Person; otherwise CollectionPage
+  if (kind === "author" && author) {
+    const personId = `${SITE_URL}/#/schema/person/${author.slug}`;
+    const sameAs = [author.social?.linkedin, author.social?.twitter, author.social?.facebook, author.social?.instagram, author.website]
+      .filter((u): u is string => Boolean(u));
+    const personNode: Record<string, unknown> = {
+      "@type": "Person",
+      "@id": personId,
+      name: author.display_name,
+      url: `${SITE_URL}${pathPrefix}/`,
+      description: author.bio ? author.bio.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 500) : undefined,
+      image: author.avatar_url
+        ? { "@type": "ImageObject", url: author.avatar_url, contentUrl: author.avatar_url, caption: author.display_name }
+        : undefined,
+      jobTitle: "Contributor at Everything-PR",
+      worksFor: { "@id": `${SITE_URL}/#organization` },
+      mainEntityOfPage: { "@id": `${url}#webpage` },
+    };
+    if (sameAs.length) personNode.sameAs = sameAs;
+
+    const profilePage = {
+      "@type": "ProfilePage",
+      "@id": `${url}#webpage`,
+      url,
+      name: title,
+      description,
+      isPartOf: { "@id": `${SITE_URL}/#website` },
+      breadcrumb: { "@id": breadcrumbId },
+      mainEntity: { "@id": personId },
+      hasPart: itemList,
+      inLanguage: "en-US",
+    };
+
+    return {
+      meta,
+      links,
+      scripts: [jsonLd(ORG_JSONLD, websiteNode, profilePage, personNode, breadcrumbNode)],
+    };
+  }
+
   const collectionPage = {
     "@type": "CollectionPage",
     "@id": `${url}#webpage`,
@@ -126,8 +198,10 @@ export function buildArchiveHead(opts: {
     description,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#organization` },
+    breadcrumb: { "@id": breadcrumbId },
     mainEntity: itemList,
+    inLanguage: "en-US",
   };
 
-  return { meta, links, scripts: [jsonLd(ORG_JSONLD, websiteNode, collectionPage)] };
+  return { meta, links, scripts: [jsonLd(ORG_JSONLD, websiteNode, collectionPage, breadcrumbNode)] };
 }

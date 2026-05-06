@@ -16,6 +16,8 @@ import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 import { PillarView } from "@/components/site/PillarView";
 import { htmlToPlainText } from "@/lib/text";
 import { buildArticleHead } from "@/serverFns/seo.article";
+import { extractFaqPairs } from "@/lib/faq";
+import { FaqSection } from "@/components/site/FaqSection";
 import fivewprBanner from "@/assets/5wpr-banner.jpg";
 import virgoPrBanner from "@/assets/virgo-pr-banner.gif";
 
@@ -177,6 +179,7 @@ function ArticlePage() {
   const categories = article.categories ?? [];
   const primaryCategory = categories[0];
   const minutes = readingTime(article.content_html);
+  const faqPairs = extractFaqPairs(article.content_html);
 
   if (article.type === "page" && article.slug === "contact") {
     return (
@@ -299,6 +302,8 @@ function ArticlePage() {
               ))}
             </div>
           ) : null}
+
+          <FaqSection pairs={faqPairs} />
 
           {article.author ? <AuthorCard author={article.author} /> : null}
         </div>

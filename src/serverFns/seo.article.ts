@@ -1,5 +1,6 @@
 import { SITE_URL, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE, ORG_JSONLD } from "./seo.constants";
 import { htmlToPlainText } from "@/lib/text";
+import { extractFaqPairs } from "@/lib/faq";
 import type { ArticlePayload } from "./articles.functions";
 
 type Meta = Array<Record<string, string>>;
@@ -220,18 +221,4 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
   if (faqNode) graph.push(faqNode);
 
   return { meta, links, scripts: [jsonLd(graph)] };
-}
-
-function extractFaqPairs(html: string): { q: string; a: string }[] {
-  if (!html) return [];
-  const re = /<h[23][^>]*>([^<]*\?)\s*<\/h[23]>([\s\S]*?)(?=<h[23]|$)/gi;
-  const out: { q: string; a: string }[] = [];
-  let m: RegExpExecArray | null;
-  while ((m = re.exec(html))) {
-    const q = m[1].replace(/\s+/g, " ").trim();
-    const a = htmlToPlainText(m[2]).slice(0, 600);
-    if (q && a) out.push({ q, a });
-    if (out.length >= 10) break;
-  }
-  return out;
 }
