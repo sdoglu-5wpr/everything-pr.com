@@ -1,35 +1,33 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Play, Square, RefreshCw, Loader2 } from "lucide-react";
+import { Play, Square, RefreshCw, Loader2, ListPlus, RotateCcw } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import {
-  getMediaBackfillStats,
-  runMediaBackfillBatch,
+  getBackfillStats,
+  buildBackfillQueue,
+  runBackfillBatch,
+  resetFailedBackfill,
 } from "@/serverFns/media-backfill.functions";
 
 export const Route = createFileRoute("/admin/_protected/media-backfill")({
   component: MediaBackfillPage,
 });
 
-type Stats = { total: number; done: number; pending: number };
+type Stats = { total: number; pending: number; done: number; failed: number };
 
 function MediaBackfillPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [running, setRunning] = useState(false);
+  const [building, setBuilding] = useState(false);
   const [batchSize, setBatchSize] = useState(15);
   const [log, setLog] = useState<string[]>([]);
-  const [counters, setCounters] = useState({ uploaded: 0, failed: 0, skipped: 0 });
-  const [recentErrors, setRecentErrors] = useState<Array<{ id: number; url: string; error: string }>>([]);
+  const [recentErrors, setRecentErrors] = useState<Array<{ url: string; error: string }>>([]);
   const stopRef = useRef(false);
 
   const refresh = async () => {
-    try {
-      const r = await getMediaBackfillStats();
-      setStats(r as Stats);
-    } catch (e: any) {
-      toast.error(e?.message ?? "Failed to load stats");
-    }
+    try { setStats((await getBackfillStats()) as Stats); }
+    catch (e: any) { toast.error(e?.message ?? "Failed to load stats"); }
   };
 
   useEffect(() => {
@@ -46,32 +44,27 @@ function MediaBackfillPage() {
     return () => { cancelled = true; };
   }, []);
 
+  const buildQueue = async () => {
+    setBuilding(true);
+    try {
+      const r = await buildBackfillQueue();
+      toast.success(`Queue built: ${r.newly_inserted} new (${r.queued} total referenced URLs)`);
+      setLog((l) => [`${new Date().toLocaleTimeString()}  built queue: scanned=${r.scanned_urls}, queued=${r.queued}, new=${r.newly_inserted}`, ...l].slice(0, 50));
+      await refresh();
+    } catch (e: any) { toast.error(e?.message ?? "Build failed"); }
+    finally { setBuilding(false); }
+  };
+
   const start = async () => {
     if (running) return;
-    stopRef.current = false;
-    setRunning(true);
-    setCounters({ uploaded: 0, failed: 0, skipped: 0 });
-    setLog([]);
-    setRecentErrors([]);
-
+    stopRef.current = false; setRunning(true); setRecentErrors([]);
     while (!stopRef.current) {
       try {
-        const r = await runMediaBackfillBatch({ data: { batchSize } });
-        setCounters((c) => ({
-          uploaded: c.uploaded + r.uploaded,
-          failed: c.failed + r.failed,
-          skipped: c.skipped + r.skipped,
-        }));
+        const r = await runBackfillBatch({ data: { batchSize } });
         if (r.errors?.length) setRecentErrors(r.errors);
-        setLog((l) => [
-          `${new Date().toLocaleTimeString()}  +${r.uploaded} uploaded · ${r.failed} failed · ${r.skipped} skipped`,
-          ...l,
-        ].slice(0, 50));
+        setLog((l) => [`${new Date().toLocaleTimeString()}  +${r.uploaded} ok · ${r.failed} fail`, ...l].slice(0, 50));
         await refresh();
-        if ((r.processed ?? 0) === 0) {
-          toast.success("All done!");
-          break;
-        }
+        if ((r.processed ?? 0) === 0) { toast.success("Queue drained"); break; }
       } catch (e: any) {
         toast.error(e?.message ?? "Batch failed");
         setLog((l) => [`${new Date().toLocaleTimeString()}  ERROR ${e?.message}`, ...l].slice(0, 50));
@@ -83,9 +76,18 @@ function MediaBackfillPage() {
 
   const stop = () => { stopRef.current = true; };
 
+  const resetFailed = async () => {
+    try {
+      const r = await resetFailedBackfill();
+      toast.success(`Reset ${r.reset} failed → pending`);
+      await refresh();
+    } catch (e: any) { toast.error(e?.message ?? "Reset failed"); }
+  };
+
   const total = stats?.total ?? 0;
   const done = stats?.done ?? 0;
   const pending = stats?.pending ?? 0;
+  const failed = stats?.failed ?? 0;
   const pct = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
 
   return (
@@ -93,37 +95,45 @@ function MediaBackfillPage() {
       <div>
         <h1 className="text-2xl font-bold">Media backfill</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Downloads legacy WordPress images from <code>everything-pr.com/wp-content/uploads/…</code> and
-          stores them in Supabase Storage (bucket <code>wp-media</code>), then rewrites <code>media.url</code>.
+          Migrates only the WordPress images actually referenced by your published posts
+          (featured + inline) from <code>everything-pr.com/wp-content/uploads/…</code> into Supabase Storage.
         </p>
       </div>
 
       <div className="rounded-lg border bg-white p-4 space-y-3">
-        <div className="flex items-center justify-between text-sm">
+        <div className="flex items-center gap-2">
+          <button onClick={buildQueue} disabled={building || running}
+            className="inline-flex items-center gap-1 rounded border bg-white px-3 py-1.5 text-sm font-medium hover:bg-muted disabled:opacity-50">
+            {building ? <Loader2 className="h-4 w-4 animate-spin" /> : <ListPlus className="h-4 w-4" />}
+            1. Build queue from posts
+          </button>
+          <span className="text-xs text-muted-foreground">Scans every published post for legacy image URLs (run once or to pick up new posts).</span>
+        </div>
+
+        <div className="flex items-center justify-between text-sm pt-2 border-t">
           <span className="font-medium">Progress</span>
           <button onClick={refresh} className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground">
             <RefreshCw className="h-3 w-3" /> Refresh
           </button>
         </div>
         <Progress value={pct} />
-        <div className="grid grid-cols-3 gap-2 text-sm">
-          <Stat label="Total legacy" value={total} />
-          <Stat label="In Storage" value={done} />
-          <Stat label="Remaining" value={pending} />
+        <div className="grid grid-cols-4 gap-2 text-sm">
+          <Stat label="Queued" value={total} />
+          <Stat label="Done" value={done} />
+          <Stat label="Pending" value={pending} />
+          <Stat label="Failed" value={failed} />
         </div>
 
         <div className="flex items-center gap-2 pt-2 border-t">
-          <label className="text-xs text-muted-foreground">Batch size</label>
-          <input
-            type="number" min={1} max={50} value={batchSize}
+          <label className="text-xs text-muted-foreground">Batch</label>
+          <input type="number" min={1} max={50} value={batchSize}
             onChange={(e) => setBatchSize(Math.max(1, Math.min(50, Number(e.target.value) || 10)))}
             disabled={running}
-            className="w-20 rounded border px-2 py-1 text-sm"
-          />
+            className="w-20 rounded border px-2 py-1 text-sm" />
           {!running ? (
             <button onClick={start} disabled={pending === 0}
               className="inline-flex items-center gap-1 rounded bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
-              <Play className="h-4 w-4" /> Start
+              <Play className="h-4 w-4" /> 2. Start downloading
             </button>
           ) : (
             <button onClick={stop}
@@ -131,16 +141,14 @@ function MediaBackfillPage() {
               <Square className="h-4 w-4" /> Stop
             </button>
           )}
+          {failed > 0 && !running && (
+            <button onClick={resetFailed}
+              className="ml-auto inline-flex items-center gap-1 rounded border px-3 py-1.5 text-xs hover:bg-muted">
+              <RotateCcw className="h-3 w-3" /> Retry {failed} failed
+            </button>
+          )}
           {running && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
         </div>
-
-        {(counters.uploaded || counters.failed || counters.skipped) ? (
-          <div className="text-xs text-muted-foreground border-t pt-2">
-            This run: <strong className="text-foreground">{counters.uploaded}</strong> uploaded ·{" "}
-            <strong className="text-foreground">{counters.failed}</strong> failed ·{" "}
-            <strong className="text-foreground">{counters.skipped}</strong> skipped
-          </div>
-        ) : null}
       </div>
 
       {recentErrors.length > 0 && (
@@ -148,7 +156,7 @@ function MediaBackfillPage() {
           <div className="font-medium text-red-800 mb-1">Recent errors</div>
           <ul className="space-y-1 text-red-700">
             {recentErrors.map((e, i) => (
-              <li key={i} className="truncate"><code>#{e.id}</code> — {e.error} — <span className="opacity-70">{e.url}</span></li>
+              <li key={i} className="truncate">{e.error} — <span className="opacity-70">{e.url}</span></li>
             ))}
           </ul>
         </div>
@@ -157,9 +165,7 @@ function MediaBackfillPage() {
       {log.length > 0 && (
         <div className="rounded-lg border bg-white p-3">
           <div className="text-xs font-medium mb-2">Activity log</div>
-          <pre className="text-[11px] leading-relaxed text-muted-foreground max-h-64 overflow-auto whitespace-pre-wrap">
-{log.join("\n")}
-          </pre>
+          <pre className="text-[11px] leading-relaxed text-muted-foreground max-h-64 overflow-auto whitespace-pre-wrap">{log.join("\n")}</pre>
         </div>
       )}
     </div>

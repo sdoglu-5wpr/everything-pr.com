@@ -403,6 +403,39 @@ export type Database = {
         }
         Relationships: []
       }
+      media_backfill_queue: {
+        Row: {
+          attempts: number
+          bytes: number | null
+          created_at: string
+          last_error: string | null
+          status: string
+          storage_key: string
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          attempts?: number
+          bytes?: number | null
+          created_at?: string
+          last_error?: string | null
+          status?: string
+          storage_key: string
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          attempts?: number
+          bytes?: number | null
+          created_at?: string
+          last_error?: string | null
+          status?: string
+          storage_key?: string
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
       media_variants: {
         Row: {
           created_at: string
