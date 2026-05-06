@@ -91,7 +91,7 @@ function AdminDashboard() {
             .select("id, slug, title, status, published_at")
             .eq("status", "future")
             .order("published_at", { ascending: true })
-            .limit(5),
+            .limit(50),
           supabase.from("activity_log")
             .select("id, action, table_name, row_id, occurred_at")
             .order("occurred_at", { ascending: false })

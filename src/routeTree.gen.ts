@@ -47,6 +47,7 @@ import { Route as AdminProtectedPostsIndexRouteImport } from './routes/admin/_pr
 import { Route as TagSlugPagePageRouteImport } from './routes/tag.$slug.page.$page'
 import { Route as CategorySlugPagePageRouteImport } from './routes/category.$slug.page.$page'
 import { Route as AuthorSlugPagePageRouteImport } from './routes/author.$slug.page.$page'
+import { Route as ApiPublicHooksPublishScheduledRouteImport } from './routes/api/public/hooks/publish-scheduled'
 import { Route as AdminProtectedPostsIdRouteImport } from './routes/admin/_protected.posts.$id'
 
 const Sitemap_indexDotxmlRoute = Sitemap_indexDotxmlRouteImport.update({
@@ -242,6 +243,12 @@ const AuthorSlugPagePageRoute = AuthorSlugPagePageRouteImport.update({
   path: '/page/$page',
   getParentRoute: () => AuthorSlugRoute,
 } as any)
+const ApiPublicHooksPublishScheduledRoute =
+  ApiPublicHooksPublishScheduledRouteImport.update({
+    id: '/api/public/hooks/publish-scheduled',
+    path: '/api/public/hooks/publish-scheduled',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AdminProtectedPostsIdRoute = AdminProtectedPostsIdRouteImport.update({
   id: '/posts/$id',
   path: '/posts/$id',
@@ -284,6 +291,7 @@ export interface FileRoutesByFullPath {
   '/admin/tags': typeof AdminProtectedTagsRoute
   '/admin/': typeof AdminProtectedIndexRoute
   '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
+  '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
@@ -324,6 +332,7 @@ export interface FileRoutesByTo {
   '/admin/tags': typeof AdminProtectedTagsRoute
   '/admin': typeof AdminProtectedIndexRoute
   '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
+  '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
@@ -366,6 +375,7 @@ export interface FileRoutesById {
   '/admin/_protected/tags': typeof AdminProtectedTagsRoute
   '/admin/_protected/': typeof AdminProtectedIndexRoute
   '/admin/_protected/posts/$id': typeof AdminProtectedPostsIdRoute
+  '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
@@ -409,6 +419,7 @@ export interface FileRouteTypes {
     | '/admin/tags'
     | '/admin/'
     | '/admin/posts/$id'
+    | '/api/public/hooks/publish-scheduled'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
@@ -449,6 +460,7 @@ export interface FileRouteTypes {
     | '/admin/tags'
     | '/admin'
     | '/admin/posts/$id'
+    | '/api/public/hooks/publish-scheduled'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
@@ -490,6 +502,7 @@ export interface FileRouteTypes {
     | '/admin/_protected/tags'
     | '/admin/_protected/'
     | '/admin/_protected/posts/$id'
+    | '/api/public/hooks/publish-scheduled'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
@@ -519,6 +532,7 @@ export interface RootRouteChildren {
   AuthorSlugRoute: typeof AuthorSlugRouteWithChildren
   CategorySlugRoute: typeof CategorySlugRouteWithChildren
   TagSlugRoute: typeof TagSlugRouteWithChildren
+  ApiPublicHooksPublishScheduledRoute: typeof ApiPublicHooksPublishScheduledRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -789,6 +803,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorSlugPagePageRouteImport
       parentRoute: typeof AuthorSlugRoute
     }
+    '/api/public/hooks/publish-scheduled': {
+      id: '/api/public/hooks/publish-scheduled'
+      path: '/api/public/hooks/publish-scheduled'
+      fullPath: '/api/public/hooks/publish-scheduled'
+      preLoaderRoute: typeof ApiPublicHooksPublishScheduledRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/_protected/posts/$id': {
       id: '/admin/_protected/posts/$id'
       path: '/posts/$id'
@@ -895,6 +916,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthorSlugRoute: AuthorSlugRouteWithChildren,
   CategorySlugRoute: CategorySlugRouteWithChildren,
   TagSlugRoute: TagSlugRouteWithChildren,
+  ApiPublicHooksPublishScheduledRoute: ApiPublicHooksPublishScheduledRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
