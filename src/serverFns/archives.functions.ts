@@ -3,6 +3,7 @@ import { setResponseHeader } from "@tanstack/react-start/server";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
 import { cached } from "@/serverFns/loader-cache.server";
 import { pickFirstImageSrc, resolvePostImageUrl, rewriteLegacyUrl } from "@/lib/legacy-urls";
+import { htmlToPlainText } from "@/lib/text";
 
 function setArchiveCache() {
   try {
