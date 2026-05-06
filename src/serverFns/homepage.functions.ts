@@ -134,7 +134,7 @@ export const getHomepage = createServerFn({ method: "GET" }).handler(async (): P
     const crisisPosts = ((rpc?.crisis ?? []) as any[])
       .map((r) => toPost(r, { name: "Crisis", slug: "crisis-pr" }))
       .filter((p) => !usedIds.has(p.id))
-      .slice(0, 5);
+      .slice(0, 3);
     for (const p of crisisPosts) usedIds.add(p.id);
 
     const economyRow = rpc?.economy ?? null;
