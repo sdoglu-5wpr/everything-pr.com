@@ -97,7 +97,7 @@ export const listTags = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     await ensureStaff(supabase, userId);
     const { data, error } = await supabase
-      .from("tags").select("id, name, slug, description, post_count").order("name");
+      .from("tags").select("id, name, slug, description, post_count, seo_title, seo_description, canonical_url, robots, og_image, focus_keyword").order("name");
     if (error) throw new Error(error.message);
     return { items: data ?? [] };
   });
@@ -107,6 +107,12 @@ const TagInput = z.object({
   name: z.string().min(1),
   slug: z.string().optional().default(""),
   description: z.string().nullable().optional(),
+  seo_title: z.string().nullable().optional(),
+  seo_description: z.string().nullable().optional(),
+  canonical_url: z.string().nullable().optional(),
+  robots: z.string().nullable().optional(),
+  og_image: z.string().nullable().optional(),
+  focus_keyword: z.string().nullable().optional(),
 });
 
 export const saveTag = createServerFn({ method: "POST" })
@@ -116,7 +122,15 @@ export const saveTag = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     await ensureStaff(supabase, userId);
     const slug = slugify(data.slug || data.name);
-    const row = { name: data.name, slug, description: data.description ?? null };
+    const row = {
+      name: data.name, slug, description: data.description ?? null,
+      seo_title: data.seo_title ?? null,
+      seo_description: data.seo_description ?? null,
+      canonical_url: data.canonical_url ?? null,
+      robots: data.robots ?? null,
+      og_image: data.og_image ?? null,
+      focus_keyword: data.focus_keyword ?? null,
+    };
     if (data.id == null) {
       const id = await nextId(supabase, "tags");
       const { error } = await supabase.from("tags").insert({ id, ...row } as any);
