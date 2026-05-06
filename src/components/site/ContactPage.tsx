@@ -28,9 +28,10 @@ const FAQS: { q: string; a: React.ReactNode }[] = [
     ),
   },
   {
-    q: "Is Everything-PR affiliated with 5W?",
-    a: "Yes. Everything-PR is published by 5W (5wpr.com), the premier AI-communications firm in the United States. Sponsored content paid for by 5W is clearly labeled per FTC rules.",
+    q: "Is Everything-PR independent?",
+    a: "Yes. Everything-PR is an independent editorial publication. Any sponsored content or commercial relationships are clearly labeled per FTC rules.",
   },
+
   {
     q: "How often is the website updated?",
     a: "New articles are published daily. The PR Industry Salary Survey, PR Spend Transparency Study, Gaming Trust Index, and other research drops are published on the cadences listed on /research/.",
