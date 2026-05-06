@@ -35,7 +35,7 @@ export const Route = createRootRoute({
   loader: () => getIndexingState(),
   head: ({ loaderData }) => {
     const indexing = loaderData as { enabled: boolean } | undefined;
-    const robotsContent = indexing?.enabled === false ? NOINDEX_HEADER : "index, follow";
+    const robotsContent = indexing?.enabled === false ? NOINDEX_HEADER : "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
     return {
       meta: [
         { charSet: "utf-8" },

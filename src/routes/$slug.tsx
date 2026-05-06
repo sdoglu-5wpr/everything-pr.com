@@ -15,6 +15,7 @@ import { ContactPage } from "@/components/site/ContactPage";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 import { PillarView } from "@/components/site/PillarView";
 import { htmlToPlainText } from "@/lib/text";
+import { buildArticleHead } from "@/serverFns/seo.article";
 import fivewprBanner from "@/assets/5wpr-banner.jpg";
 import virgoPrBanner from "@/assets/virgo-pr-banner.gif";
 
@@ -96,59 +97,7 @@ export const Route = createFileRoute("/$slug")({
     }
     if (loaderData.kind !== "article") return { meta: [{ title: "Everything-PR" }] };
     const { article } = loaderData.data;
-    const title = article.seo?.title || `${article.title} · Everything-PR`;
-    const description =
-      article.seo?.description ||
-      htmlToPlainText(article.excerpt) ||
-      `${article.title} — read the full story on Everything-PR.`;
-    const ogImage = article.seo?.og_image || article.featured_image?.url || undefined;
-    const canonical = article.seo?.canonical_url || undefined;
-
-    const meta = [
-      { title },
-      { name: "description", content: description },
-      { property: "og:title", content: article.seo?.og_title || article.title },
-      { property: "og:description", content: article.seo?.og_description || description },
-      { property: "og:type", content: "article" },
-      { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:title", content: article.title },
-      { name: "twitter:description", content: description },
-    ];
-    if (ogImage) {
-      meta.push({ property: "og:image", content: ogImage });
-      meta.push({ name: "twitter:image", content: ogImage });
-    }
-    if (article.seo?.robots) meta.push({ name: "robots", content: article.seo.robots });
-
-    const links = canonical ? [{ rel: "canonical", href: canonical }] : [];
-
-    const ld = {
-      "@context": "https://schema.org",
-      "@type": "NewsArticle",
-      headline: article.title,
-      description,
-      image: ogImage ? [ogImage] : undefined,
-      datePublished: article.published_at ?? undefined,
-      dateModified: article.modified_at ?? article.published_at ?? undefined,
-      author: article.author
-        ? { "@type": "Person", name: article.author.display_name }
-        : undefined,
-      publisher: {
-        "@type": "Organization",
-        name: "Everything-PR",
-      },
-    };
-
-    return {
-      meta,
-      links,
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify(ld),
-        },
-      ],
-    };
+    return buildArticleHead(article);
   },
   notFoundComponent: NotFound,
   errorComponent: ErrorView,

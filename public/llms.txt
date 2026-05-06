@@ -1,0 +1,36 @@
+# Everything-PR: The Leading Independent Publication for Public Relations, Marketing & AI Communications
+
+> Everything-PR is the leading independent PR industry publication, published daily since 2009. Covers public relations strategy, crisis communications, media relations, marketing, social media, AI communications, and agency news. Published by 5W. Editor and founder: Ronn Torossian.
+
+## About
+- [About Everything-PR](https://everything-pr.com/about/): independent PR publication founded 2009
+- [Editorial Policy](https://everything-pr.com/editorial-policy/)
+- [Ethics Policy](https://everything-pr.com/ethics-policy/)
+- [Corrections Policy](https://everything-pr.com/corrections-policy/)
+- [Contact](https://everything-pr.com/contact/)
+
+## Pages
+- [Homepage](https://everything-pr.com/)
+- [All News](https://everything-pr.com/category/news/)
+- [Research](https://everything-pr.com/category/research/)
+
+## Proprietary Research & Studies
+- [PR Spend Transparency Study 2026](https://everything-pr.com/pr-spend-transparency-study-2026/): how Fortune 500 companies budget for PR
+- [The AI Company Comms Study 2026](https://everything-pr.com/ai-company-comms-study-2026/): how leading AI companies communicate
+- [The Foreign Influence PR Study 2026](https://everything-pr.com/the-foreign-influence-pr-study-2026/): foreign-government PR spend in the US
+- [The Nonprofit PR Transparency Study 2026](https://everything-pr.com/nonprofit-pr-transparency-study-2026/): PR spend across the nonprofit sector
+- [The Municipal & State PR Spend Study 2026](https://everything-pr.com/municipal-state-pr-spend-study-2026/): public-sector PR budgets in the US
+
+## Crisis Communications
+- [Crisis PR](https://everything-pr.com/category/crisis-pr/)
+
+## AI Communications & GEO
+- [AI Communications](https://everything-pr.com/category/ai-communications/)
+
+## Network Properties
+- [5W](https://www.5wpr.com/)
+- [Ronn Torossian](https://ronntorossian.com/)
+- [Virgo PR](https://virgo-pr.com/)
+
+## Sitemap
+- [Sitemap Index](https://everything-pr.com/sitemap_index.xml)
