@@ -226,15 +226,16 @@ function MediaBackfillPage() {
             content and inline-image fields with the matching Supabase Storage URL.
           </p>
         </div>
-        <div className="grid grid-cols-2 gap-2 text-sm">
+        <div className="grid grid-cols-3 gap-2 text-sm">
           <Stat label="Posts w/ legacy HTML" value={rewriteStats?.remaining ?? 0} />
           <Stat label="Posts w/ legacy inline" value={rewriteStats?.remainingInline ?? 0} />
+          <Stat label="SEO meta w/ legacy" value={rewriteStats?.remainingSeo ?? 0} />
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {!rewriting ? (
             <button onClick={startRewrite} disabled={(rewriteStats?.remaining ?? 0) + (rewriteStats?.remainingInline ?? 0) === 0}
               className="inline-flex items-center gap-1 rounded bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
-              <Play className="h-4 w-4" /> Start rewrite
+              <Play className="h-4 w-4" /> Start rewrite (posts)
             </button>
           ) : (
             <button onClick={() => { stopRewriteRef.current = true; }}
@@ -242,6 +243,10 @@ function MediaBackfillPage() {
               <Square className="h-4 w-4" /> Stop
             </button>
           )}
+          <button onClick={startSeoRewrite} disabled={rewriting || (rewriteStats?.remainingSeo ?? 0) === 0}
+            className="inline-flex items-center gap-1 rounded border bg-white px-3 py-1.5 text-sm font-medium hover:bg-muted disabled:opacity-50">
+            <Play className="h-4 w-4" /> Rewrite SEO meta
+          </button>
           {rewriting && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
         </div>
       </div>
