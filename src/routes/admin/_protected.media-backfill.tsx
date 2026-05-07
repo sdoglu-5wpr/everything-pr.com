@@ -29,8 +29,8 @@ function MediaBackfillPage() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [running, setRunning] = useState(false);
   const [building, setBuilding] = useState(false);
-  const [batchSize, setBatchSize] = useState(50);
-  const [parallel, setParallel] = useState(6);
+  const [batchSize, setBatchSize] = useState(30);
+  const [parallel, setParallel] = useState(3);
   const [log, setLog] = useState<string[]>([]);
   const [recentErrors, setRecentErrors] = useState<Array<{ url: string; error: string }>>([]);
   const [rewriteStats, setRewriteStats] = useState<{ remaining: number; remainingInline: number; remainingSeo: number } | null>(null);
@@ -170,21 +170,30 @@ function MediaBackfillPage() {
     let grandUploaded = 0, grandFailed = 0;
     while (!stopRef.current) {
       try {
-        const results = await Promise.all(
+        const settled = await Promise.allSettled(
           Array.from({ length: parallel }, () => runBackfillBatch({ data: { batchSize } })),
         );
-        retry = 0;
-        let upTotal = 0, failTotal = 0, procTotal = 0;
+        let upTotal = 0, failTotal = 0, procTotal = 0, rejected = 0;
         const allErrs: Array<{ url: string; error: string }> = [];
-        for (const r of results) {
-          upTotal += r.uploaded; failTotal += r.failed; procTotal += r.processed ?? 0;
-          if (r.errors?.length) allErrs.push(...r.errors);
+        for (const s of settled) {
+          if (s.status === "fulfilled") {
+            const r = s.value;
+            upTotal += r.uploaded; failTotal += r.failed; procTotal += r.processed ?? 0;
+            if (r.errors?.length) allErrs.push(...r.errors);
+          } else {
+            rejected++;
+            const msg = String((s.reason as any)?.message ?? s.reason).slice(0, 200);
+            allErrs.push({ url: "(batch)", error: msg });
+          }
         }
+        // Treat the whole iteration as a failure only if EVERY sub-call rejected.
+        if (rejected === settled.length) throw new Error(allErrs[0]?.error ?? "all batches failed");
+        retry = 0;
         grandUploaded += upTotal; grandFailed += failTotal;
         if (allErrs.length) setRecentErrors(allErrs.slice(0, 10));
-        setLog((l) => [`${new Date().toLocaleTimeString()}  +${upTotal} ok · ${failTotal} fail (${parallel}×${batchSize}) · total ✓${grandUploaded}/✗${grandFailed}`, ...l].slice(0, 50));
+        setLog((l) => [`${new Date().toLocaleTimeString()}  +${upTotal} ok · ${failTotal} fail · ${rejected} timeout (${parallel}×${batchSize}) · total ✓${grandUploaded}/✗${grandFailed}`, ...l].slice(0, 50));
         await refresh();
-        if (procTotal === 0) {
+        if (procTotal === 0 && rejected === 0) {
           // Nothing pending. If there are failed items, auto-reset & retry once.
           const s = (await getBackfillStats()) as Stats;
           if (s.failed > 0 && !triedFailedReset) {
