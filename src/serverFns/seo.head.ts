@@ -188,7 +188,7 @@ export function buildArchiveHead(opts: {
   const meta = baseMeta(title, description, url, ogImage, ogType);
   if (seoOverrides?.robots) meta.push({ name: "robots", content: seoOverrides.robots });
   const canonicalHref = seoOverrides?.canonical_url || url;
-  const links: Link = [{ rel: "canonical", href: canonicalHref }];
+  const links: Link = emitCanonical ? [{ rel: "canonical", href: canonicalHref }] : [];
 
   const itemList = {
     "@type": "ItemList",
