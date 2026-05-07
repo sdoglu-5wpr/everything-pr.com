@@ -140,6 +140,47 @@ async function main() {
     LOVABLE_BUILD_PASS: TARGET === "netlify" ? "netlify" : "worker",
   });
 
+  // Patch the Netlify function: the deployed Lambda bootstrap calls
+  // `module.handler(event, context)` but @netlify/vite-plugin only emits
+  // `export default <fetchHandler>`. Without a named `handler` export the
+  // function crashes with "y.handler is not a function" → 502 on every
+  // non-static request (admin, /_serverFn/*, SSR fallbacks). We wrap the
+  // fetch handler so it works both as a Frameworks API v2 default export
+  // AND as a classic AWS Lambda handler.
+  if (TARGET === "netlify") {
+    const fnPath = join(ROOT, ".netlify/v1/functions/server.mjs");
+    if (await exists(fnPath)) {
+      const { readFile, writeFile } = await import("node:fs/promises");
+      const original = await readFile(fnPath, "utf8");
+      if (!original.includes("export const handler")) {
+        const patched = original.replace(
+          "export default serverEntrypoint.fetch;",
+          `const __fetch = serverEntrypoint.fetch;
+export default __fetch;
+// AWS-Lambda-style adapter for Netlify's classic Functions runtime
+export const handler = async (event) => {
+  const url = \`https://\${event.headers?.host ?? "site.netlify.app"}\${event.rawUrl ? new URL(event.rawUrl).pathname + new URL(event.rawUrl).search : event.path + (event.rawQuery ? "?" + event.rawQuery : "")}\`;
+  const init = {
+    method: event.httpMethod || "GET",
+    headers: event.headers || {},
+  };
+  if (event.body && event.httpMethod !== "GET" && event.httpMethod !== "HEAD") {
+    init.body = event.isBase64Encoded ? Buffer.from(event.body, "base64") : event.body;
+  }
+  const req = new Request(url, init);
+  const res = await __fetch(req);
+  const buf = Buffer.from(await res.arrayBuffer());
+  const headers = {};
+  res.headers.forEach((v, k) => { headers[k] = v; });
+  return { statusCode: res.status, headers, body: buf.toString("base64"), isBase64Encoded: true };
+};`,
+        );
+        await writeFile(fnPath, patched, "utf8");
+        console.log("[build] Patched .netlify/v1/functions/server.mjs with handler() export");
+      }
+    }
+  }
+
   console.log("\n[build] Restoring prerendered HTML + _headers on top of worker output...");
   // Cloudflare plugin writes dist/client (assets bundle) — overlay the
   // prerendered HTML + _headers without removing the JS/CSS chunks it produced.
