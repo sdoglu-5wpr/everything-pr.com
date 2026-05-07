@@ -109,6 +109,7 @@ export function Pagination({ page, totalPages, buildHref }: PaginationProps) {
             to={prev.to as any}
             params={prev.params as any}
             search={prev.search as any}
+            hash={prev.hash as any}
             className="inline-flex items-center px-3 py-2 rounded-md border text-sm font-medium hover:bg-surface-soft"
           >
             ← Previous
@@ -135,6 +136,7 @@ export function Pagination({ page, totalPages, buildHref }: PaginationProps) {
               to={buildHref(p).to as any}
               params={buildHref(p).params as any}
               search={buildHref(p).search as any}
+              hash={buildHref(p).hash as any}
               className="inline-flex items-center px-3 py-2 rounded-md border text-sm font-medium hover:bg-surface-soft"
             >
               {p}
@@ -146,6 +148,7 @@ export function Pagination({ page, totalPages, buildHref }: PaginationProps) {
             to={next.to as any}
             params={next.params as any}
             search={next.search as any}
+            hash={next.hash as any}
             className="inline-flex items-center px-3 py-2 rounded-md border text-sm font-medium hover:bg-surface-soft"
           >
             Next →
