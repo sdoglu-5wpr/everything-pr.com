@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
 import { getArchive } from "@/serverFns/archives.functions";
+import { fetchArchiveViaRpc } from "@/lib/archives.shared";
+import { supabase } from "@/integrations/supabase/client";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 import { buildArchiveHead } from "@/serverFns/seo.head";
 
@@ -13,7 +15,12 @@ export const Route = createFileRoute("/search")({
   validateSearch: (s) => searchSchema.parse(s),
   loaderDeps: ({ search }) => ({ s: search.s, page: search.page }),
   loader: async ({ deps }) => {
-    return await getArchive({ data: { kind: "search", q: deps.s, page: deps.page } });
+    // On the static Netlify deploy, /search is served via SPA fallback and
+    // server functions aren't reachable — call the RPC directly from the
+    // browser. SSR/dev still uses the server function for caching.
+    return typeof window !== "undefined"
+      ? await fetchArchiveViaRpc(supabase, { kind: "search", q: deps.s, page: deps.page })
+      : await getArchive({ data: { kind: "search", q: deps.s, page: deps.page } });
   },
   head: ({ loaderData }) => {
     if (!loaderData) return { meta: [{ title: "Search · Everything-PR" }] };
