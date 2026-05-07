@@ -72,6 +72,9 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
     { property: "og:url", content: canonical },
     { property: "og:site_name", content: `${SITE_NAME} News` },
     { property: "og:image", content: image },
+    { property: "og:image:width", content: "1200" },
+    { property: "og:image:height", content: "630" },
+    { property: "og:image:alt", content: article.featured_image?.alt || article.title },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: TWITTER_HANDLE },
     { name: "twitter:creator", content: TWITTER_HANDLE },
@@ -97,7 +100,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
   const imageId = `${url}#primaryimage`;
   const breadcrumbId = `${url}#breadcrumb`;
   const personId = author?.slug
-    ? `${SITE_URL}/#/schema/person/${author.slug}`
+    ? `${SITE_URL}/author/${author.slug}/#person`
     : `${SITE_URL}/#/schema/person/editorial`;
 
   const articleType = isResearch ? "Report" : "NewsArticle";
