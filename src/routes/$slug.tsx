@@ -19,6 +19,7 @@ import { htmlToPlainText } from "@/lib/text";
 import { buildArticleHead } from "@/serverFns/seo.article";
 import { extractFaqPairs } from "@/lib/faq";
 import { FaqSection } from "@/components/site/FaqSection";
+import { About5WBoilerplate, Related5WResearch, Work5WCTA } from "@/components/site/FiveWBlocks";
 
 import fiveWBanner from "@/assets/5wpr-banner.jpg";
 
@@ -292,6 +293,10 @@ function ArticlePage() {
             className="prose-article mt-6"
             dangerouslySetInnerHTML={{ __html: article.content_html }}
           />
+
+          <Related5WResearch slug={article.slug} />
+          <Work5WCTA />
+          <About5WBoilerplate />
 
           {categories.length > 1 ? (
             <div className="mt-8 flex flex-wrap items-center gap-2">

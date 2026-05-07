@@ -43,7 +43,16 @@ const NAV: NavItem[] = [
       { label: "Social Media", kind: "category", slug: "social-media" },
     ],
   },
-  { label: "Research", kind: "path", to: "/research" },
+  {
+    label: "Research",
+    kind: "menu",
+    children: [
+      { label: "All Research", kind: "path", to: "/research" },
+      { label: "AI Visibility Index Series", kind: "category", slug: "ai-visibility-index" },
+      { label: "The GEO Reckoning", kind: "category", slug: "geo-reckoning" },
+      { label: "The Missing Rung Report", kind: "category", slug: "missing-rung-report" },
+    ],
+  },
   { label: "AI & GEO", kind: "path", to: "/generative-engine-optimization" },
   { label: "PR Firms", kind: "category", slug: "pr-firms" },
   { label: "RFPs", kind: "category", slug: "rfp" },
