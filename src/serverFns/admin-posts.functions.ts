@@ -1,8 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { cached } from "@/serverFns/loader-cache.server";
-import { rewriteLegacyUrl } from "@/lib/legacy-urls";
 
 const STAFF_ROLES = ["admin", "editor", "author"] as const;
 
@@ -147,6 +145,8 @@ export const listAdminPosts = createServerFn({ method: "GET" })
     const authorMap = new Map((authorRes.data ?? []).map((a: any) => [a.id, a]));
     const mediaMap = new Map((mediaRes.data ?? []).map((m: any) => [m.id, m.url as string]));
 
+    const { rewriteLegacyUrl } = await import("@/lib/legacy-urls");
+
     const items: AdminPost[] = (rows ?? []).map((r: any) => ({
       id: r.id,
       slug: r.slug,
@@ -171,16 +171,14 @@ export const listAdminFilterMeta = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { supabase, userId } = context;
     await ensureStaff(supabase, userId);
-    return cached("admin:posts:filterMeta:v1", 60_000, async () => {
-      const [catsRes, authRes] = await Promise.all([
-        supabase.from("categories").select("id, name, slug").order("name", { ascending: true }),
-        supabase.from("authors").select("id, display_name").order("display_name", { ascending: true }),
-      ]);
-      return {
-        categories: (catsRes.data ?? []) as Array<{ id: number; name: string; slug: string }>,
-        authors: (authRes.data ?? []) as Array<{ id: number; display_name: string }>,
-      };
-    });
+    const [catsRes, authRes] = await Promise.all([
+      supabase.from("categories").select("id, name, slug").order("name", { ascending: true }),
+      supabase.from("authors").select("id, display_name").order("display_name", { ascending: true }),
+    ]);
+    return {
+      categories: (catsRes.data ?? []) as Array<{ id: number; name: string; slug: string }>,
+      authors: (authRes.data ?? []) as Array<{ id: number; display_name: string }>,
+    };
   });
 
 const BulkInput = z.object({

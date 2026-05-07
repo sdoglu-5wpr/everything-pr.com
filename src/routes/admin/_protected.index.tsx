@@ -4,7 +4,7 @@ import {
   FileText, FileType2, Image as ImageIcon, ArrowRightLeft, Tag, FolderTree,
   Plus, Upload, Sparkles, Clock, CalendarDays, ArrowUpRight, Activity,
 } from "lucide-react";
-import { getAdminDashboard } from "@/serverFns/admin-shell.functions";
+import { supabase } from "@/integrations/supabase/client";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 
@@ -74,20 +74,42 @@ function AdminDashboard() {
     let cancelled = false;
     (async () => {
       try {
-        const r: any = await getAdminDashboard();
+        const head = { count: "exact" as const, head: true };
+        const [posts, pages, media, redirects, drafts, cats, tags, recentRes, scheduledRes, actRes] = await Promise.all([
+          supabase.from("posts").select("id", head).eq("type", "post"),
+          supabase.from("posts").select("id", head).eq("type", "page"),
+          supabase.from("media").select("id", head),
+          supabase.from("redirects").select("id", head),
+          supabase.from("posts").select("id", head).eq("status", "draft"),
+          supabase.from("categories").select("id", head),
+          supabase.from("tags").select("id", head),
+          supabase.from("posts")
+            .select("id, slug, title, status, modified_at")
+            .order("modified_at", { ascending: false, nullsFirst: false })
+            .limit(6),
+          supabase.from("posts")
+            .select("id, slug, title, status, published_at")
+            .eq("status", "future")
+            .order("published_at", { ascending: true })
+            .limit(50),
+          supabase.from("activity_log")
+            .select("id, action, table_name, row_id, occurred_at")
+            .order("occurred_at", { ascending: false })
+            .limit(8),
+        ]);
         if (cancelled) return;
         setCounts({
-          posts: r.counts.posts ?? 0,
-          pages: r.counts.pages ?? 0,
-          media: r.counts.media ?? 0,
-          redirects: r.counts.redirects ?? 0,
-          drafts: r.counts.drafts ?? 0,
-          categories: r.counts.categories ?? 0,
-          tags: r.counts.tags ?? 0,
+          posts: posts.count ?? 0,
+          pages: pages.count ?? 0,
+          media: media.count ?? 0,
+          redirects: redirects.count ?? 0,
+          drafts: drafts.count ?? 0,
+          categories: cats.count ?? 0,
+          tags: tags.count ?? 0,
         });
-        setRecent((r.recent ?? []) as PostRow[]);
-        setScheduled((r.scheduled ?? []) as PostRow[]);
-        setActivity((r.activity ?? []) as ActivityRow[]);
+        setRecent((recentRes.data ?? []) as PostRow[]);
+        setScheduled((scheduledRes.data ?? []) as PostRow[]);
+        setActivity((actRes.data ?? []) as ActivityRow[]);
       } catch (e: any) {
         if (!cancelled) setError(e?.message ?? String(e));
       }

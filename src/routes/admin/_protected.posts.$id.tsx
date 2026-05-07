@@ -1,12 +1,10 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import {
   ArrowLeft, Save, Trash2, Image as ImageIcon, ExternalLink, Loader2,
 } from "lucide-react";
-const RichEditor = lazy(() =>
-  import("@/components/admin/RichEditor").then((m) => ({ default: m.RichEditor })),
-);
+import { RichEditor } from "@/components/admin/RichEditor";
 import { MediaPicker, type PickedMedia } from "@/components/admin/MediaPicker";
 import {
   getAdminPost, saveAdminPost, deleteAdminPost,
@@ -261,9 +259,7 @@ function PostEditor() {
             </div>
           </div>
 
-          <Suspense fallback={<div className="rounded-md border bg-card p-6 text-sm text-muted-foreground"><Loader2 className="inline h-4 w-4 animate-spin mr-2" />Loading editor…</div>}>
-            <RichEditor value={content} onChange={setContent} onPickImage={inlinePick} placeholder="Write your story…" />
-          </Suspense>
+          <RichEditor value={content} onChange={setContent} onPickImage={inlinePick} placeholder="Write your story…" />
 
           {/* Excerpt */}
           <div className="rounded-md border bg-card p-4">

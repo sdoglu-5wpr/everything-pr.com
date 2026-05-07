@@ -37,30 +37,22 @@ export const getAdminDashboard = createServerFn({ method: "GET" })
     }
 
     const countOpts = { count: "exact" as const, head: true };
-    const [posts, pages, media, redirects, drafts, cats, tags, recent, scheduled, activity] = await Promise.all([
+    const [posts, pages, media, redirects, recent, scheduled] = await Promise.all([
       supabaseAdmin.from("posts").select("id", countOpts).eq("type", "post"),
       supabaseAdmin.from("posts").select("id", countOpts).eq("type", "page"),
       supabaseAdmin.from("media").select("id", countOpts),
       supabaseAdmin.from("redirects").select("id", countOpts),
-      supabaseAdmin.from("posts").select("id", countOpts).eq("status", "draft"),
-      supabaseAdmin.from("categories").select("id", countOpts),
-      supabaseAdmin.from("tags").select("id", countOpts),
       supabaseAdmin
         .from("posts")
         .select("id, slug, title, status, modified_at")
         .order("modified_at", { ascending: false, nullsFirst: false })
-        .limit(6),
+        .limit(5),
       supabaseAdmin
         .from("posts")
         .select("id, slug, title, status, published_at")
         .eq("status", "future")
         .order("published_at", { ascending: true })
-        .limit(50),
-      supabaseAdmin
-        .from("activity_log")
-        .select("id, action, table_name, row_id, occurred_at")
-        .order("occurred_at", { ascending: false })
-        .limit(8),
+        .limit(5),
     ]);
 
     return {
@@ -69,12 +61,8 @@ export const getAdminDashboard = createServerFn({ method: "GET" })
         pages: pages.count ?? 0,
         media: media.count ?? 0,
         redirects: redirects.count ?? 0,
-        drafts: drafts.count ?? 0,
-        categories: cats.count ?? 0,
-        tags: tags.count ?? 0,
       },
       recent: recent.data ?? [],
       scheduled: scheduled.data ?? [],
-      activity: activity.data ?? [],
     };
   });

@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { cached } from "@/serverFns/loader-cache.server";
 
 const STAFF_ROLES = ["admin", "editor", "author"] as const;
 
@@ -39,18 +38,11 @@ export const getAdminPost = createServerFn({ method: "POST" })
     const { supabase, userId } = context;
     await ensureStaff(supabase, userId);
 
-    const meta = await cached("admin:editor:meta:v1", 60_000, async () => {
-      const [c, t, a] = await Promise.all([
-        supabase.from("categories").select("id, name, slug").order("name"),
-        supabase.from("tags").select("id, name, slug").order("name"),
-        supabase.from("authors").select("id, display_name, slug").order("display_name"),
-      ]);
-      return {
-        categories: c.data ?? [],
-        tags: t.data ?? [],
-        authors: a.data ?? [],
-      };
-    });
+    const [catsRes, tagsRes, authRes] = await Promise.all([
+      supabase.from("categories").select("id, name, slug").order("name"),
+      supabase.from("tags").select("id, name, slug").order("name"),
+      supabase.from("authors").select("id, display_name, slug").order("display_name"),
+    ]);
 
     if (data.id == null) {
       return {
@@ -59,7 +51,11 @@ export const getAdminPost = createServerFn({ method: "POST" })
         categoryIds: [] as number[],
         tagIds: [] as number[],
         featuredMedia: null as null | { id: number; url: string; alt_text: string | null },
-        meta,
+        meta: {
+          categories: catsRes.data ?? [],
+          tags: tagsRes.data ?? [],
+          authors: authRes.data ?? [],
+        },
       };
     }
 
@@ -86,7 +82,11 @@ export const getAdminPost = createServerFn({ method: "POST" })
       categoryIds: (pcRes.data ?? []).map((r: any) => r.category_id as number),
       tagIds: (ptRes.data ?? []).map((r: any) => r.tag_id as number),
       featuredMedia: mediaRes.data ?? null,
-      meta,
+      meta: {
+        categories: catsRes.data ?? [],
+        tags: tagsRes.data ?? [],
+        authors: authRes.data ?? [],
+      },
     };
   });
 
