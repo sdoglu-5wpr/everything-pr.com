@@ -48,6 +48,11 @@ import { Route as AdminProtectedPostsIndexRouteImport } from './routes/admin/_pr
 import { Route as TagSlugPagePageRouteImport } from './routes/tag.$slug.page.$page'
 import { Route as CategorySlugPagePageRouteImport } from './routes/category.$slug.page.$page'
 import { Route as AuthorSlugPagePageRouteImport } from './routes/author.$slug.page.$page'
+import { Route as ApiPublicIngestTagsRouteImport } from './routes/api/public/ingest/tags'
+import { Route as ApiPublicIngestPostsRouteImport } from './routes/api/public/ingest/posts'
+import { Route as ApiPublicIngestPostRouteImport } from './routes/api/public/ingest/post'
+import { Route as ApiPublicIngestMediaRouteImport } from './routes/api/public/ingest/media'
+import { Route as ApiPublicIngestCategoriesRouteImport } from './routes/api/public/ingest/categories'
 import { Route as ApiPublicHooksPublishScheduledRouteImport } from './routes/api/public/hooks/publish-scheduled'
 import { Route as ApiPublicHooksGenerateMissingFeaturedImagesRouteImport } from './routes/api/public/hooks/generate-missing-featured-images'
 import { Route as AdminProtectedPostsIdRouteImport } from './routes/admin/_protected.posts.$id'
@@ -251,6 +256,32 @@ const AuthorSlugPagePageRoute = AuthorSlugPagePageRouteImport.update({
   path: '/page/$page',
   getParentRoute: () => AuthorSlugRoute,
 } as any)
+const ApiPublicIngestTagsRoute = ApiPublicIngestTagsRouteImport.update({
+  id: '/api/public/ingest/tags',
+  path: '/api/public/ingest/tags',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicIngestPostsRoute = ApiPublicIngestPostsRouteImport.update({
+  id: '/api/public/ingest/posts',
+  path: '/api/public/ingest/posts',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicIngestPostRoute = ApiPublicIngestPostRouteImport.update({
+  id: '/api/public/ingest/post',
+  path: '/api/public/ingest/post',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicIngestMediaRoute = ApiPublicIngestMediaRouteImport.update({
+  id: '/api/public/ingest/media',
+  path: '/api/public/ingest/media',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicIngestCategoriesRoute =
+  ApiPublicIngestCategoriesRouteImport.update({
+    id: '/api/public/ingest/categories',
+    path: '/api/public/ingest/categories',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const ApiPublicHooksPublishScheduledRoute =
   ApiPublicHooksPublishScheduledRouteImport.update({
     id: '/api/public/hooks/publish-scheduled',
@@ -308,6 +339,11 @@ export interface FileRoutesByFullPath {
   '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
   '/api/public/hooks/generate-missing-featured-images': typeof ApiPublicHooksGenerateMissingFeaturedImagesRoute
   '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
+  '/api/public/ingest/categories': typeof ApiPublicIngestCategoriesRoute
+  '/api/public/ingest/media': typeof ApiPublicIngestMediaRoute
+  '/api/public/ingest/post': typeof ApiPublicIngestPostRoute
+  '/api/public/ingest/posts': typeof ApiPublicIngestPostsRoute
+  '/api/public/ingest/tags': typeof ApiPublicIngestTagsRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
@@ -351,6 +387,11 @@ export interface FileRoutesByTo {
   '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
   '/api/public/hooks/generate-missing-featured-images': typeof ApiPublicHooksGenerateMissingFeaturedImagesRoute
   '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
+  '/api/public/ingest/categories': typeof ApiPublicIngestCategoriesRoute
+  '/api/public/ingest/media': typeof ApiPublicIngestMediaRoute
+  '/api/public/ingest/post': typeof ApiPublicIngestPostRoute
+  '/api/public/ingest/posts': typeof ApiPublicIngestPostsRoute
+  '/api/public/ingest/tags': typeof ApiPublicIngestTagsRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
@@ -396,6 +437,11 @@ export interface FileRoutesById {
   '/admin/_protected/posts/$id': typeof AdminProtectedPostsIdRoute
   '/api/public/hooks/generate-missing-featured-images': typeof ApiPublicHooksGenerateMissingFeaturedImagesRoute
   '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
+  '/api/public/ingest/categories': typeof ApiPublicIngestCategoriesRoute
+  '/api/public/ingest/media': typeof ApiPublicIngestMediaRoute
+  '/api/public/ingest/post': typeof ApiPublicIngestPostRoute
+  '/api/public/ingest/posts': typeof ApiPublicIngestPostsRoute
+  '/api/public/ingest/tags': typeof ApiPublicIngestTagsRoute
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
@@ -442,6 +488,11 @@ export interface FileRouteTypes {
     | '/admin/posts/$id'
     | '/api/public/hooks/generate-missing-featured-images'
     | '/api/public/hooks/publish-scheduled'
+    | '/api/public/ingest/categories'
+    | '/api/public/ingest/media'
+    | '/api/public/ingest/post'
+    | '/api/public/ingest/posts'
+    | '/api/public/ingest/tags'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
@@ -485,6 +536,11 @@ export interface FileRouteTypes {
     | '/admin/posts/$id'
     | '/api/public/hooks/generate-missing-featured-images'
     | '/api/public/hooks/publish-scheduled'
+    | '/api/public/ingest/categories'
+    | '/api/public/ingest/media'
+    | '/api/public/ingest/post'
+    | '/api/public/ingest/posts'
+    | '/api/public/ingest/tags'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
@@ -529,6 +585,11 @@ export interface FileRouteTypes {
     | '/admin/_protected/posts/$id'
     | '/api/public/hooks/generate-missing-featured-images'
     | '/api/public/hooks/publish-scheduled'
+    | '/api/public/ingest/categories'
+    | '/api/public/ingest/media'
+    | '/api/public/ingest/post'
+    | '/api/public/ingest/posts'
+    | '/api/public/ingest/tags'
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
@@ -560,6 +621,11 @@ export interface RootRouteChildren {
   TagSlugRoute: typeof TagSlugRouteWithChildren
   ApiPublicHooksGenerateMissingFeaturedImagesRoute: typeof ApiPublicHooksGenerateMissingFeaturedImagesRoute
   ApiPublicHooksPublishScheduledRoute: typeof ApiPublicHooksPublishScheduledRoute
+  ApiPublicIngestCategoriesRoute: typeof ApiPublicIngestCategoriesRoute
+  ApiPublicIngestMediaRoute: typeof ApiPublicIngestMediaRoute
+  ApiPublicIngestPostRoute: typeof ApiPublicIngestPostRoute
+  ApiPublicIngestPostsRoute: typeof ApiPublicIngestPostsRoute
+  ApiPublicIngestTagsRoute: typeof ApiPublicIngestTagsRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -837,6 +903,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthorSlugPagePageRouteImport
       parentRoute: typeof AuthorSlugRoute
     }
+    '/api/public/ingest/tags': {
+      id: '/api/public/ingest/tags'
+      path: '/api/public/ingest/tags'
+      fullPath: '/api/public/ingest/tags'
+      preLoaderRoute: typeof ApiPublicIngestTagsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ingest/posts': {
+      id: '/api/public/ingest/posts'
+      path: '/api/public/ingest/posts'
+      fullPath: '/api/public/ingest/posts'
+      preLoaderRoute: typeof ApiPublicIngestPostsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ingest/post': {
+      id: '/api/public/ingest/post'
+      path: '/api/public/ingest/post'
+      fullPath: '/api/public/ingest/post'
+      preLoaderRoute: typeof ApiPublicIngestPostRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ingest/media': {
+      id: '/api/public/ingest/media'
+      path: '/api/public/ingest/media'
+      fullPath: '/api/public/ingest/media'
+      preLoaderRoute: typeof ApiPublicIngestMediaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/ingest/categories': {
+      id: '/api/public/ingest/categories'
+      path: '/api/public/ingest/categories'
+      fullPath: '/api/public/ingest/categories'
+      preLoaderRoute: typeof ApiPublicIngestCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/hooks/publish-scheduled': {
       id: '/api/public/hooks/publish-scheduled'
       path: '/api/public/hooks/publish-scheduled'
@@ -962,7 +1063,22 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicHooksGenerateMissingFeaturedImagesRoute:
     ApiPublicHooksGenerateMissingFeaturedImagesRoute,
   ApiPublicHooksPublishScheduledRoute: ApiPublicHooksPublishScheduledRoute,
+  ApiPublicIngestCategoriesRoute: ApiPublicIngestCategoriesRoute,
+  ApiPublicIngestMediaRoute: ApiPublicIngestMediaRoute,
+  ApiPublicIngestPostRoute: ApiPublicIngestPostRoute,
+  ApiPublicIngestPostsRoute: ApiPublicIngestPostsRoute,
+  ApiPublicIngestTagsRoute: ApiPublicIngestTagsRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -41,7 +41,7 @@ async function resolveCategoryIds(input: unknown): Promise<number[]> {
     } else {
       const { data: created, error } = await supabaseAdmin
         .from("categories")
-        .insert({ slug, name: String(c) })
+        .insert({ slug, name: String(c) } as any)
         .select("id")
         .single();
       if (error) throw new Error(`category insert failed: ${error.message}`);
@@ -70,7 +70,7 @@ async function resolveTagIds(input: unknown): Promise<number[]> {
     } else {
       const { data: created, error } = await supabaseAdmin
         .from("tags")
-        .insert({ slug, name: String(t) })
+        .insert({ slug, name: String(t) } as any)
         .select("id")
         .single();
       if (error) throw new Error(`tag insert failed: ${error.message}`);
@@ -94,7 +94,7 @@ async function resolveAuthorId(input: unknown): Promise<number | null> {
   if (existing?.id) return existing.id as number;
   const { data: created, error } = await supabaseAdmin
     .from("authors")
-    .insert({ slug, display_name: name })
+    .insert({ slug, display_name: name } as any)
     .select("id")
     .single();
   if (error) throw new Error(`author insert failed: ${error.message}`);
@@ -112,7 +112,7 @@ async function resolveFeaturedMediaId(coverUrl?: string | null): Promise<number 
   const filename = coverUrl.split("/").pop() ?? "cover";
   const { data: created, error } = await supabaseAdmin
     .from("media")
-    .insert({ url: coverUrl, filename })
+    .insert({ url: coverUrl, filename } as any)
     .select("id")
     .single();
   if (error) throw new Error(`media insert failed: ${error.message}`);
@@ -165,7 +165,7 @@ export const Route = createFileRoute("/api/public/ingest/post")({
           if (existing?.id) {
             const { data, error } = await supabaseAdmin
               .from("posts")
-              .update(postRow)
+              .update(postRow as any)
               .eq("id", existing.id)
               .select("id")
               .single();
@@ -174,7 +174,7 @@ export const Route = createFileRoute("/api/public/ingest/post")({
           } else {
             const { data, error } = await supabaseAdmin
               .from("posts")
-              .insert(postRow)
+              .insert(postRow as any)
               .select("id")
               .single();
             if (error) return jsonResponse({ error: error.message }, 500);
@@ -185,13 +185,13 @@ export const Route = createFileRoute("/api/public/ingest/post")({
           await supabaseAdmin.from("post_categories").delete().eq("post_id", postId);
           if (category_ids.length) {
             await supabaseAdmin.from("post_categories").insert(
-              category_ids.map((category_id) => ({ post_id: postId, category_id })),
+              category_ids.map((category_id) => ({ post_id: postId, category_id })) as any,
             );
           }
           await supabaseAdmin.from("post_tags").delete().eq("post_id", postId);
           if (tag_ids.length) {
             await supabaseAdmin.from("post_tags").insert(
-              tag_ids.map((tag_id) => ({ post_id: postId, tag_id })),
+              tag_ids.map((tag_id) => ({ post_id: postId, tag_id })) as any,
             );
           }
 
@@ -217,9 +217,9 @@ export const Route = createFileRoute("/api/public/ingest/post")({
               .eq("object_id", postId)
               .maybeSingle();
             if (existingSeo?.id) {
-              await supabaseAdmin.from("seo_meta").update(seoRow).eq("id", existingSeo.id);
+              await supabaseAdmin.from("seo_meta").update(seoRow as any).eq("id", existingSeo.id);
             } else {
-              await supabaseAdmin.from("seo_meta").insert(seoRow);
+              await supabaseAdmin.from("seo_meta").insert(seoRow as any);
             }
           }
 
