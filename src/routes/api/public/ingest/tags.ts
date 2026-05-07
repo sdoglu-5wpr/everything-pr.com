@@ -52,7 +52,7 @@ export const Route = createFileRoute("/api/public/ingest/tags")({
 
         const { data, error } = await supabaseAdmin
           .from("tags")
-          .insert({ slug, name: parsed.name, description: parsed.description ?? null })
+          .insert({ slug, name: parsed.name, description: parsed.description ?? null } as any)
           .select("id, slug, name, description, post_count")
           .single();
         if (error) return jsonResponse({ error: error.message }, 500);
