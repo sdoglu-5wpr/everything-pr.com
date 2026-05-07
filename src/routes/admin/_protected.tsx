@@ -68,6 +68,7 @@ function AdminLayout() {
   }, [navigate]);
 
   const logout = async () => {
+    try { sessionStorage.removeItem(`admin:roles:${me?.userId ?? ""}`); } catch {}
     const { error } = await supabase.auth.signOut();
     if (error) toast.error(`Logout failed: ${error.message}`);
     navigate({ to: "/admin/login" });
