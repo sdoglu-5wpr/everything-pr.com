@@ -119,6 +119,19 @@ export function SiteHeader() {
 
   return (
     <header className="bg-white text-foreground border-b border-black/10 sticky top-0 z-40 shadow-sm">
+      {/* Powered by 5W strip */}
+      <div className="bg-[color:var(--brand-blue)] text-white text-xs">
+        <div className="mx-auto max-w-7xl px-6 h-8 flex items-center justify-center text-center">
+          <a
+            href="https://www.5wpr.com/?utm_source=epr&utm_medium=topstrip&utm_campaign=powered_by_5w"
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="font-semibold tracking-wide hover:underline"
+          >
+            Powered by 5W — the AI Communications Firm
+          </a>
+        </div>
+      </div>
       {/* Top blue utility bar */}
       <div className="bg-[color:var(--ink)] text-white text-xs">
         <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-between">
