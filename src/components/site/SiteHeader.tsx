@@ -125,21 +125,6 @@ export function SiteHeader() {
           </a>
         </div>
       </div>
-      {/* Top utility bar */}
-      <div className="bg-[color:var(--ink)] text-white text-xs">
-        <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-end">
-          <nav className="flex items-center gap-5 text-white/90 font-medium">
-            <Link to="/about" className="hover:text-white">
-              About Us
-            </Link>
-            <span aria-hidden className="text-white/30">/</span>
-            <Link to="/$slug" params={{ slug: "contact" }} className="hover:text-white">
-              Contact
-            </Link>
-          </nav>
-        </div>
-      </div>
-
       <div className="mx-auto max-w-7xl px-6 py-4 flex items-center gap-6">
         <Link to="/" aria-label="Everything PR News — Home" className="flex items-center shrink-0">
           <img
