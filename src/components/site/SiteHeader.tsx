@@ -254,7 +254,7 @@ export function SiteHeader() {
       {/* Mobile drawer */}
       {mobileOpen ? (
         <div className="lg:hidden border-t border-black/10 bg-white max-h-[80vh] overflow-y-auto">
-          <div className="px-6 py-4 space-y-1 text-sm font-semibold uppercase tracking-wide">
+          <div className="px-6 py-3 space-y-0.5 text-sm font-semibold tracking-tight">
             {NAV.map((item) => {
               if (item.kind === "category") {
                 return (
