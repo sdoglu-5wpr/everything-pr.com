@@ -1,0 +1,3 @@
+UPDATE public.posts SET excerpt = 'First in-depth study of how leading AI companies — OpenAI, Anthropic, Google DeepMind, Nvidia and others — communicate with the public. Messaging patterns, crisis posture, and what AI PR gets right and wrong in 2026.' WHERE slug = 'ai-company-comms-study-2026';
+
+UPDATE public.posts SET excerpt = 'A 2026 audit of nonprofit PR transparency: how the largest U.S. charities disclose spending, communicate impact, and respond to scrutiny — with sector benchmarks and case studies.' WHERE slug = 'nonprofit-pr-transparency-study-2026';
