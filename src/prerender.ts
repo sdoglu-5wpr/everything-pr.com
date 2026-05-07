@@ -186,26 +186,15 @@ export async function collectUrls(): Promise<CollectResult> {
   const authorUrls: string[] = [];
   for (const a of authors) authorUrls.push(`/author/${a.slug}`);
 
-  // sitemap + utility URLs (only when indexing enabled)
-  const sitemapUrls = indexingEnabled
-    ? [
-        "/sitemap_index.xml",
-        "/post-sitemap.xml",
-        "/category-sitemap.xml",
-        "/post_tag-sitemap.xml",
-        "/author-sitemap.xml",
-        "/page-sitemap.xml",
-        ...(() => {
-          const total = postCount.count ?? 0;
-          const pages = Math.max(1, Math.ceil(total / 1000));
-          const out: string[] = [];
-          for (let n = 1; n <= pages; n++) out.push(`/post-sitemap${n}.xml`);
-          return out;
-        })(),
-      ]
-    : [];
+  // Sitemaps and robots.txt are written as static XML/text files by
+  // scripts/generate-sitemaps.ts after the prerender pass — keep them OUT
+  // of the prerender URL list so we don't end up with HTML at those paths
+  // on static hosts (Netlify).
+  const sitemapUrls: string[] = [];
+  void postCount; // referenced to keep parallel fetch typed; sitemap script re-counts
+  void indexingEnabled;
 
-  const utilityUrls = ["/robots.txt", "/feed"];
+  const utilityUrls = ["/feed"];
 
   const allUrls = unique([
     "/",
