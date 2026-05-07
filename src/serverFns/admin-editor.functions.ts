@@ -1,6 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
+import { cached, clearLoaderCache } from "@/serverFns/loader-cache.server";
 
 const STAFF_ROLES = ["admin", "editor", "author"] as const;
 
