@@ -276,11 +276,6 @@ function ArticlePage() {
                 width={1200}
                 height={675}
               />
-              {article.featured_image.alt ? (
-                <figcaption className="mt-2 text-sm text-muted-foreground">
-                  {article.featured_image.alt}
-                </figcaption>
-              ) : null}
             </figure>
           ) : null}
 
