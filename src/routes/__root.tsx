@@ -52,6 +52,13 @@ export const Route = createRootRoute({
         { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d2c369e7-117a-4c91-bb9a-716480229dd3/id-preview-3101261f--26a01a69-d9fa-41da-8ffc-c4df18505710.lovable.app-1778084540921.png" },
         { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/d2c369e7-117a-4c91-bb9a-716480229dd3/id-preview-3101261f--26a01a69-d9fa-41da-8ffc-c4df18505710.lovable.app-1778084540921.png" },
       ],
+      scripts: [
+        { src: "https://www.googletagmanager.com/gtag/js?id=G-J4JVYHGJXG", async: true },
+        {
+          children:
+            "window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-J4JVYHGJXG');",
+        },
+      ],
       links: [
         { rel: "icon", type: "image/png", href: "/favicon.png" },
         { rel: "shortcut icon", type: "image/png", href: "/favicon.png" },
