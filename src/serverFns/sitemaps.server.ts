@@ -29,12 +29,11 @@ export const SITEMAP_HEADERS = {
 };
 
 export async function buildSitemapIndex(): Promise<string> {
-  const [{ count: postCount }, { count: pageCount }, { count: catCount }, { count: tagCount }, { count: authorCount }] =
+  const [{ count: postCount }, { count: pageCount }, { count: catCount }, { count: authorCount }] =
     await Promise.all([
       supabaseAnon.from("posts").select("id", { count: "exact", head: true }).eq("status", "publish").eq("type", "post"),
       supabaseAnon.from("posts").select("id", { count: "exact", head: true }).eq("status", "publish").eq("type", "page"),
       supabaseAnon.from("categories").select("id", { count: "exact", head: true }),
-      supabaseAnon.from("tags").select("id", { count: "exact", head: true }),
       supabaseAnon.from("authors").select("id", { count: "exact", head: true }),
     ]);
 
@@ -46,7 +45,7 @@ export async function buildSitemapIndex(): Promise<string> {
   }
   if ((pageCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/page-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
   if ((catCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/category-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
-  if ((tagCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/post_tag-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
+  // Tag archives are noindex — intentionally excluded from sitemap.
   if ((authorCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/author-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
 
   return `${XML_HEADER}\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</sitemapindex>\n`;
