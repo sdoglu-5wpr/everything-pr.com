@@ -55,10 +55,10 @@ function baseMeta(title: string, description: string, url: string, image: string
 }
 
 export function buildHomepageHead(opts: { title?: string; description?: string }): HeadOutput {
-  const title = opts.title || `${SITE_NAME} — Public Relations News & Analysis`;
+  const title = opts.title || `Everything PR News | Public Relations, Marketing & Social Media`;
   const description = truncate(
     opts.description ||
-      "Daily reporting on the public relations industry — agencies, campaigns, crisis, brands, and the people behind the work.",
+      "Everything-PR is the leading PR industry news publication covering public relations, marketing, social media, crisis communications, and agency news.",
   );
   const url = `${SITE_URL}/`;
   const meta = baseMeta(title, description, url, DEFAULT_OG_IMAGE, "website");
