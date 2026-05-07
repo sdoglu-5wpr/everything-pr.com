@@ -327,12 +327,12 @@ function ArticlePage() {
               </ul>
             </div>
             <a
-              href="https://virgo-pr.com/?utm_source=everything-pr&utm_medium=banner&utm_campaign=epr-banner"
+              href="https://www.5wpr.com/?utm_source=epr&utm_medium=sidebar_banner&utm_campaign=epr_article_sidebar"
               target="_blank"
               rel="noopener noreferrer sponsored"
               className="block overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
             >
-              <img src={virgoPrBanner} alt="Virgo PR" className="w-full h-auto" loading="lazy" />
+              <img src={fiveWBanner} alt="5W Public Relations — the AI Communications Firm" className="w-full h-auto" loading="lazy" />
             </a>
             <div className="rounded-lg border bg-surface-soft p-5">
               <h3 className="font-serif text-lg font-bold mb-2">Get the PR Brief</h3>
