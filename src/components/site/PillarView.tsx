@@ -18,7 +18,8 @@ function formatDate(iso: string | null | undefined) {
 }
 
 export function PillarView({ data }: { data: PillarPayload }) {
-  const { pillar, items, total } = data;
+  const { pillar, items, total, page, pageSize } = data;
+  const totalPages = Math.max(1, Math.ceil(total / (pageSize || 12)));
   return (
     <SiteLayout>
       {/* HERO */}
