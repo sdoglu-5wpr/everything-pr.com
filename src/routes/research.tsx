@@ -72,7 +72,7 @@ const getResearch = createServerFn({ method: "GET" })
 
 export const Route = createFileRoute("/research")({
   validateSearch: (s) => searchSchema.parse(s),
-  search: { middlewares: [stripSearchParams({ page: 1 })] },
+  search: { middlewares: [stripSearchParams({ page: 1 }) as any] },
   loaderDeps: ({ search }) => ({ page: search.page }),
   loader: async ({ deps }) => getResearch({ data: { page: deps.page } }),
   head: ({ loaderData }) =>
