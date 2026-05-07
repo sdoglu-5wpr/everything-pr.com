@@ -122,13 +122,7 @@ async function main() {
     NODE_ENV: "production",
   });
 
-  if (TARGET === "netlify") {
-    await rm(PRERENDER_DATA, { force: true });
-    console.log("\n[build] Netlify target complete: keeping static dist/client output.\n");
-    return;
-  }
-
-  console.log("\n[build] Snapshotting prerendered output before Cloudflare pass...");
+  console.log("\n[build] Snapshotting prerendered output before second pass...");
   await mkdir(SNAPSHOT, { recursive: true });
   await cp(join(DIST, "client"), join(SNAPSHOT, "client"), { recursive: true });
   if (await exists(join(DIST, "_redirects.json"))) {
