@@ -148,7 +148,7 @@ export function SiteHeader() {
           />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1 ml-auto text-[13px] font-semibold uppercase tracking-wide">
+        <nav className="hidden lg:flex items-center gap-1 ml-auto text-[13px] font-semibold tracking-tight">
           {NAV.map((item) => {
             if (item.kind === "category") {
               return (
