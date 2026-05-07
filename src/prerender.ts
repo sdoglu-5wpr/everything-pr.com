@@ -74,21 +74,32 @@ const STUDY_SLUG_HINTS = [
   "ai-visibility-index",
 ];
 
-/** Fetch all rows of a builder in chunks of 1000 to bypass Supabase's row cap. */
+/** Fetch all rows of a builder in chunks to bypass Supabase's row cap.
+ * If a page fails (e.g. statement timeout under RLS with the anon key),
+ * log and return what we have so the build can continue. */
 async function fetchAll<T>(
   build: () => { range: (a: number, b: number) => PromiseLike<{ data: unknown; error: unknown }> },
-  pageSize = 1000,
+  label = "query",
+  pageSize = 500,
 ): Promise<T[]> {
   const out: T[] = [];
   let from = 0;
   while (true) {
-    const { data, error } = await build().range(from, from + pageSize - 1);
-    if (error) throw error;
-    const rows = (data ?? []) as T[];
-    if (rows.length === 0) break;
-    out.push(...rows);
-    if (rows.length < pageSize) break;
-    from += pageSize;
+    try {
+      const { data, error } = await build().range(from, from + pageSize - 1);
+      if (error) {
+        console.warn(`[prerender] ${label} page from=${from} failed:`, (error as { message?: string })?.message ?? error);
+        break;
+      }
+      const rows = (data ?? []) as T[];
+      if (rows.length === 0) break;
+      out.push(...rows);
+      if (rows.length < pageSize) break;
+      from += pageSize;
+    } catch (e) {
+      console.warn(`[prerender] ${label} page from=${from} threw:`, (e as Error)?.message ?? e);
+      break;
+    }
   }
   return out;
 }
@@ -115,16 +126,21 @@ export async function collectUrls(): Promise<CollectResult> {
           .from("posts")
           .select("id,slug,type,published_at")
           .eq("status", "publish")
-          .in("type", ["post", "page"]),
+          .in("type", ["post", "page"])
+          .order("published_at", { ascending: false, nullsFirst: false }),
+      "posts",
     ),
-    fetchAll<{ id: number; slug: string; post_count: number }>(() =>
-      sb.from("categories").select("id,slug,post_count"),
+    fetchAll<{ id: number; slug: string; post_count: number }>(
+      () => sb.from("categories").select("id,slug,post_count"),
+      "categories",
     ),
-    fetchAll<{ id: number; slug: string; post_count: number }>(() =>
-      sb.from("tags").select("id,slug,post_count").gte("post_count", TAG_MIN_POSTS),
+    fetchAll<{ id: number; slug: string; post_count: number }>(
+      () => sb.from("tags").select("id,slug,post_count").gte("post_count", TAG_MIN_POSTS),
+      "tags",
     ),
-    fetchAll<{ id: number; slug: string }>(() =>
-      sb.from("authors").select("id,slug"),
+    fetchAll<{ id: number; slug: string }>(
+      () => sb.from("authors").select("id,slug"),
+      "authors",
     ),
     fetchAll<{ source_path: string; target_path: string; status_code: number }>(
       () =>
@@ -132,9 +148,11 @@ export async function collectUrls(): Promise<CollectResult> {
           .from("redirects")
           .select("source_path,target_path,status_code")
           .eq("enabled", true),
+      "redirects",
     ),
-    fetchAll<{ target_post_id: number | null }>(() =>
-      sb.from("internal_links").select("target_post_id"),
+    fetchAll<{ target_post_id: number | null }>(
+      () => sb.from("internal_links").select("target_post_id"),
+      "internal_links",
     ),
     sb
       .from("posts")
