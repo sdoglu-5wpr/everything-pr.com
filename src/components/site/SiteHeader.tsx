@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { ChevronDown, Search, Clock, Menu, X } from "lucide-react";
+import { ChevronDown, Search, Menu, X } from "lucide-react";
 import logoUrl from "@/assets/everything-pr-logo.png";
 
 type LeafLink =
@@ -105,13 +105,6 @@ export function SiteHeader() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [mobileSubmenu, setMobileSubmenu] = useState<string | null>(null);
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "short",
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-
   const closeMobile = () => {
     setMobileOpen(false);
     setMobileSubmenu(null);
@@ -132,13 +125,9 @@ export function SiteHeader() {
           </a>
         </div>
       </div>
-      {/* Top blue utility bar */}
+      {/* Top utility bar */}
       <div className="bg-[color:var(--ink)] text-white text-xs">
-        <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-white/80">
-            <Clock className="h-3.5 w-3.5" />
-            <span>{today}</span>
-          </div>
+        <div className="mx-auto max-w-7xl px-6 h-9 flex items-center justify-end">
           <nav className="flex items-center gap-5 text-white/90 font-medium">
             <Link to="/about" className="hover:text-white">
               About Us
