@@ -1062,13 +1062,20 @@ export type Database = {
         Returns: boolean
       }
       is_staff: { Args: { _user_id: string }; Returns: boolean }
+      legacy_to_supabase_url: { Args: { p_legacy: string }; Returns: string }
       rewrite_legacy_media_urls: { Args: never; Returns: Json }
       rewrite_posts_html_legacy_chunk: {
         Args: { p_limit?: number }
         Returns: Json
       }
+      rewrite_posts_html_variants_chunk: {
+        Args: { p_limit?: number }
+        Returns: Json
+      }
       rewrite_posts_inline_legacy: { Args: never; Returns: Json }
+      rewrite_posts_inline_variants: { Args: never; Returns: Json }
       rewrite_seo_meta_legacy: { Args: never; Returns: Json }
+      rewrite_seo_meta_variants: { Args: never; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "editor" | "author"
