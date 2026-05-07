@@ -26,7 +26,7 @@ export function Work5WCTA() {
         Want this for your brand?
       </p>
       <a
-        href="https://www.5wpr.com/contact/?utm_source=epr&utm_medium=article_cta&utm_campaign=work_with_5w"
+        href="https://www.5wpr.com/contactus/"
         target="_blank"
         rel="noopener noreferrer sponsored"
         className="inline-flex items-center gap-2 rounded-md bg-brand-red px-5 py-3 text-sm font-semibold text-white hover:opacity-90 transition-opacity self-start md:self-auto"

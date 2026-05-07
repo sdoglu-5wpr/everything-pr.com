@@ -46,7 +46,7 @@ export function SiteFooter({ menu }: { menu?: FooterMenuItem[] }) {
           </div>
           <div className="md:text-right">
             <a
-              href="https://www.5wpr.com/contact/?utm_source=epr&utm_medium=footer&utm_campaign=work_with_5w"
+              href="https://www.5wpr.com/contactus/"
               target="_blank"
               rel="noopener noreferrer sponsored"
               className="inline-flex items-center gap-2 rounded-md bg-[color:var(--brand-blue)] px-5 py-3 text-sm font-semibold text-white hover:bg-[color:var(--brand-blue)]/90 transition-colors"
