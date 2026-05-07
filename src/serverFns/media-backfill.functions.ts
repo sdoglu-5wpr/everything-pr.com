@@ -199,6 +199,40 @@ export const rewritePostsHtmlSqlChunk = createServerFn({ method: "POST" })
     return (r ?? {}) as { updated?: number; remaining?: number; error?: string };
   });
 
+// ---------- Variant remap (handles -300x200 size variants → mapped original) ----------
+export const rewriteSeoMetaVariantsSql = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabase, userId } = context;
+    await ensureStaff(supabase, userId);
+    const { data, error } = await supabaseAdmin.rpc("rewrite_seo_meta_variants" as any);
+    if (error) throw new Error(error.message);
+    return (data ?? {}) as { og_updated?: number; tw_updated?: number };
+  });
+
+export const rewritePostsInlineVariantsSql = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { supabase, userId } = context;
+    await ensureStaff(supabase, userId);
+    const { data, error } = await supabaseAdmin.rpc("rewrite_posts_inline_variants" as any);
+    if (error) throw new Error(error.message);
+    return (data ?? {}) as { inline_updated?: number };
+  });
+
+export const rewritePostsHtmlVariantsSqlChunk = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ limit: z.number().int().min(1).max(50).default(15) }).parse(input),
+  )
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    await ensureStaff(supabase, userId);
+    const { data: r, error } = await supabaseAdmin.rpc("rewrite_posts_html_variants_chunk" as any, { p_limit: data.limit });
+    if (error) throw new Error(error.message);
+    return (r ?? {}) as { updated?: number; skipped_no_map?: number; remaining?: number };
+  });
+
 // ---------- Rewrite posts: swap legacy URLs → Supabase URLs ----------
 export const getRewriteStats = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])

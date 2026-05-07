@@ -14,6 +14,9 @@ import {
   rewriteSeoMetaSql,
   rewritePostsInlineSql,
   rewritePostsHtmlSqlChunk,
+  rewriteSeoMetaVariantsSql,
+  rewritePostsInlineVariantsSql,
+  rewritePostsHtmlVariantsSqlChunk,
 } from "@/serverFns/media-backfill.functions";
 
 export const Route = createFileRoute("/admin/_protected/media-backfill")({
@@ -328,6 +331,36 @@ function MediaBackfillPage() {
             disabled={rewriting}
             className="inline-flex items-center gap-1 rounded bg-emerald-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50">
             ⚡ Rewrite ALL via SQL (chunked)
+          </button>
+          <button
+            onClick={async () => {
+              if (rewriting) return;
+              setRewriting(true);
+              stopRewriteRef.current = false;
+              try {
+                const seo = await rewriteSeoMetaVariantsSql();
+                const inline = await rewritePostsInlineVariantsSql();
+                setLog((l) => [`${new Date().toLocaleTimeString()}  variants: og=${seo.og_updated} tw=${seo.tw_updated} inline=${inline.inline_updated}`, ...l].slice(0, 50));
+                let totalHtml = 0;
+                let safety = 0;
+                while (!stopRewriteRef.current && safety++ < 1000) {
+                  const r = await rewritePostsHtmlVariantsSqlChunk({ data: { limit: 10 } });
+                  totalHtml += r.updated ?? 0;
+                  setLog((l) => [`${new Date().toLocaleTimeString()}  variants html: +${r.updated} (skipped=${r.skipped_no_map}, remaining=${r.remaining})`, ...l].slice(0, 50));
+                  // If nothing updated AND nothing skipped, we're truly done.
+                  if ((r.updated ?? 0) === 0 && (r.skipped_no_map ?? 0) === 0) break;
+                  // If only skipping (no maps), stop too — further chunks won't help.
+                  if ((r.updated ?? 0) === 0) break;
+                }
+                toast.success(`Variant remap done — html ${totalHtml}, inline ${inline.inline_updated}, og ${seo.og_updated}, tw ${seo.tw_updated}`);
+                await refresh();
+              } catch (e: any) {
+                toast.error(e?.message ?? "Variant remap failed");
+              } finally { setRewriting(false); }
+            }}
+            disabled={rewriting}
+            className="inline-flex items-center gap-1 rounded bg-indigo-600 px-3 py-1.5 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50">
+            🪄 Smart variant remap (no downloads)
           </button>
           {rewriting && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
         </div>
