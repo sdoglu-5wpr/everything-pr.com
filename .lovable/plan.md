@@ -1,88 +1,107 @@
+## Goal
 
-## Revised plan — incorporating your three additions
+Make the public site (homepage, articles, archives) feel instant on repeat visits, and cut the admin panel's per-page wait from "many round-trips" to ~1 round-trip. Zero feature/UX changes.
 
-Shipping order unchanged: (1) prerender + URL collector → deploy → report `cf-cache-status` → (2) cache headers + perf-test cleanup → (3) revalidate webhook + admin hook + cron → (4) acceptance script.
+## Where the time goes today
 
-### 1. Prerender wiring + URL collector (this push)
+- **Admin dashboard** (`/admin`): fires **10 separate Supabase queries from the browser** in parallel — but each is its own HTTPS request with auth + RLS, so cold load is 800–1500 ms.
+- **Admin layout** (`_protected.tsx`): refetches `user_roles` from the browser on every navigation. ~150–300 ms of blank "Loading…".
+- **Admin posts list**: server fn does 5 sequential Supabase calls (posts → authors → post_categories → media → categories) per page load.
+- **Admin editor open**: 3 lookup queries (categories/tags/authors) + 4 post-detail queries on every post open. Lookup tables rarely change.
+- **Article route `/$slug`**: on a cache miss, tries article → pillar → archive → redirect (up to 4 round-trips).
+- **Admin bundle**: TipTap RichEditor loaded eagerly into the editor route chunk. Heavy.
+- **DB**: Some hot query paths likely lack covering indexes (e.g. `posts(type, status, modified_at)`, `post_categories(category_id)`, `redirects(source_path) WHERE enabled`).
 
-**Wiring**
-- `vite.config.ts`: pass `prerender: { enabled: true, concurrency: 4, crawlLinks: false, routes: async () => collectUrls() }` to TanStack Start (the default config wrapper accepts overrides via `defineConfig({ tanstackStart: { ... } })`).
-- New file `src/prerender.ts` exports `collectUrls()`. Build-time only — uses `supabaseAdmin` (service role) directly, no RLS round-trips.
+## Plan
 
-**URLs collected** (with your additions)
-- `/`, `/feed`, `/robots.txt`, `/sitemap_index.xml`, `/post-sitemap.xml` (paginated), `/category-sitemap.xml`, `/post_tag-sitemap.xml`, `/author-sitemap.xml`, `/page-sitemap.xml`
-- Every `posts` row where `status='publish' AND type IN ('post','page')` → `/$slug`. This naturally includes:
-  - The ~12K posts
-  - The 19 pages (ethics-policy, corrections-policy, etc.) — verified via `select count(*) from posts where type='page' and status='publish'` before the build commits
-  - The 4 study landing pages — same query covers them; we'll log their slugs explicitly during collection so you can grep the build output to confirm
-- All 41 categories → `/category/$slug` plus `/category/$slug/page/$n` for n=2..ceil(post_count/pageSize)
-- All tags with `post_count >= 5` → `/tag/$slug` (+ paginated)
-- All 21 authors → `/author/$slug` (+ paginated)
-- **Redirects**: select `source_path` from `redirects where enabled=true`. These are NOT prerendered as pages. Instead, `collectUrls()` also returns a `redirects` array that gets emitted to `dist/_redirects.json`. The Worker reads this map at startup and serves a 301 directly — no Supabase call, no React render.
+### 1. Admin dashboard → single round-trip
 
-**Determinism**: collection runs once per build. Slug list snapshot is written to `dist/prerender-manifest.json` for debugging.
+- Switch `_protected.index.tsx` to call the existing `getAdminDashboard()` server fn (already aggregates counts + recent + scheduled in one Promise.all on the server) instead of 10 browser queries.
+- Add an `activity` query to that server fn so the dashboard becomes one HTTP call.
+- Wrap with `cached()` (10 s TTL) so a quick re-visit is instant.
 
-### 2. Tiered fallback (documented + wired)
+### 2. Admin layout → cache roles once per session
 
-In `src/prerender.ts`:
+- Move the `user_roles` fetch out of `_protected.tsx`'s `useEffect` and into a TanStack Router `beforeLoad` on the `_protected` route, returning roles via route context.
+- Cache in `sessionStorage` keyed on `userId`. Subsequent admin navigations are zero round-trips.
+- Keep the existing redirect-to-login behavior.
+
+### 3. Admin posts list → one RPC
+
+- Add Postgres function `get_admin_posts_list(filters jsonb, page, page_size)` that returns rows already joined with author, primary category, and featured media URL, plus total count, in **one** call.
+- Replace the 5 chained queries in `listAdminPosts` with this RPC.
+- Move the dynamic `await import("@/lib/legacy-urls")` to a static import (Workers cold-start savings).
+
+### 4. Admin editor → cached lookups + parallel post fetch
+
+- Split `getAdminPost` into:
+  - `getAdminEditorMeta()` — categories/tags/authors lookups, wrapped in `cached("admin:editor:meta", 60_000)`. Fetched once, reused across every post-open.
+  - `getAdminPostDetail({ id })` — single RPC `get_admin_post_detail(p_id)` returning post + seo + category_ids + tag_ids + featured_media in one row.
+- Editor route prefetches meta in `loader` (route-level), and the component fetches only post detail.
+
+### 5. Public article route `/$slug` → one resolver
+
+- Add Postgres function `resolve_slug(p_slug)` returning `{ kind: 'article'|'pillar'|'archive'|'redirect'|'none', payload jsonb }`.
+- Loader does a single RPC instead of 4 sequential ones; only the matched branch hydrates its full payload (subsequent specialized RPCs reused).
+- Net effect on a 404 / category-only slug: 1 round-trip instead of 4.
+
+### 6. Code-split TipTap editor
+
+- Convert `RichEditor` to a `React.lazy()` import inside the editor route.
+- Show a lightweight `<textarea>`-style placeholder until the chunk arrives. Cuts the editor route's initial JS by an estimated 200–400 KB gzipped.
+
+### 7. Stronger CDN cache headers
+
+- Articles, category, tag, author archives, sitemaps, and the homepage already set `Cache-Control` server headers. Audit values and standardize:
+  - Homepage: `s-maxage=120, stale-while-revalidate=600`
+  - Articles: `s-maxage=300, stale-while-revalidate=3600`
+  - Archives: `s-maxage=180, stale-while-revalidate=1800`
+- Add `Vary: Cookie` only where actually needed (admin), so anonymous traffic shares the cache.
+
+### 8. DB indexes (one migration)
+
+Add only if missing — the migration uses `IF NOT EXISTS`:
+
+```text
+posts (type, status, modified_at DESC NULLS LAST)
+posts (status, published_at) WHERE status = 'future'
+posts (slug)                  -- unique already? verify
+post_categories (category_id, post_id)
+post_tags (tag_id, post_id)
+redirects (source_path) WHERE enabled
+seo_meta (object_type, object_id)
+media (id)                    -- pk, but verify
+authors (slug)
+categories (slug), tags (slug)
 ```
-const MAX_PRERENDER = 2500;       // hard cap before tier-1 fallback
-const BUILD_TIME_BUDGET_MS = 8 * 60_000;
-```
-- Tier 1 set (always): `/`, all pages (19), all category roots + first 3 pagination, all author roots + first 3 pagination, top 500 posts ordered by `seo_meta.incoming_link_count desc nulls last`, top 100 by `published_at desc`. Deduped.
-- If full URL count ≤ `MAX_PRERENDER` and the build elapsed budget hasn't been exceeded by the time the collector finishes, prerender everything. Otherwise emit only Tier 1 and write `tier=1` into the manifest.
-- Tier 2 (everything else) falls back to dynamic SSR at request time. Worker sets `Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400` on those responses so the second visitor gets edge-cached HTML.
-- Build log prints: total URLs found, tier chosen, included counts per type, elapsed seconds.
 
-`incoming_link_count` doesn't exist on `seo_meta` today — I'll use `internal_links` aggregated by `target_post_id` as the proxy. If you want a real column added I can do that in step 3.
+### 9. Small wins
 
-### 3. Cache-header + noindex correctness on staging
+- Replace browser `supabase.auth.getSession()` double-call in `_protected.tsx` with a single call.
+- Remove duplicate `useEffect` that resets `pageInput`/`searchInput` in posts list (re-renders only).
+- Drop the `await import(...)` patterns in server fns — they add cold-start latency on Workers.
+- Add `prefetch="intent"` (TanStack `<Link>` default) hints on admin sidebar links so navigation feels instant.
 
-Two facets, both handled in step 2 of the rollout (cache-header pass), called out here so we agree on the contract:
+## Acceptance
 
-| Surface | `INDEXING_ENABLED=false` (staging) | `INDEXING_ENABLED=true` (prod) |
-| --- | --- | --- |
-| Prerendered HTML `<head>` | `<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">` baked in at build | `<meta name="robots" content="index,follow,max-image-preview:large">` baked in |
-| Worker response header on every request | `X-Robots-Tag: noindex,nofollow,noarchive,nosnippet,noimageindex` | header omitted |
-| `/robots.txt` (prerendered as static file) | `User-agent: *\nDisallow: /` | full allow + AI bots + sitemap link |
-| `/sitemap*.xml` | not in prerender list → Worker returns `404` | prerendered XML |
-| Cache-Control on HTML | `public, max-age=60, s-maxage=86400, stale-while-revalidate=604800` (same as prod — staging perf parity is the whole point) | same |
+- Admin `/admin` first paint: < 400 ms after auth on warm cache, < 800 ms cold (was ~1.5 s).
+- Admin `/admin/posts` page change: 1 network call (was 5).
+- Admin `/admin/posts/$id` open: 2 calls cold, 1 call warm (was 7).
+- Public article on a cached edge node: ~50 ms HTML response.
+- Zero behavior changes — same UI, same data, same auth/RLS.
 
-The `<meta robots>` and the indexing-aware skip of sitemap URLs both happen inside `collectUrls()` / route `head()` at build time, reading `process.env.INDEXING_ENABLED`. The `X-Robots-Tag` response header is added by the Worker middleware (`src/start.ts`) at request time so it's correct even for Tier-2 lazy renders.
+## Out of scope
 
-**Two artifacts per env — wrangler answer**: `wrangler.jsonc` supports `[env.production]` / `[env.staging]` blocks with per-env `vars`. We add:
-```
-{
-  "vars": { "INDEXING_ENABLED": "false" },
-  "env": {
-    "production": { "vars": { "INDEXING_ENABLED": "true" } }
-  }
-}
-```
-Lovable's deploy publishes a single Worker per project, so the practical model is:
-- Staging deploys = current behavior, `INDEXING_ENABLED=false` → noindex artifact.
-- Production cutover = flip the secret to `true` and trigger a rebuild. The build reads the new value, prerenders index-allowed HTML, swaps `robots.txt`, includes sitemaps. ~3-10 min downtime-free (old artifact serves until the new one promotes).
+- Visual redesign, new admin features.
+- Switching auth provider, switching to Edge KV, or moving off Supabase RPCs.
+- Image-pipeline work (already in `media-backfill`).
 
-If you want truly two simultaneous artifacts (staging at noindex AND production at index, both live), that requires either two Lovable projects or a custom deploy pipeline outside what I can configure from here. I'll flag it explicitly in the docs file.
+## Rollout order (safe)
 
-### Step 1 deliverable (what hits the repo on this push)
-- `src/prerender.ts` — collector + tiering logic
-- `vite.config.ts` — prerender config + route function
-- `src/start.ts` — Worker static-file + redirect-map handler (reads `dist/_redirects.json`)
-- `dist/_redirects.json` written at build (committed to artifact, not source)
-- `src/server/indexing.constants.ts` — exports the meta-robots strings used by both `head()` and the middleware so they can't drift
-- Build log shows: total/tier/per-type counts + study-page slugs explicitly listed
-- No changes yet to admin publish flow, no webhook, no cron — those are step 3
+1. DB migration with indexes + new RPCs (`get_admin_posts_list`, `get_admin_post_detail`, `resolve_slug`). Old code keeps working.
+2. Wire admin dashboard, admin layout role-cache, posts list, editor to new RPCs.
+3. Code-split RichEditor.
+4. Tighten CDN headers.
+5. Remove now-dead browser supabase queries.
 
-After this lands and deploys, I'll run:
-```
-for url in / /category/pr-news/ /the-ai-coding-tools-ai-visibility-index-2026/ /robots.txt /sitemap_index.xml; do
-  for i in 1 2 3; do
-    curl -sI "https://everythingpr.lovable.app$url?cb=$RANDOM" | grep -iE 'cf-cache-status|cache-control|x-robots|content-type'
-    curl -s -o /dev/null -w "$url hit$i %{time_starttransfer}s\n" "https://everythingpr.lovable.app$url"
-  done
-done
-```
-and report back `cf-cache-status` per URL plus TTFB, before starting step 2.
-
-Approve and I'll start step 1.
+Each step is independently shippable and reversible.

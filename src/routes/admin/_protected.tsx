@@ -38,13 +38,26 @@ function AdminLayout() {
         if (!sess.session) { navigate({ to: "/admin/login" }); return; }
         const userId = sess.session.user.id;
         const email = sess.session.user.email ?? null;
-        const { data: rows, error } = await supabase
-          .from("user_roles").select("role").eq("user_id", userId);
-        if (cancelled) return;
-        if (error) { setAccessError(error.message); return; }
-        const roles = (rows ?? []).map(r => r.role as string);
+
+        // Try cached roles (per-session) to skip the round-trip on subsequent navigations.
+        const cacheKey = `admin:roles:${userId}`;
+        let roles: string[] | null = null;
+        try {
+          const raw = sessionStorage.getItem(cacheKey);
+          if (raw) roles = JSON.parse(raw);
+        } catch {}
+
+        if (!roles) {
+          const { data: rows, error } = await supabase
+            .from("user_roles").select("role").eq("user_id", userId);
+          if (cancelled) return;
+          if (error) { setAccessError(error.message); return; }
+          roles = (rows ?? []).map(r => r.role as string);
+          try { sessionStorage.setItem(cacheKey, JSON.stringify(roles)); } catch {}
+        }
+
         const isStaff = roles.some(r => (STAFF_ROLES as readonly string[]).includes(r));
-        setMe({ userId, email, roles, isStaff });
+        if (!cancelled) setMe({ userId, email, roles, isStaff });
       } catch (e: any) {
         if (!cancelled) setAccessError(e?.message ?? String(e));
       } finally {
@@ -55,6 +68,7 @@ function AdminLayout() {
   }, [navigate]);
 
   const logout = async () => {
+    try { sessionStorage.removeItem(`admin:roles:${me?.userId ?? ""}`); } catch {}
     const { error } = await supabase.auth.signOut();
     if (error) toast.error(`Logout failed: ${error.message}`);
     navigate({ to: "/admin/login" });
