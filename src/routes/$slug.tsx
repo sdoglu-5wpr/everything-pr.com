@@ -47,23 +47,29 @@ async function lookupRedirectInBrowser(path: string) {
 }
 
 export const Route = createFileRoute("/$slug")({
-  loader: async ({ params }) => {
+  validateSearch: (s: Record<string, unknown>) => ({
+    page: Math.max(1, Number(s.page) || 1),
+  }),
+  loaderDeps: ({ search }) => ({ page: search.page }),
+  loader: async ({ params, deps }) => {
     if (!params.slug || params.slug.includes(".")) throw notFound();
 
-    // 1. Try article
-    const data = await loadArticle(params.slug);
-    if (data) return { kind: "article" as const, data };
+    // 1. Try article (only on page 1 — articles aren't paginated)
+    if (deps.page === 1) {
+      const data = await loadArticle(params.slug);
+      if (data) return { kind: "article" as const, data };
+    }
 
     // 2. Try pillar (industry landing page)
     const pillar = typeof window !== "undefined"
-      ? await fetchPillarViaRpc(supabase, params.slug, 1)
-      : await getPillar({ data: { slug: params.slug, page: 1 } });
+      ? await fetchPillarViaRpc(supabase, params.slug, deps.page)
+      : await getPillar({ data: { slug: params.slug, page: deps.page } });
     if (pillar) return { kind: "pillar" as const, data: pillar };
 
     // 3. Fall back to category archive
     const archive = typeof window !== "undefined"
-      ? await fetchArchiveViaRpc(supabase, { kind: "category", slug: params.slug, page: 1 })
-      : await getArchive({ data: { kind: "category", slug: params.slug, page: 1 } });
+      ? await fetchArchiveViaRpc(supabase, { kind: "category", slug: params.slug, page: deps.page })
+      : await getArchive({ data: { kind: "category", slug: params.slug, page: deps.page } });
     if (archive && archive.items.length > 0) {
       return { kind: "archive" as const, data: archive, slug: params.slug };
     }
