@@ -1,0 +1,1 @@
+UPDATE public.authors SET avatar_url = 'https://unycfscvsckgxboherpk.supabase.co/storage/v1/object/public/wp-media/authors/2026/05/ssemilof-1778123300.jpg', updated_at = now() WHERE slug = 'ssemilof';
