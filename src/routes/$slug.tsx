@@ -51,6 +51,7 @@ export const Route = createFileRoute("/$slug")({
   validateSearch: (s: Record<string, unknown>) => ({
     page: Math.max(1, Number(s.page) || 1),
   }),
+  search: { middlewares: [stripSearchParams({ page: 1 }) as any] },
   loaderDeps: ({ search }) => ({ page: search.page }),
   loader: async ({ params, deps }) => {
     if (!params.slug || params.slug.includes(".")) throw notFound();
