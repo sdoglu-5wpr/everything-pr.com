@@ -6,7 +6,7 @@ import { Pagination } from "./ArchiveView";
 import { decodeHtmlEntities, htmlToPlainText } from "@/lib/text";
 import type { PillarPayload } from "@/lib/pillars.shared";
 
-import virgoPrBanner from "@/assets/virgo-pr-banner.gif";
+import fiveWBanner from "@/assets/5wpr-banner.jpg";
 
 function formatDate(iso: string | null | undefined) {
   if (!iso) return "";
@@ -143,12 +143,12 @@ export function PillarView({ data }: { data: PillarPayload }) {
             </div>
 
             <a
-              href="https://virgo-pr.com/?utm_source=everything-pr&utm_medium=banner&utm_campaign=epr-banner"
+              href="https://www.5wpr.com/?utm_source=epr&utm_medium=sidebar_banner&utm_campaign=epr_pillar_sidebar"
               target="_blank"
               rel="noopener noreferrer sponsored"
               className="block overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
             >
-              <img src={virgoPrBanner} alt="Virgo PR" className="w-full h-auto" loading="lazy" />
+              <img src={fiveWBanner} alt="5W Public Relations — the AI Communications Firm" className="w-full h-auto" loading="lazy" />
             </a>
           </div>
         </aside>

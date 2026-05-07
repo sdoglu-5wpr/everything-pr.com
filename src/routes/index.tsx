@@ -68,13 +68,20 @@ function HomePage() {
 
   return (
     <SiteLayout tickerItems={data.ticker} footerMenu={data.footerMenu}>
-      <div className="mx-auto max-w-7xl px-6 pt-10">
+      <div className="mx-auto max-w-7xl px-6 pt-8">
+        <p className="text-center text-sm md:text-base font-semibold text-brand-blue tracking-tight">
+          The Leading AI Communications &amp; PR Industry Publication. Daily Since 2009.
+        </p>
+      </div>
+      <div className="mx-auto max-w-7xl px-6 pt-6">
         <Hero hero={data.hero} topStories={data.topStories} />
       </div>
 
       {data.sections.slice(0, 2).map((s) => (
         <SectionRow key={s.key} title={s.title} categorySlug={s.slug} posts={s.posts} />
       ))}
+
+      <AIVisibilityResearch />
 
       <DarkFeatureSection
         title="Crisis"
@@ -101,6 +108,63 @@ function HomePage() {
   );
 }
 
+function AIVisibilityResearch() {
+  const items = [
+    {
+      title: "AI Visibility Index",
+      desc: "How brands rank inside ChatGPT, Claude, Perplexity and Gemini answers.",
+      href: "https://www.5wpr.com/new/research/ai-visibility-index/?utm_source=epr&utm_medium=homepage&utm_campaign=ai_visibility_research",
+    },
+    {
+      title: "The GEO Reckoning",
+      desc: "Why generative engine optimization is rewriting the rules of earned media.",
+      href: "https://www.5wpr.com/new/research/geo-reckoning/?utm_source=epr&utm_medium=homepage&utm_campaign=ai_visibility_research",
+    },
+    {
+      title: "The Missing Rung Report",
+      desc: "Where today's brands disappear from the AI buyer journey — and how to recover.",
+      href: "https://www.5wpr.com/new/research/missing-rung-report/?utm_source=epr&utm_medium=homepage&utm_campaign=ai_visibility_research",
+    },
+  ];
+  return (
+    <section className="mx-auto max-w-7xl px-6 mt-14">
+      <div className="rounded-2xl border bg-ink text-ink-foreground p-8 md:p-10">
+        <div className="flex items-end justify-between gap-3 mb-6">
+          <div>
+            <p className="text-[11px] uppercase tracking-wider font-semibold text-brand-red">5W Research</p>
+            <h2 className="font-serif font-bold text-2xl md:text-3xl text-white mt-1">AI Visibility Research</h2>
+          </div>
+          <a
+            href="https://www.5wpr.com/new/research/?utm_source=epr&utm_medium=homepage&utm_campaign=ai_visibility_research"
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="text-sm font-medium text-white/85 hover:text-white inline-flex items-center gap-1"
+          >
+            View all <ChevronRight className="w-4 h-4" />
+          </a>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {items.map((it) => (
+            <a
+              key={it.title}
+              href={it.href}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="block rounded-xl border border-white/10 bg-white/5 p-6 hover:bg-white/10 transition-colors"
+            >
+              <h3 className="font-serif font-bold text-lg text-white">{it.title}</h3>
+              <p className="mt-2 text-sm text-white/70 leading-relaxed">{it.desc}</p>
+              <span className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-brand-red">
+                Read the research <ArrowRight className="w-3.5 h-3.5" />
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function AboutEverythingPR() {
   return (
     <section className="mx-auto max-w-7xl px-6 mt-16">
@@ -109,13 +173,14 @@ function AboutEverythingPR() {
           Published Daily Since 2009
         </p>
         <h2 className="mt-2 font-serif font-extrabold text-2xl md:text-3xl leading-tight">
-          Everything-PR — the leading independent publication covering the public relations and marketing communications industry.
+          Everything-PR — the leading independent publication covering AI communications and the public relations industry.
         </h2>
         <p className="mt-4 text-sm md:text-base text-muted-foreground leading-relaxed">
           We publish daily news, analysis, agency coverage, crisis PR strategy, digital marketing insights, industry research, and expert commentary across every sector of the communications business. Founded in January 2009, Everything-PR is an independent publication that brings a practitioner perspective to industry coverage that trade aggregators and outside observers cannot replicate.
         </p>
         <p className="mt-3 text-sm md:text-base text-muted-foreground leading-relaxed">
           Explore coverage by category:{" "}
+          <Link to="/$slug" params={{ slug: "ai-communications" }} className="underline hover:text-brand-blue">AI communications</Link>,{" "}
           <Link to="/$slug" params={{ slug: "consumer-pr" }} className="underline hover:text-brand-blue">consumer PR</Link>,{" "}
           <Link to="/$slug" params={{ slug: "corporate-pr" }} className="underline hover:text-brand-blue">corporate PR</Link>,{" "}
           <Link to="/$slug" params={{ slug: "crisis-pr" }} className="underline hover:text-brand-blue">crisis PR</Link>,{" "}
@@ -136,25 +201,37 @@ function AboutEverythingPR() {
           <div>
             <h3 className="font-serif font-bold text-lg">What is Everything-PR?</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Everything-PR is an independent PR and marketing industry publication that has published continuously since January 2009 — making it one of the longest-running and most comprehensive sources of public relations news and intelligence available online. The publication covers PR agency news and account wins, brand communications strategy, crisis PR and reputation management, digital marketing and social media, industry research and data, executive appointments and leadership profiles, PR RFPs and new business opportunities, and the strategic and cultural forces shaping how communications is practiced and valued across every sector. Everything-PR publishes with the editorial independence and practitioner authority that 17 years of continuous coverage of this industry provides.
+              Everything-PR is an independent publication covering AI communications and the public relations industry, published continuously since January 2009 — making it one of the longest-running and most comprehensive sources of communications intelligence available online. The publication leads with AI communications and generative engine optimization (GEO), and covers PR agency news and account wins, brand communications strategy, crisis PR and reputation management, digital marketing and social media, industry research and data, executive appointments and leadership profiles, PR RFPs and new business opportunities, and the strategic forces shaping how communications is practiced and valued across every sector.
             </p>
           </div>
           <div>
             <h3 className="font-serif font-bold text-lg">What does Everything-PR cover?</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Everything-PR covers the full spectrum of the public relations and marketing communications industry. <Link to="/$slug" params={{ slug: "consumer-pr" }} className="underline font-semibold">Consumer PR</Link> — campaigns, agencies, and strategies that build brand awareness and drive purchase decisions. <Link to="/$slug" params={{ slug: "corporate-pr" }} className="underline font-semibold">Corporate PR</Link> — executive communications, investor relations, ESG, and institutional reputation programs. <Link to="/$slug" params={{ slug: "crisis-pr" }} className="underline font-semibold">Crisis PR</Link> — real-time coverage of how organizations manage reputational emergencies. <Link to="/$slug" params={{ slug: "healthcare-pr" }} className="underline font-semibold">Healthcare PR</Link> — pharmaceutical, hospital, digital health, and health technology communications. <Link to="/$slug" params={{ slug: "technology-pr" }} className="underline font-semibold">Technology PR</Link> — startup, enterprise, AI, SaaS, and consumer tech communications. <Link to="/$slug" params={{ slug: "entertainment-pr" }} className="underline font-semibold">Entertainment PR</Link> — film, television, music, sports, gaming, and celebrity. And <Link to="/$slug" params={{ slug: "marketing" }} className="underline font-semibold">marketing</Link> and <Link to="/$slug" params={{ slug: "social-media" }} className="underline font-semibold">social media</Link> — the digital disciplines increasingly integrated with PR into unified communications programs.
+              Everything-PR covers AI communications and the full spectrum of public relations. <Link to="/$slug" params={{ slug: "ai-communications" }} className="underline font-semibold">AI communications</Link> — generative engine optimization (GEO), AI search visibility, and how brands earn presence inside ChatGPT, Claude, Perplexity and Gemini. <Link to="/$slug" params={{ slug: "consumer-pr" }} className="underline font-semibold">Consumer PR</Link>, <Link to="/$slug" params={{ slug: "corporate-pr" }} className="underline font-semibold">Corporate PR</Link>, <Link to="/$slug" params={{ slug: "crisis-pr" }} className="underline font-semibold">Crisis PR</Link>, <Link to="/$slug" params={{ slug: "healthcare-pr" }} className="underline font-semibold">Healthcare PR</Link>, <Link to="/$slug" params={{ slug: "technology-pr" }} className="underline font-semibold">Technology PR</Link>, and <Link to="/$slug" params={{ slug: "entertainment-pr" }} className="underline font-semibold">Entertainment PR</Link>. And <Link to="/$slug" params={{ slug: "marketing" }} className="underline font-semibold">marketing</Link> and <Link to="/$slug" params={{ slug: "social-media" }} className="underline font-semibold">social media</Link> — the digital disciplines increasingly integrated with PR into unified communications programs.
             </p>
           </div>
           <div>
             <h3 className="font-serif font-bold text-lg">Why is Everything-PR the authoritative source?</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              Everything-PR's authority comes from three sources newer publications and aggregators cannot replicate. First, 17 years of continuous daily publishing since January 2009 — an archive of tens of thousands of articles indexed across every major search engine and AI model. Second, a practitioner perspective informed by direct, ongoing participation in the communications industry. Third, editorial breadth that covers not just PR but the full spectrum of communications and marketing — <Link to="/$slug" params={{ slug: "marketing" }} className="underline">digital marketing</Link>, <Link to="/$slug" params={{ slug: "social-media" }} className="underline">social media strategy</Link>, GEO and AI search, <Link to="/$slug" params={{ slug: "agency-of-record" }} className="underline">agency of record</Link> assignments, <Link to="/$slug" params={{ slug: "rfp" }} className="underline">RFPs</Link>, and <Link to="/$slug" params={{ slug: "pr-jobs" }} className="underline">PR jobs</Link> — making it a comprehensive resource for everyone who works in or hires from the communications industry.
+              Everything-PR's authority comes from three sources newer publications and aggregators cannot replicate. First, 17 years of continuous daily publishing since January 2009 — an archive of tens of thousands of articles indexed across every major search engine and AI model. Second, a practitioner perspective informed by direct, ongoing participation in AI communications and the broader PR industry. Third, editorial breadth that covers <Link to="/$slug" params={{ slug: "ai-communications" }} className="underline">AI communications and GEO</Link>, <Link to="/$slug" params={{ slug: "marketing" }} className="underline">digital marketing</Link>, <Link to="/$slug" params={{ slug: "social-media" }} className="underline">social media strategy</Link>, <Link to="/$slug" params={{ slug: "agency-of-record" }} className="underline">agency of record</Link> assignments, <Link to="/$slug" params={{ slug: "rfp" }} className="underline">RFPs</Link>, and <Link to="/$slug" params={{ slug: "pr-jobs" }} className="underline">PR jobs</Link>.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-serif font-bold text-lg">What is AI Communications?</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+              AI communications is the discipline of building and protecting brand presence inside AI-mediated discovery — generative engine optimization (GEO), AI search visibility across ChatGPT, Claude, Perplexity and Gemini, earned media designed to be cited by large language models, influencer and creator programs, and the digital and social channels that feed those models. It sits alongside traditional PR, but treats answer engines — not search results pages — as the primary surface where buyers form opinions and make decisions.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-serif font-bold text-lg">How is buyer research changing in 2026?</h3>
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+              In 2026, buyer research starts inside ChatGPT, Claude, Perplexity and Gemini before it ever reaches a search engine or a brand's website. Decision-makers ask answer engines to compare vendors, summarize reputations, and recommend shortlists — and the brands that show up are the ones with strong earned media footprints, structured content, and a deliberate GEO strategy. Visibility inside AI answers is now as important as visibility in Google results.
             </p>
           </div>
           <div>
             <h3 className="font-serif font-bold text-lg">How is the PR and marketing industry changing in 2026?</h3>
             <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
-              The industry in 2026 is undergoing structural change at a pace with no recent precedent. Agency consolidation — driven by major M&amp;A activity across the holding company landscape — is reshaping which agencies exist, which brands they own, and how the competitive landscape is structured. Artificial intelligence is restructuring how brands are discovered, how content is created and distributed, and how agencies demonstrate value — with generative engine optimization emerging as a core discipline alongside traditional media relations, social media, and digital marketing. And the definition of what PR agencies do continues to expand — those gaining the most ground have built genuinely integrated capabilities across earned, owned, paid, and AI-optimized channels.
+              The industry in 2026 is undergoing structural change at a pace with no recent precedent. Agency consolidation — driven by major M&amp;A activity across the holding company landscape — is reshaping which agencies exist, which brands they own, and how the competitive landscape is structured. Artificial intelligence is restructuring how brands are discovered, how content is created and distributed, and how agencies demonstrate value — with generative engine optimization emerging as a core discipline alongside traditional media relations, social media, and digital marketing.
             </p>
           </div>
         </div>

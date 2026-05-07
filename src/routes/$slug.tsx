@@ -20,7 +20,7 @@ import { buildArticleHead } from "@/serverFns/seo.article";
 import { extractFaqPairs } from "@/lib/faq";
 import { FaqSection } from "@/components/site/FaqSection";
 
-import virgoPrBanner from "@/assets/virgo-pr-banner.gif";
+import fiveWBanner from "@/assets/5wpr-banner.jpg";
 
 async function loadArticle(slug: string): Promise<ArticlePayload | null> {
   // In the browser (e.g. Netlify static hosting where TanStack server functions
@@ -316,6 +316,14 @@ function ArticlePage() {
 
         <aside className="lg:col-span-1">
           <div className="sticky top-6 space-y-8">
+            <a
+              href="https://www.5wpr.com/?utm_source=epr&utm_medium=sidebar_banner&utm_campaign=epr_article_sidebar"
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="block overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
+            >
+              <img src={fiveWBanner} alt="5W Public Relations — the AI Communications Firm" className="w-full h-auto" loading="lazy" />
+            </a>
             <div>
               <SidebarHeader title="Top Stories" />
               <ul className="mt-4 space-y-4">
@@ -326,14 +334,6 @@ function ArticlePage() {
                 ))}
               </ul>
             </div>
-            <a
-              href="https://virgo-pr.com/?utm_source=everything-pr&utm_medium=banner&utm_campaign=epr-banner"
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="block overflow-hidden rounded-lg border hover:opacity-90 transition-opacity"
-            >
-              <img src={virgoPrBanner} alt="Virgo PR" className="w-full h-auto" loading="lazy" />
-            </a>
             <div className="rounded-lg border bg-surface-soft p-5">
               <h3 className="font-serif text-lg font-bold mb-2">Get the PR Brief</h3>
               <p className="text-sm text-muted-foreground mb-3">
