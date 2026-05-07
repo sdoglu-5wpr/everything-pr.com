@@ -6,7 +6,7 @@ import { Pagination } from "./ArchiveView";
 import { decodeHtmlEntities, htmlToPlainText } from "@/lib/text";
 import type { PillarPayload } from "@/lib/pillars.shared";
 
-import virgoPrBanner from "@/assets/virgo-pr-banner.gif";
+import fiveWBanner from "@/assets/5wpr-banner.jpg";
 
 function formatDate(iso: string | null | undefined) {
   if (!iso) return "";
