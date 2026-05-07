@@ -215,6 +215,16 @@ export function PillarView({ data }: { data: PillarPayload }) {
               ))}
             </div>
           )}
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            buildHref={(p) => ({
+              to: "/$slug",
+              params: { slug: pillar.slug },
+              search: p === 1 ? {} : { page: p },
+              hash: "articles",
+            })}
+          />
         </div>
       </section>
     </SiteLayout>
