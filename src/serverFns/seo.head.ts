@@ -186,7 +186,9 @@ export function buildArchiveHead(opts: {
   const ogImage = seoOverrides?.og_image
     || (kind === "author" && author?.avatar_url ? author.avatar_url : DEFAULT_OG_IMAGE);
   const meta = baseMeta(title, description, url, ogImage, ogType);
-  if (seoOverrides?.robots) meta.push({ name: "robots", content: seoOverrides.robots });
+  // Tag archives: always noindex,follow (heavy duplication with categories/search).
+  const robotsValue = seoOverrides?.robots || (kind === "tag" ? "noindex, follow" : null);
+  if (robotsValue) meta.push({ name: "robots", content: robotsValue });
   const canonicalHref = seoOverrides?.canonical_url || url;
   const links: Link = emitCanonical ? [{ rel: "canonical", href: canonicalHref }] : [];
 
