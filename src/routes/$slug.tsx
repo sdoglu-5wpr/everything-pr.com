@@ -19,6 +19,7 @@ import { htmlToPlainText } from "@/lib/text";
 import { buildArticleHead } from "@/serverFns/seo.article";
 import { extractFaqPairs } from "@/lib/faq";
 import { FaqSection } from "@/components/site/FaqSection";
+import { About5WBoilerplate, Related5WResearch, Work5WCTA } from "@/components/site/FiveWBlocks";
 
 import fiveWBanner from "@/assets/5wpr-banner.jpg";
 
