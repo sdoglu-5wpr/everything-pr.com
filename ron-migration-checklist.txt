@@ -1,0 +1,47 @@
+Ron Migration Checklist
+=======================
+
+1. Export & Inventory
+   - [ ] Pull full WordPress export (posts, pages, media, users, taxonomies)
+   - [ ] Snapshot live sitemap.xml and top-100 organic landing pages
+   - [ ] Export SE Ranking / GSC keyword and top-page reports
+   - [ ] Inventory third-party embeds (forms, ads, analytics, comments)
+   - [ ] List all custom shortcodes and Gutenberg blocks in use
+
+2. Lovable Project Setup
+   - [ ] Confirm TanStack Start + Supabase project provisioned
+   - [ ] Verify env vars: VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY,
+         SUPABASE_SERVICE_ROLE_KEY (server-only)
+   - [ ] Configure custom domain + SSL
+   - [ ] Set INDEXING_ENABLED appropriately for staging vs production
+
+3. Content & Media Import
+   - [ ] Run import script: bun run scripts/import-content.ts
+   - [ ] Backfill featured media: bun run scripts/backfill-featured-media.ts
+   - [ ] Audit anchor links: bun run internal-links:audit -- --in ./data/posts.jsonl
+   - [ ] Apply legacy URL fix: bun run internal-links:audit -- --apply
+   - [ ] Build internal links JSONL: bun run internal-links:build
+   - [ ] Map keywords to buckets: bun run keywords:map -- --in ./data/se-ranking.csv
+
+4. SEO-Safe Cutover
+   - [ ] Populate ron-redirect-map.csv from old → new URLs
+   - [ ] Load redirects table from CSV (admin redirects screen)
+   - [ ] Verify canonical tags + robots meta on all templates
+   - [ ] Confirm RSS feed (/feed) returns full content
+   - [ ] Submit new sitemap to Google Search Console / Bing
+   - [ ] Keep old domain redirects in place ≥ 12 months
+
+5. QA
+   - [ ] Spot-check 25 high-traffic articles for layout, images, internal links
+   - [ ] Verify Related reading section renders where internal_links exist
+   - [ ] Test category, tag, author, date archives
+   - [ ] Test search, contact form, newsletter signup
+   - [ ] Lighthouse: LCP < 2.5s, CLS < 0.1, no console errors
+   - [ ] Validate structured data (Article, BreadcrumbList, FAQPage)
+
+6. Handoff
+   - [ ] Document admin login + roles (admin/editor/author)
+   - [ ] Provide redirects management walkthrough
+   - [ ] Provide post editor + media library walkthrough
+   - [ ] Provide ops scripts catalogue (this folder + package.json)
+   - [ ] Schedule 30-day post-launch review (rankings, 404s, crawl stats)
