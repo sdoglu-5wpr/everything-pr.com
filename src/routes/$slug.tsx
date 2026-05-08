@@ -16,6 +16,7 @@ import { ContactPage } from "@/components/site/ContactPage";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 import { PillarView } from "@/components/site/PillarView";
 import { htmlToPlainText } from "@/lib/text";
+import { rewriteLegacyHtml } from "@/lib/legacy-urls";
 import { buildArticleHead } from "@/serverFns/seo.article";
 import { extractFaqPairs } from "@/lib/faq";
 import { FaqSection } from "@/components/site/FaqSection";
@@ -430,7 +431,10 @@ function AuthorCard({ author }: { author: ArticleAuthor }) {
         <div className="text-xs uppercase tracking-wider text-muted-foreground">Written by</div>
         <div className="font-serif text-xl font-bold mt-0.5">{author.display_name}</div>
         {author.bio ? (
-          <p className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-4">{author.bio}</p>
+          <div
+            className="mt-2 text-sm text-muted-foreground leading-relaxed line-clamp-4 [&_a]:underline [&_a]:text-foreground"
+            dangerouslySetInnerHTML={{ __html: rewriteLegacyHtml(author.bio) }}
+          />
         ) : null}
       </div>
     </div>
