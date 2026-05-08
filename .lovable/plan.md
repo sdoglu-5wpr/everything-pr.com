@@ -1,64 +1,91 @@
-# Add GEO pillar + first article (with images)
+# Polish formatting on recent articles (add H2/H3)
 
-## Author / structure confirmed
+## Problem
 
-- Author for the article: **Ronn Torossian** (id 6, slug `ronn-torossian`).
-- Pillar matches existing pattern (cybersecurity, beauty, etc.): `pillars` row + matching `categories` row, both slug `generative-engine-optimization`. Same `PillarView` renders it — no new component, no layout changes.
-- `byline` will be `EPR Staff` to match other pillars.
+Many recently published articles render as walls of `<p>` tags. Section
+labels like `1. Audit and Clean Wikipedia and Wikidata`,
+`2. Land Tier-One Earned Media…`, or `90-Day Execution Plan` are wrapped
+in `<p>` (sometimes `<p><strong>…</strong></p>`) instead of `<h2>` /
+`<h3>`. This hurts readability, SEO, FAQ extraction, and the table of
+contents experience.
 
-## What lands in one pass
+Quick scan of the last 90 days of `posts` (status=publish, type=post):
 
-### 1. Images (generated up front, committed to `public/`)
+- 306 published posts
+- 72 have **zero** `<h2>`/`<h3>` headings
+- 6 use the `<p>1. Title</p>` numbered pattern (e.g. the article you linked)
+- 43 use the `<p><strong>Heading</strong></p>` pattern as fake headings
 
-Both as **WebP**, named after the slug, alt text describes the content.
+## Approach
 
-- `public/pillars/generative-engine-optimization.webp` — pillar hero
-  - prompt direction: editorial illustration of an AI search interface citing brand sources, dark navy `#0A1628` background to match pillar hero gradient, brand red `#FF3366` accents, no text rendered in the image.
-  - alt: `"Generative Engine Optimization (GEO) — how brands earn citations inside ChatGPT, Claude, Perplexity, and Google AI Overviews"`
-- `public/articles/geo-vs-seo.webp` — article featured image
-  - prompt direction: split-frame visual contrasting a traditional Google SERP (left) with an AI answer panel showing inline citations (right), same dark navy + red accent palette, clean editorial style, no text.
-  - alt: `"GEO vs SEO — search results page versus AI-generated answer with inline citations"`
-- Generated via the agent-side `generate_image` tool (premium tier) so they ship as real files in the repo. If the prompt produces a PNG, I'll convert to WebP with `cwebp` before commit. Both files end up tracked in git, immediately referenced by the seed migration.
+A one-shot reformatting pass over all candidate articles, run as a
+script (no UI). Two-stage pipeline so we stay safe and reversible:
 
-A `media` row + `post_categories`/`featured_media_id` wiring is added so the article's featured image renders the same way every other post does.
+1. **Deterministic pass** — covers the obvious patterns with regex, no
+   AI needed:
+   - `<p>N. Heading text</p>` (a paragraph that is just `N. Title`,
+     under ~120 chars, followed by another paragraph) → `<h2>Heading</h2>`
+   - `<p><strong>Heading text</strong></p>` where the paragraph is only
+     the bold span and ≤ 120 chars → `<h2>Heading</h2>`
+   - Common known section labels (`Methodology`, `Key Findings`,
+     `Conclusion`, `90-Day Execution Plan`, `The Headline Number`,
+     `What This Means`, `Recommendations`, etc.) wrapped in a short
+     standalone `<p>` → `<h2>`
+   - Inside numbered groups, sub-bullets that look like `<p>A. Sub</p>`
+     or `<p><em>Sub</em></p>` → `<h3>` (only when nested under an H2)
 
-### 2. Database migration (single file, fully idempotent)
+2. **AI pass for the rest** — for the remaining ~70 articles that have
+   *no* headings at all and don't match the deterministic patterns,
+   call the Lovable AI gateway (`google/gemini-3-flash-preview`) with a
+   strict prompt:
+   - Input: current `content_html`
+   - Task: insert `<h2>` / `<h3>` where appropriate. Do **not** change
+     wording, do **not** add or remove paragraphs, do **not** touch
+     images, links, lists, or schema markup. Return HTML only.
+   - Output is validated: must still contain the same plain-text body
+     (length within ±2%), same number of `<a>` and `<img>` tags. If
+     validation fails, skip the article.
 
-- `insert ... on conflict (slug) do update` for:
-  - `categories` row `generative-engine-optimization`, name "Generative Engine Optimization", description from the doc lead.
-  - `pillars` row `generative-engine-optimization`:
-    - `title`: "Generative Engine Optimization (GEO)"
-    - `subtitle`: "What GEO is, why it matters, and how brands win citations inside AI answers."
-    - `byline`: "EPR Staff"
-    - `body_html`: full doc 1 rendered to HTML (h2/h3 headings, table for the SEO-vs-GEO comparison, bullet lists, blockquote for the About 5W block at the end). FAQ section stripped from `body_html` and moved into `faq` JSONB.
-    - `faq`: 5 Q/A pairs from the bottom of doc 1 → `[{q,a}, …]`.
-    - `schema_jsonld`: `{ "@context": "schema.org", "@graph": [Article + FAQPage] }` keyed to `https://everything-pr.com/generative-engine-optimization/`.
-    - `hero_image_url`: `/pillars/generative-engine-optimization.webp`.
-    - `published: true`.
-- `media` row for the article image, then `posts` row `geo-vs-seo`:
-  - `type='post'`, `status='publish'`, `published_at=now()`
-  - `author_id`: 6 (Ronn Torossian)
-  - `featured_media_id`: id of the new media row
-  - `title`: "GEO vs SEO: What's the Difference?"
-  - `excerpt`: short-answer paragraph from doc 2.
-  - `content_html`: doc 2 rendered to HTML (table preserved, FAQ section preserved, About 5W blockquote at the end).
-- `post_categories` join: link the new post to the new category.
-- Internal links inside the pillar `body_html` "Related reading" list: "GEO vs SEO" → `/geo-vs-seo`. Other related items stay as plain text since no pages exist yet.
+## Safety
 
-### 3. Markdown → HTML
+- Snapshot every modified article into `post_revisions` (kind =
+  `'autosave'`, with a note like `pre-format-polish-v1`) before the
+  update. The admin already uses this table, so revisions are
+  visible/restorable from the existing UI.
+- Dry-run mode first: write the proposed HTML to `/tmp/format-diffs/`
+  and print a summary (id, slug, what changed). I'll show you the diff
+  for ~5 sample articles for sign-off before any DB writes.
+- Then run the live pass in batches of 25 with a short delay.
 
-Conversion done **once** during migration authoring (server-side, before SQL is generated) using `marked` in a one-shot Node script — only the resulting HTML strings end up in the migration file. No new runtime dep added to the app.
+## Scope
 
-### 4. Prerender list
+- Articles where `status='publish'` AND `type='post'` AND
+  `published_at > now() - interval '90 days'`.
+- Skip pages, drafts, and anything that already has ≥ 2 `<h2>` tags
+  unless it also matches the `<p>N. Title</p>` pattern (the linked
+  article does have proper structure elsewhere but still has the
+  numbered-paragraph bug).
 
-Add `/generative-engine-optimization` and `/geo-vs-seo` to the Tier-1 set in `src/prerender.ts` so they ship as static HTML on first deploy. (Pillars + posts already get picked up by the bulk collector; this just guarantees Tier-1 inclusion regardless of cap.)
+## Deliverables
 
-### 5. No route changes
+1. `scripts/polish-article-formatting.ts` — the reformatter (regex
+   stage + AI stage + validator + revision snapshot + batched update).
+2. A short admin migration is **not** needed — this is a data update,
+   done via the script using the service-role server client.
+3. A summary report written to `/mnt/documents/format-polish-report.md`
+   listing every article touched, before/after heading counts, and any
+   skipped items.
 
-`/$slug` already resolves: article → pillar → archive. The moment the rows exist, both URLs work. `PillarView` renders the new pillar identically to `/cybersecurity`.
+## Out of scope (ask if you want them later)
 
-## Out of scope (still queued from earlier)
+- Rewriting prose, fixing typos, or restructuring arguments.
+- Adding new images or changing existing ones.
+- Backfilling FAQ schema (the existing FAQ extractor will benefit
+  automatically from the new H2s).
+- Older articles (>90 days). Easy to extend the window after we
+  validate the first batch.
 
-Homepage QA fixes (Crisis PR / Other News / 5W bar / FAQPage schema / Ronn sidebar bio cap / hydration error in `ByLine`) — I'll resume that list right after this lands.
+## Confirmation needed
 
-Approve and I'll generate both images, then ship the migration + prerender update in one go.
+Before I start the live pass I'll show you 3–5 before/after diffs from
+the dry run so you can sanity-check tone and heading choices.
