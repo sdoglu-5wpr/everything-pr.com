@@ -17,8 +17,8 @@ const POLICY_LINKS: FooterMenuItem[] = [
 ];
 
 const QUICK_LINKS: FooterMenuItem[] = [
-  { label: "5W", href: "https://www.5wpr.com/?utm_source=epr&utm_medium=footer&utm_campaign=quick_links" },
-  { label: "5W Research", href: "https://www.5wpr.com/new/research/?utm_source=epr&utm_medium=footer&utm_campaign=quick_links" },
+  { label: "Research", href: "/research" },
+  { label: "Newsletter", href: "/#newsletter" },
 ];
 
 export function SiteFooter({ menu }: { menu?: FooterMenuItem[] }) {

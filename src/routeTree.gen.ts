@@ -19,6 +19,7 @@ import { Route as PostSitemapDotxmlRouteImport } from './routes/post-sitemap[.xm
 import { Route as PostSitemappageDotxmlRouteImport } from './routes/post-sitemap$page[.]xml'
 import { Route as PageSitemapDotxmlRouteImport } from './routes/page-sitemap[.xml]'
 import { Route as FeedRouteImport } from './routes/feed'
+import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as CategorySitemapDotxmlRouteImport } from './routes/category-sitemap[.xml]'
 import { Route as AuthorSitemapDotxmlRouteImport } from './routes/author-sitemap[.xml]'
 import { Route as AboutRouteImport } from './routes/about'
@@ -105,6 +106,11 @@ const PageSitemapDotxmlRoute = PageSitemapDotxmlRouteImport.update({
 const FeedRoute = FeedRouteImport.update({
   id: '/feed',
   path: '/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EditorialPolicyRoute = EditorialPolicyRouteImport.update({
+  id: '/editorial-policy',
+  path: '/editorial-policy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategorySitemapDotxmlRoute = CategorySitemapDotxmlRouteImport.update({
@@ -306,6 +312,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/author-sitemap.xml': typeof AuthorSitemapDotxmlRoute
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
   '/feed': typeof FeedRoute
   '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
@@ -355,6 +362,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutRoute
   '/author-sitemap.xml': typeof AuthorSitemapDotxmlRoute
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
   '/feed': typeof FeedRoute
   '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
@@ -404,6 +412,7 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/author-sitemap.xml': typeof AuthorSitemapDotxmlRoute
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
+  '/editorial-policy': typeof EditorialPolicyRoute
   '/feed': typeof FeedRoute
   '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
@@ -455,6 +464,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/author-sitemap.xml'
     | '/category-sitemap.xml'
+    | '/editorial-policy'
     | '/feed'
     | '/page-sitemap.xml'
     | '/post-sitemap$page.xml'
@@ -504,6 +514,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/author-sitemap.xml'
     | '/category-sitemap.xml'
+    | '/editorial-policy'
     | '/feed'
     | '/page-sitemap.xml'
     | '/post-sitemap$page.xml'
@@ -552,6 +563,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/author-sitemap.xml'
     | '/category-sitemap.xml'
+    | '/editorial-policy'
     | '/feed'
     | '/page-sitemap.xml'
     | '/post-sitemap$page.xml'
@@ -602,6 +614,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   AuthorSitemapDotxmlRoute: typeof AuthorSitemapDotxmlRoute
   CategorySitemapDotxmlRoute: typeof CategorySitemapDotxmlRoute
+  EditorialPolicyRoute: typeof EditorialPolicyRoute
   FeedRoute: typeof FeedRoute
   PageSitemapDotxmlRoute: typeof PageSitemapDotxmlRoute
   PostSitemappageDotxmlRoute: typeof PostSitemappageDotxmlRoute
@@ -698,6 +711,13 @@ declare module '@tanstack/react-router' {
       path: '/feed'
       fullPath: '/feed'
       preLoaderRoute: typeof FeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/editorial-policy': {
+      id: '/editorial-policy'
+      path: '/editorial-policy'
+      fullPath: '/editorial-policy'
+      preLoaderRoute: typeof EditorialPolicyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/category-sitemap.xml': {
@@ -1043,6 +1063,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   AuthorSitemapDotxmlRoute: AuthorSitemapDotxmlRoute,
   CategorySitemapDotxmlRoute: CategorySitemapDotxmlRoute,
+  EditorialPolicyRoute: EditorialPolicyRoute,
   FeedRoute: FeedRoute,
   PageSitemapDotxmlRoute: PageSitemapDotxmlRoute,
   PostSitemappageDotxmlRoute: PostSitemappageDotxmlRoute,
