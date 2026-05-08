@@ -5,6 +5,31 @@ import { routeTree } from "./routeTree.gen";
 // interceptor at app boot, before any route effect can fire a server-fn call.
 if (typeof window !== "undefined") {
   import("@/lib/server-fn-auth-install");
+
+  // Recover from stale code-split chunks after a new deploy. When the user
+  // navigates and the router tries to import a chunk that no longer exists
+  // on the CDN, hard-reload so the new asset manifest is fetched.
+  const isChunkLoadError = (msg: string) =>
+    /Failed to fetch dynamically imported module/i.test(msg) ||
+    /Importing a module script failed/i.test(msg) ||
+    /ChunkLoadError/i.test(msg);
+
+  const reloadOnce = () => {
+    const KEY = "__chunk_reload_at";
+    const last = Number(sessionStorage.getItem(KEY) || 0);
+    // Avoid infinite reload loops — only reload once per 10s window.
+    if (Date.now() - last < 10_000) return;
+    sessionStorage.setItem(KEY, String(Date.now()));
+    window.location.reload();
+  };
+
+  window.addEventListener("error", (e) => {
+    if (e?.message && isChunkLoadError(e.message)) reloadOnce();
+  });
+  window.addEventListener("unhandledrejection", (e) => {
+    const msg = (e?.reason && (e.reason.message || String(e.reason))) || "";
+    if (isChunkLoadError(msg)) reloadOnce();
+  });
 }
 
 function DefaultErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
