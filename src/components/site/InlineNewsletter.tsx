@@ -32,7 +32,7 @@ export function InlineNewsletter() {
   }
 
   return (
-    <section className="bg-ink text-ink-foreground py-10 mt-12">
+    <section className="bg-black text-ink-foreground py-10 mt-12">
       <div className="mx-auto max-w-7xl px-6 grid md:grid-cols-2 gap-6 items-center">
         {state === "success" ? (
           <div className="md:col-span-2 text-center">

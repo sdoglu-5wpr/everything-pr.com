@@ -24,7 +24,7 @@ const QUICK_LINKS: FooterMenuItem[] = [
 export function SiteFooter({ menu }: { menu?: FooterMenuItem[] }) {
   const navLinks = menu && menu.length ? menu : DEFAULT_MENU;
   return (
-    <footer className="bg-ink text-ink-foreground mt-16">
+    <footer className="bg-ink text-ink-foreground">
       <div className="h-1 bg-ticker" />
 
       <div className="mx-auto max-w-7xl px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
