@@ -27,34 +27,6 @@ export function SiteFooter({ menu }: { menu?: FooterMenuItem[] }) {
     <footer className="bg-ink text-ink-foreground mt-16">
       <div className="h-1 bg-ticker" />
 
-      {/* About 5W boilerplate */}
-      <div className="border-b border-white/10">
-        <div className="mx-auto max-w-7xl px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-          <div className="md:col-span-2">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white mb-3">About 5W</h3>
-            <p className="text-sm text-ink-foreground/80 leading-relaxed">
-              5W is the AI Communications Firm, building brand authority across the platforms where decisions now happen — ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews — alongside earned media, digital, GEO, and influencer channels.{" "}
-              <a
-                href="https://www.5wpr.com/?utm_source=epr&utm_medium=footer&utm_campaign=about_5w"
-                target="_blank"
-                rel="noopener noreferrer sponsored"
-                className="underline text-white hover:text-white/80"
-              >
-                www.5wpr.com
-              </a>
-            </p>
-          </div>
-          <div className="md:text-right">
-            <a
-              href="https://www.5wpr.com/contactus/"
-              target="_blank"
-              rel="noopener noreferrer sponsored"
-              className="inline-flex items-center gap-2 rounded-md bg-[color:var(--brand-blue)] px-5 py-3 text-sm font-semibold text-white hover:bg-[color:var(--brand-blue)]/90 transition-colors"
-            >
-              Work with 5W <ArrowRight className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
