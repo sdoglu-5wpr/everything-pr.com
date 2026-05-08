@@ -296,9 +296,6 @@ function ArticlePage() {
             dangerouslySetInnerHTML={{ __html: article.content_html }}
           />
 
-          <Related5WResearch slug={article.slug} />
-          <Work5WCTA />
-          <About5WBoilerplate />
 
           {categories.length > 1 ? (
             <div className="mt-8 flex flex-wrap items-center gap-2">
