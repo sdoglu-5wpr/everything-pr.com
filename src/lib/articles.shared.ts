@@ -93,5 +93,6 @@ export async function fetchArticleViaRpc(
     article,
     topStories: topStoriesRaw.map(relatedFromRow),
     otherNews: otherNewsRaw.map(relatedFromRow),
+    relatedPosts: relatedRaw.map(relatedFromRow),
   };
 }
