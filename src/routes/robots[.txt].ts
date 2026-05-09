@@ -79,10 +79,18 @@ Disallow: /
 export const Route = createFileRoute("/robots.txt")({
   server: {
     handlers: {
-      GET: async () => {
+      GET: async ({ request }) => {
+        const host = new URL(request.url).hostname.toLowerCase();
+        // Disallow on any Lovable preview/published host; allow everywhere else
+        // (production custom domain). Indexing flag still forces disallow.
+        const isLovableHost = host.endsWith(".lovable.app") || host.endsWith(".lovable.dev");
         const state = await resolveIndexingState();
-        return new Response(state.enabled ? ALLOW_ROBOTS : DISALLOW_ROBOTS, {
-          headers: { "Content-Type": "text/plain; charset=utf-8" },
+        const allow = state.enabled && !isLovableHost;
+        return new Response(allow ? ALLOW_ROBOTS : DISALLOW_ROBOTS, {
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "Cache-Control": "public, max-age=300, s-maxage=300",
+          },
         });
       },
     },
