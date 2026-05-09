@@ -4,6 +4,45 @@ import {
   PUBLIC_SUPABASE_PUBLISHABLE_KEY,
   PUBLIC_SUPABASE_URL,
 } from "@/integrations/supabase/public-env";
+import { renderNewsletterConfirmationEmail } from "@/lib/email/newsletter-confirmation";
+
+const FROM_ADDRESS = "Everything-PR <no-reply@updates.everything-pr.com>";
+const REPLY_TO = "hello@everything-pr.com";
+
+async function sendConfirmationEmail(toEmail: string): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("newsletter: RESEND_API_KEY not configured — skipping email");
+    return;
+  }
+  const { subject, html, text } = renderNewsletterConfirmationEmail();
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        from: FROM_ADDRESS,
+        to: [toEmail],
+        reply_to: REPLY_TO,
+        subject,
+        html,
+        text,
+      }),
+    });
+    if (!res.ok) {
+      const body = await res.text().catch(() => "");
+      console.error("newsletter: Resend send failed", res.status, body);
+    }
+  } catch (err) {
+    console.error(
+      "newsletter: Resend threw",
+      err instanceof Error ? `${err.name}: ${err.message}` : String(err)
+    );
+  }
+}
 
 const schema = z.object({
   email: z.string().trim().email().max(255),
@@ -60,6 +99,12 @@ export const Route = createFileRoute("/api/newsletter")({
               { error: "Could not subscribe. Please try again." },
               { status: 500 }
             );
+          }
+
+          // Send confirmation email on a fresh subscribe (201) only — skip
+          // for 409 (already subscribed) so we don't spam existing readers.
+          if (res.status === 201 || res.ok) {
+            await sendConfirmationEmail(email.toLowerCase());
           }
         } catch (err) {
           console.error(
