@@ -29,7 +29,7 @@ export const Route = createFileRoute("/api/newsletter")({
         const { email, source } = parsed.data;
 
         try {
-          const { error } = await supabaseAdmin
+          const { error } = await supabaseAnon
             .from("newsletter_subscribers")
             .upsert(
               { email: email.toLowerCase(), source: source || null },
