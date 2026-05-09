@@ -1,8 +1,7 @@
 /**
  * Build-time generator: writes sitemap XML files into dist/client/ so they
- * are served as static assets by Netlify (and any host) instead of falling
- * through the SPA fallback to index.html. Also writes /robots.txt and /feed
- * (RSS) so external consumers always get XML, not HTML.
+ * are served as static assets instead of falling through to app HTML. Also
+ * writes the RSS feed so external consumers always get XML, not HTML.
  *
  * Run from scripts/build.mjs after the prerender pass.
  */

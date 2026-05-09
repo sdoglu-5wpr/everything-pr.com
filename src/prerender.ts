@@ -204,10 +204,11 @@ export async function collectUrls(): Promise<CollectResult> {
   const authorUrls: string[] = [];
   for (const a of authors) authorUrls.push(`/author/${a.slug}`);
 
-  // Sitemaps and robots.txt are written as static XML/text files by
-  // scripts/generate-sitemaps.ts after the prerender pass — keep them OUT
-  // of the prerender URL list so we don't end up with HTML at those paths
-  // on static hosts (Netlify).
+  // Sitemaps and the RSS feed are written as static XML files by
+  // scripts/generate-sitemaps.ts after the prerender pass. robots.txt lives in
+  // public/robots.txt and is copied as a static text file during the build.
+  // Keep these OUT of the prerender URL list so we don't end up with HTML at
+  // those paths.
   const sitemapUrls: string[] = [];
   void postCount; // referenced to keep parallel fetch typed; sitemap script re-counts
 
