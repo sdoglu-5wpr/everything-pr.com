@@ -45,8 +45,6 @@ export function SiteFooter({ menu }: { menu?: FooterMenuItem[] }) {
             <Link to="/terms-of-use" className="hover:text-ink-foreground">Terms of Use</Link>
             <Link to="/privacy-policy" className="hover:text-ink-foreground">Privacy Policy</Link>
             <Link to="/cookie-policy" className="hover:text-ink-foreground">Cookie Policy</Link>
-            <Link to="/editorial-policy" className="hover:text-ink-foreground">Editorial Policy</Link>
-            <Link to="/terms" className="hover:text-ink-foreground">Terms &amp; Conditions</Link>
           </div>
         </div>
       </div>
