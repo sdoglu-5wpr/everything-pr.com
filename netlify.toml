@@ -40,14 +40,15 @@
   status = 200
   force = true
 
-# SPA fallback: any URL that isn't a prerendered HTML file or static asset
-# falls back to index.html so the client-side TanStack Router can resolve
-# dynamic routes ($slug, category/$slug, author/$slug, tag/$slug) by
-# fetching from Supabase. Without this, non-prerendered slugs (e.g.
-# /cybersecurity) return Netlify's default 404 page.
+# SSR fallback: any URL that isn't a prerendered HTML file or a static asset
+# is handled by the TanStack Start SSR function. This ensures dynamic routes
+# ($slug, category/$slug, author/$slug, tag/$slug) render real content with
+# the correct title, canonical, and meta — instead of soft-200'ing to the
+# homepage shell. Netlify's redirects engine matches static files first, so
+# real assets in dist/client (including any prerendered .html) still win.
 [[redirects]]
   from = "/*"
-  to = "/index.html"
+  to = "/.netlify/functions/server"
   status = 200
 
 # Cache headers for static assets
