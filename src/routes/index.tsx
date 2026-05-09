@@ -201,7 +201,8 @@ function Hero({ hero, topStories }: { hero: HomePost | null; topStories: HomePos
   return (
     <section className="grid grid-cols-1 lg:grid-cols-12 gap-10">
       <div className="lg:col-span-8">
-        <Link to="/$slug" params={{ slug: hero.slug }} className="block group">
+        <article className="group">
+          <Link to="/$slug" params={{ slug: hero.slug }} className="block">
           <PostImage
             src={hero.featured_image_url}
             alt={decodeHtmlEntities(hero.title)}
@@ -220,8 +221,9 @@ function Hero({ hero, topStories }: { hero: HomePost | null; topStories: HomePos
           {hero.excerpt ? (
             <p className="mt-3 text-base text-muted-foreground line-clamp-3">{htmlToPlainText(hero.excerpt)}</p>
           ) : null}
+          </Link>
           <ByLine post={hero} className="mt-4" />
-        </Link>
+        </article>
       </div>
 
       <aside className="lg:col-span-4">
