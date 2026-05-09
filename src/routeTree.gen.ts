@@ -12,7 +12,6 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as Sitemap_indexDotxmlRouteImport } from './routes/sitemap_index[.xml]'
 import { Route as SetupCoworkRouteImport } from './routes/setup-cowork'
 import { Route as SearchRouteImport } from './routes/search'
-import { Route as RobotsDottxtRouteImport } from './routes/robots[.txt]'
 import { Route as ResearchRouteImport } from './routes/research'
 import { Route as Post_tagSitemapDotxmlRouteImport } from './routes/post_tag-sitemap[.xml]'
 import { Route as PostSitemapDotxmlRouteImport } from './routes/post-sitemap[.xml]'
@@ -71,11 +70,6 @@ const SetupCoworkRoute = SetupCoworkRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
-  id: '/robots.txt',
-  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResearchRoute = ResearchRouteImport.update({
@@ -319,7 +313,6 @@ export interface FileRoutesByFullPath {
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/post_tag-sitemap.xml': typeof Post_tagSitemapDotxmlRoute
   '/research': typeof ResearchRoute
-  '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/setup-cowork': typeof SetupCoworkRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
@@ -369,7 +362,6 @@ export interface FileRoutesByTo {
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/post_tag-sitemap.xml': typeof Post_tagSitemapDotxmlRoute
   '/research': typeof ResearchRoute
-  '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/setup-cowork': typeof SetupCoworkRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
@@ -419,7 +411,6 @@ export interface FileRoutesById {
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
   '/post_tag-sitemap.xml': typeof Post_tagSitemapDotxmlRoute
   '/research': typeof ResearchRoute
-  '/robots.txt': typeof RobotsDottxtRoute
   '/search': typeof SearchRoute
   '/setup-cowork': typeof SetupCoworkRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
@@ -471,7 +462,6 @@ export interface FileRouteTypes {
     | '/post-sitemap.xml'
     | '/post_tag-sitemap.xml'
     | '/research'
-    | '/robots.txt'
     | '/search'
     | '/setup-cowork'
     | '/sitemap_index.xml'
@@ -521,7 +511,6 @@ export interface FileRouteTypes {
     | '/post-sitemap.xml'
     | '/post_tag-sitemap.xml'
     | '/research'
-    | '/robots.txt'
     | '/search'
     | '/setup-cowork'
     | '/sitemap_index.xml'
@@ -570,7 +559,6 @@ export interface FileRouteTypes {
     | '/post-sitemap.xml'
     | '/post_tag-sitemap.xml'
     | '/research'
-    | '/robots.txt'
     | '/search'
     | '/setup-cowork'
     | '/sitemap_index.xml'
@@ -621,7 +609,6 @@ export interface RootRouteChildren {
   PostSitemapDotxmlRoute: typeof PostSitemapDotxmlRoute
   Post_tagSitemapDotxmlRoute: typeof Post_tagSitemapDotxmlRoute
   ResearchRoute: typeof ResearchRoute
-  RobotsDottxtRoute: typeof RobotsDottxtRoute
   SearchRoute: typeof SearchRoute
   SetupCoworkRoute: typeof SetupCoworkRoute
   Sitemap_indexDotxmlRoute: typeof Sitemap_indexDotxmlRoute
@@ -662,13 +649,6 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/robots.txt': {
-      id: '/robots.txt'
-      path: '/robots.txt'
-      fullPath: '/robots.txt'
-      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/research': {
@@ -1070,7 +1050,6 @@ const rootRouteChildren: RootRouteChildren = {
   PostSitemapDotxmlRoute: PostSitemapDotxmlRoute,
   Post_tagSitemapDotxmlRoute: Post_tagSitemapDotxmlRoute,
   ResearchRoute: ResearchRoute,
-  RobotsDottxtRoute: RobotsDottxtRoute,
   SearchRoute: SearchRoute,
   SetupCoworkRoute: SetupCoworkRoute,
   Sitemap_indexDotxmlRoute: Sitemap_indexDotxmlRoute,
