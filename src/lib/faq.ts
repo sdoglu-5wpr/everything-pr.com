@@ -45,3 +45,28 @@ export function extractFaqPairs(html: string | null | undefined): FaqPair[] {
 
   return out;
 }
+
+/**
+ * Removes an in-content "Frequently Asked Questions" section so the
+ * dedicated FaqSection card doesn't duplicate it. Strips the FAQ heading
+ * plus subsequent contiguous question-heading blocks (headings ending in "?").
+ */
+export function stripFaqFromHtml(html: string | null | undefined): string {
+  if (!html) return html ?? "";
+  const re = /<h([234])[^>]*>\s*(?:<[^>]*>\s*)*frequently asked questions\s*(?:<\/[^>]*>\s*)*<\/h\1>/i;
+  const m = re.exec(html);
+  if (!m) return html;
+  const start = m.index;
+  let end = start + m[0].length;
+  const blockRe = /<h([234])[^>]*>([\s\S]*?)<\/h\1>([\s\S]*?)(?=<h[234][^>]*>|$)/gi;
+  blockRe.lastIndex = end;
+  let nm: RegExpExecArray | null;
+  while ((nm = blockRe.exec(html))) {
+    if (nm.index !== end) break;
+    const qText = nm[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+    if (!/\?\s*$/.test(qText)) break;
+    end = nm.index + nm[0].length;
+    blockRe.lastIndex = end;
+  }
+  return html.slice(0, start) + html.slice(end);
+}
