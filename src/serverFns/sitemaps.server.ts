@@ -150,7 +150,7 @@ export async function buildRssFeed(): Promise<string> {
 
   const items = (posts ?? [])
     .map((p: any) => {
-      const url = `${SITE_URL}/${p.slug}/`;
+      const url = `${SITE_URL}/${p.slug}`;
       const author = p.author_id ? authorMap.get(p.author_id) : null;
       const creator = author ? esc(author.display_name) : "Editorial Team";
       const cats = (postCats.get(p.id) ?? [])
