@@ -384,3 +384,90 @@ export const deleteMedia = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+// ===================== CATEGORY DUPLICATES =====================
+
+type DupCat = { id: number; slug: string; name: string; post_count: number };
+type DupPair = { a: DupCat; b: DupCat; reason: string; sample_a: string[]; sample_b: string[] };
+
+function rootKey(slug: string): string {
+  return slug.replace(/-pr$/, "").replace(/-\d+$/, "").replace(/-communications?$/, "");
+}
+
+export const findDuplicateCategories = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<{ pairs: DupPair[] }> => {
+    const { supabase, userId } = context;
+    await ensureStaff(supabase, userId);
+
+    const { data: cats, error } = await supabase
+      .from("categories")
+      .select("id, slug, name, post_count")
+      .order("post_count", { ascending: false });
+    if (error) throw new Error(error.message);
+
+    const list = (cats ?? []) as DupCat[];
+    const byKey = new Map<string, DupCat[]>();
+    for (const c of list) {
+      const k = rootKey(c.slug);
+      if (!k) continue;
+      if (!byKey.has(k)) byKey.set(k, []);
+      byKey.get(k)!.push(c);
+    }
+
+    const rawPairs: { a: DupCat; b: DupCat; reason: string }[] = [];
+    for (const [, group] of byKey) {
+      if (group.length < 2) continue;
+      for (let i = 0; i < group.length; i++) {
+        for (let j = i + 1; j < group.length; j++) {
+          rawPairs.push({ a: group[i], b: group[j], reason: "shared root slug" });
+        }
+      }
+    }
+
+    // Hydrate with up to 3 sample post titles per category
+    const ids = Array.from(new Set(rawPairs.flatMap((p) => [p.a.id, p.b.id])));
+    const samples = new Map<number, string[]>();
+    if (ids.length > 0) {
+      const { data: pcs } = await supabase
+        .from("post_categories")
+        .select("category_id, posts!inner(title, status)")
+        .in("category_id", ids)
+        .eq("posts.status", "publish")
+        .limit(500);
+      for (const row of (pcs ?? []) as any[]) {
+        const arr = samples.get(row.category_id) ?? [];
+        if (arr.length < 3 && row.posts?.title) arr.push(row.posts.title);
+        samples.set(row.category_id, arr);
+      }
+    }
+
+    const pairs: DupPair[] = rawPairs
+      .map((p) => ({
+        ...p,
+        sample_a: samples.get(p.a.id) ?? [],
+        sample_b: samples.get(p.b.id) ?? [],
+      }))
+      .sort(
+        (x, y) =>
+          Math.max(y.a.post_count, y.b.post_count) - Math.max(x.a.post_count, x.b.post_count),
+      );
+
+    return { pairs };
+  });
+
+export const mergeCategoryPair = createServerFn({ method: "POST" })
+  .inputValidator((i: unknown) =>
+    z.object({ winner_id: z.number().int(), loser_id: z.number().int() }).parse(i),
+  )
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    await ensureStaff(supabase, userId);
+    const { data: result, error } = await supabase.rpc("merge_categories", {
+      p_winner_id: data.winner_id,
+      p_loser_id: data.loser_id,
+    });
+    if (error) throw new Error(error.message);
+    return result;
+  });
