@@ -28,15 +28,23 @@ export const Route = createFileRoute("/api/newsletter")({
 
         const { email, source } = parsed.data;
 
-        const { error } = await supabaseAdmin
-          .from("newsletter_subscribers")
-          .upsert(
-            { email: email.toLowerCase(), source: source || null },
-            { onConflict: "email", ignoreDuplicates: true }
-          );
+        try {
+          const { error } = await supabaseAdmin
+            .from("newsletter_subscribers")
+            .upsert(
+              { email: email.toLowerCase(), source: source || null },
+              { onConflict: "email", ignoreDuplicates: true }
+            );
 
-        if (error) {
-          console.error("newsletter: insert failed", error);
+          if (error) {
+            console.error("newsletter: insert failed", JSON.stringify(error));
+            return Response.json(
+              { error: "Could not subscribe. Please try again." },
+              { status: 500 }
+            );
+          }
+        } catch (err) {
+          console.error("newsletter: handler threw", err instanceof Error ? `${err.name}: ${err.message}` : String(err));
           return Response.json(
             { error: "Could not subscribe. Please try again." },
             { status: 500 }
