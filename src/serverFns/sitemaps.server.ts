@@ -71,7 +71,7 @@ export async function buildPostSitemap(page: number): Promise<string | null> {
 
   const urls = posts.map((p: any) =>
     urlEntry(
-      `${SITE_URL}/${p.slug}/`,
+      `${SITE_URL}/${p.slug}`,
       p.modified_at ?? p.published_at,
       resolvePostImageUrl(
         p.featured_media_id && mediaMap.get(p.featured_media_id),
@@ -89,7 +89,7 @@ export async function buildPageSitemap(): Promise<string> {
     .eq("status", "publish")
     .eq("type", "page")
     .order("modified_at", { ascending: false, nullsFirst: false });
-  const urls = (data ?? []).map((p: any) => urlEntry(`${SITE_URL}/${p.slug}/`, p.modified_at ?? p.published_at));
+  const urls = (data ?? []).map((p: any) => urlEntry(`${SITE_URL}/${p.slug}`, p.modified_at ?? p.published_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
@@ -98,7 +98,7 @@ export async function buildTermSitemap(table: "categories" | "tags", prefix: "ca
     .from(table)
     .select("slug, updated_at")
     .order("updated_at", { ascending: false, nullsFirst: false });
-  const urls = (data ?? []).map((t: any) => urlEntry(`${SITE_URL}/${prefix}/${t.slug}/`, t.updated_at));
+  const urls = (data ?? []).map((t: any) => urlEntry(`${SITE_URL}/${prefix}/${t.slug}`, t.updated_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
@@ -107,7 +107,7 @@ export async function buildAuthorSitemap(): Promise<string> {
     .from("authors")
     .select("slug, updated_at")
     .order("updated_at", { ascending: false, nullsFirst: false });
-  const urls = (data ?? []).map((a: any) => urlEntry(`${SITE_URL}/author/${a.slug}/`, a.updated_at));
+  const urls = (data ?? []).map((a: any) => urlEntry(`${SITE_URL}/author/${a.slug}`, a.updated_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
@@ -150,7 +150,7 @@ export async function buildRssFeed(): Promise<string> {
 
   const items = (posts ?? [])
     .map((p: any) => {
-      const url = `${SITE_URL}/${p.slug}/`;
+      const url = `${SITE_URL}/${p.slug}`;
       const author = p.author_id ? authorMap.get(p.author_id) : null;
       const creator = author ? esc(author.display_name) : "Editorial Team";
       const cats = (postCats.get(p.id) ?? [])
