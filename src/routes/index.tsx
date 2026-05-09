@@ -78,9 +78,6 @@ function HomePage() {
         <Hero hero={data.hero} topStories={data.topStories} />
       </div>
 
-      <div id="newsletter" className="mx-auto max-w-7xl px-6 mt-10">
-        <InlineNewsletter />
-      </div>
 
       {data.sections.slice(0, 2).map((s) => (
         <SectionRow key={s.key} title={s.title} categorySlug={s.slug} posts={s.posts} />
