@@ -34,7 +34,8 @@ export const Route = createFileRoute("/api/newsletter")({
         try {
           // Direct PostgREST insert with hardcoded publishable key — works
           // anywhere (Netlify, Lovable, etc.) without depending on env vars.
-          // RLS policy "anyone can subscribe" allows anon INSERT.
+          // Do not use resolution=ignore-duplicates here: PostgREST treats it
+          // like an upsert, which requires UPDATE permission and fails under RLS.
           const res = await fetch(
             `${PUBLIC_SUPABASE_URL}/rest/v1/newsletter_subscribers`,
             {
@@ -43,7 +44,7 @@ export const Route = createFileRoute("/api/newsletter")({
                 apikey: PUBLIC_SUPABASE_PUBLISHABLE_KEY,
                 Authorization: `Bearer ${PUBLIC_SUPABASE_PUBLISHABLE_KEY}`,
                 "Content-Type": "application/json",
-                Prefer: "resolution=ignore-duplicates,return=minimal",
+                Prefer: "return=minimal",
               },
               body: JSON.stringify({
                 email: email.toLowerCase(),

@@ -9,6 +9,7 @@ import { fetchHomepageViaRpc } from "@/lib/homepage.shared";
 import { supabase } from "@/integrations/supabase/client";
 import { buildHomepageHead } from "@/serverFns/seo.head";
 import { htmlToPlainText, decodeHtmlEntities } from "@/lib/text";
+import { formatDate } from "@/lib/date";
 
 
 const EMPTY_PAYLOAD: HomePayload = {
@@ -47,15 +48,6 @@ export const Route = createFileRoute("/")({
   head: () => buildHomepageHead({}),
   component: HomePage,
 });
-
-function formatDate(iso: string | null | undefined) {
-  if (!iso) return "";
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
 
 function HomePage() {
   const initial = Route.useLoaderData() as HomePayload;

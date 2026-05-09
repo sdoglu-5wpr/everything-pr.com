@@ -3,15 +3,7 @@ import type { ArchiveItem, ArchivePayload } from "@/serverFns/archives.functions
 import { SiteLayout } from "./SiteLayout";
 import { PostImage } from "./PostImage";
 import { htmlToPlainText, decodeHtmlEntities } from "@/lib/text";
-
-function formatDate(iso: string | null | undefined) {
-  if (!iso) return "";
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
+import { formatDate } from "@/lib/date";
 
 export function ArticleListItem({ post }: { post: ArchiveItem }) {
   return (

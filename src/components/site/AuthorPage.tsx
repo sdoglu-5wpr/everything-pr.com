@@ -5,15 +5,7 @@ import type { ArchivePayload, ArchiveItem } from "@/serverFns/archives.functions
 import { SiteLayout } from "./SiteLayout";
 import { PostImage } from "./PostImage";
 import { htmlToPlainText, decodeHtmlEntities } from "@/lib/text";
-
-function formatDate(iso: string | null | undefined) {
-  if (!iso) return "";
-  return new Date(iso).toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
+import { formatDate } from "@/lib/date";
 
 function readingTime(text: string | null | undefined): number {
   if (!text) return 4;

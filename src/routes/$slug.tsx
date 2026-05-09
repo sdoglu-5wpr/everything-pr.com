@@ -21,6 +21,7 @@ import { buildArticleHead } from "@/serverFns/seo.article";
 import { extractFaqPairs, stripFaqFromHtml, stripAbout5WFromHtml } from "@/lib/faq";
 import { FaqSection } from "@/components/site/FaqSection";
 import { Disclosure5W, shouldShow5WDisclosure } from "@/components/site/Disclosure5W";
+import { formatDate } from "@/lib/date";
 
 
 async function loadArticle(slug: string): Promise<ArticlePayload | null> {
@@ -145,11 +146,6 @@ function ErrorView({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
-function formatDate(iso: string | null | undefined, opts: Intl.DateTimeFormatOptions = { year: "numeric", month: "long", day: "numeric" }) {
-  if (!iso) return "";
-  return new Date(iso).toLocaleDateString("en-US", opts);
-}
-
 function readingTime(html: string | null | undefined): number {
   if (!html) return 1;
   const text = html.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
@@ -267,7 +263,7 @@ function ArticlePage() {
           )}
           <span aria-hidden>·</span>
           <time dateTime={article.published_at ?? undefined}>
-            {formatDate(article.published_at)}
+            {formatDate(article.published_at, { year: "numeric", month: "long", day: "numeric" })}
           </time>
           <span aria-hidden>·</span>
           <span className="inline-flex items-center gap-1">
