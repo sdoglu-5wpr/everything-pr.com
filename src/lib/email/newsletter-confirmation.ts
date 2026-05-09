@@ -3,8 +3,9 @@
 // modern features like oklch.
 
 const BRAND_BLACK = "#0a0a0a";
-const BRAND_RED = "#e11d48";
+const BRAND_BLUE = "#2563eb";
 const TEXT = "#1f2937";
+const LOGO_URL = "https://everything-pr.com/everything-pr-logo.png";
 const MUTED = "#6b7280";
 const BORDER = "#e5e7eb";
 const BG = "#f5f5f4";
