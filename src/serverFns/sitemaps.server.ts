@@ -89,7 +89,7 @@ export async function buildPageSitemap(): Promise<string> {
     .eq("status", "publish")
     .eq("type", "page")
     .order("modified_at", { ascending: false, nullsFirst: false });
-  const urls = (data ?? []).map((p: any) => urlEntry(`${SITE_URL}/${p.slug}/`, p.modified_at ?? p.published_at));
+  const urls = (data ?? []).map((p: any) => urlEntry(`${SITE_URL}/${p.slug}`, p.modified_at ?? p.published_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
