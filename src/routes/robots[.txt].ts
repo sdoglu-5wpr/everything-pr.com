@@ -1,17 +1,20 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { resolveIndexingState } from "@/serverFns/indexing.server";
 
-const ALLOW_ROBOTS = `# Everything-PR robots.txt
-# Allow AI crawlers and search engines.
-# Block admin and non-public areas only.
+const ALLOW_ROBOTS = `User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /api/
 
+# Explicitly allow major AI crawlers — we WANT to be cited
 User-agent: GPTBot
 Allow: /
 
-User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
 Allow: /
 
-User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: ClaudeBot
@@ -32,39 +35,40 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-User-agent: Applebot
-Allow: /
-
-User-agent: Applebot-Extended
+User-agent: GoogleOther
 Allow: /
 
 User-agent: CCBot
 Allow: /
 
+User-agent: Bytespider
+Allow: /
+
 User-agent: Amazonbot
 Allow: /
 
-User-agent: Meta-ExternalAgent
+User-agent: Applebot-Extended
 Allow: /
 
-User-agent: DuckAssistBot
+User-agent: Applebot
 Allow: /
 
-User-agent: Googlebot
+User-agent: meta-externalagent
 Allow: /
 
-User-agent: Bingbot
+User-agent: FacebookBot
 Allow: /
 
-User-agent: *
+User-agent: cohere-ai
 Allow: /
-Disallow: /admin/
-Disallow: /admin
-Disallow: /api/
-Disallow: /setup-cowork
-Disallow: /search
-Disallow: /?s=
 
+User-agent: DiffBot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+# Sitemaps
 Sitemap: https://everything-pr.com/sitemap_index.xml
 `;
 
