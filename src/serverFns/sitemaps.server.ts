@@ -6,6 +6,12 @@ const XML_HEADER = `<?xml version="1.0" encoding="UTF-8"?>`;
 const URLSET_OPEN = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`;
 const URLSET_CLOSE = `</urlset>`;
 
+function isCleanSlug(slug: string | null | undefined): boolean {
+  if (!slug) return false;
+  // Reject slugs containing invisible/zero-width chars (BOM, ZWSP, etc.) or whitespace
+  return !/[\u0000-\u001f\u007f\u200b-\u200f\u2028-\u202f\u2060\ufeff\s]/.test(slug);
+}
+
 function esc(s: string): string {
   return s
     .replace(/&/g, "&amp;")
