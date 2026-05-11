@@ -69,16 +69,18 @@ export async function buildPostSitemap(page: number): Promise<string | null> {
     : { data: [] as any[] };
   const mediaMap = new Map((media ?? []).map((m: any) => [m.id, m.url]));
 
-  const urls = posts.map((p: any) =>
-    urlEntry(
-      `${SITE_URL}/${p.slug}`,
-      p.modified_at ?? p.published_at,
-      resolvePostImageUrl(
-        p.featured_media_id && mediaMap.get(p.featured_media_id),
-        pickFirstImageSrc(p.content_html),
+  const urls = posts
+    .filter((p: any) => isCleanSlug(p.slug))
+    .map((p: any) =>
+      urlEntry(
+        `${SITE_URL}/${p.slug}/`,
+        p.modified_at ?? p.published_at,
+        resolvePostImageUrl(
+          p.featured_media_id && mediaMap.get(p.featured_media_id),
+          pickFirstImageSrc(p.content_html),
+        ),
       ),
-    ),
-  );
+    );
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
