@@ -6,14 +6,14 @@ import { Pagination } from "./ArchiveView";
 import { decodeHtmlEntities, htmlToPlainText } from "@/lib/text";
 import type { PillarPayload } from "@/lib/pillars.shared";
 import { formatDate } from "@/lib/date";
-import { stripAbout5WFromHtml } from "@/lib/faq";
+import { stripAbout5WFromHtml, stripFaqFromHtml } from "@/lib/faq";
 
 
 
 export function PillarView({ data }: { data: PillarPayload }) {
   const { pillar, items, total, page, pageSize } = data;
   const totalPages = Math.max(1, Math.ceil(total / (pageSize || 12)));
-  const bodyHtml = stripAbout5WFromHtml(pillar.body_html);
+  const bodyHtml = stripFaqFromHtml(stripAbout5WFromHtml(pillar.body_html));
   return (
     <SiteLayout>
       {/* HERO */}
