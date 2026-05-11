@@ -13,24 +13,39 @@ const LEGACY_HOSTS = [
   "http://www.everything-pr.com",
 ];
 
+// Rewrite the raw Supabase project host to the custom API domain so the
+// project ref isn't leaked in image/asset URLs in the browser.
+const SUPABASE_HOST_PATTERN = /https?:\/\/unycfscvsckgxboherpk\.supabase\.co/gi;
+const SUPABASE_API_HOST = "https://api.everything-pr.com";
+
+export function rewriteSupabaseHost(url: string | null | undefined): string {
+  if (!url) return "";
+  return url.replace(SUPABASE_HOST_PATTERN, SUPABASE_API_HOST);
+}
+
 const HOST_PATTERN = /(https?:\/\/(?:www\.)?everything-pr\.com)(\/wp-content\/)/gi;
 const LEGACY_ATTR_PATTERN = /(src|href)=(['"])https:\/\/everything-pr\.com(\/wp-content\/[^'"]+)\2/gi;
 
 /** Rewrite a single URL string. Leaves non-matching URLs untouched. */
 export function rewriteLegacyUrl(url: string | null | undefined): string {
   if (!url) return "";
+  let next = url;
   for (const host of LEGACY_HOSTS) {
-    if (url.startsWith(`${host}/wp-content/`)) {
-      return url.slice(host.length);
+    if (next.startsWith(`${host}/wp-content/`)) {
+      next = next.slice(host.length);
+      break;
     }
   }
-  return url;
+  return rewriteSupabaseHost(next);
 }
 
 /** Rewrite all legacy /wp-content/ URLs inside an HTML blob (src, href, srcset). */
 export function rewriteWpContentUrls(html: string | null | undefined): string {
   if (!html) return "";
-  return html.replace(LEGACY_ATTR_PATTERN, "$1=$2$3$2").replace(HOST_PATTERN, "$2");
+  return html
+    .replace(LEGACY_ATTR_PATTERN, "$1=$2$3$2")
+    .replace(HOST_PATTERN, "$2")
+    .replace(SUPABASE_HOST_PATTERN, SUPABASE_API_HOST);
 }
 
 /**
