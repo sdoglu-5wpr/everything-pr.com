@@ -89,15 +89,21 @@ export const Route = createFileRoute("/$slug")({
     if (!loaderData) return { meta: [{ title: "Everything-PR" }] };
     if (loaderData.kind === "pillar") {
       const p = loaderData.data.pillar;
+      const page = loaderData.data.page ?? 1;
       const description = p.subtitle || `${p.title} — long-form guide and the latest coverage on Everything-PR.`;
+      const baseUrl = `https://everything-pr.com/${p.slug}/`;
       const meta = [
         { title: `${p.title} · Everything-PR` },
         { name: "description", content: description },
         { property: "og:title", content: p.title },
         { property: "og:description", content: description },
         { property: "og:type", content: "article" },
+        { property: "og:url", content: baseUrl },
         { name: "twitter:card", content: "summary_large_image" },
       ];
+      if (page > 1) {
+        meta.push({ name: "robots", content: "noindex, follow" });
+      }
       if (p.hero_image_url) {
         meta.push({ property: "og:image", content: p.hero_image_url });
         meta.push({ name: "twitter:image", content: p.hero_image_url });
@@ -105,7 +111,18 @@ export const Route = createFileRoute("/$slug")({
       const scripts = p.schema_jsonld
         ? [{ type: "application/ld+json", children: JSON.stringify(p.schema_jsonld) }]
         : [];
-      return { meta, scripts };
+      const links = [{ rel: "canonical", href: baseUrl }];
+      return { meta, links, scripts };
+    }
+    if (loaderData.kind === "archive") {
+      const { data, slug } = loaderData;
+      const page = data.page ?? 1;
+      const baseUrl = `https://everything-pr.com/${slug}/`;
+      const meta: any[] = [
+        { property: "og:url", content: baseUrl },
+      ];
+      if (page > 1) meta.push({ name: "robots", content: "noindex, follow" });
+      return { meta, links: [{ rel: "canonical", href: baseUrl }] };
     }
     if (loaderData.kind !== "article") return { meta: [{ title: "Everything-PR" }] };
     const { article } = loaderData.data;
