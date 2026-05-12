@@ -67,19 +67,19 @@
 [[redirects]]
   from = "/*"
   query = {utm_content = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
   from = "/*"
   query = {utm_id = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
   from = "/*"
   query = {gclid = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
