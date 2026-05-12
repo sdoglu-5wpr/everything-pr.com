@@ -193,7 +193,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
       "@type": "ListItem",
       position: 2,
       name: primaryCategory.name,
-      item: `${SITE_URL}/category/${primaryCategory.slug}/`,
+      item: `${SITE_URL}/${primaryCategory.slug}/`,
     });
     breadcrumbItems.push({ "@type": "ListItem", position: 3, name: article.title });
   } else {
