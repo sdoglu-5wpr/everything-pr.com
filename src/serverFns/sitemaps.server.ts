@@ -53,6 +53,7 @@ export async function buildSitemapIndex(): Promise<string> {
   if ((catCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/category-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
   // Tag archives are noindex — intentionally excluded from sitemap.
   if ((authorCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/author-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
+  entries.push(`  <sitemap><loc>${SITE_URL}/sitemap-news.xml</loc><lastmod>${now}</lastmod></sitemap>`);
 
   return `${XML_HEADER}\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</sitemapindex>\n`;
 }
@@ -108,9 +109,12 @@ export async function buildTermSitemap(table: "categories" | "tags", prefix: "ca
     .from(table)
     .select("slug, updated_at")
     .order("updated_at", { ascending: false, nullsFirst: false });
+  // Categories redirect /category/{slug} -> /{slug}; emit canonical bare-slug URLs.
+  const buildLoc = (slug: string) =>
+    prefix === "category" ? `${SITE_URL}/${slug}/` : `${SITE_URL}/${prefix}/${slug}/`;
   const urls = (data ?? [])
     .filter((t: any) => isCleanSlug(t.slug))
-    .map((t: any) => urlEntry(`${SITE_URL}/${prefix}/${t.slug}/`, t.updated_at));
+    .map((t: any) => urlEntry(buildLoc(t.slug), t.updated_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
@@ -201,4 +205,38 @@ ${items}
   </channel>
 </rss>
 `;
+}
+
+export async function buildNewsSitemap(): Promise<string> {
+  // Google News sitemap: posts published in the last 48 hours.
+  const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+  const { data: posts } = await supabaseAnon
+    .from("posts")
+    .select("slug, title, published_at")
+    .eq("status", "publish")
+    .eq("type", "post")
+    .gte("published_at", cutoff)
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .limit(1000);
+
+  const urls = (posts ?? [])
+    .filter((p: any) => isCleanSlug(p.slug) && p.published_at)
+    .map((p: any) => {
+      const loc = `${SITE_URL}/${p.slug}/`;
+      return [
+        `  <url>`,
+        `    <loc>${esc(loc)}</loc>`,
+        `    <news:news>`,
+        `      <news:publication>`,
+        `        <news:name>Everything-PR</news:name>`,
+        `        <news:language>en</news:language>`,
+        `      </news:publication>`,
+        `      <news:publication_date>${esc(new Date(p.published_at).toISOString())}</news:publication_date>`,
+        `      <news:title>${esc(p.title ?? "")}</news:title>`,
+        `    </news:news>`,
+        `  </url>`,
+      ].join("\n");
+    });
+
+  return `${XML_HEADER}\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">\n${urls.join("\n")}\n</urlset>\n`;
 }
