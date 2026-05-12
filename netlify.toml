@@ -5,22 +5,19 @@
 [build.environment]
   NODE_VERSION = "22.12.0"
 
+# Disable Netlify's "pretty URLs" trailing-slash stripping. Our SSR middleware
+# (src/server.ts) enforces trailing slashes as the canonical form; without this
+# Netlify 307s "/cannabis/" -> "/cannabis", which then 301s back to "/cannabis/",
+# creating an infinite redirect loop on every prerendered page.
+[build.processing.html]
+  pretty_urls = false
+
 # Image proxy to legacy WordPress (Phase 1 per § 3.2)
 [[redirects]]
   from = "/wp-content/uploads/*"
   to = "https://everything-pr.com/wp-content/uploads/:splat"
   status = 200
   force = true
-
-# Legacy URL redirects
-[[redirects]]
-  from = "/research"
-  to = "/category/research/"
-  status = 301
-[[redirects]]
-  from = "/rfp"
-  to = "/category/rfp/"
-  status = 301
 
 # Force dynamic / server-handled paths through the SSR function FIRST
 # (admin panel, server functions, public ingest API, sitemaps, feed).
