@@ -18,6 +18,94 @@
   status = 200
   force = true
 
+# ---------------------------------------------------------------------------
+# Canonicalization redirects (run BEFORE static asset matching).
+# Netlify serves prerendered HTML directly for any request whose path matches
+# a built file, ignoring query strings — so /foo?amp would otherwise serve
+# the cached HTML and never reach the SSR function. These rules force a 301
+# to the clean URL whenever a tracking / AMP query param is present.
+# `force = true` is required so the rule wins over the static asset.
+# Netlify drops the matched query param from the destination automatically.
+# ---------------------------------------------------------------------------
+[[redirects]]
+  from = "/*"
+  query = {amp = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {noamp = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {utm_source = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {utm_medium = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {utm_campaign = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {utm_term = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {utm_content = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {utm_id = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {gclid = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {fbclid = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {msclkid = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {mc_cid = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+[[redirects]]
+  from = "/*"
+  query = {mc_eid = ":v"}
+  to = "/:splat"
+  status = 301
+  force = true
+
 # Force dynamic / server-handled paths through the SSR function FIRST
 # (admin panel, server functions, public ingest API, sitemaps, feed).
 [[redirects]]
