@@ -90,7 +90,7 @@ export function personNode(author: {
   jobTitle?: string;
 }) {
   const id = author.slug
-    ? `${SITE_URL}/author/${author.slug}/#person`
+    ? `${SITE_URL}/author/${author.slug}#person`
     : `${SITE_URL}/#/schema/person/editorial`;
   const sameAs = [author.social?.linkedin, author.social?.twitter, author.social?.facebook, author.social?.instagram, author.website]
     .filter((u): u is string => Boolean(u));
@@ -98,7 +98,7 @@ export function personNode(author: {
     "@type": "Person",
     "@id": id,
     name: author.display_name,
-    url: author.slug ? `${SITE_URL}/author/${author.slug}/` : `${SITE_URL}/`,
+    url: author.slug ? `${SITE_URL}/author/${author.slug}` : `${SITE_URL}/`,
     jobTitle: author.jobTitle || "Contributor at Everything-PR",
     worksFor: { "@id": ORG_ID },
     knowsAbout: ["Public Relations", "Crisis Communications", "Media Relations"],

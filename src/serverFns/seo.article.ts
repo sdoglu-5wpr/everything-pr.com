@@ -63,7 +63,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
   const a = article as any;
   const slug = article.slug;
   const isResearch = RESEARCH_SLUGS.has(slug);
-  const url = `${SITE_URL}/${slug}/`;
+  const url = `${SITE_URL}/${slug}`;
   const plainExcerpt = htmlToPlainText(article.excerpt) || "";
   const placeholderCtx = {
     title: article.title,
@@ -124,7 +124,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
   ];
   if (published) meta.push({ property: "article:published_time", content: new Date(published).toISOString() });
   if (modified) meta.push({ property: "article:modified_time", content: new Date(modified).toISOString() });
-  if (author?.slug) meta.push({ property: "article:author", content: `${SITE_URL}/author/${author.slug}/` });
+  if (author?.slug) meta.push({ property: "article:author", content: `${SITE_URL}/author/${author.slug}` });
   if (primaryCategory?.name) meta.push({ property: "article:section", content: primaryCategory.name });
   for (const t of tags) meta.push({ property: "article:tag", content: t.name });
   if (article.seo?.robots) meta.push({ name: "robots", content: article.seo.robots });
@@ -136,7 +136,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
   const imageId = `${url}#primaryimage`;
   const breadcrumbId = `${url}#breadcrumb`;
   const personId = author?.slug
-    ? `${SITE_URL}/author/${author.slug}/#person`
+    ? `${SITE_URL}/author/${author.slug}#person`
     : `${SITE_URL}/#/schema/person/editorial`;
 
   const articleType = isResearch ? "Report" : "NewsArticle";
@@ -193,7 +193,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
       "@type": "ListItem",
       position: 2,
       name: primaryCategory.name,
-      item: `${SITE_URL}/${primaryCategory.slug}/`,
+      item: `${SITE_URL}/${primaryCategory.slug}`,
     });
     breadcrumbItems.push({ "@type": "ListItem", position: 3, name: article.title });
   } else {
@@ -225,7 +225,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
     "@type": "Person",
     "@id": personId,
     name: author?.display_name || `${SITE_NAME} Editorial Team`,
-    url: author?.slug ? `${SITE_URL}/author/${author.slug}/` : `${SITE_URL}/`,
+    url: author?.slug ? `${SITE_URL}/author/${author.slug}` : `${SITE_URL}/`,
     image: author?.avatar_url
       ? { "@type": "ImageObject", inLanguage: "en-US", url: author.avatar_url, caption: author.display_name }
       : undefined,

@@ -80,7 +80,7 @@ export async function buildPostSitemap(page: number): Promise<string | null> {
     .filter((p: any) => isCleanSlug(p.slug))
     .map((p: any) =>
       urlEntry(
-        `${SITE_URL}/${p.slug}/`,
+        `${SITE_URL}/${p.slug}`,
         p.modified_at ?? p.published_at,
         resolvePostImageUrl(
           p.featured_media_id && mediaMap.get(p.featured_media_id),
@@ -100,7 +100,7 @@ export async function buildPageSitemap(): Promise<string> {
     .order("modified_at", { ascending: false, nullsFirst: false });
   const urls = (data ?? [])
     .filter((p: any) => isCleanSlug(p.slug))
-    .map((p: any) => urlEntry(`${SITE_URL}/${p.slug}/`, p.modified_at ?? p.published_at));
+    .map((p: any) => urlEntry(`${SITE_URL}/${p.slug}`, p.modified_at ?? p.published_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
@@ -111,7 +111,7 @@ export async function buildTermSitemap(table: "categories" | "tags", prefix: "ca
     .order("updated_at", { ascending: false, nullsFirst: false });
   // Categories redirect /category/{slug} -> /{slug}; emit canonical bare-slug URLs.
   const buildLoc = (slug: string) =>
-    prefix === "category" ? `${SITE_URL}/${slug}/` : `${SITE_URL}/${prefix}/${slug}/`;
+    prefix === "category" ? `${SITE_URL}/${slug}` : `${SITE_URL}/${prefix}/${slug}`;
   const urls = (data ?? [])
     .filter((t: any) => isCleanSlug(t.slug))
     .map((t: any) => urlEntry(buildLoc(t.slug), t.updated_at));
@@ -125,7 +125,7 @@ export async function buildAuthorSitemap(): Promise<string> {
     .order("updated_at", { ascending: false, nullsFirst: false });
   const urls = (data ?? [])
     .filter((a: any) => isCleanSlug(a.slug))
-    .map((a: any) => urlEntry(`${SITE_URL}/author/${a.slug}/`, a.updated_at));
+    .map((a: any) => urlEntry(`${SITE_URL}/author/${a.slug}`, a.updated_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
@@ -222,7 +222,7 @@ export async function buildNewsSitemap(): Promise<string> {
   const urls = (posts ?? [])
     .filter((p: any) => isCleanSlug(p.slug) && p.published_at)
     .map((p: any) => {
-      const loc = `${SITE_URL}/${p.slug}/`;
+      const loc = `${SITE_URL}/${p.slug}`;
       return [
         `  <url>`,
         `    <loc>${esc(loc)}</loc>`,

@@ -184,7 +184,7 @@ export function buildArchiveHead(opts: {
   // Canonical / og:url ALWAYS points to page 1 of the archive. Pagination pages
   // get noindex,follow so Google doesn't index thin paginated variants but
   // still crawls the article links on them.
-  const baseUrl = `${SITE_URL}${pathPrefix}/`;
+  const baseUrl = `${SITE_URL}${pathPrefix}`;
   const url = baseUrl;
   const ogType = kind === "author" ? "article" : "website";
   const ogImage = seoOverrides?.og_image
@@ -207,7 +207,7 @@ export function buildArchiveHead(opts: {
     itemListElement: items.map((it, i) => ({
       "@type": "ListItem",
       position: (page - 1) * 10 + i + 1,
-      url: `${SITE_URL}/${it.slug}/`,
+      url: `${SITE_URL}/${it.slug}`,
       name: it.title,
     })),
   };
@@ -219,20 +219,20 @@ export function buildArchiveHead(opts: {
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
       { "@type": "ListItem", position: 2, name: breadcrumbLabel },
-      { "@type": "ListItem", position: 3, name: termTitle, item: `${SITE_URL}${pathPrefix}/` },
+      { "@type": "ListItem", position: 3, name: termTitle, item: `${SITE_URL}${pathPrefix}` },
     ],
   };
 
   // Author archive → ProfilePage + Person; otherwise CollectionPage
   if (kind === "author" && author) {
-    const personId = `${SITE_URL}/author/${author.slug}/#person`;
+    const personId = `${SITE_URL}/author/${author.slug}#person`;
     const sameAs = [author.social?.linkedin, author.social?.twitter, author.social?.facebook, author.social?.instagram, author.website]
       .filter((u): u is string => Boolean(u));
     const personNode: Record<string, unknown> = {
       "@type": "Person",
       "@id": personId,
       name: author.display_name,
-      url: `${SITE_URL}${pathPrefix}/`,
+      url: `${SITE_URL}${pathPrefix}`,
       description: author.bio ? author.bio.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 500) : undefined,
       image: author.avatar_url
         ? { "@type": "ImageObject", url: author.avatar_url, contentUrl: author.avatar_url, caption: author.display_name }
