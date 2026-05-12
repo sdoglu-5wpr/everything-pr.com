@@ -222,7 +222,7 @@ export async function collectUrls(): Promise<CollectResult> {
     ...authorUrls,
     ...sitemapUrls,
     ...utilityUrls,
-  ]).map(withTrailingSlash);
+  ]);
 
   // ---- tier decision ----
   let tier: 1 | 2 = 2;
