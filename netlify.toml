@@ -31,19 +31,19 @@
 [[redirects]]
   from = "/*"
   query = {amp = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
   from = "/*"
   query = {noamp = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
   from = "/*"
   query = {utm_source = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
