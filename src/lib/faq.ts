@@ -58,15 +58,34 @@ export function stripFaqFromHtml(html: string | null | undefined): string {
   if (!m) return html;
   const start = m.index;
   let end = start + m[0].length;
-  const blockRe = /<h([234])[^>]*>([\s\S]*?)<\/h\1>([\s\S]*?)(?=<h[234][^>]*>|$)/gi;
-  blockRe.lastIndex = end;
-  let nm: RegExpExecArray | null;
-  while ((nm = blockRe.exec(html))) {
-    if (nm.index !== end) break;
-    const qText = nm[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-    if (!/\?\s*$/.test(qText)) break;
-    end = nm.index + nm[0].length;
-    blockRe.lastIndex = end;
+  // Consume contiguous Q&A blocks in either form:
+  //   (a) <h2-4>Question?</h2-4> + content up to next heading
+  //   (b) <p><strong>Question?</strong> Answer...</p>
+  // Plus any whitespace between blocks.
+  const headingBlockRe = /<h([234])[^>]*>([\s\S]*?)<\/h\1>([\s\S]*?)(?=<h[234][^>]*>|<p[^>]*>\s*<(?:strong|b)>|$)/gi;
+  const strongPRe = /<p[^>]*>\s*<(?:strong|b)>([\s\S]*?\?)\s*<\/(?:strong|b)>[\s\S]*?<\/p>/gi;
+  const wsRe = /\s+/y;
+  while (true) {
+    wsRe.lastIndex = end;
+    const wsM = wsRe.exec(html);
+    if (wsM) end = wsRe.lastIndex;
+
+    headingBlockRe.lastIndex = end;
+    const hm = headingBlockRe.exec(html);
+    if (hm && hm.index === end) {
+      const qText = hm[2].replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      if (/\?\s*$/.test(qText)) {
+        end = hm.index + hm[0].length;
+        continue;
+      }
+    }
+    strongPRe.lastIndex = end;
+    const sm = strongPRe.exec(html);
+    if (sm && sm.index === end) {
+      end = sm.index + sm[0].length;
+      continue;
+    }
+    break;
   }
   return html.slice(0, start) + html.slice(end);
 }
