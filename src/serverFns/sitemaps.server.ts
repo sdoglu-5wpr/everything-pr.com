@@ -53,7 +53,7 @@ export async function buildSitemapIndex(): Promise<string> {
   if ((catCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/category-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
   // Tag archives are noindex — intentionally excluded from sitemap.
   if ((authorCount ?? 0) > 0) entries.push(`  <sitemap><loc>${SITE_URL}/author-sitemap.xml</loc><lastmod>${now}</lastmod></sitemap>`);
-  entries.push(`  <sitemap><loc>${SITE_URL}/sitemap-news.xml</loc><lastmod>${now}</lastmod></sitemap>`);
+  entries.push(`  <sitemap><loc>${SITE_URL}/sitemap_news.xml</loc><lastmod>${now}</lastmod></sitemap>`);
 
   return `${XML_HEADER}\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join("\n")}\n</sitemapindex>\n`;
 }
