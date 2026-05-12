@@ -10,6 +10,125 @@ const REDIRECT_MAP = new Map<string, Redirect>(
 
 const NOINDEX_HEADER = "noindex, nofollow, noarchive, nosnippet, noimageindex";
 
+// ----- Canonicalization (SEO) ---------------------------------------------
+// Strip these query params on every request. Permanent (301) so Google
+// consolidates the variant into the canonical URL.
+const STRIP_QUERY_PARAMS = new Set([
+  "noamp", "amp",
+  "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "utm_id",
+  "gclid", "gclsrc", "dclid", "fbclid", "msclkid", "yclid",
+  "_ga", "mc_cid", "mc_eid", "ck_subscriber_id",
+  "ref", "referrer", "trk", "trkInfo",
+  "__hstc", "__hssc", "hsCtaTracking",
+  "si", "feature", "share",
+]);
+
+// Legacy WordPress paths — return 410 Gone so Google drops them from the index.
+// /wp-content/uploads/ stays accessible (image proxy).
+const WP_BLOCK = [
+  /^\/wp-admin(\/|$)/i,
+  /^\/wp-login\.php/i,
+  /^\/xmlrpc\.php/i,
+  /^\/wp-json(\/|$)/i,
+  /^\/wp-content\/plugins(\/|$)/i,
+  /^\/wp-content\/themes(\/|$)/i,
+];
+
+const APEX_HOST = "everything-pr.com";
+
+function permanentRedirect(location: string): Response {
+  return new Response(null, {
+    status: 301,
+    headers: {
+      Location: location,
+      "Cache-Control": "public, max-age=3600, s-maxage=86400",
+    },
+  });
+}
+
+function shouldEnforceTrailingSlash(path: string): boolean {
+  if (path === "/") return false;
+  if (path.startsWith("/api/")) return false;
+  if (path.startsWith("/_serverFn") || path.startsWith("/_server")) return false;
+  if (path.startsWith("/admin")) return false;
+  if (path.startsWith("/wp-content/uploads/")) return false;
+  // Anything that looks like a file (has a dot in the last segment): skip
+  const last = path.split("/").pop() ?? "";
+  if (last.includes(".")) return false;
+  return true;
+}
+
+function canonicalize(request: Request): Response | null {
+  const url = new URL(request.url);
+  let changed = false;
+
+  // 1. Host: www. → apex (and protocol stays whatever upstream gave us; CF "Always HTTPS" handles http→https)
+  if (url.hostname.toLowerCase() === `www.${APEX_HOST}`) {
+    url.hostname = APEX_HOST;
+    changed = true;
+  }
+
+  // 2. WordPress admin/legacy paths → 410 Gone
+  for (const rx of WP_BLOCK) {
+    if (rx.test(url.pathname)) {
+      return new Response("Gone", {
+        status: 410,
+        headers: { "Cache-Control": "public, max-age=86400" },
+      });
+    }
+  }
+
+  // 3. Lowercase pathname (slugs are all-lowercase)
+  if (/[A-Z]/.test(url.pathname)) {
+    url.pathname = url.pathname.toLowerCase();
+    changed = true;
+  }
+
+  // 4. Collapse double slashes in pathname
+  if (/\/{2,}/.test(url.pathname)) {
+    url.pathname = url.pathname.replace(/\/{2,}/g, "/");
+    changed = true;
+  }
+
+  // 5. Feed redirects:
+  //    /comments/feed/ → /feed/
+  //    /{slug}/feed/   → /{slug}/
+  if (url.pathname === "/comments/feed" || url.pathname === "/comments/feed/") {
+    url.pathname = "/feed";
+    changed = true;
+  } else {
+    const feedMatch = url.pathname.match(/^(\/.+?)\/feed\/?$/);
+    if (feedMatch && feedMatch[1] !== "/feed") {
+      url.pathname = feedMatch[1].endsWith("/") ? feedMatch[1] : feedMatch[1] + "/";
+      changed = true;
+    }
+  }
+
+  // 6. Strip tracking / legacy query params
+  if (url.search) {
+    const toDelete: string[] = [];
+    for (const k of url.searchParams.keys()) {
+      if (STRIP_QUERY_PARAMS.has(k.toLowerCase())) toDelete.push(k);
+    }
+    if (toDelete.length > 0) {
+      for (const k of toDelete) url.searchParams.delete(k);
+      changed = true;
+    }
+  }
+
+  // 7. Trailing slash for content paths
+  if (shouldEnforceTrailingSlash(url.pathname) && !url.pathname.endsWith("/")) {
+    url.pathname = url.pathname + "/";
+    changed = true;
+  }
+
+  if (changed) {
+    return permanentRedirect(url.pathname + url.search + url.hash);
+  }
+  return null;
+}
+// --------------------------------------------------------------------------
+
 // Routes that must always go through SSR (auth, admin, search, APIs, server fns)
 function isDynamicPath(path: string): boolean {
   return (
@@ -44,7 +163,11 @@ export default {
     const path = url.pathname;
     const noindex = isIndexingDisabled(env ?? {});
 
-    // 1. Redirects (pre-empt both static + SSR)
+    // 0. Canonicalization (host, case, slashes, query params, feeds, WP block)
+    const canonicalRes = canonicalize(request);
+    if (canonicalRes) return canonicalRes;
+
+    // 1. Custom redirects map (legacy WP slugs etc.)
     const key = path.replace(/\/$/, "") || "/";
     const r = REDIRECT_MAP.get(key);
     if (r) {
