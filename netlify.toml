@@ -85,25 +85,25 @@
 [[redirects]]
   from = "/*"
   query = {fbclid = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
   from = "/*"
   query = {msclkid = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
   from = "/*"
   query = {mc_cid = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 [[redirects]]
   from = "/*"
   query = {mc_eid = ":v"}
-  to = "/:splat"
+  to = "/:splat?"
   status = 301
   force = true
 
