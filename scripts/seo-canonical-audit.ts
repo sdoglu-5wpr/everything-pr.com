@@ -74,9 +74,15 @@ async function audit() {
   let fail = 0;
   const failures: Result[] = [];
 
-  for (const canonicalUrl of picks) {
+  for (const sitemapUrl of picks) {
+    // Resolve true canonical: follow up to 2 normalization hops (e.g. add trailing slash).
+    let canonicalUrl = sitemapUrl;
+    for (let i = 0; i < 2; i++) {
+      const r = await head(canonicalUrl);
+      if (r.status === 301 && r.location) canonicalUrl = new URL(r.location, canonicalUrl).toString();
+      else break;
+    }
     const canon = new URL(canonicalUrl);
-    // sanity: canonical itself should be 200
     const baseRes = await head(canonicalUrl);
     if (baseRes.status !== 200) {
       failures.push({ variant: "canonical-itself", url: canonicalUrl, status: baseRes.status, location: baseRes.location, ok: false, reason: "canonical not 200" });
