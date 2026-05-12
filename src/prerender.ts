@@ -347,3 +347,12 @@ export async function collectUrls(): Promise<CollectResult> {
 function unique(arr: string[]): string[] {
   return Array.from(new Set(arr));
 }
+
+/** Append trailing slash to content paths. Skip "/" and anything that looks
+ *  like a file (last segment contains a dot). Mirrors src/server.ts logic. */
+function withTrailingSlash(p: string): string {
+  if (p === "/" || p.endsWith("/")) return p;
+  const last = p.split("/").pop() ?? "";
+  if (last.includes(".")) return p;
+  return p + "/";
+}
