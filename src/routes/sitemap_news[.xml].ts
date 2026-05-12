@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { resolveIndexingState } from "@/serverFns/indexing.server";
 import { buildNewsSitemap, SITEMAP_HEADERS } from "@/serverFns/sitemaps.server";
 
-export const Route = createFileRoute("/sitemap-news.xml")({
+export const Route = createFileRoute("/sitemap_news.xml")({
   server: {
     handlers: {
       GET: async () => {
