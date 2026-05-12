@@ -19,93 +19,16 @@
   force = true
 
 # ---------------------------------------------------------------------------
-# Canonicalization redirects (run BEFORE static asset matching).
-# Netlify serves prerendered HTML directly for any request whose path matches
-# a built file, ignoring query strings — so /foo?amp would otherwise serve
-# the cached HTML and never reach the SSR function. These rules force a 301
-# to the clean URL whenever a tracking / AMP query param is present.
-# `force = true` is required so the rule wins over the static asset.
-# The trailing `?` on `to` is intentional: it tells Netlify to discard the
-# original query string. Without it, /foo?amp redirects to /foo?amp forever.
+# Canonicalization runs in netlify/edge-functions/canonicalize.ts. It strips
+# AMP / UTM / tracking query params and 301s to an absolute clean URL.
+# We previously used [[redirects]] with query rules + `to = "/:splat?"` but
+# Netlify still re-attached the original query string to the Location header,
+# producing infinite redirect loops. The edge function fully controls the
+# Location it returns, so loops are no longer possible.
 # ---------------------------------------------------------------------------
-[[redirects]]
-  from = "/*"
-  query = {amp = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {noamp = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {utm_source = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {utm_medium = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {utm_campaign = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {utm_term = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {utm_content = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {utm_id = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {gclid = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {fbclid = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {msclkid = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {mc_cid = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
-[[redirects]]
-  from = "/*"
-  query = {mc_eid = ":v"}
-  to = "/:splat?"
-  status = 301
-  force = true
+[[edge_functions]]
+  function = "canonicalize"
+  path = "/*"
 
 # Force dynamic / server-handled paths through the SSR function FIRST
 # (admin panel, server functions, public ingest API, sitemaps, feed).
