@@ -271,7 +271,7 @@ export async function collectUrls(): Promise<CollectResult> {
       ...limitedAuthorUrls,
       ...sitemapUrls,
       ...utilityUrls,
-    ]);
+    ]).map(withTrailingSlash);
   }
 
   const result: CollectResult = {
