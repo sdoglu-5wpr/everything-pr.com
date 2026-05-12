@@ -113,6 +113,7 @@ export function buildArticleHead(article: ArticlePayload["article"]): HeadOutput
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:site", content: TWITTER_HANDLE },
     { name: "twitter:creator", content: TWITTER_HANDLE },
+    { name: "twitter:url", content: canonical },
     { name: "twitter:title", content: seoTwTitle || article.title },
     { name: "twitter:description", content: seoTwDesc || description },
     { name: "twitter:image", content: a.seo?.twitter_image || image },
