@@ -102,7 +102,7 @@ export const Route = createFileRoute("/$slug")({
         { name: "twitter:card", content: "summary_large_image" },
       ];
       if (page > 1) {
-        meta.push({ name: "robots", content: "noindex, follow" });
+        meta.push({ name: "robots", content: "noindex, follow, max-image-preview:large" });
       }
       if (p.hero_image_url) {
         meta.push({ property: "og:image", content: p.hero_image_url });
@@ -121,7 +121,7 @@ export const Route = createFileRoute("/$slug")({
       const meta: any[] = [
         { property: "og:url", content: baseUrl },
       ];
-      if (page > 1) meta.push({ name: "robots", content: "noindex, follow" });
+      if (page > 1) meta.push({ name: "robots", content: "noindex, follow, max-image-preview:large" });
       return { meta, links: [{ rel: "canonical", href: baseUrl }] };
     }
     if (loaderData.kind !== "article") return { meta: [{ title: "Everything-PR" }] };
