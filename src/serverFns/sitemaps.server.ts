@@ -21,10 +21,21 @@ function esc(s: string): string {
     .replace(/'/g, "&apos;");
 }
 
+/** Ensure a URL is absolute. Sitemap protocol rejects relative paths in <loc>
+ *  and <image:loc>. Legacy WordPress media often comes back as "/wp-content/..."
+ *  after rewriteLegacyUrl(); prepend SITE_URL so Google accepts it. */
+function absoluteUrl(u: string): string {
+  if (!u) return u;
+  if (/^https?:\/\//i.test(u)) return u;
+  if (u.startsWith("//")) return `https:${u}`;
+  if (u.startsWith("/")) return `${SITE_URL}${u}`;
+  return `${SITE_URL}/${u}`;
+}
+
 function urlEntry(loc: string, lastmod?: string | null, image?: string | null) {
-  const parts = [`  <url>`, `    <loc>${esc(loc)}</loc>`];
+  const parts = [`  <url>`, `    <loc>${esc(absoluteUrl(loc))}</loc>`];
   if (lastmod) parts.push(`    <lastmod>${esc(new Date(lastmod).toISOString())}</lastmod>`);
-  if (image) parts.push(`    <image:image><image:loc>${esc(image)}</image:loc></image:image>`);
+  if (image) parts.push(`    <image:image><image:loc>${esc(absoluteUrl(image))}</image:loc></image:image>`);
   parts.push(`  </url>`);
   return parts.join("\n");
 }
