@@ -236,10 +236,15 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
           {bio ? (
             <div className="border-l-4 border-[color:var(--brand-blue)] pl-5">
               <h3 className="font-serif text-2xl font-bold mb-4">About {display.split(" ")[0]}</h3>
-              <div
-                className="prose-article text-foreground"
-                dangerouslySetInnerHTML={{ __html: bio }}
-              />
+              {/<\/?[a-z][\s\S]*>/i.test(bio) ? (
+                <div className="prose-article text-foreground" dangerouslySetInnerHTML={{ __html: bio }} />
+              ) : (
+                <div className="prose-article text-foreground space-y-4">
+                  {bio.split(/\n{2,}/).map((p, i) => (
+                    <p key={i} className="whitespace-pre-line">{p.trim()}</p>
+                  ))}
+                </div>
+              )}
             </div>
           ) : (
             <div className="border-l-4 border-[color:var(--brand-blue)] pl-5">
