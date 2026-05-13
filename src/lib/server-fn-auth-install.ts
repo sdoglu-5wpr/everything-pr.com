@@ -28,7 +28,12 @@ if (typeof window !== "undefined" && !installed) {
             ? input.toString()
             : input.url;
 
-      if (url && url.includes("/_serverFn/")) {
+      const pathname = (() => {
+        try { return new URL(url, window.location.origin).pathname; }
+        catch { return url; }
+      })();
+
+      if (pathname.startsWith("/_serverFn") || pathname.startsWith("/_server")) {
         const { data } = await supabase.auth.getSession();
         const token = data.session?.access_token;
         if (token) {

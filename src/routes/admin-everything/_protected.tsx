@@ -36,7 +36,10 @@ function AdminLayout() {
     (async () => {
       try {
         const session = await waitForAdminSession();
-        if (!session) { navigate({ to: "/admin-everything/login" }); return; }
+        if (!session) {
+          await navigate({ to: "/admin-everything/login" });
+          return;
+        }
         const userId = session.user.id;
         const email = session.user.email ?? null;
         const { data: rows, error } = await supabase
@@ -65,7 +68,7 @@ function AdminLayout() {
     return <main className="p-8 text-sm text-muted-foreground">Loading…</main>;
   }
 
-  if (accessError || !me) {
+  if (accessError) {
     return (
       <main className="mx-auto max-w-lg p-8">
         <h1 className="font-serif text-2xl font-bold">Access error</h1>
@@ -75,6 +78,10 @@ function AdminLayout() {
         </button>
       </main>
     );
+  }
+
+  if (!me) {
+    return <main className="p-8 text-sm text-muted-foreground">Redirecting…</main>;
   }
 
   if (!me.isStaff) {
