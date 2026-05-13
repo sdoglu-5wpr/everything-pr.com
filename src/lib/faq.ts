@@ -1,4 +1,4 @@
-import { htmlToPlainText } from "./text";
+import { htmlToPlainText, decodeHtmlEntities } from "./text";
 
 export type FaqPair = { q: string; a: string };
 
