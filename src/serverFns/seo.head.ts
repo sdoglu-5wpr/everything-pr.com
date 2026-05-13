@@ -215,13 +215,22 @@ export function buildArchiveHead(opts: {
   };
 
   const breadcrumbId = `${url}#breadcrumb`;
+  const breadcrumbItems: Array<Record<string, unknown>> = [
+    { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+  ];
+  if (kind === "tag") {
+    breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Tag", item: `${SITE_URL}/tag/` });
+    breadcrumbItems.push({ "@type": "ListItem", position: 3, name: termTitle, item: `${SITE_URL}${pathPrefix}` });
+  } else if (kind === "author") {
+    breadcrumbItems.push({ "@type": "ListItem", position: 2, name: "Author", item: `${SITE_URL}/author/` });
+    breadcrumbItems.push({ "@type": "ListItem", position: 3, name: termTitle, item: `${SITE_URL}${pathPrefix}` });
+  } else {
+    breadcrumbItems.push({ "@type": "ListItem", position: 2, name: termTitle, item: `${SITE_URL}${pathPrefix}` });
+  }
   const breadcrumbNode = {
     "@type": "BreadcrumbList",
     "@id": breadcrumbId,
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
-      { "@type": "ListItem", position: 2, name: termTitle, item: `${SITE_URL}${pathPrefix}` },
-    ],
+    itemListElement: breadcrumbItems,
   };
 
   // Author archive → ProfilePage + Person; otherwise CollectionPage
