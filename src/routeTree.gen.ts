@@ -30,22 +30,22 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
 import { Route as ApiNewsletterRouteImport } from './routes/api/newsletter'
 import { Route as ApiContactRouteImport } from './routes/api/contact'
-import { Route as AdminLoginRouteImport } from './routes/admin/login'
-import { Route as AdminProtectedRouteImport } from './routes/admin/_protected'
-import { Route as AdminProtectedIndexRouteImport } from './routes/admin/_protected.index'
-import { Route as AdminProtectedTagsRouteImport } from './routes/admin/_protected.tags'
-import { Route as AdminProtectedSettingsRouteImport } from './routes/admin/_protected.settings'
-import { Route as AdminProtectedSeoRouteImport } from './routes/admin/_protected.seo'
-import { Route as AdminProtectedRedirectsRouteImport } from './routes/admin/_protected.redirects'
-import { Route as AdminProtectedMenusRouteImport } from './routes/admin/_protected.menus'
-import { Route as AdminProtectedMediaBackfillRouteImport } from './routes/admin/_protected.media-backfill'
-import { Route as AdminProtectedMediaRouteImport } from './routes/admin/_protected.media'
-import { Route as AdminProtectedImportRouteImport } from './routes/admin/_protected.import'
-import { Route as AdminProtectedCategoriesRouteImport } from './routes/admin/_protected.categories'
-import { Route as AdminProtectedAutomationsRouteImport } from './routes/admin/_protected.automations'
-import { Route as AdminProtectedAuthorsRouteImport } from './routes/admin/_protected.authors'
-import { Route as AdminProtectedActivityRouteImport } from './routes/admin/_protected.activity'
-import { Route as AdminProtectedPostsIndexRouteImport } from './routes/admin/_protected.posts.index'
+import { Route as AdminEverythingLoginRouteImport } from './routes/admin-everything/login'
+import { Route as AdminEverythingProtectedRouteImport } from './routes/admin-everything/_protected'
+import { Route as AdminEverythingProtectedIndexRouteImport } from './routes/admin-everything/_protected.index'
+import { Route as AdminEverythingProtectedTagsRouteImport } from './routes/admin-everything/_protected.tags'
+import { Route as AdminEverythingProtectedSettingsRouteImport } from './routes/admin-everything/_protected.settings'
+import { Route as AdminEverythingProtectedSeoRouteImport } from './routes/admin-everything/_protected.seo'
+import { Route as AdminEverythingProtectedRedirectsRouteImport } from './routes/admin-everything/_protected.redirects'
+import { Route as AdminEverythingProtectedMenusRouteImport } from './routes/admin-everything/_protected.menus'
+import { Route as AdminEverythingProtectedMediaBackfillRouteImport } from './routes/admin-everything/_protected.media-backfill'
+import { Route as AdminEverythingProtectedMediaRouteImport } from './routes/admin-everything/_protected.media'
+import { Route as AdminEverythingProtectedImportRouteImport } from './routes/admin-everything/_protected.import'
+import { Route as AdminEverythingProtectedCategoriesRouteImport } from './routes/admin-everything/_protected.categories'
+import { Route as AdminEverythingProtectedAutomationsRouteImport } from './routes/admin-everything/_protected.automations'
+import { Route as AdminEverythingProtectedAuthorsRouteImport } from './routes/admin-everything/_protected.authors'
+import { Route as AdminEverythingProtectedActivityRouteImport } from './routes/admin-everything/_protected.activity'
+import { Route as AdminEverythingProtectedPostsIndexRouteImport } from './routes/admin-everything/_protected.posts.index'
 import { Route as TagSlugPagePageRouteImport } from './routes/tag.$slug.page.$page'
 import { Route as CategorySlugPagePageRouteImport } from './routes/category.$slug.page.$page'
 import { Route as AuthorSlugPagePageRouteImport } from './routes/author.$slug.page.$page'
@@ -56,8 +56,8 @@ import { Route as ApiPublicIngestMediaRouteImport } from './routes/api/public/in
 import { Route as ApiPublicIngestCategoriesRouteImport } from './routes/api/public/ingest/categories'
 import { Route as ApiPublicHooksPublishScheduledRouteImport } from './routes/api/public/hooks/publish-scheduled'
 import { Route as ApiPublicHooksGenerateMissingFeaturedImagesRouteImport } from './routes/api/public/hooks/generate-missing-featured-images'
-import { Route as AdminProtectedPostsIdRouteImport } from './routes/admin/_protected.posts.$id'
-import { Route as AdminProtectedCategoriesDuplicatesRouteImport } from './routes/admin/_protected.categories.duplicates'
+import { Route as AdminEverythingProtectedPostsIdRouteImport } from './routes/admin-everything/_protected.posts.$id'
+import { Route as AdminEverythingProtectedCategoriesDuplicatesRouteImport } from './routes/admin-everything/_protected.categories.duplicates'
 
 const Sitemap_newsDotxmlRoute = Sitemap_newsDotxmlRouteImport.update({
   id: '/sitemap_news.xml',
@@ -164,89 +164,100 @@ const ApiContactRoute = ApiContactRouteImport.update({
   path: '/api/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin/login',
-  path: '/admin/login',
+const AdminEverythingLoginRoute = AdminEverythingLoginRouteImport.update({
+  id: '/admin-everything/login',
+  path: '/admin-everything/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminProtectedRoute = AdminProtectedRouteImport.update({
-  id: '/admin/_protected',
-  path: '/admin',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminProtectedIndexRoute = AdminProtectedIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedTagsRoute = AdminProtectedTagsRouteImport.update({
-  id: '/tags',
-  path: '/tags',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedSettingsRoute = AdminProtectedSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedSeoRoute = AdminProtectedSeoRouteImport.update({
-  id: '/seo',
-  path: '/seo',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedRedirectsRoute = AdminProtectedRedirectsRouteImport.update({
-  id: '/redirects',
-  path: '/redirects',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedMenusRoute = AdminProtectedMenusRouteImport.update({
-  id: '/menus',
-  path: '/menus',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedMediaBackfillRoute =
-  AdminProtectedMediaBackfillRouteImport.update({
+const AdminEverythingProtectedRoute =
+  AdminEverythingProtectedRouteImport.update({
+    id: '/admin-everything/_protected',
+    path: '/admin-everything',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AdminEverythingProtectedIndexRoute =
+  AdminEverythingProtectedIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedTagsRoute =
+  AdminEverythingProtectedTagsRouteImport.update({
+    id: '/tags',
+    path: '/tags',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedSettingsRoute =
+  AdminEverythingProtectedSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedSeoRoute =
+  AdminEverythingProtectedSeoRouteImport.update({
+    id: '/seo',
+    path: '/seo',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedRedirectsRoute =
+  AdminEverythingProtectedRedirectsRouteImport.update({
+    id: '/redirects',
+    path: '/redirects',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedMenusRoute =
+  AdminEverythingProtectedMenusRouteImport.update({
+    id: '/menus',
+    path: '/menus',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedMediaBackfillRoute =
+  AdminEverythingProtectedMediaBackfillRouteImport.update({
     id: '/media-backfill',
     path: '/media-backfill',
-    getParentRoute: () => AdminProtectedRoute,
+    getParentRoute: () => AdminEverythingProtectedRoute,
   } as any)
-const AdminProtectedMediaRoute = AdminProtectedMediaRouteImport.update({
-  id: '/media',
-  path: '/media',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedImportRoute = AdminProtectedImportRouteImport.update({
-  id: '/import',
-  path: '/import',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedCategoriesRoute =
-  AdminProtectedCategoriesRouteImport.update({
+const AdminEverythingProtectedMediaRoute =
+  AdminEverythingProtectedMediaRouteImport.update({
+    id: '/media',
+    path: '/media',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedImportRoute =
+  AdminEverythingProtectedImportRouteImport.update({
+    id: '/import',
+    path: '/import',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedCategoriesRoute =
+  AdminEverythingProtectedCategoriesRouteImport.update({
     id: '/categories',
     path: '/categories',
-    getParentRoute: () => AdminProtectedRoute,
+    getParentRoute: () => AdminEverythingProtectedRoute,
   } as any)
-const AdminProtectedAutomationsRoute =
-  AdminProtectedAutomationsRouteImport.update({
+const AdminEverythingProtectedAutomationsRoute =
+  AdminEverythingProtectedAutomationsRouteImport.update({
     id: '/automations',
     path: '/automations',
-    getParentRoute: () => AdminProtectedRoute,
+    getParentRoute: () => AdminEverythingProtectedRoute,
   } as any)
-const AdminProtectedAuthorsRoute = AdminProtectedAuthorsRouteImport.update({
-  id: '/authors',
-  path: '/authors',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedActivityRoute = AdminProtectedActivityRouteImport.update({
-  id: '/activity',
-  path: '/activity',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedPostsIndexRoute =
-  AdminProtectedPostsIndexRouteImport.update({
+const AdminEverythingProtectedAuthorsRoute =
+  AdminEverythingProtectedAuthorsRouteImport.update({
+    id: '/authors',
+    path: '/authors',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedActivityRoute =
+  AdminEverythingProtectedActivityRouteImport.update({
+    id: '/activity',
+    path: '/activity',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedPostsIndexRoute =
+  AdminEverythingProtectedPostsIndexRouteImport.update({
     id: '/posts/',
     path: '/posts/',
-    getParentRoute: () => AdminProtectedRoute,
+    getParentRoute: () => AdminEverythingProtectedRoute,
   } as any)
 const TagSlugPagePageRoute = TagSlugPagePageRouteImport.update({
   id: '/page/$page',
@@ -301,16 +312,17 @@ const ApiPublicHooksGenerateMissingFeaturedImagesRoute =
     path: '/api/public/hooks/generate-missing-featured-images',
     getParentRoute: () => rootRouteImport,
   } as any)
-const AdminProtectedPostsIdRoute = AdminProtectedPostsIdRouteImport.update({
-  id: '/posts/$id',
-  path: '/posts/$id',
-  getParentRoute: () => AdminProtectedRoute,
-} as any)
-const AdminProtectedCategoriesDuplicatesRoute =
-  AdminProtectedCategoriesDuplicatesRouteImport.update({
+const AdminEverythingProtectedPostsIdRoute =
+  AdminEverythingProtectedPostsIdRouteImport.update({
+    id: '/posts/$id',
+    path: '/posts/$id',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
+const AdminEverythingProtectedCategoriesDuplicatesRoute =
+  AdminEverythingProtectedCategoriesDuplicatesRouteImport.update({
     id: '/duplicates',
     path: '/duplicates',
-    getParentRoute: () => AdminProtectedCategoriesRoute,
+    getParentRoute: () => AdminEverythingProtectedCategoriesRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -330,28 +342,28 @@ export interface FileRoutesByFullPath {
   '/setup-cowork': typeof SetupCoworkRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/sitemap_news.xml': typeof Sitemap_newsDotxmlRoute
-  '/admin': typeof AdminProtectedRouteWithChildren
-  '/admin/login': typeof AdminLoginRoute
+  '/admin-everything': typeof AdminEverythingProtectedRouteWithChildren
+  '/admin-everything/login': typeof AdminEverythingLoginRoute
   '/api/contact': typeof ApiContactRoute
   '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
-  '/admin/activity': typeof AdminProtectedActivityRoute
-  '/admin/authors': typeof AdminProtectedAuthorsRoute
-  '/admin/automations': typeof AdminProtectedAutomationsRoute
-  '/admin/categories': typeof AdminProtectedCategoriesRouteWithChildren
-  '/admin/import': typeof AdminProtectedImportRoute
-  '/admin/media': typeof AdminProtectedMediaRoute
-  '/admin/media-backfill': typeof AdminProtectedMediaBackfillRoute
-  '/admin/menus': typeof AdminProtectedMenusRoute
-  '/admin/redirects': typeof AdminProtectedRedirectsRoute
-  '/admin/seo': typeof AdminProtectedSeoRoute
-  '/admin/settings': typeof AdminProtectedSettingsRoute
-  '/admin/tags': typeof AdminProtectedTagsRoute
-  '/admin/': typeof AdminProtectedIndexRoute
-  '/admin/categories/duplicates': typeof AdminProtectedCategoriesDuplicatesRoute
-  '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
+  '/admin-everything/activity': typeof AdminEverythingProtectedActivityRoute
+  '/admin-everything/authors': typeof AdminEverythingProtectedAuthorsRoute
+  '/admin-everything/automations': typeof AdminEverythingProtectedAutomationsRoute
+  '/admin-everything/categories': typeof AdminEverythingProtectedCategoriesRouteWithChildren
+  '/admin-everything/import': typeof AdminEverythingProtectedImportRoute
+  '/admin-everything/media': typeof AdminEverythingProtectedMediaRoute
+  '/admin-everything/media-backfill': typeof AdminEverythingProtectedMediaBackfillRoute
+  '/admin-everything/menus': typeof AdminEverythingProtectedMenusRoute
+  '/admin-everything/redirects': typeof AdminEverythingProtectedRedirectsRoute
+  '/admin-everything/seo': typeof AdminEverythingProtectedSeoRoute
+  '/admin-everything/settings': typeof AdminEverythingProtectedSettingsRoute
+  '/admin-everything/tags': typeof AdminEverythingProtectedTagsRoute
+  '/admin-everything/': typeof AdminEverythingProtectedIndexRoute
+  '/admin-everything/categories/duplicates': typeof AdminEverythingProtectedCategoriesDuplicatesRoute
+  '/admin-everything/posts/$id': typeof AdminEverythingProtectedPostsIdRoute
   '/api/public/hooks/generate-missing-featured-images': typeof ApiPublicHooksGenerateMissingFeaturedImagesRoute
   '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
   '/api/public/ingest/categories': typeof ApiPublicIngestCategoriesRoute
@@ -362,7 +374,7 @@ export interface FileRoutesByFullPath {
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
-  '/admin/posts/': typeof AdminProtectedPostsIndexRoute
+  '/admin-everything/posts/': typeof AdminEverythingProtectedPostsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -381,27 +393,27 @@ export interface FileRoutesByTo {
   '/setup-cowork': typeof SetupCoworkRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/sitemap_news.xml': typeof Sitemap_newsDotxmlRoute
-  '/admin/login': typeof AdminLoginRoute
+  '/admin-everything/login': typeof AdminEverythingLoginRoute
   '/api/contact': typeof ApiContactRoute
   '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
-  '/admin/activity': typeof AdminProtectedActivityRoute
-  '/admin/authors': typeof AdminProtectedAuthorsRoute
-  '/admin/automations': typeof AdminProtectedAutomationsRoute
-  '/admin/categories': typeof AdminProtectedCategoriesRouteWithChildren
-  '/admin/import': typeof AdminProtectedImportRoute
-  '/admin/media': typeof AdminProtectedMediaRoute
-  '/admin/media-backfill': typeof AdminProtectedMediaBackfillRoute
-  '/admin/menus': typeof AdminProtectedMenusRoute
-  '/admin/redirects': typeof AdminProtectedRedirectsRoute
-  '/admin/seo': typeof AdminProtectedSeoRoute
-  '/admin/settings': typeof AdminProtectedSettingsRoute
-  '/admin/tags': typeof AdminProtectedTagsRoute
-  '/admin': typeof AdminProtectedIndexRoute
-  '/admin/categories/duplicates': typeof AdminProtectedCategoriesDuplicatesRoute
-  '/admin/posts/$id': typeof AdminProtectedPostsIdRoute
+  '/admin-everything/activity': typeof AdminEverythingProtectedActivityRoute
+  '/admin-everything/authors': typeof AdminEverythingProtectedAuthorsRoute
+  '/admin-everything/automations': typeof AdminEverythingProtectedAutomationsRoute
+  '/admin-everything/categories': typeof AdminEverythingProtectedCategoriesRouteWithChildren
+  '/admin-everything/import': typeof AdminEverythingProtectedImportRoute
+  '/admin-everything/media': typeof AdminEverythingProtectedMediaRoute
+  '/admin-everything/media-backfill': typeof AdminEverythingProtectedMediaBackfillRoute
+  '/admin-everything/menus': typeof AdminEverythingProtectedMenusRoute
+  '/admin-everything/redirects': typeof AdminEverythingProtectedRedirectsRoute
+  '/admin-everything/seo': typeof AdminEverythingProtectedSeoRoute
+  '/admin-everything/settings': typeof AdminEverythingProtectedSettingsRoute
+  '/admin-everything/tags': typeof AdminEverythingProtectedTagsRoute
+  '/admin-everything': typeof AdminEverythingProtectedIndexRoute
+  '/admin-everything/categories/duplicates': typeof AdminEverythingProtectedCategoriesDuplicatesRoute
+  '/admin-everything/posts/$id': typeof AdminEverythingProtectedPostsIdRoute
   '/api/public/hooks/generate-missing-featured-images': typeof ApiPublicHooksGenerateMissingFeaturedImagesRoute
   '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
   '/api/public/ingest/categories': typeof ApiPublicIngestCategoriesRoute
@@ -412,7 +424,7 @@ export interface FileRoutesByTo {
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
-  '/admin/posts': typeof AdminProtectedPostsIndexRoute
+  '/admin-everything/posts': typeof AdminEverythingProtectedPostsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -432,28 +444,28 @@ export interface FileRoutesById {
   '/setup-cowork': typeof SetupCoworkRoute
   '/sitemap_index.xml': typeof Sitemap_indexDotxmlRoute
   '/sitemap_news.xml': typeof Sitemap_newsDotxmlRoute
-  '/admin/_protected': typeof AdminProtectedRouteWithChildren
-  '/admin/login': typeof AdminLoginRoute
+  '/admin-everything/_protected': typeof AdminEverythingProtectedRouteWithChildren
+  '/admin-everything/login': typeof AdminEverythingLoginRoute
   '/api/contact': typeof ApiContactRoute
   '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tag/$slug': typeof TagSlugRouteWithChildren
-  '/admin/_protected/activity': typeof AdminProtectedActivityRoute
-  '/admin/_protected/authors': typeof AdminProtectedAuthorsRoute
-  '/admin/_protected/automations': typeof AdminProtectedAutomationsRoute
-  '/admin/_protected/categories': typeof AdminProtectedCategoriesRouteWithChildren
-  '/admin/_protected/import': typeof AdminProtectedImportRoute
-  '/admin/_protected/media': typeof AdminProtectedMediaRoute
-  '/admin/_protected/media-backfill': typeof AdminProtectedMediaBackfillRoute
-  '/admin/_protected/menus': typeof AdminProtectedMenusRoute
-  '/admin/_protected/redirects': typeof AdminProtectedRedirectsRoute
-  '/admin/_protected/seo': typeof AdminProtectedSeoRoute
-  '/admin/_protected/settings': typeof AdminProtectedSettingsRoute
-  '/admin/_protected/tags': typeof AdminProtectedTagsRoute
-  '/admin/_protected/': typeof AdminProtectedIndexRoute
-  '/admin/_protected/categories/duplicates': typeof AdminProtectedCategoriesDuplicatesRoute
-  '/admin/_protected/posts/$id': typeof AdminProtectedPostsIdRoute
+  '/admin-everything/_protected/activity': typeof AdminEverythingProtectedActivityRoute
+  '/admin-everything/_protected/authors': typeof AdminEverythingProtectedAuthorsRoute
+  '/admin-everything/_protected/automations': typeof AdminEverythingProtectedAutomationsRoute
+  '/admin-everything/_protected/categories': typeof AdminEverythingProtectedCategoriesRouteWithChildren
+  '/admin-everything/_protected/import': typeof AdminEverythingProtectedImportRoute
+  '/admin-everything/_protected/media': typeof AdminEverythingProtectedMediaRoute
+  '/admin-everything/_protected/media-backfill': typeof AdminEverythingProtectedMediaBackfillRoute
+  '/admin-everything/_protected/menus': typeof AdminEverythingProtectedMenusRoute
+  '/admin-everything/_protected/redirects': typeof AdminEverythingProtectedRedirectsRoute
+  '/admin-everything/_protected/seo': typeof AdminEverythingProtectedSeoRoute
+  '/admin-everything/_protected/settings': typeof AdminEverythingProtectedSettingsRoute
+  '/admin-everything/_protected/tags': typeof AdminEverythingProtectedTagsRoute
+  '/admin-everything/_protected/': typeof AdminEverythingProtectedIndexRoute
+  '/admin-everything/_protected/categories/duplicates': typeof AdminEverythingProtectedCategoriesDuplicatesRoute
+  '/admin-everything/_protected/posts/$id': typeof AdminEverythingProtectedPostsIdRoute
   '/api/public/hooks/generate-missing-featured-images': typeof ApiPublicHooksGenerateMissingFeaturedImagesRoute
   '/api/public/hooks/publish-scheduled': typeof ApiPublicHooksPublishScheduledRoute
   '/api/public/ingest/categories': typeof ApiPublicIngestCategoriesRoute
@@ -464,7 +476,7 @@ export interface FileRoutesById {
   '/author/$slug/page/$page': typeof AuthorSlugPagePageRoute
   '/category/$slug/page/$page': typeof CategorySlugPagePageRoute
   '/tag/$slug/page/$page': typeof TagSlugPagePageRoute
-  '/admin/_protected/posts/': typeof AdminProtectedPostsIndexRoute
+  '/admin-everything/_protected/posts/': typeof AdminEverythingProtectedPostsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -485,28 +497,28 @@ export interface FileRouteTypes {
     | '/setup-cowork'
     | '/sitemap_index.xml'
     | '/sitemap_news.xml'
-    | '/admin'
-    | '/admin/login'
+    | '/admin-everything'
+    | '/admin-everything/login'
     | '/api/contact'
     | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
-    | '/admin/activity'
-    | '/admin/authors'
-    | '/admin/automations'
-    | '/admin/categories'
-    | '/admin/import'
-    | '/admin/media'
-    | '/admin/media-backfill'
-    | '/admin/menus'
-    | '/admin/redirects'
-    | '/admin/seo'
-    | '/admin/settings'
-    | '/admin/tags'
-    | '/admin/'
-    | '/admin/categories/duplicates'
-    | '/admin/posts/$id'
+    | '/admin-everything/activity'
+    | '/admin-everything/authors'
+    | '/admin-everything/automations'
+    | '/admin-everything/categories'
+    | '/admin-everything/import'
+    | '/admin-everything/media'
+    | '/admin-everything/media-backfill'
+    | '/admin-everything/menus'
+    | '/admin-everything/redirects'
+    | '/admin-everything/seo'
+    | '/admin-everything/settings'
+    | '/admin-everything/tags'
+    | '/admin-everything/'
+    | '/admin-everything/categories/duplicates'
+    | '/admin-everything/posts/$id'
     | '/api/public/hooks/generate-missing-featured-images'
     | '/api/public/hooks/publish-scheduled'
     | '/api/public/ingest/categories'
@@ -517,7 +529,7 @@ export interface FileRouteTypes {
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
-    | '/admin/posts/'
+    | '/admin-everything/posts/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -536,27 +548,27 @@ export interface FileRouteTypes {
     | '/setup-cowork'
     | '/sitemap_index.xml'
     | '/sitemap_news.xml'
-    | '/admin/login'
+    | '/admin-everything/login'
     | '/api/contact'
     | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
-    | '/admin/activity'
-    | '/admin/authors'
-    | '/admin/automations'
-    | '/admin/categories'
-    | '/admin/import'
-    | '/admin/media'
-    | '/admin/media-backfill'
-    | '/admin/menus'
-    | '/admin/redirects'
-    | '/admin/seo'
-    | '/admin/settings'
-    | '/admin/tags'
-    | '/admin'
-    | '/admin/categories/duplicates'
-    | '/admin/posts/$id'
+    | '/admin-everything/activity'
+    | '/admin-everything/authors'
+    | '/admin-everything/automations'
+    | '/admin-everything/categories'
+    | '/admin-everything/import'
+    | '/admin-everything/media'
+    | '/admin-everything/media-backfill'
+    | '/admin-everything/menus'
+    | '/admin-everything/redirects'
+    | '/admin-everything/seo'
+    | '/admin-everything/settings'
+    | '/admin-everything/tags'
+    | '/admin-everything'
+    | '/admin-everything/categories/duplicates'
+    | '/admin-everything/posts/$id'
     | '/api/public/hooks/generate-missing-featured-images'
     | '/api/public/hooks/publish-scheduled'
     | '/api/public/ingest/categories'
@@ -567,7 +579,7 @@ export interface FileRouteTypes {
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
-    | '/admin/posts'
+    | '/admin-everything/posts'
   id:
     | '__root__'
     | '/'
@@ -586,28 +598,28 @@ export interface FileRouteTypes {
     | '/setup-cowork'
     | '/sitemap_index.xml'
     | '/sitemap_news.xml'
-    | '/admin/_protected'
-    | '/admin/login'
+    | '/admin-everything/_protected'
+    | '/admin-everything/login'
     | '/api/contact'
     | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
     | '/tag/$slug'
-    | '/admin/_protected/activity'
-    | '/admin/_protected/authors'
-    | '/admin/_protected/automations'
-    | '/admin/_protected/categories'
-    | '/admin/_protected/import'
-    | '/admin/_protected/media'
-    | '/admin/_protected/media-backfill'
-    | '/admin/_protected/menus'
-    | '/admin/_protected/redirects'
-    | '/admin/_protected/seo'
-    | '/admin/_protected/settings'
-    | '/admin/_protected/tags'
-    | '/admin/_protected/'
-    | '/admin/_protected/categories/duplicates'
-    | '/admin/_protected/posts/$id'
+    | '/admin-everything/_protected/activity'
+    | '/admin-everything/_protected/authors'
+    | '/admin-everything/_protected/automations'
+    | '/admin-everything/_protected/categories'
+    | '/admin-everything/_protected/import'
+    | '/admin-everything/_protected/media'
+    | '/admin-everything/_protected/media-backfill'
+    | '/admin-everything/_protected/menus'
+    | '/admin-everything/_protected/redirects'
+    | '/admin-everything/_protected/seo'
+    | '/admin-everything/_protected/settings'
+    | '/admin-everything/_protected/tags'
+    | '/admin-everything/_protected/'
+    | '/admin-everything/_protected/categories/duplicates'
+    | '/admin-everything/_protected/posts/$id'
     | '/api/public/hooks/generate-missing-featured-images'
     | '/api/public/hooks/publish-scheduled'
     | '/api/public/ingest/categories'
@@ -618,7 +630,7 @@ export interface FileRouteTypes {
     | '/author/$slug/page/$page'
     | '/category/$slug/page/$page'
     | '/tag/$slug/page/$page'
-    | '/admin/_protected/posts/'
+    | '/admin-everything/_protected/posts/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -638,8 +650,8 @@ export interface RootRouteChildren {
   SetupCoworkRoute: typeof SetupCoworkRoute
   Sitemap_indexDotxmlRoute: typeof Sitemap_indexDotxmlRoute
   Sitemap_newsDotxmlRoute: typeof Sitemap_newsDotxmlRoute
-  AdminProtectedRoute: typeof AdminProtectedRouteWithChildren
-  AdminLoginRoute: typeof AdminLoginRoute
+  AdminEverythingProtectedRoute: typeof AdminEverythingProtectedRouteWithChildren
+  AdminEverythingLoginRoute: typeof AdminEverythingLoginRoute
   ApiContactRoute: typeof ApiContactRoute
   ApiNewsletterRoute: typeof ApiNewsletterRoute
   AuthorSlugRoute: typeof AuthorSlugRouteWithChildren
@@ -803,117 +815,117 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/admin/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
+    '/admin-everything/login': {
+      id: '/admin-everything/login'
+      path: '/admin-everything/login'
+      fullPath: '/admin-everything/login'
+      preLoaderRoute: typeof AdminEverythingLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/_protected': {
-      id: '/admin/_protected'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminProtectedRouteImport
+    '/admin-everything/_protected': {
+      id: '/admin-everything/_protected'
+      path: '/admin-everything'
+      fullPath: '/admin-everything'
+      preLoaderRoute: typeof AdminEverythingProtectedRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/_protected/': {
-      id: '/admin/_protected/'
+    '/admin-everything/_protected/': {
+      id: '/admin-everything/_protected/'
       path: '/'
-      fullPath: '/admin/'
-      preLoaderRoute: typeof AdminProtectedIndexRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/'
+      preLoaderRoute: typeof AdminEverythingProtectedIndexRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/tags': {
-      id: '/admin/_protected/tags'
+    '/admin-everything/_protected/tags': {
+      id: '/admin-everything/_protected/tags'
       path: '/tags'
-      fullPath: '/admin/tags'
-      preLoaderRoute: typeof AdminProtectedTagsRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/tags'
+      preLoaderRoute: typeof AdminEverythingProtectedTagsRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/settings': {
-      id: '/admin/_protected/settings'
+    '/admin-everything/_protected/settings': {
+      id: '/admin-everything/_protected/settings'
       path: '/settings'
-      fullPath: '/admin/settings'
-      preLoaderRoute: typeof AdminProtectedSettingsRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/settings'
+      preLoaderRoute: typeof AdminEverythingProtectedSettingsRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/seo': {
-      id: '/admin/_protected/seo'
+    '/admin-everything/_protected/seo': {
+      id: '/admin-everything/_protected/seo'
       path: '/seo'
-      fullPath: '/admin/seo'
-      preLoaderRoute: typeof AdminProtectedSeoRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/seo'
+      preLoaderRoute: typeof AdminEverythingProtectedSeoRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/redirects': {
-      id: '/admin/_protected/redirects'
+    '/admin-everything/_protected/redirects': {
+      id: '/admin-everything/_protected/redirects'
       path: '/redirects'
-      fullPath: '/admin/redirects'
-      preLoaderRoute: typeof AdminProtectedRedirectsRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/redirects'
+      preLoaderRoute: typeof AdminEverythingProtectedRedirectsRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/menus': {
-      id: '/admin/_protected/menus'
+    '/admin-everything/_protected/menus': {
+      id: '/admin-everything/_protected/menus'
       path: '/menus'
-      fullPath: '/admin/menus'
-      preLoaderRoute: typeof AdminProtectedMenusRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/menus'
+      preLoaderRoute: typeof AdminEverythingProtectedMenusRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/media-backfill': {
-      id: '/admin/_protected/media-backfill'
+    '/admin-everything/_protected/media-backfill': {
+      id: '/admin-everything/_protected/media-backfill'
       path: '/media-backfill'
-      fullPath: '/admin/media-backfill'
-      preLoaderRoute: typeof AdminProtectedMediaBackfillRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/media-backfill'
+      preLoaderRoute: typeof AdminEverythingProtectedMediaBackfillRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/media': {
-      id: '/admin/_protected/media'
+    '/admin-everything/_protected/media': {
+      id: '/admin-everything/_protected/media'
       path: '/media'
-      fullPath: '/admin/media'
-      preLoaderRoute: typeof AdminProtectedMediaRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/media'
+      preLoaderRoute: typeof AdminEverythingProtectedMediaRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/import': {
-      id: '/admin/_protected/import'
+    '/admin-everything/_protected/import': {
+      id: '/admin-everything/_protected/import'
       path: '/import'
-      fullPath: '/admin/import'
-      preLoaderRoute: typeof AdminProtectedImportRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/import'
+      preLoaderRoute: typeof AdminEverythingProtectedImportRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/categories': {
-      id: '/admin/_protected/categories'
+    '/admin-everything/_protected/categories': {
+      id: '/admin-everything/_protected/categories'
       path: '/categories'
-      fullPath: '/admin/categories'
-      preLoaderRoute: typeof AdminProtectedCategoriesRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/categories'
+      preLoaderRoute: typeof AdminEverythingProtectedCategoriesRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/automations': {
-      id: '/admin/_protected/automations'
+    '/admin-everything/_protected/automations': {
+      id: '/admin-everything/_protected/automations'
       path: '/automations'
-      fullPath: '/admin/automations'
-      preLoaderRoute: typeof AdminProtectedAutomationsRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/automations'
+      preLoaderRoute: typeof AdminEverythingProtectedAutomationsRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/authors': {
-      id: '/admin/_protected/authors'
+    '/admin-everything/_protected/authors': {
+      id: '/admin-everything/_protected/authors'
       path: '/authors'
-      fullPath: '/admin/authors'
-      preLoaderRoute: typeof AdminProtectedAuthorsRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/authors'
+      preLoaderRoute: typeof AdminEverythingProtectedAuthorsRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/activity': {
-      id: '/admin/_protected/activity'
+    '/admin-everything/_protected/activity': {
+      id: '/admin-everything/_protected/activity'
       path: '/activity'
-      fullPath: '/admin/activity'
-      preLoaderRoute: typeof AdminProtectedActivityRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/activity'
+      preLoaderRoute: typeof AdminEverythingProtectedActivityRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/posts/': {
-      id: '/admin/_protected/posts/'
+    '/admin-everything/_protected/posts/': {
+      id: '/admin-everything/_protected/posts/'
       path: '/posts'
-      fullPath: '/admin/posts/'
-      preLoaderRoute: typeof AdminProtectedPostsIndexRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/posts/'
+      preLoaderRoute: typeof AdminEverythingProtectedPostsIndexRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
     '/tag/$slug/page/$page': {
       id: '/tag/$slug/page/$page'
@@ -985,77 +997,86 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicHooksGenerateMissingFeaturedImagesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/_protected/posts/$id': {
-      id: '/admin/_protected/posts/$id'
+    '/admin-everything/_protected/posts/$id': {
+      id: '/admin-everything/_protected/posts/$id'
       path: '/posts/$id'
-      fullPath: '/admin/posts/$id'
-      preLoaderRoute: typeof AdminProtectedPostsIdRouteImport
-      parentRoute: typeof AdminProtectedRoute
+      fullPath: '/admin-everything/posts/$id'
+      preLoaderRoute: typeof AdminEverythingProtectedPostsIdRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
     }
-    '/admin/_protected/categories/duplicates': {
-      id: '/admin/_protected/categories/duplicates'
+    '/admin-everything/_protected/categories/duplicates': {
+      id: '/admin-everything/_protected/categories/duplicates'
       path: '/duplicates'
-      fullPath: '/admin/categories/duplicates'
-      preLoaderRoute: typeof AdminProtectedCategoriesDuplicatesRouteImport
-      parentRoute: typeof AdminProtectedCategoriesRoute
+      fullPath: '/admin-everything/categories/duplicates'
+      preLoaderRoute: typeof AdminEverythingProtectedCategoriesDuplicatesRouteImport
+      parentRoute: typeof AdminEverythingProtectedCategoriesRoute
     }
   }
 }
 
-interface AdminProtectedCategoriesRouteChildren {
-  AdminProtectedCategoriesDuplicatesRoute: typeof AdminProtectedCategoriesDuplicatesRoute
+interface AdminEverythingProtectedCategoriesRouteChildren {
+  AdminEverythingProtectedCategoriesDuplicatesRoute: typeof AdminEverythingProtectedCategoriesDuplicatesRoute
 }
 
-const AdminProtectedCategoriesRouteChildren: AdminProtectedCategoriesRouteChildren =
+const AdminEverythingProtectedCategoriesRouteChildren: AdminEverythingProtectedCategoriesRouteChildren =
   {
-    AdminProtectedCategoriesDuplicatesRoute:
-      AdminProtectedCategoriesDuplicatesRoute,
+    AdminEverythingProtectedCategoriesDuplicatesRoute:
+      AdminEverythingProtectedCategoriesDuplicatesRoute,
   }
 
-const AdminProtectedCategoriesRouteWithChildren =
-  AdminProtectedCategoriesRoute._addFileChildren(
-    AdminProtectedCategoriesRouteChildren,
+const AdminEverythingProtectedCategoriesRouteWithChildren =
+  AdminEverythingProtectedCategoriesRoute._addFileChildren(
+    AdminEverythingProtectedCategoriesRouteChildren,
   )
 
-interface AdminProtectedRouteChildren {
-  AdminProtectedActivityRoute: typeof AdminProtectedActivityRoute
-  AdminProtectedAuthorsRoute: typeof AdminProtectedAuthorsRoute
-  AdminProtectedAutomationsRoute: typeof AdminProtectedAutomationsRoute
-  AdminProtectedCategoriesRoute: typeof AdminProtectedCategoriesRouteWithChildren
-  AdminProtectedImportRoute: typeof AdminProtectedImportRoute
-  AdminProtectedMediaRoute: typeof AdminProtectedMediaRoute
-  AdminProtectedMediaBackfillRoute: typeof AdminProtectedMediaBackfillRoute
-  AdminProtectedMenusRoute: typeof AdminProtectedMenusRoute
-  AdminProtectedRedirectsRoute: typeof AdminProtectedRedirectsRoute
-  AdminProtectedSeoRoute: typeof AdminProtectedSeoRoute
-  AdminProtectedSettingsRoute: typeof AdminProtectedSettingsRoute
-  AdminProtectedTagsRoute: typeof AdminProtectedTagsRoute
-  AdminProtectedIndexRoute: typeof AdminProtectedIndexRoute
-  AdminProtectedPostsIdRoute: typeof AdminProtectedPostsIdRoute
-  AdminProtectedPostsIndexRoute: typeof AdminProtectedPostsIndexRoute
+interface AdminEverythingProtectedRouteChildren {
+  AdminEverythingProtectedActivityRoute: typeof AdminEverythingProtectedActivityRoute
+  AdminEverythingProtectedAuthorsRoute: typeof AdminEverythingProtectedAuthorsRoute
+  AdminEverythingProtectedAutomationsRoute: typeof AdminEverythingProtectedAutomationsRoute
+  AdminEverythingProtectedCategoriesRoute: typeof AdminEverythingProtectedCategoriesRouteWithChildren
+  AdminEverythingProtectedImportRoute: typeof AdminEverythingProtectedImportRoute
+  AdminEverythingProtectedMediaRoute: typeof AdminEverythingProtectedMediaRoute
+  AdminEverythingProtectedMediaBackfillRoute: typeof AdminEverythingProtectedMediaBackfillRoute
+  AdminEverythingProtectedMenusRoute: typeof AdminEverythingProtectedMenusRoute
+  AdminEverythingProtectedRedirectsRoute: typeof AdminEverythingProtectedRedirectsRoute
+  AdminEverythingProtectedSeoRoute: typeof AdminEverythingProtectedSeoRoute
+  AdminEverythingProtectedSettingsRoute: typeof AdminEverythingProtectedSettingsRoute
+  AdminEverythingProtectedTagsRoute: typeof AdminEverythingProtectedTagsRoute
+  AdminEverythingProtectedIndexRoute: typeof AdminEverythingProtectedIndexRoute
+  AdminEverythingProtectedPostsIdRoute: typeof AdminEverythingProtectedPostsIdRoute
+  AdminEverythingProtectedPostsIndexRoute: typeof AdminEverythingProtectedPostsIndexRoute
 }
 
-const AdminProtectedRouteChildren: AdminProtectedRouteChildren = {
-  AdminProtectedActivityRoute: AdminProtectedActivityRoute,
-  AdminProtectedAuthorsRoute: AdminProtectedAuthorsRoute,
-  AdminProtectedAutomationsRoute: AdminProtectedAutomationsRoute,
-  AdminProtectedCategoriesRoute: AdminProtectedCategoriesRouteWithChildren,
-  AdminProtectedImportRoute: AdminProtectedImportRoute,
-  AdminProtectedMediaRoute: AdminProtectedMediaRoute,
-  AdminProtectedMediaBackfillRoute: AdminProtectedMediaBackfillRoute,
-  AdminProtectedMenusRoute: AdminProtectedMenusRoute,
-  AdminProtectedRedirectsRoute: AdminProtectedRedirectsRoute,
-  AdminProtectedSeoRoute: AdminProtectedSeoRoute,
-  AdminProtectedSettingsRoute: AdminProtectedSettingsRoute,
-  AdminProtectedTagsRoute: AdminProtectedTagsRoute,
-  AdminProtectedIndexRoute: AdminProtectedIndexRoute,
-  AdminProtectedPostsIdRoute: AdminProtectedPostsIdRoute,
-  AdminProtectedPostsIndexRoute: AdminProtectedPostsIndexRoute,
-}
+const AdminEverythingProtectedRouteChildren: AdminEverythingProtectedRouteChildren =
+  {
+    AdminEverythingProtectedActivityRoute:
+      AdminEverythingProtectedActivityRoute,
+    AdminEverythingProtectedAuthorsRoute: AdminEverythingProtectedAuthorsRoute,
+    AdminEverythingProtectedAutomationsRoute:
+      AdminEverythingProtectedAutomationsRoute,
+    AdminEverythingProtectedCategoriesRoute:
+      AdminEverythingProtectedCategoriesRouteWithChildren,
+    AdminEverythingProtectedImportRoute: AdminEverythingProtectedImportRoute,
+    AdminEverythingProtectedMediaRoute: AdminEverythingProtectedMediaRoute,
+    AdminEverythingProtectedMediaBackfillRoute:
+      AdminEverythingProtectedMediaBackfillRoute,
+    AdminEverythingProtectedMenusRoute: AdminEverythingProtectedMenusRoute,
+    AdminEverythingProtectedRedirectsRoute:
+      AdminEverythingProtectedRedirectsRoute,
+    AdminEverythingProtectedSeoRoute: AdminEverythingProtectedSeoRoute,
+    AdminEverythingProtectedSettingsRoute:
+      AdminEverythingProtectedSettingsRoute,
+    AdminEverythingProtectedTagsRoute: AdminEverythingProtectedTagsRoute,
+    AdminEverythingProtectedIndexRoute: AdminEverythingProtectedIndexRoute,
+    AdminEverythingProtectedPostsIdRoute: AdminEverythingProtectedPostsIdRoute,
+    AdminEverythingProtectedPostsIndexRoute:
+      AdminEverythingProtectedPostsIndexRoute,
+  }
 
-const AdminProtectedRouteWithChildren = AdminProtectedRoute._addFileChildren(
-  AdminProtectedRouteChildren,
-)
+const AdminEverythingProtectedRouteWithChildren =
+  AdminEverythingProtectedRoute._addFileChildren(
+    AdminEverythingProtectedRouteChildren,
+  )
 
 interface AuthorSlugRouteChildren {
   AuthorSlugPagePageRoute: typeof AuthorSlugPagePageRoute
@@ -1109,8 +1130,8 @@ const rootRouteChildren: RootRouteChildren = {
   SetupCoworkRoute: SetupCoworkRoute,
   Sitemap_indexDotxmlRoute: Sitemap_indexDotxmlRoute,
   Sitemap_newsDotxmlRoute: Sitemap_newsDotxmlRoute,
-  AdminProtectedRoute: AdminProtectedRouteWithChildren,
-  AdminLoginRoute: AdminLoginRoute,
+  AdminEverythingProtectedRoute: AdminEverythingProtectedRouteWithChildren,
+  AdminEverythingLoginRoute: AdminEverythingLoginRoute,
   ApiContactRoute: ApiContactRoute,
   ApiNewsletterRoute: ApiNewsletterRoute,
   AuthorSlugRoute: AuthorSlugRouteWithChildren,
@@ -1128,3 +1149,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
