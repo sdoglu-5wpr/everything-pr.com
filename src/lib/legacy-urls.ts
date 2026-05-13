@@ -33,16 +33,19 @@ export function rewriteLegacyUrl(url: string | null | undefined): string {
   if (!url) return "";
   for (const host of LEGACY_HOSTS) {
     if (url.startsWith(`${host}/wp-content/`)) {
-      return url.slice(host.length);
+      return rewriteSupabaseStorageUrl(url.slice(host.length));
     }
   }
-  return url;
+  return rewriteSupabaseStorageUrl(url);
 }
 
 /** Rewrite all legacy /wp-content/ URLs inside an HTML blob (src, href, srcset). */
 export function rewriteWpContentUrls(html: string | null | undefined): string {
   if (!html) return "";
-  return html.replace(LEGACY_ATTR_PATTERN, "$1=$2$3$2").replace(HOST_PATTERN, "$2");
+  return html
+    .replace(LEGACY_ATTR_PATTERN, "$1=$2$3$2")
+    .replace(HOST_PATTERN, "$2")
+    .replace(SUPABASE_PROJECT_STORAGE_PATTERN, `${CUSTOM_STORAGE_HOST}$1`);
 }
 
 /**
