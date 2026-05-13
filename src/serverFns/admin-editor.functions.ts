@@ -373,10 +373,25 @@ export const deleteAdminPost = createServerFn({ method: "POST" })
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
     await ensureStaff(supabase, userId);
+    // Capture slug + categories BEFORE deletion so we can purge them.
+    const { data: post } = await supabase
+      .from("posts").select("slug").eq("id", data.id).maybeSingle();
+    const { data: cats } = await supabase
+      .from("post_categories").select("categories(slug)").eq("post_id", data.id);
+
     await supabase.from("post_categories").delete().eq("post_id", data.id);
     await supabase.from("post_tags").delete().eq("post_id", data.id);
     await supabase.from("seo_meta").delete().eq("object_type", "post").eq("object_id", data.id);
     const { error } = await supabase.from("posts").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
+
+    const paths: string[] = ["/", "/feed", "/sitemap_index.xml"];
+    if (post?.slug) paths.push(`/${post.slug}`);
+    for (const row of cats ?? []) {
+      const slug = (row as any)?.categories?.slug;
+      if (slug) paths.push(`/category/${slug}`);
+    }
+    await purgePaths(paths);
+
     return { ok: true };
   });
