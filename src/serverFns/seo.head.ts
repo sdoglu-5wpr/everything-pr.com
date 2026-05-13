@@ -1,4 +1,5 @@
 import { SITE_URL, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE, ORG_JSONLD } from "./seo.constants";
+import { rewriteLegacyUrl } from "@/lib/legacy-urls";
 
 type Meta = Array<Record<string, string>>;
 type Link = Array<Record<string, string>>;
