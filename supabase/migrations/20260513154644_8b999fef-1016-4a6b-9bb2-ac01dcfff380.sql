@@ -1,0 +1,1 @@
+UPDATE public.authors SET avatar_url = '/authors/everything-pr-staff.png', updated_at = now() WHERE slug = 'everything-pr-staff';
