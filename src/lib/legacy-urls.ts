@@ -18,12 +18,11 @@ const LEGACY_ATTR_PATTERN = /(src|href)=(['"])https:\/\/everything-pr\.com(\/wp-
 
 // Rewrite raw Supabase project storage host -> custom domain so the
 // `*.supabase.co` URL never appears in HTML, OG/Twitter tags, JSON-LD, or RSS.
-// NOTE: api.everything-pr.com is not yet configured as a Supabase custom
-// domain (returns TenantNotFound). Until that's wired up in the Supabase
-// dashboard, leave storage URLs on the project host so images load.
+// Rewrite raw Supabase project storage host -> custom domain so the
+// `*.supabase.co` URL never appears in HTML, OG/Twitter tags, JSON-LD, or RSS.
 const SUPABASE_PROJECT_STORAGE_PATTERN =
   /https?:\/\/unycfscvsckgxboherpk\.supabase\.co(\/storage\/)/gi;
-const CUSTOM_STORAGE_HOST = "https://unycfscvsckgxboherpk.supabase.co";
+const CUSTOM_STORAGE_HOST = "https://api.everything-pr.com";
 
 /** Rewrite a Supabase project storage URL to the custom domain equivalent. */
 export function rewriteSupabaseStorageUrl(url: string | null | undefined): string {
