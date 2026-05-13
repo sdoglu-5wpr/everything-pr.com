@@ -198,14 +198,20 @@ export function buildArchiveHead(opts: {
   const canonicalHref = seoOverrides?.canonical_url || url;
   const links: Link = emitCanonical ? [{ rel: "canonical", href: canonicalHref }] : [];
 
+  const itemListId = `${url}#itemlist`;
+  const itemListElements = items.map((it, i) => ({
+    "@type": "ListItem",
+    position: (page - 1) * 10 + i + 1,
+    url: `${SITE_URL}/${it.slug}`,
+    name: it.title,
+  }));
   const itemList = {
     "@type": "ItemList",
-    itemListElement: items.map((it, i) => ({
-      "@type": "ListItem",
-      position: (page - 1) * 10 + i + 1,
-      url: `${SITE_URL}/${it.slug}`,
-      name: it.title,
-    })),
+    "@id": itemListId,
+    name: `Latest ${termTitle} coverage`,
+    numberOfItems: itemListElements.length,
+    itemListOrder: "https://schema.org/ItemListOrderDescending",
+    itemListElement: itemListElements,
   };
 
   const breadcrumbId = `${url}#breadcrumb`;
@@ -266,10 +272,115 @@ export function buildArchiveHead(opts: {
     description,
     isPartOf: { "@id": `${SITE_URL}/#website` },
     about: { "@id": `${SITE_URL}/#organization` },
+    publisher: { "@id": `${SITE_URL}/#organization` },
     breadcrumb: { "@id": breadcrumbId },
-    mainEntity: itemList,
+    mainEntity: { "@id": itemListId },
     inLanguage: "en-US",
   };
 
-  return { meta, links, scripts: [jsonLd(ORG_JSONLD, websiteNode, collectionPage, breadcrumbNode)] };
+  return { meta, links, scripts: [jsonLd(ORG_JSONLD, websiteNode, collectionPage, itemList, breadcrumbNode)] };
+}
+
+/**
+ * Pillar (industry hub) head with full @graph: CollectionPage + ItemList +
+ * BreadcrumbList + Org + WebSite, plus optional FAQPage and DefinedTerm.
+ */
+export function buildPillarHead(opts: {
+  slug: string;
+  title: string;
+  subtitle?: string | null;
+  heroImage?: string | null;
+  page: number;
+  totalItems: number;
+  items: Array<{ title: string; slug: string }>;
+  faq?: Array<{ q: string; a: string }>;
+  definedTerm?: { name: string; description: string } | null;
+  extraSchema?: unknown;
+}): HeadOutput {
+  const { slug, title: pillarTitle, subtitle, heroImage, page, totalItems, items, faq, definedTerm, extraSchema } = opts;
+  const baseUrl = `${SITE_URL}/${slug}/`;
+  const url = baseUrl;
+  const baseTitle = `${pillarTitle} · ${SITE_NAME}`;
+  const title = page > 1 ? `${baseTitle} — Page ${page}` : baseTitle;
+  const description = truncate(subtitle || `${pillarTitle} — long-form guide and the latest coverage on ${SITE_NAME}.`);
+  const ogImage = rewriteLegacyUrl(heroImage || "") || DEFAULT_OG_IMAGE;
+  const meta = baseMeta(title, description, url, ogImage, "article");
+  if (page > 1) meta.push({ name: "robots", content: "noindex, follow, max-image-preview:large" });
+  const links: Link = [{ rel: "canonical", href: url }];
+
+  const itemListId = `${url}#itemlist`;
+  const itemListElements = items.map((it, i) => ({
+    "@type": "ListItem",
+    position: (page - 1) * 12 + i + 1,
+    url: `${SITE_URL}/${it.slug}`,
+    name: it.title,
+  }));
+  const itemList = {
+    "@type": "ItemList",
+    "@id": itemListId,
+    name: `Latest ${pillarTitle} coverage`,
+    numberOfItems: itemListElements.length,
+    itemListOrder: "https://schema.org/ItemListOrderDescending",
+    itemListElement: itemListElements,
+  };
+
+  const breadcrumbId = `${url}#breadcrumb`;
+  const breadcrumbNode = {
+    "@type": "BreadcrumbList",
+    "@id": breadcrumbId,
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${SITE_URL}/` },
+      { "@type": "ListItem", position: 2, name: pillarTitle, item: url },
+    ],
+  };
+
+  const mainEntityRefs: unknown[] = [{ "@id": itemListId }];
+  const extras: unknown[] = [];
+
+  if (faq && faq.length >= 2) {
+    const faqId = `${url}#faq`;
+    extras.push({
+      "@type": "FAQPage",
+      "@id": faqId,
+      mainEntity: faq.map((f) => ({
+        "@type": "Question",
+        name: f.q,
+        acceptedAnswer: { "@type": "Answer", text: (f.a || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim() },
+      })),
+    });
+    mainEntityRefs.push({ "@id": faqId });
+  }
+
+  if (definedTerm) {
+    const dtId = `${url}#definedterm`;
+    extras.push({
+      "@type": "DefinedTerm",
+      "@id": dtId,
+      name: definedTerm.name,
+      description: definedTerm.description,
+      inDefinedTermSet: { "@id": `${SITE_URL}/#website` },
+    });
+    mainEntityRefs.push({ "@id": dtId });
+  }
+
+  const collectionPage = {
+    "@type": "CollectionPage",
+    "@id": `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+    about: { "@id": `${SITE_URL}/#organization` },
+    publisher: { "@id": `${SITE_URL}/#organization` },
+    breadcrumb: { "@id": breadcrumbId },
+    mainEntity: mainEntityRefs.length === 1 ? mainEntityRefs[0] : mainEntityRefs,
+    inLanguage: "en-US",
+  };
+
+  const graph = [ORG_JSONLD, websiteNode, collectionPage, itemList, breadcrumbNode, ...extras];
+  const scripts: ScriptTag[] = [jsonLd(...graph)];
+  if (extraSchema) {
+    scripts.push({ type: "application/ld+json", children: JSON.stringify(extraSchema) });
+  }
+  return { meta, links, scripts };
 }
