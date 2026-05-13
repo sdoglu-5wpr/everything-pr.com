@@ -1,0 +1,10 @@
+UPDATE public.posts SET content_html = replace(content_html, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE content_html LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.posts SET first_inline_image = replace(first_inline_image, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE first_inline_image LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.media SET url = replace(url, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE url LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.media_variants SET url = replace(url, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE url LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.seo_meta SET og_image = replace(og_image, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE og_image LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.seo_meta SET twitter_image = replace(twitter_image, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE twitter_image LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.authors SET avatar_url = replace(avatar_url, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE avatar_url LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.categories SET og_image = replace(og_image, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE og_image LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.tags SET og_image = replace(og_image, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE og_image LIKE '%api.everything-pr.com/storage/%';
+UPDATE public.pillars SET hero_image_url = replace(hero_image_url, 'https://api.everything-pr.com/storage/', 'https://unycfscvsckgxboherpk.supabase.co/storage/') WHERE hero_image_url LIKE '%api.everything-pr.com/storage/%';
