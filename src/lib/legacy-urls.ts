@@ -16,21 +16,36 @@ const LEGACY_HOSTS = [
 const HOST_PATTERN = /(https?:\/\/(?:www\.)?everything-pr\.com)(\/wp-content\/)/gi;
 const LEGACY_ATTR_PATTERN = /(src|href)=(['"])https:\/\/everything-pr\.com(\/wp-content\/[^'"]+)\2/gi;
 
+// Rewrite raw Supabase project storage host -> custom domain so the
+// `*.supabase.co` URL never appears in HTML, OG/Twitter tags, JSON-LD, or RSS.
+const SUPABASE_PROJECT_STORAGE_PATTERN =
+  /https?:\/\/unycfscvsckgxboherpk\.supabase\.co(\/storage\/)/gi;
+const CUSTOM_STORAGE_HOST = "https://api.everything-pr.com";
+
+/** Rewrite a Supabase project storage URL to the custom domain equivalent. */
+export function rewriteSupabaseStorageUrl(url: string | null | undefined): string {
+  if (!url) return "";
+  return url.replace(SUPABASE_PROJECT_STORAGE_PATTERN, `${CUSTOM_STORAGE_HOST}$1`);
+}
+
 /** Rewrite a single URL string. Leaves non-matching URLs untouched. */
 export function rewriteLegacyUrl(url: string | null | undefined): string {
   if (!url) return "";
   for (const host of LEGACY_HOSTS) {
     if (url.startsWith(`${host}/wp-content/`)) {
-      return url.slice(host.length);
+      return rewriteSupabaseStorageUrl(url.slice(host.length));
     }
   }
-  return url;
+  return rewriteSupabaseStorageUrl(url);
 }
 
 /** Rewrite all legacy /wp-content/ URLs inside an HTML blob (src, href, srcset). */
 export function rewriteWpContentUrls(html: string | null | undefined): string {
   if (!html) return "";
-  return html.replace(LEGACY_ATTR_PATTERN, "$1=$2$3$2").replace(HOST_PATTERN, "$2");
+  return html
+    .replace(LEGACY_ATTR_PATTERN, "$1=$2$3$2")
+    .replace(HOST_PATTERN, "$2")
+    .replace(SUPABASE_PROJECT_STORAGE_PATTERN, `${CUSTOM_STORAGE_HOST}$1`);
 }
 
 /**

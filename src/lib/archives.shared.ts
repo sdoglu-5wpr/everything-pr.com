@@ -42,7 +42,7 @@ function buildHeader(input: ArchiveInput, term: any, total: number): ArchiveHead
         description: term?.seo_description ?? null,
         canonical_url: term?.canonical_url ?? null,
         robots: term?.robots ?? null,
-        og_image: term?.og_image ?? null,
+        og_image: rewriteLegacyUrl(term?.og_image ?? "") || null,
       },
     };
   }

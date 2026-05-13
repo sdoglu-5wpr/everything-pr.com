@@ -1,4 +1,5 @@
 import { SITE_URL, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE, ORG_JSONLD } from "./seo.constants";
+import { rewriteLegacyUrl } from "@/lib/legacy-urls";
 
 type Meta = Array<Record<string, string>>;
 type Link = Array<Record<string, string>>;
@@ -187,8 +188,8 @@ export function buildArchiveHead(opts: {
   const baseUrl = `${SITE_URL}${pathPrefix}`;
   const url = baseUrl;
   const ogType = kind === "author" ? "article" : "website";
-  const ogImage = seoOverrides?.og_image
-    || (kind === "author" && author?.avatar_url ? author.avatar_url : DEFAULT_OG_IMAGE);
+  const ogImage = rewriteLegacyUrl(seoOverrides?.og_image
+    || (kind === "author" && author?.avatar_url ? author.avatar_url : DEFAULT_OG_IMAGE)) || DEFAULT_OG_IMAGE;
   const meta = baseMeta(title, description, url, ogImage, ogType);
   // Robots:
   //  - Page 2+ of any archive: noindex, follow (Google's recommended pagination signal)
@@ -235,7 +236,7 @@ export function buildArchiveHead(opts: {
       url: `${SITE_URL}${pathPrefix}`,
       description: author.bio ? author.bio.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 500) : undefined,
       image: author.avatar_url
-        ? { "@type": "ImageObject", url: author.avatar_url, contentUrl: author.avatar_url, caption: author.display_name }
+        ? { "@type": "ImageObject", url: rewriteLegacyUrl(author.avatar_url), contentUrl: rewriteLegacyUrl(author.avatar_url), caption: author.display_name }
         : undefined,
       jobTitle: "Contributor at Everything-PR",
       worksFor: { "@id": `${SITE_URL}/#organization` },

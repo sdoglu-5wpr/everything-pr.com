@@ -79,7 +79,7 @@ export async function fetchPillarViaRpc(
       body_html: p.body_html ?? "",
       schema_jsonld: p.schema_jsonld ?? null,
       faq: Array.isArray(p.faq) ? p.faq : [],
-      hero_image_url: p.hero_image_url ?? null,
+      hero_image_url: rewriteLegacyUrl(p.hero_image_url ?? "") || null,
     },
     total: Number(data.total ?? 0),
     page: Number(data.page ?? 1),
