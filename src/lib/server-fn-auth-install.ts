@@ -33,7 +33,7 @@ if (typeof window !== "undefined" && !installed) {
         catch { return url; }
       })();
 
-      if (pathname.startsWith("/_serverFn") || pathname.startsWith("/_server")) {
+      if (pathname.startsWith("/_serverFn") || pathname.startsWith("/_serverfn") || pathname.startsWith("/_server")) {
         const { data } = await supabase.auth.getSession();
         const token = data.session?.access_token;
         if (token) {

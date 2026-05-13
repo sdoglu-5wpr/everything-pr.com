@@ -38,7 +38,17 @@
   status = 200
   force = true
 [[redirects]]
+  from = "/admin-everything/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+[[redirects]]
   from = "/_serverFn/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+[[redirects]]
+  from = "/_serverfn/*"
   to = "/.netlify/functions/server"
   status = 200
   force = true

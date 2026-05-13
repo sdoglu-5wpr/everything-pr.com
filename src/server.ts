@@ -36,6 +36,18 @@ const WP_BLOCK = [
 
 const APEX_HOST = "everything-pr.com";
 
+function normalizeServerFunctionRequest(request: Request): Request {
+  const url = new URL(request.url);
+  if (!url.pathname.startsWith("/_serverfn/")) return request;
+
+  url.pathname = url.pathname.replace(/^\/_serverfn\//, "/_serverFn/");
+  return new Request(url.toString(), request);
+}
+
+function isServerFunctionPath(path: string): boolean {
+  return path.startsWith("/_serverFn") || path.startsWith("/_serverfn") || path.startsWith("/_server");
+}
+
 function permanentRedirect(location: string): Response {
   return new Response(null, {
     status: 301,
@@ -49,7 +61,7 @@ function permanentRedirect(location: string): Response {
 function shouldEnforceTrailingSlash(path: string): boolean {
   if (path === "/") return false;
   if (path.startsWith("/api/")) return false;
-  if (path.startsWith("/_serverFn") || path.startsWith("/_server")) return false;
+  if (isServerFunctionPath(path)) return false;
   if (path.startsWith("/admin-everything")) return false;
   if (path.startsWith("/wp-content/uploads/")) return false;
   // Anything that looks like a file (has a dot in the last segment): skip
@@ -60,6 +72,8 @@ function shouldEnforceTrailingSlash(path: string): boolean {
 
 function canonicalize(request: Request): Response | null {
   const url = new URL(request.url);
+  if (isServerFunctionPath(url.pathname)) return null;
+
   let changed = false;
 
   // 1. Host: www. → apex (and protocol stays whatever upstream gave us; CF "Always HTTPS" handles http→https)
@@ -137,8 +151,7 @@ function isDynamicPath(path: string): boolean {
     path.startsWith("/admin-everything") ||
     path.startsWith("/search") ||
     path.startsWith("/api/") ||
-    path.startsWith("/_serverFn") ||
-    path.startsWith("/_server") ||
+    isServerFunctionPath(path) ||
     path === "/setup-cowork"
   );
 }
@@ -161,6 +174,7 @@ function withKillSwitch(res: Response, noindex: boolean): Response {
 
 export default {
   async fetch(request: Request, env: any, ctx: any): Promise<Response> {
+    request = normalizeServerFunctionRequest(request);
     const url = new URL(request.url);
     const path = url.pathname;
     const noindex = isIndexingDisabled(env ?? {});
