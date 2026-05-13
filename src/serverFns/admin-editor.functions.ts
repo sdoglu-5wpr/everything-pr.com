@@ -271,6 +271,9 @@ export const saveAdminPost = createServerFn({ method: "POST" })
       await supabase.from("seo_meta").insert({ id: nextSeoId, ...seoRow } as any);
     }
 
+    // Purge caches so changes are visible immediately on the live site.
+    await purgeForPost(supabase, postId);
+
     return { ok: true, id: postId, slug };
   });
 
