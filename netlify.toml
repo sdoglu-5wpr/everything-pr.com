@@ -5,11 +5,10 @@
 [build.environment]
   NODE_VERSION = "22.12.0"
 
-# Canonical URL form on this site is WITHOUT a trailing slash. Netlify's
-# default behavior serves prerendered "/cannabis.html" at "/cannabis" and
-# 307-strips "/cannabis/" -> "/cannabis", so the SSR middleware in
-# src/server.ts does NOT enforce a trailing slash either (would loop).
-# Sitemaps and rel=canonical URLs are emitted without a trailing slash.
+# Canonical URL form on this site is WITHOUT a trailing slash (except root
+# and /author/{slug}/). The canonicalize edge function 301-strips trailing
+# slashes BEFORE Netlify's native 307 strip kicks in, so Google consolidates
+# signals on the canonical form. Sitemaps and rel=canonical match.
 
 # Image proxy to legacy WordPress (Phase 1 per § 3.2)
 [[redirects]]
