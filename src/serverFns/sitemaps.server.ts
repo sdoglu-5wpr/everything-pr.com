@@ -136,7 +136,7 @@ export async function buildAuthorSitemap(): Promise<string> {
     .order("updated_at", { ascending: false, nullsFirst: false });
   const urls = (data ?? [])
     .filter((a: any) => isCleanSlug(a.slug))
-    .map((a: any) => urlEntry(`${SITE_URL}/author/${a.slug}`, a.updated_at));
+    .map((a: any) => urlEntry(`${SITE_URL}/author/${a.slug}/`, a.updated_at));
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
