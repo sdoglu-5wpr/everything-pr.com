@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Plus, Trash2, Pencil, X, Loader2 } from "lucide-react";
 import { listCategories, saveCategory, deleteCategory } from "@/serverFns/admin-taxonomy.functions";
+import { MediaPicker } from "@/components/admin/MediaPicker";
 
 export const Route = createFileRoute("/admin-everything/_protected/categories")({
   component: CategoriesPage,
@@ -21,6 +22,7 @@ function CategoriesPage() {
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState<Partial<Cat> | null>(null);
   const [saving, setSaving] = useState(false);
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [q, setQ] = useState("");
 
   const refresh = async () => {
@@ -174,9 +176,16 @@ function CategoriesPage() {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-xs font-medium mb-1">OG image URL <span className="text-muted-foreground">(social sharing)</span></label>
-                    <input value={editing.og_image ?? ""} onChange={(e) => setEditing({ ...editing, og_image: e.target.value })}
-                      placeholder="https://…/image.jpg" className="w-full rounded border px-3 py-1.5 text-sm" />
+                    <label className="block text-xs font-medium mb-1">OG image <span className="text-muted-foreground">(social sharing)</span></label>
+                    <div className="flex gap-2">
+                      <input value={editing.og_image ?? ""} onChange={(e) => setEditing({ ...editing, og_image: e.target.value })}
+                        placeholder="https://…/image.jpg or upload" className="flex-1 rounded border px-3 py-1.5 text-sm" />
+                      <button type="button" onClick={() => setPickerOpen(true)}
+                        className="rounded border px-3 py-1.5 text-sm hover:bg-muted whitespace-nowrap">Upload / Browse</button>
+                    </div>
+                    {editing.og_image && (
+                      <img src={editing.og_image} alt="" className="mt-2 h-24 rounded border object-cover" />
+                    )}
                   </div>
                 </div>
               </div>
@@ -191,6 +200,12 @@ function CategoriesPage() {
           </div>
         </div>
       )}
+
+      <MediaPicker
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        onPick={(m) => editing && setEditing({ ...editing, og_image: m.url })}
+      />
     </div>
   );
 }
