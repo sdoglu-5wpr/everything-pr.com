@@ -66,3 +66,25 @@ export const getAdminDashboard = createServerFn({ method: "GET" })
       scheduled: scheduled.data ?? [],
     };
   });
+
+// ---------- Manual cache purge ----------
+import { z } from "zod";
+import { purgePaths } from "@/serverFns/cache-purge.server";
+
+export const purgeSiteCache = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z.object({ paths: z.array(z.string().min(1).max(512)).max(200).optional() }).parse(input ?? {})
+  )
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    const { data: roles } = await supabase.from("user_roles").select("role").eq("user_id", userId);
+    if (!roles?.some((r: any) => (STAFF_ROLES as readonly string[]).includes(r.role))) {
+      throw new Error("forbidden");
+    }
+    const paths = data.paths && data.paths.length > 0
+      ? data.paths
+      : ["/", "/feed", "/sitemap_index.xml"];
+    await purgePaths(paths);
+    return { ok: true, purged: paths.length };
+  });
