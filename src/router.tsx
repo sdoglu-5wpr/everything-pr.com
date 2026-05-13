@@ -1,11 +1,10 @@
 import { createRouter, useRouter } from "@tanstack/react-router";
 import { routeTree } from "./routeTree.gen";
+import "@/lib/server-fn-auth-install";
 
 // Side-effect import: installs the /_serverFn/ Authorization header
 // interceptor at app boot, before any route effect can fire a server-fn call.
 if (typeof window !== "undefined") {
-  import("@/lib/server-fn-auth-install");
-
   // Recover from stale code-split chunks after a new deploy. When the user
   // navigates and the router tries to import a chunk that no longer exists
   // on the CDN, hard-reload so the new asset manifest is fetched.
