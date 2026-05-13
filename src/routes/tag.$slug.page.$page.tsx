@@ -3,6 +3,7 @@ import { getArchive } from "@/serverFns/archives.functions";
 import { fetchArchiveViaRpc } from "@/lib/archives.shared";
 import { supabase } from "@/integrations/supabase/client";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
+import { buildArchiveHead } from "@/serverFns/seo.head";
 
 export const Route = createFileRoute("/tag/$slug/page/$page")({
   loader: async ({ params }) => {
@@ -15,9 +16,19 @@ export const Route = createFileRoute("/tag/$slug/page/$page")({
     if (!data) throw notFound();
     return data;
   },
-  head: ({ loaderData }) => ({
-    meta: [{ title: loaderData ? `${loaderData.header.title} — Page ${loaderData.page} · Everything-PR` : "Tag" }],
-  }),
+  head: ({ loaderData, params }) => {
+    if (!loaderData) return { meta: [{ title: "Tag" }] };
+    return buildArchiveHead({
+      kind: "tag",
+      termTitle: loaderData.header.title,
+      termDescription: loaderData.header.subtitle,
+      page: loaderData.page ?? 1,
+      totalItems: loaderData.totalItems,
+      items: loaderData.items.map((i) => ({ title: i.title, slug: i.slug })),
+      pathPrefix: `/tag/${(params as { slug: string }).slug}`,
+      seoOverrides: loaderData.header.seo,
+    });
+  },
   component: Page,
 });
 

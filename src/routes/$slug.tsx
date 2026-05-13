@@ -18,6 +18,7 @@ import { PillarView } from "@/components/site/PillarView";
 import { htmlToPlainText } from "@/lib/text";
 import { rewriteLegacyHtml } from "@/lib/legacy-urls";
 import { buildArticleHead } from "@/serverFns/seo.article";
+import { buildArchiveHead, buildPillarHead } from "@/serverFns/seo.head";
 import { extractFaqPairs, stripFaqFromHtml, stripAbout5WFromHtml } from "@/lib/faq";
 import { FaqSection } from "@/components/site/FaqSection";
 import { Disclosure5W, shouldShow5WDisclosure } from "@/components/site/Disclosure5W";
@@ -90,39 +91,30 @@ export const Route = createFileRoute("/$slug")({
     if (loaderData.kind === "pillar") {
       const p = loaderData.data.pillar;
       const page = loaderData.data.page ?? 1;
-      const description = p.subtitle || `${p.title} — long-form guide and the latest coverage on Everything-PR.`;
-      const baseUrl = `https://everything-pr.com/${p.slug}/`;
-      const meta = [
-        { title: `${p.title} · Everything-PR` },
-        { name: "description", content: description },
-        { property: "og:title", content: p.title },
-        { property: "og:description", content: description },
-        { property: "og:type", content: "article" },
-        { property: "og:url", content: baseUrl },
-        { name: "twitter:card", content: "summary_large_image" },
-      ];
-      if (page > 1) {
-        meta.push({ name: "robots", content: "noindex, follow, max-image-preview:large" });
-      }
-      if (p.hero_image_url) {
-        meta.push({ property: "og:image", content: p.hero_image_url });
-        meta.push({ name: "twitter:image", content: p.hero_image_url });
-      }
-      const scripts = p.schema_jsonld
-        ? [{ type: "application/ld+json", children: JSON.stringify(p.schema_jsonld) }]
-        : [];
-      const links = [{ rel: "canonical", href: baseUrl }];
-      return { meta, links, scripts };
+      return buildPillarHead({
+        slug: p.slug,
+        title: p.title,
+        subtitle: p.subtitle,
+        heroImage: p.hero_image_url,
+        page,
+        totalItems: loaderData.data.total,
+        items: loaderData.data.items.map((i) => ({ title: i.title, slug: i.slug })),
+        faq: p.faq,
+        extraSchema: p.schema_jsonld ?? null,
+      });
     }
     if (loaderData.kind === "archive") {
       const { data, slug } = loaderData;
-      const page = data.page ?? 1;
-      const baseUrl = `https://everything-pr.com/${slug}/`;
-      const meta: any[] = [
-        { property: "og:url", content: baseUrl },
-      ];
-      if (page > 1) meta.push({ name: "robots", content: "noindex, follow, max-image-preview:large" });
-      return { meta, links: [{ rel: "canonical", href: baseUrl }] };
+      return buildArchiveHead({
+        kind: "category",
+        termTitle: data.header.title,
+        termDescription: data.header.subtitle,
+        page: data.page ?? 1,
+        totalItems: data.totalItems,
+        items: data.items.map((i) => ({ title: i.title, slug: i.slug })),
+        pathPrefix: `/${slug}/`,
+        seoOverrides: data.header.seo,
+      });
     }
     if (loaderData.kind !== "article") return { meta: [{ title: "Everything-PR" }] };
     const { article } = loaderData.data;
