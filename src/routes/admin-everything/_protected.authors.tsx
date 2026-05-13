@@ -1,8 +1,22 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { Plus, Trash2, Pencil, X, Loader2, ExternalLink } from "lucide-react";
+import { Plus, Trash2, Pencil, X, Loader2, ExternalLink, Upload } from "lucide-react";
 import { listAuthors, saveAuthor, deleteAuthor } from "@/serverFns/admin-taxonomy.functions";
+import { uploadMediaFromBase64 } from "@/serverFns/admin-editor.functions";
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => {
+      const s = String(r.result ?? "");
+      const i = s.indexOf("base64,");
+      resolve(i >= 0 ? s.slice(i + 7) : s);
+    };
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
 
 export const Route = createFileRoute("/admin-everything/_protected/authors")({
   component: AuthorsPage,
@@ -20,6 +34,22 @@ function AuthorsPage() {
   const [editing, setEditing] = useState<Partial<Author> | null>(null);
   const [saving, setSaving] = useState(false);
   const [q, setQ] = useState("");
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const avatarFileRef = useRef<HTMLInputElement>(null);
+
+  const uploadAvatar = async (file: File) => {
+    if (file.size > 10 * 1024 * 1024) { toast.error("Max 10MB"); return; }
+    setUploadingAvatar(true);
+    try {
+      const data_base64 = await fileToBase64(file);
+      const m = await uploadMediaFromBase64({
+        data: { filename: file.name, mime_type: file.type || "image/jpeg", data_base64 },
+      });
+      setEditing((prev) => prev ? { ...prev, avatar_url: (m as any).url } : prev);
+      toast.success("Uploaded");
+    } catch (e: any) { toast.error(e?.message ?? "Upload failed"); }
+    finally { setUploadingAvatar(false); }
+  };
 
   const refresh = async () => {
     setLoading(true);
@@ -138,9 +168,18 @@ function AuthorsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-medium mb-1">Avatar URL</label>
-                <input value={editing.avatar_url ?? ""} onChange={(e) => setEditing({ ...editing, avatar_url: e.target.value })}
-                  placeholder="https://…" className="w-full rounded border px-3 py-1.5 text-sm" />
+                <label className="block text-xs font-medium mb-1">Avatar</label>
+                <div className="flex gap-2">
+                  <input value={editing.avatar_url ?? ""} onChange={(e) => setEditing({ ...editing, avatar_url: e.target.value })}
+                    placeholder="https://… or upload below" className="flex-1 rounded border px-3 py-1.5 text-sm" />
+                  <input ref={avatarFileRef} type="file" accept="image/*" className="hidden"
+                    onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAvatar(f); e.currentTarget.value = ""; }} />
+                  <button type="button" onClick={() => avatarFileRef.current?.click()} disabled={uploadingAvatar}
+                    className="inline-flex items-center gap-1 rounded border px-3 py-1.5 text-sm hover:bg-muted disabled:opacity-50">
+                    {uploadingAvatar ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                    {uploadingAvatar ? "Uploading…" : "Upload"}
+                  </button>
+                </div>
                 {editing.avatar_url && <img src={editing.avatar_url} alt="" className="mt-2 h-16 w-16 rounded-full object-cover border" />}
               </div>
               <div className="border-t pt-3">
