@@ -7,6 +7,8 @@ import { PostImage } from "@/components/site/PostImage";
 import { getHomepage, type HomePost, type HomeAuthor, type HomePayload } from "@/serverFns/homepage.functions";
 import { fetchHomepageViaRpc } from "@/lib/homepage.shared";
 import { supabase } from "@/integrations/supabase/client";
+import { fetchExtraSections, type ExtraSectionsPayload } from "@/lib/extra-sections";
+import { TrendingSidebar, CategorySectionRow } from "@/components/site/ExtraSections";
 import { buildHomepageHead } from "@/serverFns/seo.head";
 import { htmlToPlainText, decodeHtmlEntities } from "@/lib/text";
 import { formatDate } from "@/lib/date";
