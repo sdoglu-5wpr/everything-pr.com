@@ -49,7 +49,7 @@ export default async (request: Request, _context: Context) => {
   }
 
   // Lowercase pathname
-  if (/[A-Z]/.test(url.pathname)) {
+  if (!url.pathname.startsWith("/_serverFn") && /[A-Z]/.test(url.pathname)) {
     url.pathname = url.pathname.toLowerCase();
     changed = true;
   }
