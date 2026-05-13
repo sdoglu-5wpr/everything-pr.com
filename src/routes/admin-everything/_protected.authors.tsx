@@ -168,9 +168,18 @@ function AuthorsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-xs font-medium mb-1">Avatar URL</label>
-                <input value={editing.avatar_url ?? ""} onChange={(e) => setEditing({ ...editing, avatar_url: e.target.value })}
-                  placeholder="https://…" className="w-full rounded border px-3 py-1.5 text-sm" />
+                <label className="block text-xs font-medium mb-1">Avatar</label>
+                <div className="flex gap-2">
+                  <input value={editing.avatar_url ?? ""} onChange={(e) => setEditing({ ...editing, avatar_url: e.target.value })}
+                    placeholder="https://… or upload below" className="flex-1 rounded border px-3 py-1.5 text-sm" />
+                  <input ref={avatarFileRef} type="file" accept="image/*" className="hidden"
+                    onChange={(e) => { const f = e.target.files?.[0]; if (f) uploadAvatar(f); e.currentTarget.value = ""; }} />
+                  <button type="button" onClick={() => avatarFileRef.current?.click()} disabled={uploadingAvatar}
+                    className="inline-flex items-center gap-1 rounded border px-3 py-1.5 text-sm hover:bg-muted disabled:opacity-50">
+                    {uploadingAvatar ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+                    {uploadingAvatar ? "Uploading…" : "Upload"}
+                  </button>
+                </div>
                 {editing.avatar_url && <img src={editing.avatar_url} alt="" className="mt-2 h-16 w-16 rounded-full object-cover border" />}
               </div>
               <div className="border-t pt-3">
