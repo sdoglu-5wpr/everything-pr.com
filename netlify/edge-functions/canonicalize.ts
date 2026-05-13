@@ -30,6 +30,24 @@ const WP_BLOCK = [
 
 export default async (request: Request, _context: Context) => {
   const url = new URL(request.url);
+
+  // Bypass for dynamic / server-handled paths. We MUST NOT rewrite or 301
+  // these — a 301 on a POST downgrades it to GET on the retry, which breaks
+  // every server function call (TanStack throws "expected POST. Got GET").
+  // Match case-insensitively because Netlify's excludedPath has historically
+  // been unreliable here.
+  const lowerPath = url.pathname.toLowerCase();
+  if (
+    lowerPath.startsWith("/_serverfn") ||
+    lowerPath.startsWith("/_server/") ||
+    lowerPath.startsWith("/api/") ||
+    lowerPath.startsWith("/admin-everything") ||
+    lowerPath.startsWith("/admin/") ||
+    lowerPath.startsWith("/.netlify/")
+  ) {
+    return;
+  }
+
   let changed = false;
 
   // www. -> apex
