@@ -151,8 +151,7 @@ function isDynamicPath(path: string): boolean {
     path.startsWith("/admin-everything") ||
     path.startsWith("/search") ||
     path.startsWith("/api/") ||
-    path.startsWith("/_serverFn") ||
-    path.startsWith("/_server") ||
+    isServerFunctionPath(path) ||
     path === "/setup-cowork"
   );
 }
@@ -175,6 +174,7 @@ function withKillSwitch(res: Response, noindex: boolean): Response {
 
 export default {
   async fetch(request: Request, env: any, ctx: any): Promise<Response> {
+    request = normalizeServerFunctionRequest(request);
     const url = new URL(request.url);
     const path = url.pathname;
     const noindex = isIndexingDisabled(env ?? {});
