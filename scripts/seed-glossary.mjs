@@ -125,9 +125,26 @@ function parseLinks(line, isRelated) {
   return out;
 }
 
+function escapeHtml(s) {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function renderInline(s) {
+  let out = escapeHtml(s);
+  out = out.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (_m, t, u) => `<a href="${u}">${t}</a>`);
+  out = out.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  out = out.replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, "$1<em>$2</em>");
+  return out;
+}
 function paragraphsToHtml(paragraphs) {
   return paragraphs
-    .map((p) => `<p>${p.trim()}</p>`)
+    .map((p) => {
+      const t = p.trim();
+      const h3 = t.match(/^###\s+(.+)$/);
+      if (h3) return `<h3>${renderInline(h3[1])}</h3>`;
+      const h2 = t.match(/^##\s+(.+)$/);
+      if (h2) return `<h2>${renderInline(h2[1])}</h2>`;
+      return `<p>${renderInline(t)}</p>`;
+    })
     .join("\n");
 }
 
