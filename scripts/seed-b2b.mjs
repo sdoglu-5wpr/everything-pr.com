@@ -145,11 +145,26 @@ function blocksToHtml(blocks) {
       continue;
     }
 
-    // **Article Schema** marker (single-line bold pseudo-heading from
-    // Ronn's pillars 7–9). Switch into schema-extraction mode; do NOT
-    // emit the raw heading or the JSON block that follows.
-    const schemaHeading = block.match(/^\*\*Article Schema\*\*\s*$/i);
-    if (schemaHeading) {
+    // **Article Schema** marker. Two formats supported:
+    //   (a) Pre-cleaned markdown bullet list (Pillars 7–9 in b2b Part 2):
+    //       **Article Schema** (extract ...):
+    //       - headline: `Title`
+    //       - description: `Desc`
+    //       — marker + bullets live in the SAME block (no blank line).
+    //   (b) Legacy raw JSON object under a bare **Article Schema** heading
+    //       — marker is its own block; JSON block follows.
+    if (/^\*\*Article Schema\*\*/i.test(lines[0])) {
+      const headlineLine = lines.find((l) => /^[-*]\s*headline\s*:/i.test(l));
+      const descLine = lines.find((l) => /^[-*]\s*description\s*:/i.test(l));
+      if (headlineLine || descLine) {
+        const pick = (l) => l.replace(/^[-*]\s*\w+\s*:\s*/i, "").trim().replace(/^`|`$/g, "").trim();
+        articleSchemaOverride = {
+          headline: headlineLine ? pick(headlineLine) : null,
+          description: descLine ? pick(descLine) : null,
+        };
+        continue;
+      }
+      // No inline bullets — fall through to JSON-block mode.
       inArticleSchemaSection = true;
       continue;
     }
@@ -167,8 +182,6 @@ function blocksToHtml(blocks) {
         inArticleSchemaSection = false;
         continue;
       }
-      // If the block right after the marker isn't JSON, fall through and
-      // treat it normally so we don't silently swallow content.
       inArticleSchemaSection = false;
     }
 
