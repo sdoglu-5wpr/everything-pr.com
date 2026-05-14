@@ -7,11 +7,14 @@ import { decodeHtmlEntities, htmlToPlainText } from "@/lib/text";
 import type { PillarPayload } from "@/lib/pillars.shared";
 import { formatDate } from "@/lib/date";
 import { stripAbout5WFromHtml, stripFaqFromHtml } from "@/lib/faq";
+import { withHero } from "@/lib/has-hero";
 
 
 
 export function PillarView({ data }: { data: PillarPayload }) {
-  const { pillar, items, total, page, pageSize } = data;
+  const { pillar, items: rawItems, total, page, pageSize } = data;
+  const items = withHero(rawItems);
+  const longForm = withHero(data.longForm);
   const totalPages = Math.max(1, Math.ceil(total / (pageSize || 12)));
   const bodyHtml = stripFaqFromHtml(stripAbout5WFromHtml(pillar.body_html));
   return (
