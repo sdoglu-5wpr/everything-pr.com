@@ -391,6 +391,9 @@ async function main() {
   for (const a of articles) {
     if (!a.slug) { console.warn(`[skip] PILLAR ${a.index} missing slug`); continue; }
     const parsed = blocksToHtml(a.blocks);
+    // Slug rewrite: /defense/pillars/[slug]/ → /[slug]/ (flat URL convention).
+    // Preserve /defense/ as the vertical index URL.
+    parsed.html = parsed.html.replace(/\/defense\/pillars\/([a-z0-9-]+)\/?/gi, "/$1/");
     const linked = autoLinkGlossary(parsed.html, glossary, a.slug);
     const excerpt = (parsed.firstParaText || "")
       .replace(/[*_`>]/g, "").replace(/\s+/g, " ").trim().slice(0, 280);
