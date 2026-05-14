@@ -33,6 +33,8 @@ export type PillarPayload = {
   page: number;
   pageSize: number;
   items: PillarArticleItem[];
+  /** Long-form pillar articles (`article_type='pillar'`) attached to this pillar. */
+  longForm?: PillarArticleItem[];
   /** Request host captured server-side (used for indexing decision). Null on client RPC fetches. */
   host?: string | null;
 };

@@ -140,6 +140,44 @@ export function PillarView({ data }: { data: PillarPayload }) {
         </aside>
       </div>
 
+      {/* LONG-FORM COVERAGE (pillar articles) */}
+      {data.longForm && data.longForm.length > 0 ? (
+        <section id="long-form" className="bg-white border-t">
+          <div className="mx-auto max-w-7xl px-6 py-14">
+            <div className="flex items-end justify-between mb-8">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-[0.2em] text-[#FF3366] mb-2 flex items-center gap-2">
+                  <span className="inline-block w-2 h-2 bg-[#FF3366]" /> Long-Form Coverage
+                </div>
+                <h2 className="font-serif text-3xl md:text-4xl font-bold">In-depth pillar articles</h2>
+              </div>
+              <div className="text-sm text-muted-foreground">{data.longForm.length} article{data.longForm.length === 1 ? "" : "s"}</div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {data.longForm.map((p) => (
+                <article key={p.id} className="group bg-surface-soft rounded-lg border p-6 hover:shadow-md transition-shadow">
+                  <h3 className="font-serif text-xl font-bold leading-snug mb-2">
+                    <Link to="/$slug" params={{ slug: p.slug }} className="hover:text-brand-blue">
+                      {decodeHtmlEntities(p.title)}
+                    </Link>
+                  </h3>
+                  {p.excerpt ? (
+                    <p className="text-sm text-muted-foreground line-clamp-3">{htmlToPlainText(p.excerpt)}</p>
+                  ) : null}
+                  <div className="mt-4 text-xs text-muted-foreground flex items-center gap-2">
+                    <time dateTime={p.published_at ?? undefined}>{formatDate(p.published_at)}</time>
+                    <span>·</span>
+                    <Link to="/$slug" params={{ slug: p.slug }} className="text-brand-blue font-semibold hover:underline inline-flex items-center gap-1">
+                      Read <ArrowRight className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
       {/* ARTICLES GRID */}
       <section id="articles" className="bg-surface-soft border-t">
         <div className="mx-auto max-w-7xl px-6 py-14">

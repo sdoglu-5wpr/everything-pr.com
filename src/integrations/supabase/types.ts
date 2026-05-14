@@ -771,6 +771,7 @@ export type Database = {
       }
       posts: {
         Row: {
+          article_type: string | null
           author_id: number | null
           comment_status: string
           content_html: string
@@ -784,6 +785,8 @@ export type Database = {
           modified_at: string | null
           parent_id: number | null
           password: string | null
+          pillar_index: number | null
+          pillar_slug: string | null
           published_at: string | null
           search_vector: unknown
           slug: string
@@ -793,6 +796,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          article_type?: string | null
           author_id?: number | null
           comment_status?: string
           content_html?: string
@@ -806,6 +810,8 @@ export type Database = {
           modified_at?: string | null
           parent_id?: number | null
           password?: string | null
+          pillar_index?: number | null
+          pillar_slug?: string | null
           published_at?: string | null
           search_vector?: unknown
           slug: string
@@ -815,6 +821,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          article_type?: string | null
           author_id?: number | null
           comment_status?: string
           content_html?: string
@@ -828,6 +835,8 @@ export type Database = {
           modified_at?: string | null
           parent_id?: number | null
           password?: string | null
+          pillar_index?: number | null
+          pillar_slug?: string | null
           published_at?: string | null
           search_vector?: unknown
           slug?: string
