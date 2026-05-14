@@ -19,7 +19,7 @@ import path from "node:path";
 import { createClient } from "@supabase/supabase-js";
 
 const ROOT = process.cwd();
-const SOURCE = path.join(ROOT, "data/public-affairs-source.md");
+const SOURCE = path.join(ROOT, "data/verticals/public-affairs-source.md");
 const PILLAR_SLUG = "public-affairs";
 const DRY = process.argv.includes("--dry");
 const NO_PURGE = process.argv.includes("--no-purge");
