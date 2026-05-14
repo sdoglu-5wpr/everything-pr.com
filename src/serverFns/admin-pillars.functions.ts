@@ -39,7 +39,7 @@ export const updatePillarFlags = createServerFn({ method: "POST" })
     const patch: Record<string, any> = { updated_at: new Date().toISOString() };
     if (data.robots !== undefined) patch.robots = data.robots;
     if (data.published !== undefined) patch.published = data.published;
-    const { error } = await supabase.from("pillars").update(patch).eq("id", data.id);
+    const { error } = await supabase.from("pillars").update(patch as any).eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
