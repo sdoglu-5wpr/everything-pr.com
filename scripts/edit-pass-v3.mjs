@@ -135,8 +135,9 @@ function replaceAiEngines(html) {
     const before = html.slice(Math.max(0, start - 3), start);
     const sentStart = /(^|[.!?>])\s*$/.test(before);
     const word = (cap === "E" || sentStart) ? "Answer" : "answer";
+    const engineWord = (cap === "E") ? "Engine" : "engine";
     const plural = m[3].endsWith("s") ? "s" : "";
-    out += html.slice(last, start) + `${word} engine${plural}`;
+    out += html.slice(last, start) + `${word} ${engineWord}${plural}`;
     last = end;
     count++;
   }
