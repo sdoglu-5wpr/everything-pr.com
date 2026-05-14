@@ -206,15 +206,16 @@ async function processPillars() {
 async function processPosts() {
   // Pull posts that contain any candidate string
   const { data, error } = await supa.from("posts")
-    .select("id, slug, content_html, excerpt")
+    .select("id, slug, title, content_html, excerpt")
     .eq("status","publish");
   if (error) throw error;
   for (const p of data) {
     const html = p.content_html || "";
     const ex = p.excerpt || "";
+    const title = p.title || "";
     // quick skip if nothing relevant
-    if (!/AI engine|A\.I\. engine/.test(html + " " + ex) &&
-        !REPORT_NAMES.some(n => (html + " " + ex).includes(n))) continue;
+    if (!/AI engine|A\.I\. engine/.test(html + " " + ex + " " + title) &&
+        !REPORT_NAMES.some(n => (html + " " + ex + " " + title).includes(n))) continue;
 
     const patch = {};
     let tm = [], ai = 0;
@@ -224,6 +225,13 @@ async function processPosts() {
     const ex2 = applyAll(ex);
     if (ex2.out !== ex && ex) patch.excerpt = ex2.out;
     tm.push(...ex2.tmAdded); ai += ex2.aiCount; allPreserved.push(...ex2.preserved.map(s => ({slug:p.slug, field:"excerpt", s})));
+    const tt = applyAll(title);
+    if (tt.out !== title && title) {
+      patch.title = tt.out;
+      report.titles ||= [];
+      report.titles.push({ id: p.id, slug: p.slug, before: title, after: tt.out });
+    }
+    tm.push(...tt.tmAdded); ai += tt.aiCount; allPreserved.push(...tt.preserved.map(s => ({slug:p.slug, field:"title", s})));
 
     if (Object.keys(patch).length === 0) continue;
     report.posts.push({ id: p.id, slug: p.slug, tm_added: tm, ai_replaced: ai, fields: Object.keys(patch) });
