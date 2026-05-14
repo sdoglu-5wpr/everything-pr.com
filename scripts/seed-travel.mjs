@@ -403,8 +403,8 @@ function preCleanSource(md) {
 async function main() {
   const md = preCleanSource(readFileSync(SOURCE, "utf8"));
   const articles = parseSource(md);
-  if (articles.length !== 6) {
-    console.warn(`[parse] expected 6 articles, got ${articles.length}`);
+  if (articles.length !== 22) {
+    console.warn(`[parse] expected 22 articles, got ${articles.length}`);
   }
 
   const glossary = await fetchGlossary();
@@ -417,12 +417,11 @@ async function main() {
   for (const a of articles) {
     if (!a.slug) { console.warn(`[skip] PILLAR ${a.index} missing slug`); continue; }
     const parsed = blocksToHtml(a.blocks);
-    // Slug rewrite: /real-estate/[slug]/ → /[slug]/. Preserve /real-estate/
-    // (the vertical index page URL).
-    parsed.html = parsed.html.replace(
-      /\/real-estate\/([a-z0-9-]+)\/?(?=["')\s])/gi,
-      (m, s) => (s ? `/${s}/` : m),
-    );
+    // Slug rewrite: collapse /travel/airlines/[slug]/ AND /travel/[slug]/ →
+    // /[slug]/. Preserve bare /travel/ (vertical index page URL).
+    parsed.html = parsed.html
+      .replace(/\/travel\/airlines\/([a-z0-9-]+)\/?(?=["')\s])/gi, "/$1/")
+      .replace(/\/travel\/([a-z0-9-]+)\/?(?=["')\s])/gi, "/$1/");
 
     const linked = autoLinkGlossary(parsed.html, glossary, a.slug);
 
