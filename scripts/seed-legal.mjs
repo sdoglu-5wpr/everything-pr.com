@@ -342,17 +342,24 @@ function buildSchemaJsonLd({ slug, title, excerpt, faqPairs, extraSchema }) {
 }
 
 function parseSource(md) {
-  const headers = [...md.matchAll(/^PILLAR\s+(\d+)\s+[—-]\s+(.+)$/gm)];
+  // Ronn's format: "# Pillar N — slug: xxx" then "# Title" on next non-blank line.
+  // Also tolerate legacy "PILLAR N — Title\nslug: xxx".
+  const headers = [
+    ...md.matchAll(/^#\s+Pillar\s+(\d+)\s+[—-]\s+slug:\s*([a-z0-9-]+)\s*$/gim),
+  ];
   const out = [];
   for (let i = 0; i < headers.length; i++) {
     const idx = Number(headers[i][1]);
-    const title = headers[i][2].trim();
+    const slug = headers[i][2];
     const start = headers[i].index + headers[i][0].length;
     const end = i + 1 < headers.length ? headers[i + 1].index : md.length;
     let body = md.slice(start, end).trim();
-    const slugMatch = body.match(/^slug:\s*([a-z0-9-]+)\s*$/m);
-    const slug = slugMatch ? slugMatch[1] : null;
-    if (slugMatch) body = body.replace(slugMatch[0], "").trim();
+    // First "# Title" line is the article title
+    const titleMatch = body.match(/^#\s+(.+)$/m);
+    const title = titleMatch ? titleMatch[1].trim() : `Pillar ${idx}`;
+    if (titleMatch) body = body.replace(titleMatch[0], "").trim();
+    // Strip trailing horizontal rule "---"
+    body = body.replace(/\n-{3,}\s*$/, "").trim();
     const blocks = body.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
     out.push({ index: idx, title, slug, blocks });
   }
