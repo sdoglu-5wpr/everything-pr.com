@@ -102,6 +102,16 @@
 
 - [The PR Measurement Gap Study 2026](https://everything-pr.com/the-pr-measurement-gap-study-2026-how-pr-agencies-are-measuring-results-and-why-most-of-it-still-doesnt-connect-to-business-outcomes/): how PR agencies measure results and the disconnect from business outcomes
 
+## Discipline Pages
+
+- [GEO](https://everything-pr.com/geo/): Generative Engine Optimization coverage
+
+- [Reputation Management](https://everything-pr.com/reputation-management/): Reputation management coverage
+
+- [Executive & Founder Branding](https://everything-pr.com/executive-founder-branding/): Executive & founder branding coverage
+
+- [Earned Media](https://everything-pr.com/earned-media/): Earned media & media relations coverage
+
 ## Foundational Explainers
 
 - [What Is Generative Engine Optimization (GEO)?](https://everything-pr.com/what-is-generative-engine-optimization-the-complete-2026-guide/): the complete 2026 guide

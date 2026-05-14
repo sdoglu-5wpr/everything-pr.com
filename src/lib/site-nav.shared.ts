@@ -45,6 +45,10 @@ export const SITE_PRIMARY_NAV: NavItem[] = [
     children: [
       { label: "AI Communications", kind: "category", slug: "ai-communications" },
       { label: "Crisis Communications", kind: "category", slug: "crisis-pr" },
+      { label: "Earned Media", kind: "path", to: "/earned-media" },
+      { label: "Executive & Founder Branding", kind: "path", to: "/executive-founder-branding" },
+      { label: "GEO", kind: "path", to: "/geo" },
+      { label: "Reputation Management", kind: "path", to: "/reputation-management" },
       { label: "Digital Marketing", kind: "category", slug: "marketing" },
       { label: "Press Releases", kind: "category", slug: "press-release" },
       { label: "Public Relations", kind: "category", slug: "public-relations" },
@@ -52,7 +56,7 @@ export const SITE_PRIMARY_NAV: NavItem[] = [
     ],
   },
   { label: "Research", kind: "path", to: "/research" },
-  { label: "AI & GEO", kind: "path", to: "/generative-engine-optimization" },
+  { label: "AI & GEO", kind: "path", to: "/geo" },
   { label: "PR Firms", kind: "category", slug: "pr-firms" },
   { label: "RFPs", kind: "category", slug: "rfp" },
   {
