@@ -33,6 +33,8 @@ export type PillarPayload = {
   page: number;
   pageSize: number;
   items: PillarArticleItem[];
+  /** Request host captured server-side (used for indexing decision). Null on client RPC fetches. */
+  host?: string | null;
 };
 
 function rowToItem(r: any): PillarArticleItem {
