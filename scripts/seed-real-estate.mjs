@@ -377,11 +377,34 @@ async function purgePaths(paths) {
   }
 }
 
+// Pre-clean docx/pandoc artifacts on the raw source before parsing:
+//   - [[https://x]{.underline}](https://x)  →  https://x   (drop wrapper +
+//     {.underline} decoration; keep the URL as plain text — renderInline
+//     will not auto-link bare URLs, but that matches the body intent here
+//     because Ronn's real-estate source uses plain prose URLs).
+//   - file:///some/path                     →  /some/path  (strip file://)
+//   - \@ \# \$ \"                           →  @ # $ "
+function preCleanSource(md) {
+  let out = md;
+  // Pandoc-style hyperlink wrappers: [[URL]{.underline}](URL) → URL
+  out = out.replace(
+    /\[\[(https?:\/\/[^\]\s]+)\]\{\.underline\}\]\((?:https?:\/\/[^)\s]+)\)/g,
+    "$1",
+  );
+  // Stray {.underline} decoration on plain links: [text]{.underline} → text
+  out = out.replace(/\[([^\]]+)\]\{\.underline\}/g, "$1");
+  // file:/// references in markdown link targets → strip protocol + host
+  out = out.replace(/\(file:\/\/+(\/[^)\s]*)\)/g, "($1)");
+  // Escaped punctuation introduced by docx → unescape
+  out = out.replace(/\\([@#"$])/g, "$1");
+  return out;
+}
+
 async function main() {
-  const md = readFileSync(SOURCE, "utf8");
+  const md = preCleanSource(readFileSync(SOURCE, "utf8"));
   const articles = parseSource(md);
-  if (articles.length !== 9) {
-    console.warn(`[parse] expected 9 articles, got ${articles.length}`);
+  if (articles.length !== 6) {
+    console.warn(`[parse] expected 6 articles, got ${articles.length}`);
   }
 
   const glossary = await fetchGlossary();
@@ -394,10 +417,10 @@ async function main() {
   for (const a of articles) {
     if (!a.slug) { console.warn(`[skip] PILLAR ${a.index} missing slug`); continue; }
     const parsed = blocksToHtml(a.blocks);
-    // Slug rewrite: /b2b/[slug]/ → /[slug]/. Preserve /b2b/ as the
-    // vertical index URL.
+    // Slug rewrite: /real-estate/[slug]/ → /[slug]/. Preserve /real-estate/
+    // (the vertical index page URL).
     parsed.html = parsed.html.replace(
-      /\/b2b\/([a-z0-9-]+)\/?(?=["')\s])/gi,
+      /\/real-estate\/([a-z0-9-]+)\/?(?=["')\s])/gi,
       (m, s) => (s ? `/${s}/` : m),
     );
 
