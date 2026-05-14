@@ -459,10 +459,12 @@ async function main() {
   for (const a of articles) {
     if (!a.slug) { console.warn(`[skip] PILLAR ${a.index} missing slug`); continue; }
     const parsed = blocksToHtml(a.blocks);
-    // Defensive slug rewrite: strip any accidental /education/ prefix in
-    // body links. Source articles use flat slugs already.
+    // Defensive slug rewrite: strip nested entertainment URL prefixes
+    // (`/entertainment-media/<slug>/` and `/entertainment/pillars/<slug>/`)
+    // so all internal links resolve to flat `/<slug>/`.
     parsed.html = parsed.html
-      .replace(/\/education\/([a-z0-9-]+)\/?(?=["')\s])/gi, "/$1/");
+      .replace(/\/entertainment-media\/([a-z0-9-]+)\/?(?=["')\s])/gi, "/$1/")
+      .replace(/\/entertainment\/pillars\/([a-z0-9-]+)\/?(?=["')\s])/gi, "/$1/");
 
     const linked = autoLinkGlossary(parsed.html, glossary, a.slug);
 
