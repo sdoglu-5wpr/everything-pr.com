@@ -592,6 +592,7 @@ export type Database = {
           hero_image_url: string | null
           id: number
           published: boolean
+          robots: string | null
           schema_jsonld: Json | null
           slug: string
           subtitle: string | null
@@ -606,6 +607,7 @@ export type Database = {
           hero_image_url?: string | null
           id: number
           published?: boolean
+          robots?: string | null
           schema_jsonld?: Json | null
           slug: string
           subtitle?: string | null
@@ -620,6 +622,7 @@ export type Database = {
           hero_image_url?: string | null
           id?: number
           published?: boolean
+          robots?: string | null
           schema_jsonld?: Json | null
           slug?: string
           subtitle?: string | null
