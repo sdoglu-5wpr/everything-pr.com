@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, FileText, FilePlus2, Image, FolderTree, Tag, Users,
-  ArrowRightLeft, Menu as MenuIcon, Search, Zap, Settings, History, Download, CloudDownload, Copy,
+  ArrowRightLeft, Menu as MenuIcon, Search, Zap, Settings, History, Download, CloudDownload, Copy, Columns3,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
