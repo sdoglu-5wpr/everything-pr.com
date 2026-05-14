@@ -1189,3 +1189,729 @@ Zero-click search has become the dominant pattern for information-led queries. F
 **Related terms:** [AEO](/glossary/aeo), [AI Overview](/glossary/ai-overview), [Featured Snippet](/glossary/featured-snippet)
 
 ---
+
+
+### `/glossary/ai-tutor`
+**AI Tutor**
+
+**An AI tutor is a software system that uses artificial intelligence — typically generative AI built on large language models — to engage students in personalized instructional dialogue, provide formative feedback, adapt content to individual learning needs, and support skill development in specific subjects or competencies.**
+
+AI tutors operate as conversational partners, problem-solving guides, and practice partners. They differ from earlier educational software in their conversational capability, content adaptability, and capacity to handle student questions and responses that earlier systems could not.
+
+## Why AI tutors matter
+
+AI tutors have moved from experimental category to operational deployment across K-12, higher education, professional education, and corporate learning. Major institutions deploy AI tutors at scale. Major investors fund AI tutor companies as standalone categories. AI tutor capability shapes institutional decisions about curriculum, faculty roles, assessment, and learning infrastructure.
+
+## What distinguishes high-quality AI tutors
+
+**Pedagogical sophistication.** Tutors built on explicit pedagogical frameworks — mastery learning, formative assessment, scaffolded instruction, retrieval practice, spaced repetition — typically produce better outcomes than general-purpose chatbots positioned as tutors.
+
+**Subject-specific depth.** Subject-specific AI tutors — math, science, language learning, professional certification — typically outperform general-purpose tutors in their domains.
+
+**Outcomes evidence.** Independent or co-led efficacy studies, ESSA tier alignment, published outcomes data.
+
+**Integration depth.** SSO, roster sync, gradebook integration, learning analytics.
+
+**Trust infrastructure.** Privacy, safety, content moderation, hallucination control, age-appropriate response generation.
+
+## Real-world examples
+
+**Khanmigo** (Khan Academy's AI tutor). General-purpose tutor with strong pedagogical framework. Deployed at K-12 scale.
+
+**Magic School** (faculty-facing AI tutor for K-12). Educator-facing tools that augment classroom instruction.
+
+**Carnegie Learning's MATHia** (math-specific intelligent tutoring). Long-running adaptive math system enhanced with AI capability.
+
+**Duolingo Max** (language-specific AI tutor). Conversational language practice with AI dialogue capability.
+
+**Mathpresso's Mathpid** and **CK-12's Flexi** (subject-specific AI tutors). Specialized math tutoring platforms.
+
+Major university and corporate deployments often involve custom AI tutor implementations integrating institutional content, pedagogy, and infrastructure.
+
+## Where the category is going
+
+AI tutors will likely become standard institutional infrastructure by the late 2020s. The mature category will be characterized by subject-specific specialization, deep integration with institutional systems, documented outcomes accountability, and faculty-augmenting rather than faculty-replacing pedagogical roles.
+
+**Related terms:** [Adaptive Learning](/glossary/adaptive-learning), [AI Assessment](/glossary/ai-assessment), [AI Classroom Assistant](/glossary/ai-classroom-assistant), [Agentic Learning Environment](/glossary/agentic-learning-environment)
+
+---
+
+
+### `/glossary/adaptive-learning`
+**Adaptive Learning**
+
+**Adaptive learning is the pedagogical and technological approach that adjusts instructional content, pacing, and assessment based on individual student progress, performance, and learning needs.** Adaptive learning systems use data on student responses, mastery demonstration, and learning behavior to personalize the learning experience in real time.
+
+Adaptive learning predates generative AI. The category became operationally viable at scale with AI-enabled content generation, assessment, and intervention.
+
+## Why adaptive learning matters
+
+Adaptive learning addresses the central limitation of traditional classroom instruction — that students with different starting points, learning paces, and learning preferences receive the same instruction. Adaptive systems differentiate content, pacing, and intervention based on individual student data.
+
+## What distinguishes effective adaptive learning
+
+**Pedagogical framework.** Adaptive systems built on explicit pedagogical frameworks — mastery learning, formative assessment, spaced practice — produce better outcomes than algorithmically adaptive systems without pedagogical grounding.
+
+**Mastery-based progression.** Students advance when they demonstrate mastery, not when the calendar dictates.
+
+**Continuous formative assessment.** Low-stakes assessment that informs both system adaptation and instructor intervention.
+
+**Differentiated content paths.** Different students receive different content, not just different pacing.
+
+**Instructor integration.** Adaptive systems that augment instructor capacity produce better outcomes than systems that operate without instructor visibility.
+
+## Difference from personalized learning
+
+Adaptive learning is one dimension of personalized learning. Personalized learning includes content, pacing, learning path, and support personalization. Adaptive learning typically refers specifically to content and pacing adjustment based on student performance data.
+
+## Real-world examples
+
+**ALEKS** (McGraw Hill's adaptive math platform). Long-running adaptive learning system widely used in K-12 and higher education.
+
+**Knewton Alta** (formerly standalone, now part of Wiley). Adaptive content for higher education STEM courses.
+
+**Smart Sparrow** legacy products (now part of Pearson). Adaptive learning authoring and delivery platform.
+
+**Carnegie Learning's MATHia** and **Cengage's Mindtap** with adaptive features.
+
+**Squirrel AI** (international adaptive learning platform with substantial deployment in China).
+
+## Where adaptive learning is delivering outcomes
+
+K-12 math intervention, particularly middle school. Higher education developmental and remedial math. K-12 reading intervention. Higher education STEM gateway courses. Language learning at all levels. Professional certification preparation.
+
+The category has matured to operational capability in specific contexts. Institutional evaluation requires fit-for-purpose assessment of pedagogical alignment, integration capability, and documented outcomes.
+
+**Related terms:** [AI Tutor](/glossary/ai-tutor), [AI Assessment](/glossary/ai-assessment), [Competency Mapping](/glossary/competency-mapping)
+
+---
+
+
+### `/glossary/ai-assessment`
+**AI Assessment**
+
+**AI assessment is the use of artificial intelligence systems to evaluate student work, learning progress, and competency demonstration.** AI assessment includes essay scoring, problem-solving evaluation, formative feedback, oral examination support, project-based assessment, and competency-based credential evaluation.
+
+The category expanded substantially with generative AI capability. Earlier AI assessment focused on objective testing and well-structured short-answer evaluation. Modern AI assessment handles complex written work, multimodal demonstration, dialogue-based evaluation, and process documentation.
+
+## Why AI assessment matters
+
+Traditional assessment models — particularly output-based assessment of student work — face credibility questions in the generative AI era. AI can produce student-quality output, making output measurement an unreliable indicator of student learning. AI assessment is part of the response: AI-augmented assessment can evaluate process, demonstration, and applied competency at scale that traditional faculty assessment cannot.
+
+## What modern AI assessment includes
+
+**Essay and written work evaluation.** AI-assisted scoring with faculty oversight. Particularly useful for formative feedback.
+
+**Problem-solving assessment.** Step-by-step evaluation of mathematical and scientific problem solving.
+
+**Oral examination support.** AI-augmented support for oral examination — question generation, response evaluation prompts, calibration support.
+
+**Project-based assessment.** Evaluation of extended student projects with multiple components and process documentation.
+
+**Competency demonstration evaluation.** Assessment of applied skill demonstration in simulations, labs, and authentic performance contexts.
+
+**Formative feedback.** Real-time feedback on student work to support learning rather than primarily to grade.
+
+## What distinguishes effective AI assessment
+
+**Faculty integration.** AI assessment that augments faculty work produces better outcomes than AI assessment that replaces faculty work.
+
+**Process focus.** AI assessment that evaluates process — drafts, decisions, demonstrations — alongside output produces more reliable learning measurement than output-only assessment.
+
+**Calibration.** AI assessment calibrated against faculty assessment produces consistent quality. Calibration requires ongoing investment.
+
+**Transparency.** Students understand what AI assessment evaluates and how. Black-box AI assessment produces student grievance and due process concerns.
+
+**Equity monitoring.** AI assessment may produce different outcomes for different student populations. Equity monitoring is required.
+
+## Real-world examples
+
+**Gradescope** (now part of Turnitin). AI-assisted grading platform widely used in higher education.
+
+**Crowdmark** (assessment platform with AI assistance).
+
+**Turnitin's Feedback Studio** with AI-assisted feedback features.
+
+**ETS, College Board, and other testing organizations** integrating AI into assessment products.
+
+**Custom institutional AI assessment implementations** in research universities and large district contexts.
+
+## Where the category is going
+
+AI assessment will likely become standard institutional infrastructure by the late 2020s. The mature category will support process-based, demonstration-based, and applied competency assessment at scale that traditional faculty assessment alone cannot reach.
+
+**Related terms:** [AI Proctoring](/glossary/ai-proctoring), [AI Tutor](/glossary/ai-tutor), [Competency Mapping](/glossary/competency-mapping)
+
+---
+
+
+### `/glossary/ai-proctoring`
+**AI Proctoring**
+
+**AI proctoring is the use of artificial intelligence systems to monitor student behavior during examinations — typically using video, audio, screen monitoring, and behavioral analysis to identify potential academic integrity violations.** AI proctoring expanded substantially during the COVID-19 pandemic as remote testing scaled rapidly.
+
+The category has faced substantial controversy and is evolving. Privacy concerns, accuracy questions, accessibility issues, and demographic equity concerns have produced institutional pushback against AI proctoring at many universities.
+
+## Why AI proctoring matters
+
+Remote testing remains common in higher education, K-12, and professional certification. Where institutional and professional contexts require examination integrity, AI proctoring offers operational capability that human proctoring at scale cannot.
+
+The trade-offs — privacy, accuracy, equity, accessibility — produce institutional debate about whether and how AI proctoring should be used.
+
+## What AI proctoring systems do
+
+**Video monitoring.** Identifying potential violations — unauthorized people in the testing environment, prohibited materials, suspicious movements.
+
+**Audio monitoring.** Identifying suspicious sounds during testing.
+
+**Screen monitoring.** Identifying unauthorized program use, web browsing, or screen sharing during testing.
+
+**Behavioral analysis.** Identifying patterns suggesting potential violations — eye movement patterns, behavioral changes, unusual interaction patterns.
+
+**Identity verification.** Confirming test taker identity through document and biometric verification.
+
+**Flagging for human review.** AI systems typically flag potential violations for human review rather than autonomously determining violations.
+
+## The controversies
+
+**Accuracy concerns.** False positives and false negatives at rates that produce student grievance.
+
+**Privacy concerns.** Continuous monitoring of students in personal spaces — homes, dorms — raises privacy concerns.
+
+**Demographic equity concerns.** Some AI proctoring systems have produced different flagging rates for students of different demographic groups, raising bias concerns.
+
+**Accessibility concerns.** Students with disabilities — particularly behavioral or cognitive differences — may produce behavioral patterns that AI proctoring incorrectly flags.
+
+**Mental health impact.** The experience of continuous monitoring during high-stakes testing has produced student mental health concerns.
+
+## Real-world examples
+
+**ProctorU** (long-running proctoring service with AI integration).
+
+**Honorlock, Respondus Monitor, Examity, Proctortrack** (major proctoring platforms).
+
+**Pearson VUE** for professional certification testing with various proctoring options.
+
+**Institutional in-person proctored testing centers** as alternative to AI proctoring.
+
+## Where the category is going
+
+Institutional posture on AI proctoring varies widely. Some institutions continue using AI proctoring for remote testing. Other institutions have moved away from AI proctoring toward authentic assessment models that do not require proctoring. Professional certification testing continues to rely substantially on proctoring — both AI-assisted and human-proctored.
+
+The category is likely to consolidate around higher-stakes contexts where the trade-offs are accepted and lower-stakes contexts move to non-proctored authentic assessment models.
+
+**Related terms:** [AI Assessment](/glossary/ai-assessment)
+
+---
+
+
+### `/glossary/retrieval-augmented-learning`
+**Retrieval-Augmented Learning**
+
+**Retrieval-augmented learning is the application of retrieval-augmented generation (RAG) — an AI architecture that combines generative AI capability with retrieval from specific knowledge sources — to educational applications.** Retrieval-augmented learning systems generate responses grounded in specific institutional content, course materials, or curated knowledge bases rather than relying on AI model training data alone.
+
+The architecture matters because it addresses one of the central limitations of generative AI in education — hallucination, factual accuracy, and alignment with institutional content.
+
+## Why retrieval-augmented learning matters
+
+**Factual accuracy.** Retrieval grounding reduces hallucination by anchoring AI responses in specific source material.
+
+**Institutional alignment.** Retrieval-augmented systems can be grounded in institutional curriculum, course materials, and academic standards.
+
+**Citation and source transparency.** Students and faculty can see what source material informed AI responses.
+
+**Discipline-specific accuracy.** Specialized subjects — medical, legal, technical — benefit from retrieval grounding in authoritative source material.
+
+**Currency.** AI models trained on historical data can be augmented with current information through retrieval.
+
+## What retrieval-augmented learning systems include
+
+**Vector databases.** Storage and retrieval of institutional content in formats AI systems can access.
+
+**Source material curation.** Documents, course materials, textbooks, articles, and other content available for retrieval.
+
+**Retrieval mechanisms.** Systems that identify relevant source material for AI generation.
+
+**Generation systems.** AI models that produce responses grounded in retrieved material.
+
+**Citation infrastructure.** Tracking and displaying source material that informed responses.
+
+**Quality assurance.** Mechanisms for evaluating accuracy and alignment of retrieval-augmented responses.
+
+## Where retrieval-augmented learning is deploying
+
+**Institutional AI tutoring.** Universities deploying AI tutors grounded in their specific course materials and curriculum.
+
+**Medical education.** AI systems grounded in medical reference material, clinical guidelines, and educational content.
+
+**Legal education.** AI systems grounded in case law, statutes, and legal reference material.
+
+**Technical training.** AI systems grounded in technical documentation, procedures, and reference material.
+
+**Library and research support.** AI systems grounded in institutional library collections supporting research.
+
+**Faculty development.** AI systems grounded in pedagogical research supporting faculty development.
+
+## Real-world examples
+
+**LangChain, LlamaIndex, and similar frameworks** for building retrieval-augmented systems.
+
+**Pinecone, Weaviate, Chroma, and similar vector databases** supporting retrieval architecture.
+
+**Major LLM providers — Anthropic, OpenAI, Google** — increasingly supporting retrieval-augmented architectures.
+
+**Education-specific platforms** building retrieval-augmented learning products.
+
+**Custom institutional implementations** at major research universities.
+
+## Where the category is going
+
+Retrieval-augmented learning will likely become standard architecture for institutional AI deployments by the late 2020s. The combination of generative AI capability with institutional content grounding offers operational reliability that pure generative AI cannot match for educational applications.
+
+**Related terms:** [AI Tutor](/glossary/ai-tutor), [Rag](/glossary/rag), [Agentic Learning Environment](/glossary/agentic-learning-environment)
+
+---
+
+
+### `/glossary/ai-curriculum-generation`
+**AI Curriculum Generation**
+
+**AI curriculum generation is the use of artificial intelligence systems to design, generate, adapt, and refine educational curriculum — including course outlines, learning objectives, content sequences, assessment frameworks, and program-level curriculum structures.** AI curriculum generation typically operates as faculty augmentation — supporting curriculum development work rather than autonomously generating curriculum without faculty involvement.
+
+The category has emerged with generative AI capability that can produce coherent, pedagogically grounded curriculum drafts that faculty can review, adjust, and adopt.
+
+## Why AI curriculum generation matters
+
+Curriculum development is faculty-time-intensive work. Effective curriculum requires expertise in subject matter, pedagogy, assessment, and standards alignment. AI augmentation can multiply faculty capacity to develop, update, and refine curriculum.
+
+The category is particularly significant for institutions with substantial curriculum development needs — new programs, accreditation cycles, standards alignment requirements, and continuous improvement processes.
+
+## What AI curriculum generation supports
+
+**Course-level curriculum.** Course outlines, learning objectives, content sequences, assessment frameworks.
+
+**Program-level curriculum.** Program structures, competency frameworks, assessment-objective mapping.
+
+**Standards alignment.** Curriculum aligned with state standards, accreditor expectations, professional association competency frameworks.
+
+**Personalized curriculum paths.** Differentiated curriculum for students with different starting points or career objectives.
+
+**Real-time curriculum adaptation.** Curriculum that adjusts based on student performance and outcomes data.
+
+**Cross-course alignment.** Curriculum coordination across courses within programs ensuring competency coverage and progression.
+
+## What distinguishes effective AI curriculum generation
+
+**Faculty-centered design.** Effective deployments augment faculty curriculum work rather than replace it.
+
+**Domain expertise integration.** AI curriculum generation calibrated by faculty with deep disciplinary expertise.
+
+**Standards integration.** Curriculum generation that produces standards-aligned output.
+
+**Quality assurance.** Faculty review of generated curriculum for accuracy, appropriateness, and pedagogical quality.
+
+**Iterative refinement.** Curriculum improves through faculty engagement and outcomes feedback over time.
+
+**Faculty governance integration.** Curriculum development operates within faculty governance frameworks.
+
+## Real-world examples
+
+**Khan Academy's content development** with AI augmentation supporting curriculum and content generation at scale.
+
+**Major textbook publishers — Pearson, McGraw Hill, Cengage, Wiley** — building AI-augmented curriculum development capability.
+
+**Magic School and similar K-12 platforms** supporting teacher curriculum development with AI.
+
+**Institutional learning design teams** at major universities using AI to support curriculum development.
+
+**Custom AI curriculum tools** deployed at corporate L&D scale.
+
+## Where the category is going
+
+AI curriculum generation will likely become standard institutional capability by the late 2020s. The mature category will be faculty-augmenting, deeply integrated with institutional learning infrastructure, and operating with documented quality assurance and faculty governance integration.
+
+**Related terms:** [AI Classroom Assistant](/glossary/ai-classroom-assistant), [Competency Mapping](/glossary/competency-mapping)
+
+---
+
+
+### `/glossary/learning-record-store`
+**Learning Record Store**
+
+**A Learning Record Store (LRS) is institutional infrastructure that collects and stores statements about learning experiences from multiple sources in a standardized format — typically xAPI (Experience API) or its successor cmi5.** The LRS becomes the institutional source of truth for student learning experience data spanning the multiple platforms students interact with.
+
+The LRS enables analytics, intervention, credentialing, and longitudinal student records that fragmented multi-platform learning environments otherwise cannot support.
+
+## Why the LRS matters
+
+**Multi-platform learning environments.** Students learn through LMS, AI tutoring, adaptive learning, simulations, and assessment platforms simultaneously. Without an LRS, learning data is fragmented across these systems.
+
+**Learning analytics.** Predictive models, intervention systems, and personalized learning all require integrated learning data.
+
+**Credentialing infrastructure.** Digital credentialing, competency tracking, and skills records require comprehensive learning data infrastructure.
+
+**Institutional AI capability.** Institution-owned AI systems improve through institutional learning data structured for AI training.
+
+**Privacy and FERPA governance.** Institutional LRS provides governance over student learning data that vendor-distributed data cannot.
+
+## What an LRS deployment requires
+
+**Standards adoption.** xAPI and/or cmi5 implementation across institutional learning platforms.
+
+**Vendor integration.** Learning platform vendors must support xAPI output. Vendor management addresses LRS integration during procurement.
+
+**Data architecture.** The LRS integrates with institutional data infrastructure.
+
+**Governance framework.** Documented ownership of LRS data, access controls, privacy considerations, and FERPA implications.
+
+**Use case clarity.** Learning analytics, intervention, credentialing, AI training, institutional research, accreditation reporting — specific use cases drive implementation.
+
+**Faculty and staff training.** Capabilities the LRS enables require faculty and staff understanding to use effectively.
+
+## Real-world examples
+
+**Watershed LRS** (major commercial LRS platform).
+
+**Learning Locker** (open-source and commercial LRS).
+
+**Rustici Software's SCORM Cloud** with LRS capability.
+
+**Major LMS platforms** with built-in or integrated LRS capability.
+
+**Custom institutional LRS implementations** at major universities.
+
+**Corporate L&D platforms** with embedded LRS infrastructure.
+
+## Where the category is going
+
+The LRS will likely become standard institutional infrastructure by the late 2020s as multi-platform learning environments become more universal. The institutions building LRS capability now are positioning for the AI-enabled learning environment that depends on integrated learning data infrastructure.
+
+**Related terms:** [Competency Mapping](/glossary/competency-mapping), [Adaptive Learning](/glossary/adaptive-learning)
+
+---
+
+
+### `/glossary/multimodal-learning-ai`
+**Multimodal Learning AI**
+
+**Multimodal learning AI refers to artificial intelligence systems that process and generate content across multiple modalities — text, voice, video, images, and structured data — in educational applications.** Multimodal AI capability has expanded the surface of AI-enabled learning beyond text-only systems.
+
+The category includes vision-enabled tutoring (AI that sees student work), voice-enabled language learning (AI conversation with pronunciation feedback), video-based simulation (AI-driven simulation in professional education), multimodal assessment (assessment combining spoken, visual, and written components), and accessibility expansion.
+
+## Why multimodal learning AI matters
+
+**Subject coverage expansion.** Vision-enabled AI can engage with subjects where work is visual rather than typed — handwritten mathematics, drawings, lab notebook entries, code diagrams. Voice-enabled AI supports language learning practice at scale.
+
+**Assessment richness.** Multimodal assessment can evaluate spoken explanation, visual demonstration, and written analysis simultaneously — returning to assessment models that better measure learning than text-only assessment.
+
+**Professional education simulation.** Medical, legal, and engineering education benefit from multimodal simulation — clinical examination, courtroom presentation, design evaluation.
+
+**Accessibility expansion.** Voice interfaces for students with visual impairments. Visual interfaces for students with hearing impairments. Real-time multimodal translation.
+
+**Authentic practice.** Many real-world skills are inherently multimodal. Authentic practice requires multimodal AI capability.
+
+## What multimodal deployment requires
+
+**Hardware infrastructure.** Cameras, microphones, computing capacity — often available; sometimes requires institutional investment.
+
+**Privacy and consent infrastructure.** Voice and video raise privacy considerations beyond text. FERPA, state privacy law, and student consent frameworks must address multimodal use.
+
+**Accessibility considerations.** Multimodal interfaces serve some accessibility needs and create others. Alternative paths required.
+
+**Pedagogical alignment.** Multimodal AI works best when integrated with pedagogical frameworks.
+
+**Faculty training.** Faculty using multimodal AI need training in pedagogical integration and student support.
+
+## Real-world examples
+
+**GPT-4o, Claude with vision capability, Gemini multimodal** — foundation models supporting multimodal applications.
+
+**Duolingo Max** with voice-enabled language conversation.
+
+**Khanmigo** with multimodal capability for tutoring across visual subjects.
+
+**Medical and clinical education simulators** with multimodal capability.
+
+**Vision-enabled math tutoring platforms** that can see handwritten work.
+
+**Voice-enabled language learning platforms** at scale.
+
+## Where the category is going
+
+Multimodal AI will likely become baseline expectation for learning infrastructure by the late 2020s. The institutions deploying multimodal capability now are positioning for the category. The institutions limiting AI deployment to text-only systems are missing the most significant pedagogical opportunities the technology offers.
+
+**Related terms:** [AI Tutor](/glossary/ai-tutor), [AI Classroom Assistant](/glossary/ai-classroom-assistant)
+
+---
+
+
+### `/glossary/competency-mapping`
+**Competency Mapping**
+
+**Competency mapping is the institutional and program-level practice of defining specific competencies — observable, assessable skills and knowledge — and mapping them to curriculum, assessment, and credentialing.** Competency mapping supports competency-based education, skills-based credentialing, workforce alignment, and outcomes accountability.
+
+The practice predates AI but has expanded substantially with AI-enabled curriculum design, assessment, and credentialing infrastructure.
+
+## Why competency mapping matters
+
+**Competency-based education.** Programs that advance students based on demonstrated mastery rather than seat time require documented competency frameworks.
+
+**Skills-based credentialing.** Digital credentials, skills records, and alternative credentials require defined competency frameworks.
+
+**Workforce alignment.** Programs aligned with employer demand require competency frameworks that reflect employer skill requirements.
+
+**Outcomes accountability.** Accreditors and external stakeholders increasingly expect institutions to demonstrate competency outcomes — not just credit accumulation.
+
+**Assessment design.** Authentic assessment requires alignment with defined competencies.
+
+**Curriculum coherence.** Programs with documented competency frameworks produce more coherent curriculum than programs without them.
+
+## What competency mapping includes
+
+**Competency definitions.** Specific, observable, assessable competencies. Often built in partnership with employers, professional associations, and accrediting bodies.
+
+**Curriculum mapping.** Mapping of competencies to specific courses, modules, and learning experiences.
+
+**Assessment mapping.** Mapping of competencies to specific assessment instruments.
+
+**Credential mapping.** Mapping of competencies to specific credentials — courses, certificates, degrees.
+
+**Outcomes tracking.** Tracking of competency achievement across student populations.
+
+**Continuous refinement.** Competency frameworks evolve as employer demand, professional standards, and pedagogical understanding change.
+
+## What modern competency mapping requires
+
+**Faculty engagement.** Faculty involvement in competency framework design — not just administrative imposition.
+
+**Employer and industry input.** Competency frameworks reflect external stakeholder requirements.
+
+**Accreditor alignment.** Competency frameworks align with accreditor expectations.
+
+**Assessment infrastructure.** Assessment models capable of evaluating competency demonstration.
+
+**Credential infrastructure.** Digital credentials capable of communicating specific competency achievement.
+
+**Technology infrastructure.** Learning analytics, LRS, and institutional systems supporting competency tracking.
+
+## Real-world examples
+
+**Western Governors University** (long-running competency-based institution).
+
+**Southern New Hampshire University's College for America** (competency-based programs).
+
+**Lumina Foundation's Degree Qualifications Profile** (competency framework adopted by many institutions).
+
+**Professional association competency frameworks** in medicine, nursing, engineering, accounting, and many other fields.
+
+**Employer-developed competency frameworks** increasingly recognized in hiring.
+
+## Where the category is going
+
+Competency mapping will likely become standard institutional practice by the late 2020s as competency-based education, skills credentialing, and outcomes accountability expand. The institutions building competency mapping capability now are positioning for the credential and outcomes accountability environment of the late 2020s and 2030s.
+
+**Related terms:** [Learning Record Store](/glossary/learning-record-store), [AI Assessment](/glossary/ai-assessment)
+
+---
+
+
+### `/glossary/ai-classroom-assistant`
+**AI Classroom Assistant**
+
+**An AI classroom assistant is a faculty-facing AI tool that augments instructor capacity in instructional preparation, delivery, assessment, and student support.** AI classroom assistants differ from student-facing AI tutors in that the primary user is the instructor — though students often benefit indirectly.
+
+The category emerged with generative AI capability and has expanded rapidly. AI classroom assistants are among the most-deployed AI categories in K-12 and higher education in 2026.
+
+## Why AI classroom assistants matter
+
+**Instructor capacity multiplication.** Faculty handle more students at higher quality than traditional instructional capacity allows.
+
+**Quality consistency.** AI-supported feedback and instruction reduces quality variability across sections and instructors.
+
+**Adjunct capacity support.** Adjunct and contingent faculty face capacity constraints that AI augmentation helps close.
+
+**Time reallocation.** Faculty time on routine instructional tasks moves to higher-value engagement with students.
+
+**Course development efficiency.** Curriculum and content development supported by AI augmentation.
+
+## What AI classroom assistants do
+
+**Content generation.** Lecture material, slide decks, problem sets, discussion questions, supplementary readings — AI-assisted rather than AI-generated.
+
+**Formative feedback.** Student work feedback at speed and scale beyond individual instructor capacity.
+
+**Office hours augmentation.** AI handling routine student questions outside office hours with instructor backup for complex issues.
+
+**Assessment support.** Rubric development, exam generation, draft response generation for instructor calibration.
+
+**Course design.** Curriculum development, learning objective alignment, assessment-objective mapping.
+
+**Accessibility support.** Alternative format generation, language adaptation, comprehension support.
+
+**Administrative support.** Routine communications, scheduling support, administrative documentation.
+
+## What institutional support requires
+
+**Faculty training.** Continuous, practical, scenario-based.
+
+**Institutional licensing.** Institutional licensing typically produces better outcomes than individual faculty subscriptions.
+
+**Privacy and FERPA guidance.** Faculty practice guidance on what student information can be entered into which systems.
+
+**Quality assurance.** AI-generated content reviewed by faculty for accuracy and appropriateness.
+
+**Disclosure norms.** Where AI-assisted instructional materials are used, disclosure norms develop through faculty practice.
+
+## Real-world examples
+
+**Magic School** (AI tools for K-12 educators).
+
+**SchoolAI** (AI assistant platform for K-12 educators).
+
+**Khanmigo for Teachers** (Khan Academy's educator-facing AI).
+
+**Microsoft Copilot for Education** and **Google's Gemini for Education** integrated with educator workflows.
+
+**Brisk Teaching** and similar AI tools for educator productivity.
+
+**Major LMS platforms** with embedded AI educator features.
+
+## Where the category is going
+
+AI classroom assistants will likely become standard institutional infrastructure by the late 2020s. The mature category will integrate deeply with institutional systems, support faculty across instructional preparation through assessment, and operate with documented privacy and FERPA compliance.
+
+**Related terms:** [AI Tutor](/glossary/ai-tutor), [AI Curriculum Generation](/glossary/ai-curriculum-generation)
+
+---
+
+
+### `/glossary/geo-for-education`
+**GEO for Education**
+
+**GEO — Generative Engine Optimization — applied to education is the discipline of structuring institutional content, citations, and earned media so AI engines surface educational institutions, EdTech companies, and education topics authoritatively in their answers.** GEO is the successor discipline to traditional SEO in the AI search era.
+
+For educational institutions and EdTech companies, GEO determines whether they appear in the AI engine answers prospective students, parents, faculty, and buyers receive.
+
+## Why GEO matters in education
+
+**AI engine search adoption.** ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews now intercept meaningful share of educational discovery — particularly for buyer research, prospective student research, and faculty research.
+
+**The new shortlist mechanism.** When AI engines name three to seven institutions or vendors in their answer, those named typically win consideration. The not-named typically lose it.
+
+**SEO obsolescence.** Traditional SEO traffic still arrives but at lower quality and reduced conversion. The buyer or student has often already shortlisted by the time they click.
+
+**Citation Share as the new measurement.** What share of relevant prompts surface the institution or company across major AI engines. The measurement that determines top-of-funnel visibility.
+
+## What GEO for education requires
+
+**Structured institutional content.** Entity-rich landing pages for programs, departments, faculty, research, and key institutional information. Schema markup deployed sitewide. Server-side rendering of all primary content.
+
+**Trade and tier-1 media presence.** Earned media in education trade publications and tier-1 business media. AI engines weight these heavily.
+
+**Independent research and outcomes documentation.** Published research, ESSA tier evidence, co-led efficacy studies, white papers indexed across SSRN, ERIC, academic databases.
+
+**Faculty digital infrastructure.** Faculty pages with credentials, current research, media commentary, expertise topics. Faculty as retrieval anchors.
+
+**Wikipedia and Wikidata presence.** Where institutional or company notability supports it — these earn permanent retrieval anchors.
+
+**Open robots.txt.** AI crawlers — GPTBot, ClaudeBot, PerplexityBot, Google-Extended — permitted to crawl institutional content.
+
+**Conference and event content.** Indexed talks, panel discussions, and keynotes from major education events.
+
+## What GEO for education is not
+
+**Generic AI-in-education blog content.** Listicle SEO content targeting commodity keywords. Low retrieval weight.
+
+**Paid placement attempts.** AI engines do not currently sell placement inside answers. Attempts at paid manipulation typically degrade broader reputation without gaining share.
+
+**Closed or paywalled content.** Content AI engines cannot crawl. Open access compounds; closed access does not.
+
+## Real-world application
+
+**Universities deploying GEO** to ensure programs and faculty appear in prospective student research, faculty hiring research, and policy research.
+
+**EdTech companies deploying GEO** to ensure their products appear in district and enterprise buyer research.
+
+**Education research institutions deploying GEO** to ensure their research surfaces in policy and trade research.
+
+**Education advocacy organizations deploying GEO** to ensure their positions surface in policy research.
+
+## Where the category is going
+
+GEO will likely become standard institutional and corporate marketing discipline by the late 2020s — replacing traditional SEO as the central discoverability discipline. The institutions and companies building GEO capability now are positioning for the discovery environment that determines top-of-funnel visibility in the AI search era.
+
+**Related terms:** [Geo](/glossary/geo), [Aeo](/glossary/aeo), [Citation Share](/glossary/citation-share)
+
+---
+
+
+### `/glossary/agentic-learning-environment`
+**Agentic Learning Environment**
+
+**An agentic learning environment is an AI-enabled learning system in which multiple AI agents — sometimes with different specialized roles — coordinate to deliver a complete learning experience across content delivery, dialogue, practice, assessment, and intervention.** Agentic learning environments distinguish themselves from earlier AI tutoring by their multi-agent coordination and integration with institutional infrastructure.
+
+The category is emerging in 2026. Most well-funded learning infrastructure investment now flows toward agentic architectures.
+
+## Why agentic learning environments matter
+
+**Holistic learning experience.** Earlier AI tutors handled discrete interactions. Agentic systems handle extended learning sequences with continuity.
+
+**Real personalization at scale.** Multi-agent coordination enables personalization across content, pacing, assessment, and intervention simultaneously.
+
+**Instructor augmentation.** Agentic systems explicitly include instructor-facing agents that augment teaching capacity rather than bypass it.
+
+**Outcomes potential.** Early agentic deployments suggest meaningful improvements in learning outcomes — particularly for students who struggle with traditional instructional models.
+
+**Strategic infrastructure positioning.** Institutions deploying agentic systems now are positioning for what will likely be the dominant learning infrastructure of the late 2020s.
+
+## What an agentic learning environment includes
+
+**Tutor agent.** Engages the student directly in instructional dialogue and practice.
+
+**Planner agent.** Designs the learning sequence based on student progress and learning objectives.
+
+**Assessment agent.** Evaluates student work and provides feedback.
+
+**Intervention agent.** Identifies student struggle and adjusts the sequence or escalates to instructor.
+
+**Instructor-facing agent.** Reports student progress and recommends instructional decisions.
+
+**Coordination layer.** Manages communication and coordination across agents.
+
+**Integration layer.** Connects the agentic system with institutional infrastructure — LMS, identity, gradebook, learning analytics.
+
+## What agentic learning deployment requires
+
+**Pilot capacity.** Agentic systems require institutional capacity to pilot, evaluate, and scale.
+
+**Integration infrastructure.** Multi-agent systems impose more demanding integration requirements than single-tutor products.
+
+**Pedagogical framework alignment.** The pedagogical assumptions of agentic systems must align with institutional educational frameworks.
+
+**Faculty engagement.** Faculty must shape how agentic systems augment teaching, not have systems imposed on them.
+
+**Outcomes accountability.** Agentic deployments require rigorous outcomes evaluation given both the early category status and the institutional investment.
+
+**Privacy and governance.** Multi-agent systems handle student data in more complex flows than single-product deployments.
+
+## Real-world examples
+
+**K-12 large-scale tutoring programs** building agentic architectures for state-level deployment.
+
+**Higher education STEM gateway course platforms** using agentic architectures.
+
+**Professional certification preparation platforms** with agentic learning capability.
+
+**Corporate technical training platforms** building agentic learning environments.
+
+**Major foundation model providers** supporting agentic application development.
+
+**Specialized agentic learning companies** with substantial venture funding.
+
+## Where the category is going
+
+Agentic learning environments will likely become a major category in the late 2020s. The institutions piloting agentic systems in 2026 are positioning for the dominant learning infrastructure of the late 2020s. The institutions that wait until agentic systems are mature will face peers with three to five years of operational experience.
+
+**Related terms:** [AI Tutor](/glossary/ai-tutor), [Retrieval-Augmented Learning](/glossary/retrieval-augmented-learning), [Multimodal Learning AI](/glossary/multimodal-learning-ai)
+
+---
