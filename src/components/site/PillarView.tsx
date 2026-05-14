@@ -144,7 +144,7 @@ export function PillarView({ data }: { data: PillarPayload }) {
       </div>
 
       {/* LONG-FORM COVERAGE (pillar articles) */}
-      {data.longForm && data.longForm.length > 0 ? (
+      {longForm.length > 0 ? (
         <section id="long-form" className="bg-white border-t">
           <div className="mx-auto max-w-7xl px-6 py-14">
             <div className="flex items-end justify-between mb-8">
@@ -154,10 +154,10 @@ export function PillarView({ data }: { data: PillarPayload }) {
                 </div>
                 <h2 className="font-serif text-3xl md:text-4xl font-bold">In-depth pillar articles</h2>
               </div>
-              <div className="text-sm text-muted-foreground">{data.longForm.length} article{data.longForm.length === 1 ? "" : "s"}</div>
+              <div className="text-sm text-muted-foreground">{longForm.length} article{longForm.length === 1 ? "" : "s"}</div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {data.longForm.map((p) => (
+              {longForm.map((p) => (
                 <article key={p.id} className="group bg-surface-soft rounded-lg border p-6 hover:shadow-md transition-shadow">
                   <h3 className="font-serif text-xl font-bold leading-snug mb-2">
                     <Link to="/$slug" params={{ slug: p.slug }} className="hover:text-brand-blue">
