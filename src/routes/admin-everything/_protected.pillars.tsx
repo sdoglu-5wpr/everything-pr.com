@@ -19,12 +19,10 @@ type Row = {
   updated_at: string;
 };
 
-const ROBOTS_OPTIONS = [
-  { value: "", label: "Default (index, follow)" },
-  { value: "noindex, follow", label: "Noindex, follow" },
-  { value: "noindex, nofollow", label: "Noindex, nofollow" },
-  { value: "index, nofollow", label: "Index, nofollow" },
-];
+// Robots semantics:
+//   robots = NULL          → page is indexable on production (everything-pr.com)
+//   robots = "noindex, …"  → page is forced noindex on production
+// Lovable preview hosts always emit noindex regardless of this column.
 
 function PillarsAdminPage() {
   const [items, setItems] = useState<Row[]>([]);
