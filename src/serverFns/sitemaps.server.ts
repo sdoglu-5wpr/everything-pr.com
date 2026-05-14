@@ -105,15 +105,24 @@ export async function buildPostSitemap(page: number): Promise<string | null> {
 const STATIC_PAGES: Array<{ path: string; priority?: string; changefreq?: string }> = [
   { path: "/about", priority: "0.7", changefreq: "monthly" },
   { path: "/about/team", priority: "0.7", changefreq: "monthly" },
+  { path: "/glossary", priority: "0.7", changefreq: "monthly" },
 ];
 
 export async function buildPageSitemap(): Promise<string> {
-  const { data } = await supabaseAnon
-    .from("posts")
-    .select("slug, modified_at, published_at")
-    .eq("status", "publish")
-    .eq("type", "page")
-    .order("modified_at", { ascending: false, nullsFirst: false });
+  const [{ data }, { data: glossary }] = await Promise.all([
+    supabaseAnon
+      .from("posts")
+      .select("slug, modified_at, published_at")
+      .eq("status", "publish")
+      .eq("type", "page")
+      .order("modified_at", { ascending: false, nullsFirst: false }),
+    supabaseAnon
+      .from("glossary_terms")
+      .select("slug, updated_at")
+      .eq("published", true)
+      .order("title", { ascending: true })
+      .limit(500),
+  ]);
   const dbUrls = (data ?? [])
     .filter((p: any) => isCleanSlug(p.slug))
     .map((p: any) => urlEntry(`${SITE_URL}/${p.slug}`, p.modified_at ?? p.published_at));
@@ -121,7 +130,13 @@ export async function buildPageSitemap(): Promise<string> {
     (s) =>
       `  <url>\n    <loc>${SITE_URL}${s.path}</loc>\n    <changefreq>${s.changefreq}</changefreq>\n    <priority>${s.priority}</priority>\n  </url>`,
   );
-  const urls = [...staticUrls, ...dbUrls];
+  const glossaryUrls = (glossary ?? [])
+    .filter((t: any) => isCleanSlug(t.slug))
+    .map(
+      (t: any) =>
+        `  <url>\n    <loc>${SITE_URL}/glossary/${t.slug}</loc>\n    <lastmod>${esc(new Date(t.updated_at).toISOString())}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`,
+    );
+  const urls = [...staticUrls, ...glossaryUrls, ...dbUrls];
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 

@@ -256,6 +256,48 @@ export type Database = {
         }
         Relationships: []
       }
+      glossary_terms: {
+        Row: {
+          category: string | null
+          created_at: string
+          extended_html: string | null
+          id: string
+          published: boolean
+          related_terms: Json
+          short_definition: string
+          slug: string
+          title: string
+          updated_at: string
+          where_used: Json
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          extended_html?: string | null
+          id?: string
+          published?: boolean
+          related_terms?: Json
+          short_definition: string
+          slug: string
+          title: string
+          updated_at?: string
+          where_used?: Json
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          extended_html?: string | null
+          id?: string
+          published?: boolean
+          related_terms?: Json
+          short_definition?: string
+          slug?: string
+          title?: string
+          updated_at?: string
+          where_used?: Json
+        }
+        Relationships: []
+      }
       import_jobs: {
         Row: {
           completed_at: string | null

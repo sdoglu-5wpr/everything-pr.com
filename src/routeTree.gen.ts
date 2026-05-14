@@ -18,6 +18,7 @@ import { Route as Post_tagSitemapDotxmlRouteImport } from './routes/post_tag-sit
 import { Route as PostSitemapDotxmlRouteImport } from './routes/post-sitemap[.xml]'
 import { Route as PostSitemappageDotxmlRouteImport } from './routes/post-sitemap$page[.]xml'
 import { Route as PageSitemapDotxmlRouteImport } from './routes/page-sitemap[.xml]'
+import { Route as GlossaryRouteImport } from './routes/glossary'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EditorialPolicyRouteImport } from './routes/editorial-policy'
 import { Route as CategorySitemapDotxmlRouteImport } from './routes/category-sitemap[.xml]'
@@ -26,6 +27,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as SlugRouteImport } from './routes/$slug'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as TagSlugRouteImport } from './routes/tag.$slug'
+import { Route as GlossarySlugRouteImport } from './routes/glossary.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AuthorSlugRouteImport } from './routes/author.$slug'
 import { Route as ApiNewsletterRouteImport } from './routes/api/newsletter'
@@ -106,6 +108,11 @@ const PageSitemapDotxmlRoute = PageSitemapDotxmlRouteImport.update({
   path: '/page-sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GlossaryRoute = GlossaryRouteImport.update({
+  id: '/glossary',
+  path: '/glossary',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FeedRoute = FeedRouteImport.update({
   id: '/feed',
   path: '/feed',
@@ -145,6 +152,11 @@ const TagSlugRoute = TagSlugRouteImport.update({
   id: '/tag/$slug',
   path: '/tag/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const GlossarySlugRoute = GlossarySlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => GlossaryRoute,
 } as any)
 const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
@@ -346,6 +358,7 @@ export interface FileRoutesByFullPath {
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/feed': typeof FeedRoute
+  '/glossary': typeof GlossaryRouteWithChildren
   '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
@@ -362,6 +375,7 @@ export interface FileRoutesByFullPath {
   '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
+  '/glossary/$slug': typeof GlossarySlugRoute
   '/tag/$slug': typeof TagSlugRouteWithChildren
   '/admin-everything/activity': typeof AdminEverythingProtectedActivityRoute
   '/admin-everything/authors': typeof AdminEverythingProtectedAuthorsRoute
@@ -399,6 +413,7 @@ export interface FileRoutesByTo {
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/feed': typeof FeedRoute
+  '/glossary': typeof GlossaryRouteWithChildren
   '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
@@ -414,6 +429,7 @@ export interface FileRoutesByTo {
   '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
+  '/glossary/$slug': typeof GlossarySlugRoute
   '/tag/$slug': typeof TagSlugRouteWithChildren
   '/admin-everything/activity': typeof AdminEverythingProtectedActivityRoute
   '/admin-everything/authors': typeof AdminEverythingProtectedAuthorsRoute
@@ -452,6 +468,7 @@ export interface FileRoutesById {
   '/category-sitemap.xml': typeof CategorySitemapDotxmlRoute
   '/editorial-policy': typeof EditorialPolicyRoute
   '/feed': typeof FeedRoute
+  '/glossary': typeof GlossaryRouteWithChildren
   '/page-sitemap.xml': typeof PageSitemapDotxmlRoute
   '/post-sitemap$page.xml': typeof PostSitemappageDotxmlRoute
   '/post-sitemap.xml': typeof PostSitemapDotxmlRoute
@@ -468,6 +485,7 @@ export interface FileRoutesById {
   '/api/newsletter': typeof ApiNewsletterRoute
   '/author/$slug': typeof AuthorSlugRouteWithChildren
   '/category/$slug': typeof CategorySlugRouteWithChildren
+  '/glossary/$slug': typeof GlossarySlugRoute
   '/tag/$slug': typeof TagSlugRouteWithChildren
   '/admin-everything/_protected/activity': typeof AdminEverythingProtectedActivityRoute
   '/admin-everything/_protected/authors': typeof AdminEverythingProtectedAuthorsRoute
@@ -507,6 +525,7 @@ export interface FileRouteTypes {
     | '/category-sitemap.xml'
     | '/editorial-policy'
     | '/feed'
+    | '/glossary'
     | '/page-sitemap.xml'
     | '/post-sitemap$page.xml'
     | '/post-sitemap.xml'
@@ -523,6 +542,7 @@ export interface FileRouteTypes {
     | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
+    | '/glossary/$slug'
     | '/tag/$slug'
     | '/admin-everything/activity'
     | '/admin-everything/authors'
@@ -560,6 +580,7 @@ export interface FileRouteTypes {
     | '/category-sitemap.xml'
     | '/editorial-policy'
     | '/feed'
+    | '/glossary'
     | '/page-sitemap.xml'
     | '/post-sitemap$page.xml'
     | '/post-sitemap.xml'
@@ -575,6 +596,7 @@ export interface FileRouteTypes {
     | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
+    | '/glossary/$slug'
     | '/tag/$slug'
     | '/admin-everything/activity'
     | '/admin-everything/authors'
@@ -612,6 +634,7 @@ export interface FileRouteTypes {
     | '/category-sitemap.xml'
     | '/editorial-policy'
     | '/feed'
+    | '/glossary'
     | '/page-sitemap.xml'
     | '/post-sitemap$page.xml'
     | '/post-sitemap.xml'
@@ -628,6 +651,7 @@ export interface FileRouteTypes {
     | '/api/newsletter'
     | '/author/$slug'
     | '/category/$slug'
+    | '/glossary/$slug'
     | '/tag/$slug'
     | '/admin-everything/_protected/activity'
     | '/admin-everything/_protected/authors'
@@ -666,6 +690,7 @@ export interface RootRouteChildren {
   CategorySitemapDotxmlRoute: typeof CategorySitemapDotxmlRoute
   EditorialPolicyRoute: typeof EditorialPolicyRoute
   FeedRoute: typeof FeedRoute
+  GlossaryRoute: typeof GlossaryRouteWithChildren
   PageSitemapDotxmlRoute: typeof PageSitemapDotxmlRoute
   PostSitemappageDotxmlRoute: typeof PostSitemappageDotxmlRoute
   PostSitemapDotxmlRoute: typeof PostSitemapDotxmlRoute
@@ -756,6 +781,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PageSitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/glossary': {
+      id: '/glossary'
+      path: '/glossary'
+      fullPath: '/glossary'
+      preLoaderRoute: typeof GlossaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/feed': {
       id: '/feed'
       path: '/feed'
@@ -811,6 +843,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tag/$slug'
       preLoaderRoute: typeof TagSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/glossary/$slug': {
+      id: '/glossary/$slug'
+      path: '/$slug'
+      fullPath: '/glossary/$slug'
+      preLoaderRoute: typeof GlossarySlugRouteImport
+      parentRoute: typeof GlossaryRoute
     }
     '/category/$slug': {
       id: '/category/$slug'
@@ -1063,6 +1102,18 @@ const AboutRouteChildren: AboutRouteChildren = {
 
 const AboutRouteWithChildren = AboutRoute._addFileChildren(AboutRouteChildren)
 
+interface GlossaryRouteChildren {
+  GlossarySlugRoute: typeof GlossarySlugRoute
+}
+
+const GlossaryRouteChildren: GlossaryRouteChildren = {
+  GlossarySlugRoute: GlossarySlugRoute,
+}
+
+const GlossaryRouteWithChildren = GlossaryRoute._addFileChildren(
+  GlossaryRouteChildren,
+)
+
 interface AdminEverythingProtectedCategoriesRouteChildren {
   AdminEverythingProtectedCategoriesDuplicatesRoute: typeof AdminEverythingProtectedCategoriesDuplicatesRoute
 }
@@ -1172,6 +1223,7 @@ const rootRouteChildren: RootRouteChildren = {
   CategorySitemapDotxmlRoute: CategorySitemapDotxmlRoute,
   EditorialPolicyRoute: EditorialPolicyRoute,
   FeedRoute: FeedRoute,
+  GlossaryRoute: GlossaryRouteWithChildren,
   PageSitemapDotxmlRoute: PageSitemapDotxmlRoute,
   PostSitemappageDotxmlRoute: PostSitemappageDotxmlRoute,
   PostSitemapDotxmlRoute: PostSitemapDotxmlRoute,

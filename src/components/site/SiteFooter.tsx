@@ -6,6 +6,7 @@ export type FooterMenuItem = { label: string; href: string };
 const DEFAULT_MENU: FooterMenuItem[] = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
+  { label: "Glossary", href: "/glossary" },
   { label: "Comments Policy", href: "/comments-policy" },
   { label: "Contact", href: "/contact" },
 ];
