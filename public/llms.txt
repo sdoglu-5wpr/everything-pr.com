@@ -66,6 +66,26 @@
 
 - [Agency of Record](https://everything-pr.com/agency-of-record/): account wins and agency relationships
 
+- [B2B](https://everything-pr.com/b2b/): B2B communications, demand gen, and analyst relations
+
+- [Defense](https://everything-pr.com/defense/): defense, aerospace, and national-security communications
+
+- [Luxury](https://everything-pr.com/luxury/): luxury brand storytelling and high-net-worth communications
+
+- [Real Estate](https://everything-pr.com/real-estate/): residential, commercial, and proptech communications
+
+- [Web3](https://everything-pr.com/web3/): crypto, blockchain, and Web3 communications
+
+- [Sports](https://everything-pr.com/sports/): leagues, athletes, sponsorship, and sports business PR
+
+- [Travel](https://everything-pr.com/travel/): travel, tourism, and hospitality communications
+
+- [Public Affairs](https://everything-pr.com/public-affairs/): policy, advocacy, and government relations communications
+
+- [Legal](https://everything-pr.com/legal/): law-firm communications, litigation PR, and legal-industry coverage
+
+- [Education](https://everything-pr.com/education/): K–12, higher-ed, and EdTech communications
+
 ## Original Research & Studies
 
 - [The AI Platform Citation Source Index 2026](https://everything-pr.com/ai-platform-citation-source-index-2026/): ranking of the 50 sources most cited by ChatGPT, Claude, Perplexity, Gemini, and Google AI Overviews

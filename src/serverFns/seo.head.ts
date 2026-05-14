@@ -305,8 +305,9 @@ export function buildPillarHead(opts: {
   faq?: Array<{ q: string; a: string }>;
   definedTerm?: { name: string; description: string } | null;
   extraSchema?: unknown;
+  robots?: string | null;
 }): HeadOutput {
-  const { slug, title: pillarTitle, subtitle, heroImage, page, totalItems, items, faq, definedTerm, extraSchema } = opts;
+  const { slug, title: pillarTitle, subtitle, heroImage, page, totalItems, items, faq, definedTerm, extraSchema, robots } = opts;
   const baseUrl = `${SITE_URL}/${slug}/`;
   const url = baseUrl;
   const baseTitle = `${pillarTitle} · ${SITE_NAME}`;
@@ -314,7 +315,11 @@ export function buildPillarHead(opts: {
   const description = truncate(subtitle || `${pillarTitle} — long-form guide and the latest coverage on ${SITE_NAME}.`);
   const ogImage = rewriteLegacyUrl(heroImage || "") || DEFAULT_OG_IMAGE;
   const meta = baseMeta(title, description, url, ogImage, "article");
-  if (page > 1) meta.push({ name: "robots", content: "noindex, follow, max-image-preview:large" });
+  // Robots precedence:
+  //   1. Per-pillar override from DB (`pillars.robots`) — wins on every page.
+  //   2. Page > 1: noindex pagination signal.
+  const robotsValue = robots || (page > 1 ? "noindex, follow, max-image-preview:large" : null);
+  if (robotsValue) meta.push({ name: "robots", content: robotsValue });
   const links: Link = [{ rel: "canonical", href: url }];
 
   const itemListId = `${url}#itemlist`;

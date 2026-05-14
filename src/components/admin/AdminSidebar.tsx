@@ -1,7 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
   LayoutDashboard, FileText, FilePlus2, Image, FolderTree, Tag, Users,
-  ArrowRightLeft, Menu as MenuIcon, Search, Zap, Settings, History, Download, CloudDownload, Copy,
+  ArrowRightLeft, Menu as MenuIcon, Search, Zap, Settings, History, Download, CloudDownload, Copy, Columns3,
 } from "lucide-react";
 import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel,
@@ -22,6 +22,7 @@ const TAXONOMY: Item[] = [
   { title: "Duplicate categories", url: "/admin-everything/categories/duplicates", icon: Copy },
   { title: "Tags", url: "/admin-everything/tags", icon: Tag },
   { title: "Authors", url: "/admin-everything/authors", icon: Users },
+  { title: "Pillars", url: "/admin-everything/pillars", icon: Columns3 },
 ];
 
 const STRUCTURE: Item[] = [

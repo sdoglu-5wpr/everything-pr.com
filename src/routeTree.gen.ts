@@ -37,6 +37,7 @@ import { Route as AdminEverythingProtectedTagsRouteImport } from './routes/admin
 import { Route as AdminEverythingProtectedSettingsRouteImport } from './routes/admin-everything/_protected.settings'
 import { Route as AdminEverythingProtectedSeoRouteImport } from './routes/admin-everything/_protected.seo'
 import { Route as AdminEverythingProtectedRedirectsRouteImport } from './routes/admin-everything/_protected.redirects'
+import { Route as AdminEverythingProtectedPillarsRouteImport } from './routes/admin-everything/_protected.pillars'
 import { Route as AdminEverythingProtectedMenusRouteImport } from './routes/admin-everything/_protected.menus'
 import { Route as AdminEverythingProtectedMediaBackfillRouteImport } from './routes/admin-everything/_protected.media-backfill'
 import { Route as AdminEverythingProtectedMediaRouteImport } from './routes/admin-everything/_protected.media'
@@ -205,6 +206,12 @@ const AdminEverythingProtectedRedirectsRoute =
     path: '/redirects',
     getParentRoute: () => AdminEverythingProtectedRoute,
   } as any)
+const AdminEverythingProtectedPillarsRoute =
+  AdminEverythingProtectedPillarsRouteImport.update({
+    id: '/pillars',
+    path: '/pillars',
+    getParentRoute: () => AdminEverythingProtectedRoute,
+  } as any)
 const AdminEverythingProtectedMenusRoute =
   AdminEverythingProtectedMenusRouteImport.update({
     id: '/menus',
@@ -357,6 +364,7 @@ export interface FileRoutesByFullPath {
   '/admin-everything/media': typeof AdminEverythingProtectedMediaRoute
   '/admin-everything/media-backfill': typeof AdminEverythingProtectedMediaBackfillRoute
   '/admin-everything/menus': typeof AdminEverythingProtectedMenusRoute
+  '/admin-everything/pillars': typeof AdminEverythingProtectedPillarsRoute
   '/admin-everything/redirects': typeof AdminEverythingProtectedRedirectsRoute
   '/admin-everything/seo': typeof AdminEverythingProtectedSeoRoute
   '/admin-everything/settings': typeof AdminEverythingProtectedSettingsRoute
@@ -407,6 +415,7 @@ export interface FileRoutesByTo {
   '/admin-everything/media': typeof AdminEverythingProtectedMediaRoute
   '/admin-everything/media-backfill': typeof AdminEverythingProtectedMediaBackfillRoute
   '/admin-everything/menus': typeof AdminEverythingProtectedMenusRoute
+  '/admin-everything/pillars': typeof AdminEverythingProtectedPillarsRoute
   '/admin-everything/redirects': typeof AdminEverythingProtectedRedirectsRoute
   '/admin-everything/seo': typeof AdminEverythingProtectedSeoRoute
   '/admin-everything/settings': typeof AdminEverythingProtectedSettingsRoute
@@ -459,6 +468,7 @@ export interface FileRoutesById {
   '/admin-everything/_protected/media': typeof AdminEverythingProtectedMediaRoute
   '/admin-everything/_protected/media-backfill': typeof AdminEverythingProtectedMediaBackfillRoute
   '/admin-everything/_protected/menus': typeof AdminEverythingProtectedMenusRoute
+  '/admin-everything/_protected/pillars': typeof AdminEverythingProtectedPillarsRoute
   '/admin-everything/_protected/redirects': typeof AdminEverythingProtectedRedirectsRoute
   '/admin-everything/_protected/seo': typeof AdminEverythingProtectedSeoRoute
   '/admin-everything/_protected/settings': typeof AdminEverythingProtectedSettingsRoute
@@ -512,6 +522,7 @@ export interface FileRouteTypes {
     | '/admin-everything/media'
     | '/admin-everything/media-backfill'
     | '/admin-everything/menus'
+    | '/admin-everything/pillars'
     | '/admin-everything/redirects'
     | '/admin-everything/seo'
     | '/admin-everything/settings'
@@ -562,6 +573,7 @@ export interface FileRouteTypes {
     | '/admin-everything/media'
     | '/admin-everything/media-backfill'
     | '/admin-everything/menus'
+    | '/admin-everything/pillars'
     | '/admin-everything/redirects'
     | '/admin-everything/seo'
     | '/admin-everything/settings'
@@ -613,6 +625,7 @@ export interface FileRouteTypes {
     | '/admin-everything/_protected/media'
     | '/admin-everything/_protected/media-backfill'
     | '/admin-everything/_protected/menus'
+    | '/admin-everything/_protected/pillars'
     | '/admin-everything/_protected/redirects'
     | '/admin-everything/_protected/seo'
     | '/admin-everything/_protected/settings'
@@ -864,6 +877,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminEverythingProtectedRedirectsRouteImport
       parentRoute: typeof AdminEverythingProtectedRoute
     }
+    '/admin-everything/_protected/pillars': {
+      id: '/admin-everything/_protected/pillars'
+      path: '/pillars'
+      fullPath: '/admin-everything/pillars'
+      preLoaderRoute: typeof AdminEverythingProtectedPillarsRouteImport
+      parentRoute: typeof AdminEverythingProtectedRoute
+    }
     '/admin-everything/_protected/menus': {
       id: '/admin-everything/_protected/menus'
       path: '/menus'
@@ -1038,6 +1058,7 @@ interface AdminEverythingProtectedRouteChildren {
   AdminEverythingProtectedMediaRoute: typeof AdminEverythingProtectedMediaRoute
   AdminEverythingProtectedMediaBackfillRoute: typeof AdminEverythingProtectedMediaBackfillRoute
   AdminEverythingProtectedMenusRoute: typeof AdminEverythingProtectedMenusRoute
+  AdminEverythingProtectedPillarsRoute: typeof AdminEverythingProtectedPillarsRoute
   AdminEverythingProtectedRedirectsRoute: typeof AdminEverythingProtectedRedirectsRoute
   AdminEverythingProtectedSeoRoute: typeof AdminEverythingProtectedSeoRoute
   AdminEverythingProtectedSettingsRoute: typeof AdminEverythingProtectedSettingsRoute
@@ -1061,6 +1082,7 @@ const AdminEverythingProtectedRouteChildren: AdminEverythingProtectedRouteChildr
     AdminEverythingProtectedMediaBackfillRoute:
       AdminEverythingProtectedMediaBackfillRoute,
     AdminEverythingProtectedMenusRoute: AdminEverythingProtectedMenusRoute,
+    AdminEverythingProtectedPillarsRoute: AdminEverythingProtectedPillarsRoute,
     AdminEverythingProtectedRedirectsRoute:
       AdminEverythingProtectedRedirectsRoute,
     AdminEverythingProtectedSeoRoute: AdminEverythingProtectedSeoRoute,

@@ -116,6 +116,7 @@ export const Route = createFileRoute("/$slug")({
         items: loaderData.data.items.map((i) => ({ title: i.title, slug: i.slug })),
         faq: p.faq,
         extraSchema: p.schema_jsonld ?? null,
+        robots: p.robots ?? null,
       });
     }
     if (loaderData.kind === "archive") {
