@@ -32,5 +32,32 @@ export const getPillar = createServerFn({ method: "GET" })
     const payload = await cached(`pillar:${data.slug}:p${data.page}`, 60_000, () =>
       fetchPillarViaRpc(supabaseAnon, data.slug, data.page),
     );
-    return payload ? { ...payload, host } : null;
+    if (!payload) return null;
+
+    // Long-Form Coverage: published `article_type='pillar'` posts attached to
+    // this pillar slug, ordered by `pillar_index`. Drafts are filtered by RLS
+    // (anon role + status='publish' policy) so unpublished placeholders never
+    // surface to the public.
+    const { data: longForm } = await supabaseAnon
+      .from("posts")
+      .select("id, slug, title, excerpt, published_at, featured_media_id, content_html")
+      .eq("status", "publish")
+      .eq("type", "post")
+      .eq("article_type", "pillar")
+      .eq("pillar_slug", data.slug)
+      .order("pillar_index", { ascending: true, nullsFirst: false })
+      .limit(20);
+
+    const longFormItems = (longForm ?? []).map((r: any) => ({
+      id: r.id,
+      slug: r.slug,
+      title: r.title,
+      excerpt: r.excerpt,
+      published_at: r.published_at,
+      featured_image_url: null,
+      author: null,
+      category: null,
+    }));
+
+    return { ...payload, host, longForm: longFormItems };
   });
