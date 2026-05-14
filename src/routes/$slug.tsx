@@ -57,6 +57,19 @@ export const Route = createFileRoute("/$slug")({
   }),
   search: { middlewares: [stripSearchParams({ page: 1 }) as any] },
   loaderDeps: ({ search }) => ({ page: search.page }),
+  beforeLoad: async ({ params }) => {
+    if (!params.slug || params.slug.includes(".")) return;
+    // DB-driven redirect check — runs before content load so merged
+    // category losers (and any other configured redirect) honor the
+    // 301 on both SSR and client-side SPA navigation.
+    const path = `/${params.slug}/`;
+    const r = typeof window !== "undefined"
+      ? await lookupRedirectInBrowser(path)
+      : await lookupRedirect({ data: { path } });
+    if (r?.target_path) {
+      throw redirect({ href: r.target_path, statusCode: (r.status_code ?? 301) as 301 | 302 });
+    }
+  },
   loader: async ({ params, deps }) => {
     if (!params.slug || params.slug.includes(".")) throw notFound();
 
