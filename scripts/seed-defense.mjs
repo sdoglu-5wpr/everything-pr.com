@@ -245,6 +245,10 @@ function blocksToHtml(blocks) {
     // Default paragraph — capture first one for SpeakableSpecification + excerpt.
     const paraText = lines.join(" ");
     if (!firstParaText) firstParaText = paraText;
+    if (pendingFaqQuestion) {
+      faqPairs.push({ q: pendingFaqQuestion, a: paraText });
+      pendingFaqQuestion = null;
+    }
     out.push(`<p>${renderInline(paraText)}</p>`);
   }
 
