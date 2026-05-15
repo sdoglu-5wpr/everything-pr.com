@@ -350,6 +350,29 @@ export function buildPillarHead(opts: {
   meta.push({ name: "robots", content: robotsValue });
   const links: Link = [{ rel: "canonical", href: url }];
 
+  const { graph, extraGraph } = buildPillarSchemaGraphInternal({
+    url, pillarTitle, title, description, page, items, faq, definedTerm, extraSchema,
+  });
+  const scripts: ScriptTag[] = [jsonLd(...graph)];
+  if (extraGraph) {
+    scripts.push({ type: "application/ld+json", children: JSON.stringify(extraGraph) });
+  }
+  return { meta, links, scripts };
+}
+
+/** Internal graph builder shared by buildPillarHead and buildPillarSchemaGraph. */
+function buildPillarSchemaGraphInternal(opts: {
+  url: string;
+  pillarTitle: string;
+  title: string;
+  description: string;
+  page: number;
+  items: Array<{ title: string; slug: string }>;
+  faq?: Array<{ q: string; a: string }>;
+  definedTerm?: { name: string; description: string } | null;
+  extraSchema?: unknown;
+}): { graph: unknown[]; extraGraph: unknown } {
+  const { url, pillarTitle, title, description, page, items, faq, definedTerm, extraSchema } = opts;
   const itemListId = `${url}#itemlist`;
   const itemListElements = items.map((it, i) => ({
     "@type": "ListItem",
@@ -420,9 +443,36 @@ export function buildPillarHead(opts: {
   };
 
   const graph = [ORG_JSONLD, websiteNode, collectionPage, itemList, breadcrumbNode, ...extras];
-  const scripts: ScriptTag[] = [jsonLd(...graph)];
-  if (extraSchema) {
-    scripts.push({ type: "application/ld+json", children: JSON.stringify(extraSchema) });
-  }
-  return { meta, links, scripts };
+  return { graph, extraGraph: extraSchema ?? null };
+}
+
+/**
+ * Public helper for components that need to render JSON-LD inline (e.g. PillarView)
+ * because TanStack Start's head().scripts is dropped on dynamic-SSR routes.
+ * Returns one or two JSON-LD objects ready to JSON.stringify into a <script> tag.
+ */
+export function buildPillarSchemaGraph(opts: {
+  slug: string;
+  title: string;
+  subtitle?: string | null;
+  page: number;
+  items: Array<{ title: string; slug: string }>;
+  faq?: Array<{ q: string; a: string }>;
+  definedTerm?: { name: string; description: string } | null;
+  extraSchema?: unknown;
+}): { primary: object; extra: object | null } {
+  const url = `${SITE_URL}/${opts.slug}/`;
+  const pillarTitle = opts.title;
+  const baseTitle = `${pillarTitle} · ${SITE_NAME}`;
+  const title = opts.page > 1 ? `${baseTitle} — Page ${opts.page}` : baseTitle;
+  const description = truncate(opts.subtitle || `${pillarTitle} — long-form guide and the latest coverage on ${SITE_NAME}.`);
+  const { graph, extraGraph } = buildPillarSchemaGraphInternal({
+    url, pillarTitle, title, description,
+    page: opts.page, items: opts.items, faq: opts.faq,
+    definedTerm: opts.definedTerm, extraSchema: opts.extraSchema,
+  });
+  return {
+    primary: { "@context": "https://schema.org", "@graph": graph },
+    extra: extraGraph ? (extraGraph as object) : null,
+  };
 }
