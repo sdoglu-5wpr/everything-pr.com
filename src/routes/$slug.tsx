@@ -15,6 +15,7 @@ import { PostImage } from "@/components/site/PostImage";
 import { ContactPage } from "@/components/site/ContactPage";
 import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
 import { PillarView } from "@/components/site/PillarView";
+import { PillarPlaceholderView } from "@/components/site/PillarPlaceholderView";
 import { htmlToPlainText } from "@/lib/text";
 import { rewriteLegacyHtml } from "@/lib/legacy-urls";
 import { buildArticleHead, buildArticleSchemaGraph } from "@/serverFns/seo.article";
