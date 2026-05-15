@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router";
+import { createFileRoute, Outlet, useLocation } from "@tanstack/react-router";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { GlossaryHub } from "@/components/site/GlossaryHub";
 import { listGlossary } from "@/serverFns/glossary.functions";
@@ -72,6 +72,10 @@ export const Route = createFileRoute("/glossary")({
     };
   },
   component: function GlossaryRoute() {
+    const location = useLocation();
+    const path = location.pathname.replace(/\/+$/, "") || "/";
+    if (path !== "/glossary") return <Outlet />;
+
     const { terms } = Route.useLoaderData();
     if (!terms || terms.length === 0) {
       // Render empty hub gracefully (still SEO-valid)
