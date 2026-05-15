@@ -84,6 +84,10 @@ Build the post-NAR settlement messaging framework across buyer agency, compensat
 
 Set the [crisis infrastructure](/crisis-communications) — playbooks for commission litigation, distressed assets, agent misconduct, fraud, regulatory enforcement, and capital markets exposure — before the crisis hits.
 
+## Flagship Research
+
+Featured study: [Luxury Real Estate Brand Authority Index Q1 2026](/luxury-real-estate-brand-authority-index-q1-2026/) — Compass, Sotheby's International Realty, and Douglas Elliman lead the inaugural EPR ranking of the 10 luxury brokerages winning the earned media war post-NAR settlement.
+
 ## Frequently Asked Questions
 
 **What does a real estate PR firm do?▾**

@@ -17,7 +17,31 @@ const RESEARCH_SLUGS = new Set([
   "the-nonprofit-pr-transparency-study-2026",
   "municipal-state-pr-spend-study-2026",
   "the-municipal-state-pr-spend-study-2026",
+  "luxury-real-estate-brand-authority-index-q1-2026",
 ]);
+
+// Slug -> Dataset JSON-LD node (for studies that ship as primary-source data).
+const RESEARCH_DATASETS: Record<string, Record<string, unknown>> = {
+  "luxury-real-estate-brand-authority-index-q1-2026": {
+    "@type": "Dataset",
+    name: "EPR Luxury Real Estate Brand Authority Index — Q1 2026",
+    description:
+      "Q4 2025 earned media coverage analysis across 12 tier-1 business, real estate, and luxury publications, ranking the top 10 U.S. luxury real estate brokerages by Brand Authority Score.",
+    creator: {
+      "@type": "Organization",
+      name: "Everything-PR Network",
+      url: "https://everything-pr.com",
+    },
+    temporalCoverage: "2025-Q4",
+    variableMeasured: [
+      { "@type": "PropertyValue", name: "Coverage Volume", description: "Tier-1 articles citing the brokerage" },
+      { "@type": "PropertyValue", name: "Authority Quote Share", description: "Percentage of luxury-market stories where the brokerage was named as the source" },
+      { "@type": "PropertyValue", name: "Sentiment Index", description: "Favorability tone across coverage" },
+      { "@type": "PropertyValue", name: "Reporter Reach", description: "Unique tier-1 reporters citing the brokerage" },
+    ],
+    license: "https://everything-pr.com/license/",
+  },
+};
 
 function resolvePlaceholders(
   s: string | null | undefined,
@@ -215,6 +239,10 @@ export function buildArticleSchemaGraph(article: ArticlePayload["article"]): Art
     personNode,
   ];
   if (faqNode) graph.push(faqNode);
+  const datasetNode = RESEARCH_DATASETS[slug];
+  if (datasetNode) {
+    graph.push({ ...datasetNode, url: canonical, "@id": `${url}#dataset` });
+  }
 
   return { "@context": "https://schema.org", "@graph": graph };
 }
