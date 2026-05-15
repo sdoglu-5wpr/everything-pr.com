@@ -206,19 +206,25 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
               <p className="text-sm text-muted-foreground">
                 Contributor · <span className="text-[color:var(--brand-blue)] font-semibold">Everything-PR</span>
               </p>
+              {author.job_title ? (
+                <p className="mt-1 text-base font-semibold text-foreground">{author.job_title}</p>
+              ) : null}
               <div className="flex flex-wrap gap-2 mt-3">
-                <span className="text-[11px] font-semibold uppercase tracking-wider bg-[color:var(--brand-blue)] text-white px-3 py-1.5 rounded">
-                  Contributor
-                </span>
-                <span className="text-[11px] font-semibold uppercase tracking-wider bg-black/5 text-foreground px-3 py-1.5 rounded">
-                  PR
-                </span>
-                <span className="text-[11px] font-semibold uppercase tracking-wider bg-black/5 text-foreground px-3 py-1.5 rounded">
-                  Editorial
-                </span>
-                <span className="text-[11px] font-semibold uppercase tracking-wider bg-black/5 text-foreground px-3 py-1.5 rounded">
-                  Communications
-                </span>
+                {(author.tags && author.tags.length > 0
+                  ? author.tags
+                  : ["Contributor", "PR", "Editorial", "Communications"]
+                ).map((tag, i) => (
+                  <span
+                    key={tag}
+                    className={
+                      i === 0
+                        ? "text-[11px] font-semibold uppercase tracking-wider bg-[color:var(--brand-blue)] text-white px-3 py-1.5 rounded"
+                        : "text-[11px] font-semibold uppercase tracking-wider bg-black/5 text-foreground px-3 py-1.5 rounded"
+                    }
+                  >
+                    {tag}
+                  </span>
+                ))}
               </div>
             </div>
 
