@@ -36,8 +36,13 @@ function extractPillarTitles(md) {
 
     let title = null;
 
-    // Rule 1: **H1:** <title>
-    const h1Line = body.match(/^\*\*H1:\*\*\s*(.+?)\s*$/m);
+    // Rule 1 (pillar landings): `**H1:** <title>` line that appears BEFORE the
+    // first `## CLUSTER` marker. This is the canonical landing-page title for
+    // pillar landings whose section header is an UPPERCASE `# PILLAR N — ...`
+    // marker rather than a real title.
+    const firstCluster = body.search(/^##\s+CLUSTER\s+\d+\.\d+\s+[—-]/m);
+    const preCluster = firstCluster >= 0 ? body.slice(0, firstCluster) : body;
+    const h1Line = preCluster.match(/^\*\*H1:\*\*\s*(.+?)\s*$/m);
     if (h1Line) title = h1Line[1].trim();
 
     // Rule 2: ## CLUSTER X.Y — <title>
@@ -101,10 +106,12 @@ for (const rel of SOURCES) {
 const { data: bad, error } = await sb
   .from("posts")
   .select("id, slug, title, pillar_slug")
-  .like("title", "Pillar %");
+  .or("title.ilike.Pillar %,title.ilike.PILLAR %");
 if (error) { console.error(error); process.exit(1); }
 
-const placeholderRe = /^Pillar \d+$/;
+// Match both lowercase placeholders (`Pillar 7`) and uppercase section
+// markers (`PILLAR 2 — ADMISSIONS MARKETING & DEMOGRAPHICS IN THE AI ERA`).
+const placeholderRe = /^(Pillar \d+$|PILLAR \d+\s+[—-])/;
 const targets = bad.filter((r) => placeholderRe.test(r.title));
 console.log(`[fetch] ${targets.length} rows with placeholder title`);
 
