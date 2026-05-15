@@ -1,0 +1,1 @@
+UPDATE public.authors SET avatar_url = '/authors/alex-shvarts.png' WHERE slug = 'alex-shvarts';
