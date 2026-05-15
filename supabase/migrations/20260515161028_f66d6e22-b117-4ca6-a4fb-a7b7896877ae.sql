@@ -1,0 +1,7 @@
+UPDATE posts SET title = 'The AI Search Layer Is the New Front Door: How Universities Win Reputation Inside ChatGPT, Claude, Perplexity, and Google AI Overviews', modified_at = NOW() WHERE slug = 'university-brand-strategy-ai-era';
+UPDATE posts SET title = 'AI Governance in Higher Education: The Policy, Privacy, and Procurement Standards Every University Needs Now', modified_at = NOW() WHERE slug = 'ai-governance-education';
+UPDATE posts SET title = 'The Economics of Education Are Being Rewritten: How AI, Demographics, and Workforce Demand Are Reshaping the Higher Ed Business Model', modified_at = NOW() WHERE slug = 'economics-education-ai-era';
+UPDATE posts SET title = 'EdTech Go-to-Market in 2026: How AI Learning Platforms Win Districts, Enterprises, and AI-Search Visibility', modified_at = NOW() WHERE slug = 'edtech-platform-marketing';
+UPDATE posts SET title = 'What Replaces the LMS: The AI-Native Learning Infrastructure Coming for Every Institution', modified_at = NOW() WHERE slug = 'future-learning-infrastructure';
+UPDATE posts SET title = 'Build the Infrastructure Before the Crisis — Not During It: A Modern Playbook for Higher Education Reputation Defense', modified_at = NOW() WHERE slug = 'higher-education-crisis-response';
+UPDATE posts SET title = 'The Enrollment Funnel Is Dead: How Universities Acquire Students in the Age of AI Search and Demographic Collapse', modified_at = NOW() WHERE slug = 'admissions-marketing-ai-era';
