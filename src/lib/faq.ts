@@ -54,7 +54,7 @@ export function extractFaqPairs(html: string | null | undefined): FaqPair[] {
  */
 export function stripFaqFromHtml(html: string | null | undefined): string {
   if (!html) return html ?? "";
-  const re = /<h([234])[^>]*>\s*(?:<[^>]*>\s*)*frequently asked questions\s*(?:<\/[^>]*>\s*)*<\/h\1>/i;
+  const re = /<h([234])[^>]*>\s*(?:<[^>]*>\s*)*(?:frequently asked questions|faqs?)\s*(?:<\/[^>]*>\s*)*<\/h\1>/i;
   const m = re.exec(html);
   if (!m) return html;
   const start = m.index;
