@@ -2,10 +2,15 @@ import { createServerFn } from "@tanstack/react-start";
 import { setResponseHeader, getRequestHost } from "@tanstack/react-start/server";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
 import { cached } from "@/serverFns/loader-cache.server";
-import { fetchPillarViaRpc, type PillarPayload } from "@/lib/pillars.shared";
+import {
+  fetchPillarViaRpc,
+  fetchPillarPlaceholderViaRpc,
+  type PillarPayload,
+  type PillarPlaceholderPayload,
+} from "@/lib/pillars.shared";
 import { isPreviewHost } from "@/serverFns/seo.head";
 
-export type { PillarPayload, PillarRecord, PillarArticleItem, PillarFAQ } from "@/lib/pillars.shared";
+export type { PillarPayload, PillarRecord, PillarArticleItem, PillarFAQ, PillarPlaceholderPayload } from "@/lib/pillars.shared";
 
 export const getPillar = createServerFn({ method: "GET" })
   .inputValidator((input: { slug: string; page?: number }) => {
