@@ -321,9 +321,32 @@ function parseSource(md) {
     const start = headers[i].index + headers[i][0].length;
     const end = i + 1 < headers.length ? headers[i + 1].index : md.length;
     let body = md.slice(start, end).trim();
-    const titleMatch = body.match(/^#\s+(.+)$/m);
-    const title = titleMatch ? titleMatch[1].trim() : `Pillar ${idx}`;
-    if (titleMatch) body = body.replace(titleMatch[0], "").trim();
+    // Smart title detection — see scripts/backfill-titles.mjs for the same
+    // rules. Tries `**H1:**`, `## CLUSTER X.Y — <title>`, real `# <title>`
+    // (skipping `# PILLAR N — ...` section markers), then `**<bold>**`.
+    let title = null;
+    let titleStripLine = null;
+    const h1Line = body.match(/^\*\*H1:\*\*\s*(.+?)\s*$/m);
+    if (h1Line) { title = h1Line[1].trim(); titleStripLine = h1Line[0]; }
+    if (!title) {
+      const cluster = body.match(/^##\s+CLUSTER\s+\d+\.\d+\s+[—-]\s+(.+?)\s*$/m);
+      if (cluster) { title = cluster[1].trim(); titleStripLine = cluster[0]; }
+    }
+    if (!title) {
+      for (const line of body.split("\n")) {
+        const m = line.match(/^#\s+(.+?)\s*$/);
+        if (!m) continue;
+        const cand = m[1].trim();
+        if (/^PILLAR\s+\d+\s+[—-]/i.test(cand)) continue;
+        title = cand; titleStripLine = line; break;
+      }
+    }
+    if (!title) {
+      const bold = body.match(/^\*\*([^*\n][^*\n]*[^*\s])\*\*\s*$/m);
+      if (bold) { title = bold[1].trim(); titleStripLine = bold[0]; }
+    }
+    if (!title) title = `Pillar ${idx}`;
+    if (titleStripLine) body = body.replace(titleStripLine, "").trim();
     body = body.replace(/\n-{3,}\s*$/, "").trim();
     const blocks = body.split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
     out.push({ index: idx, title, slug, blocks });
