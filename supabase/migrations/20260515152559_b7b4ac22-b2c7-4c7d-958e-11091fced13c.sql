@@ -1,0 +1,1 @@
+UPDATE public.authors SET social = social - 'linkedin' WHERE slug = 'pcullinane';
