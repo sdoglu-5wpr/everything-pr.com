@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900">
+  <rect width="1600" height="900" fill="#0A1628"/>
+  
+  <defs>
+    <pattern id="grid-hero" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#2A3A52" stroke-width="0.5" opacity="0.4"/>
+    </pattern>
+    <linearGradient id="fade-bottom" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0A1628" stop-opacity="0"/>
+      <stop offset="100%" stop-color="#0A1628" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="1600" height="900" fill="url(#grid-hero)"/>
+  <rect x="0" y="600" width="1600" height="300" fill="url(#fade-bottom)"/>
+  
+  <!-- Top accent bar -->
+  <rect x="0" y="0" width="1600" height="6" fill="#5CE1E6"/>
+  
+  <!-- Top kicker -->
+  <text x="120" y="110" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="700" fill="#5CE1E6" letter-spacing="0.2em">
+    EVERYTHING-PR  ·  EDITORIAL CLUSTER  ·  18 ARTICLES
+  </text>
+  
+  <!-- Title -->
+  <text x="120" y="280" font-family="Georgia, serif" font-size="100" font-weight="700" fill="#E6EEF8" letter-spacing="-0.025em">
+    The Crypto
+  </text>
+  <text x="120" y="400" font-family="Georgia, serif" font-size="100" font-weight="700" fill="#E6EEF8" letter-spacing="-0.025em">
+    Communications
+  </text>
+  <text x="120" y="520" font-family="Georgia, serif" font-size="100" font-weight="700" fill="#5CE1E6" letter-spacing="-0.025em">
+    Playbook
+  </text>
+  
+  <!-- Subtitle -->
+  <text x="120" y="600" font-family="Georgia, serif" font-size="28" font-weight="400" fill="#93A4BC" font-style="italic">
+    Compliance disclosure. Regulatory landscape. Crisis playbooks. Citation infrastructure.
+  </text>
+  
+  <!-- 18-dot grid -->
+  <circle cx="640.0" cy="667.0" r="7.0" fill="#5CE1E6" opacity="1"/>
+  <circle cx="680.0" cy="667.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="720.0" cy="667.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="760.0" cy="667.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="800.0" cy="667.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="840.0" cy="667.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="880.0" cy="667.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="920.0" cy="667.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="960.0" cy="667.0" r="7.0" fill="#5CE1E6" opacity="1"/>
+  <circle cx="640.0" cy="707.0" r="7.0" fill="#5CE1E6" opacity="1"/>
+  <circle cx="680.0" cy="707.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="720.0" cy="707.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="760.0" cy="707.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="800.0" cy="707.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="840.0" cy="707.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="880.0" cy="707.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="920.0" cy="707.0" r="7.0" fill="#93A4BC" opacity="0.5"/>
+  <circle cx="960.0" cy="707.0" r="7.0" fill="#5CE1E6" opacity="1"/>
+  
+  
+  <!-- Bottom byline -->
+  <text x="800" y="820" text-anchor="middle" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="700" fill="#93A4BC" letter-spacing="0.14em">
+    BY THE EVERYTHING-PR CRYPTO DESK
+  </text>
+</svg>
