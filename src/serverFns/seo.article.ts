@@ -47,12 +47,6 @@ function truncate(s: string, n = 160): string {
   return clean.slice(0, n - 1).replace(/\s+\S*$/, "") + "…";
 }
 
-function jsonLd(graph: unknown[]): ScriptTag {
-  return {
-    type: "application/ld+json",
-    children: JSON.stringify({ "@context": "https://schema.org", "@graph": graph }),
-  };
-}
 
 function readingTime(text: string): number {
   const words = text.trim().split(/\s+/).filter(Boolean).length;
