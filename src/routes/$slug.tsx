@@ -200,6 +200,7 @@ function readingTime(html: string | null | undefined): number {
 type LoaderData =
   | { kind: "article"; data: ArticlePayload }
   | { kind: "pillar"; data: PillarPayload }
+  | { kind: "pillar-placeholder"; data: PillarPlaceholderPayload }
   | { kind: "archive"; data: ArchivePayload; slug: string };
 
 function ArticlePage() {
@@ -208,6 +209,10 @@ function ArticlePage() {
 
   if (loaderData.kind === "pillar") {
     return <PillarView data={loaderData.data} />;
+  }
+
+  if (loaderData.kind === "pillar-placeholder") {
+    return <PillarPlaceholderView data={loaderData.data} />;
   }
 
   if (loaderData.kind === "archive") {
