@@ -108,7 +108,7 @@ const STATIC_PAGES: Array<{ path: string; priority?: string; changefreq?: string
 ];
 
 export async function buildPageSitemap(): Promise<string> {
-  const [{ data }, { data: glossary }] = await Promise.all([
+  const [{ data }, { data: glossary }, { data: pillars }] = await Promise.all([
     supabaseAnon
       .from("posts")
       .select("slug, modified_at, published_at")
@@ -121,6 +121,14 @@ export async function buildPageSitemap(): Promise<string> {
       .eq("published", true)
       .order("title", { ascending: true })
       .limit(500),
+    // Track D: emit ONLY published pillars in the sitemap. Draft pillars
+    // (placeholder branch) must never reach the sitemap because they render
+    // with noindex,follow and have thin content.
+    supabaseAnon
+      .from("pillars")
+      .select("slug, updated_at")
+      .eq("published", true)
+      .order("updated_at", { ascending: false, nullsFirst: false }),
   ]);
   const dbUrls = (data ?? [])
     .filter((p: any) => isCleanSlug(p.slug))
@@ -135,7 +143,13 @@ export async function buildPageSitemap(): Promise<string> {
       (t: any) =>
         `  <url>\n    <loc>${SITE_URL}/glossary/${t.slug}</loc>\n    <lastmod>${esc(new Date(t.updated_at).toISOString())}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.6</priority>\n  </url>`,
     );
-  const urls = [...staticUrls, ...glossaryUrls, ...dbUrls];
+  const pillarUrls = (pillars ?? [])
+    .filter((p: any) => isCleanSlug(p.slug))
+    .map(
+      (p: any) =>
+        `  <url>\n    <loc>${SITE_URL}/${p.slug}</loc>\n    <lastmod>${esc(new Date(p.updated_at).toISOString())}</lastmod>\n    <changefreq>weekly</changefreq>\n    <priority>0.8</priority>\n  </url>`,
+    );
+  const urls = [...staticUrls, ...pillarUrls, ...glossaryUrls, ...dbUrls];
   return `${XML_HEADER}\n${URLSET_OPEN}\n${urls.join("\n")}\n${URLSET_CLOSE}\n`;
 }
 
