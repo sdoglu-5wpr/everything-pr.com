@@ -95,6 +95,15 @@ export const Route = createFileRoute("/$slug")({
       if (data) return { kind: "article" as const, data };
     }
 
+    // 4. Pillar placeholder — draft pillar exists. Render a 200 with
+    //    noindex,follow plus any related articles (by pillar_slug).
+    if (deps.page === 1) {
+      const placeholder = typeof window !== "undefined"
+        ? await fetchPillarPlaceholderViaRpc(supabase, params.slug)
+        : await getPillarPlaceholder({ data: { slug: params.slug } });
+      if (placeholder) return { kind: "pillar-placeholder" as const, data: placeholder };
+    }
+
     const r = typeof window !== "undefined"
       ? await lookupRedirectInBrowser(`/${params.slug}`)
       : await lookupRedirect({ data: { path: `/${params.slug}` } });
