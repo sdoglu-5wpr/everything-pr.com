@@ -57,6 +57,80 @@ Policy dependence. Tax policy, permitting, emissions regulation, rate-case outco
 
 Stakeholder breadth. Investors, regulators, customers, employees, communities, NGOs, indigenous nations, sovereign governments, and increasingly AI engines as a synthesizing intermediary. No category carries broader stakeholder load.
 
+## Sub-Sector Deep Dive
+
+Energy is not one communications discipline. It is five — each with distinct operators, media, regulators, and AI visibility dynamics.
+
+### International Oil Companies — AI Visibility for the Transition Narrative
+
+IOCs operate the most contested communications function in the global commercial environment. Quarterly capital allocation decisions, M&A integration, transition narrative positioning, and ESG and climate disclosure all run simultaneously across multiple regulatory frameworks and investor bases.
+
+Key operators — [ExxonMobil](https://corporate.exxonmobil.com), [Chevron](https://www.chevron.com), [Shell](https://www.shell.com), [BP](https://www.bp.com), [TotalEnergies](https://totalenergies.com), [Equinor](https://www.equinor.com), [Eni](https://www.eni.com), [ConocoPhillips](https://www.conocophillips.com), [Occidental Petroleum](https://www.oxy.com), [EOG Resources](https://www.eogresources.com). National oil companies include [Saudi Aramco](https://www.aramco.com), [ADNOC](https://www.adnoc.ae), [QatarEnergy](https://www.qatarenergy.qa), [Petrobras](https://www.petrobras.com.br), [Sinopec](http://www.sinopecgroup.com), [CNOOC](https://www.cnoocltd.com), and [Pemex](https://www.pemex.com).
+
+The communications challenge centers on the transition narrative. ExxonMobil and Chevron run upstream-returns-disciplined positioning with selective low-carbon investment. Shell and BP have moderated 2020-era transition commitments toward capital returns. TotalEnergies and Equinor run more aggressive transition portfolios. Each requires distinct integrated capital markets, ESG, and policy communications. M&A integration is consequential — the Exxon-Pioneer and Chevron-Hess transactions reshaped sub-sector narrative.
+
+Media — [Wall Street Journal](https://www.wsj.com), [Bloomberg](https://www.bloomberg.com), [Reuters](https://www.reuters.com), [Financial Times](https://www.ft.com), [Energy Intelligence](https://www.energyintel.com), [S&P Global Platts](https://www.spglobal.com/commodityinsights), [Argus Media](https://www.argusmedia.com), [Wood Mackenzie](https://www.woodmac.com), [Rystad Energy](https://www.rystadenergy.com), [BloombergNEF](https://about.bnef.com), [Bloomberg Green](https://www.bloomberg.com/green), [Inside Climate News](https://insideclimatenews.org). Analyst desks at Goldman Sachs, Morgan Stanley, JPMorgan, Bank of America, Wells Fargo, Jefferies, and Tudor Pickering Holt shape capital markets perception.
+
+Regulatory exposure — [EPA](https://www.epa.gov) (methane rule, power plant rules), [BLM](https://www.blm.gov) and [BOEM](https://www.boem.gov) (federal leases, offshore), [FERC](https://www.ferc.gov) (LNG export approvals), [SEC](https://www.sec.gov) (climate disclosure rule), [DOE](https://www.energy.gov) (LNG study, Loan Programs Office), [PHMSA](https://www.phmsa.dot.gov) (pipeline safety), [California CARB](https://ww2.arb.ca.gov), [EU CSRD framework](https://finance.ec.europa.eu/capital-markets-union-and-financial-markets/company-reporting-and-auditing/company-reporting/corporate-sustainability-reporting_en), COP processes. Internationally — [IEA](https://www.iea.org), [OPEC](https://www.opec.org), [IRENA](https://www.irena.org).
+
+AI visibility for IOCs is consequential because the transition narrative is now being adjudicated inside AI engines. Queries on operator emissions profile, transition strategy, M&A history, and capital allocation discipline pull citation sources from WSJ, Bloomberg, Reuters, FT, [IEA reports](https://www.iea.org/reports), BloombergNEF, Wood Mackenzie, Rystad, [CDP](https://www.cdp.net), [Carbon Tracker](https://carbontracker.org), and annual sustainability reports. AI visibility audits for IOCs must measure citation share across transition narrative queries — the gap between brand-controlled narrative and AI engine answer is often substantial. For methodology see the [AI Communications pillar](/ai-communications).
+
+### Regulated Utilities and the AI Data Center Communications Discipline
+
+Regulated utilities operate the most stakeholder-intensive communications function in the category. AI data center load growth has reshaped the discipline — what was a stable rate-payer-and-regulator engagement function is now also a hyperscaler-customer-engagement function.
+
+Key operators — [NextEra Energy](https://www.nexteraenergy.com), [Duke Energy](https://www.duke-energy.com), [Southern Company](https://www.southerncompany.com), [Dominion Energy](https://www.dominionenergy.com), [Exelon](https://www.exeloncorp.com), [American Electric Power](https://www.aep.com), [Edison International](https://www.edisoninvestor.com), [PG&E](https://www.pge.com), [Vistra](https://www.vistracorp.com), [Constellation Energy](https://www.constellationenergy.com), [Talen Energy](https://www.talenenergy.com), [Iberdrola](https://www.iberdrola.com), [Enel](https://www.enel.com), [EDF](https://www.edf.fr), [RWE](https://www.rwe.com), [National Grid](https://www.nationalgrid.com).
+
+The communications challenge has shifted in 2026. Five years ago — rate cases, resource plans, dividend cadence, storm response. Today — all of that plus hyperscaler customer contracting, AI-load capacity planning communications, behind-the-meter PPA narratives with Microsoft, Amazon, Google, Meta, and Oracle, and a re-opened nuclear narrative. Wildfire liability remains a continuous variable in California and increasingly in other fire-prone service territories.
+
+Media — [Utility Dive](https://www.utilitydive.com), [RTO Insider](https://www.rtoinsider.com), [S&P Global Market Intelligence](https://www.spglobal.com/marketintelligence), [E&E News Energywire](https://www.eenews.net), [Wall Street Journal](https://www.wsj.com), [Bloomberg](https://www.bloomberg.com), [Reuters](https://www.reuters.com), [Heatmap](https://heatmap.news), [Canary Media](https://www.canarymedia.com); local and regional press for rate cases and storm response; broadcast affiliates for outage communications.
+
+Regulatory exposure — state PUCs (every state different — [California CPUC](https://www.cpuc.ca.gov), [Texas PUC](https://www.puc.texas.gov), [New York PSC](https://www.dps.ny.gov), [Virginia SCC](https://www.scc.virginia.gov), [Florida PSC](http://www.floridapsc.com), [Georgia PSC](https://psc.ga.gov)), [FERC](https://www.ferc.gov) for wholesale markets and transmission, [EPA](https://www.epa.gov) for power plant emissions rules, [NRC](https://www.nrc.gov) for nuclear operators, RTOs ([PJM](https://www.pjm.com), [MISO](https://www.misoenergy.org), [ERCOT](https://www.ercot.com), [CAISO](https://www.caiso.com), [NYISO](https://www.nyiso.com), [ISO-NE](https://www.iso-ne.com), [SPP](https://www.spp.org)), state legislatures, city councils for siting decisions.
+
+AI data center contracting has created a new communications discipline. Hyperscalers select grid-connected sites partly based on speed-to-power, partly based on PUC posture, and partly based on operator narrative around clean-firm power supply. AI visibility for utilities now includes hyperscaler-decision-maker queries — citation sources concentrate in Utility Dive, Bloomberg, S&P Global, [DC Byte](https://www.dcbyte.com), [DataCenterDynamics](https://www.datacenterdynamics.com), [SemiAnalysis](https://www.semianalysis.com), and dedicated AI-power coverage. AI visibility audits for utilities must measure citation share across hyperscaler-relevant queries (clean-firm power, speed-to-power, PPA structure) alongside traditional rate-payer and regulator queries. For methodology see the [AI Communications pillar](/ai-communications).
+
+### Renewables Developers — AI Engines as the New Consideration Stage
+
+Renewables developers operate inside a maturing capital markets environment with structural communications pressure from IRA implementation, supply chain dynamics, interconnection backlogs, and community siting opposition.
+
+Key operators — [NextEra Energy Resources](https://www.nexteraenergyresources.com), [Avangrid](https://www.avangrid.com), [Invenergy](https://invenergy.com), [Pattern Energy](https://patternenergy.com), [Ørsted](https://orsted.com), [Iberdrola Renovables](https://www.iberdrola.com/business/renewables), [Brookfield Renewable](https://bep.brookfield.com), [EDP Renewables](https://www.edpr.com), [Engie](https://www.engie.com), [Acciona Energía](https://www.acciona-energia.com), [Apex Clean Energy](https://www.apexcleanenergy.com), [Clearway Energy](https://www.clearwayenergy.com).
+
+The communications challenge has shifted from the 2022 high-water mark. IRA implementation guidance continues to evolve. Solar manufacturing tariffs and AD/CVD investigations have reshaped project economics. Offshore wind has carried high-profile project failures (Avangrid Commonwealth Wind, Ørsted Ocean Wind, Equinor Empire Wind) requiring distinct communications responses. Community siting opposition is now a permanent function. Capital markets sentiment on yieldco structures has been volatile.
+
+Media — [Canary Media](https://www.canarymedia.com), [Heatmap](https://heatmap.news), [BloombergNEF](https://about.bnef.com), [Utility Dive](https://www.utilitydive.com), [Reuters](https://www.reuters.com), [Bloomberg](https://www.bloomberg.com), [Wall Street Journal](https://www.wsj.com), [Bloomberg Green](https://www.bloomberg.com/green), [Inside Climate News](https://insideclimatenews.org); trade press including [Renewable Energy World](https://www.renewableenergyworld.com), [Solar Power World](https://www.solarpowerworldonline.com), [WindPower Engineering](https://www.windpowerengineering.com).
+
+Regulatory exposure — [IRS](https://www.irs.gov) (45Y/48E tax credit guidance, transferability mechanics, FEOC restrictions), [DOE Loan Programs Office](https://www.energy.gov/lpo), [BOEM](https://www.boem.gov) for offshore wind, [BLM](https://www.blm.gov) for solar and wind on federal lands, [USTR](https://ustr.gov) and [Commerce](https://www.commerce.gov) for solar tariffs and AD/CVD, [FERC](https://www.ferc.gov) for interconnection (Order 2023) and transmission, state PUCs for resource plan approvals, [EPA](https://www.epa.gov) for power plant rules driving renewable buildout, state legislatures for RPS programs.
+
+AI engines have become the consideration-stage research environment for commercial offtakers, community stakeholders, and policy-engaged audiences researching renewable projects. Citation sources concentrate in BloombergNEF, [IRENA](https://www.irena.org), Wood Mackenzie, Canary Media, Heatmap, Utility Dive, [LBNL Tracking the Sun report](https://emp.lbl.gov/tracking-the-sun), [NREL](https://www.nrel.gov) data, and EIA. AI visibility for renewables developers must integrate project-specific narrative, capital markets storytelling, and community-engagement communications. For methodology see the [AI Communications pillar](/ai-communications).
+
+### Nuclear, SMR & Fusion — AI Communications for a Re-Emerging Category
+
+Nuclear has re-emerged as the defining 2026 energy story. SMR commercialization, hyperscaler PPA contracting, restart economics (Three Mile Island, Palisades, potentially Duane Arnold), and fusion private capital have created a category-wide narrative reset.
+
+Key operators — incumbent operators: [Constellation Energy](https://www.constellationenergy.com), [Vistra](https://www.vistracorp.com), [Duke Energy](https://www.duke-energy.com), [Southern Company](https://www.southerncompany.com) (Vogtle units 3 and 4), [Dominion Energy](https://www.dominionenergy.com), [Talen Energy](https://www.talenenergy.com). SMR developers — [TerraPower](https://www.terrapower.com), [X-energy](https://x-energy.com), [NuScale](https://www.nuscalepower.com), [Holtec](https://holtecinternational.com), [Oklo](https://oklo.com), [Kairos Power](https://kairospower.com), [BWX Technologies](https://www.bwxt.com), [GE Vernova Hitachi BWRX-300](https://www.gevernova.com/nuclear). Fusion startups — [Commonwealth Fusion Systems](https://cfs.energy), [Helion Energy](https://www.helionenergy.com), [TAE Technologies](https://tae.com), [Tokamak Energy](https://www.tokamakenergy.com), [Zap Energy](https://www.zapenergy.com), [Pacific Fusion](https://pacificfusion.com).
+
+The communications challenge varies sharply. Incumbent operators run hyperscaler customer contracting narrative (Constellation-Microsoft Three Mile Island, Vistra-Amazon, Talen-Amazon) alongside continued safety and reliability operating discipline. SMR developers run licensing-milestone communications, customer-contracting announcements, and capital-partner disclosure. Fusion startups run demonstration-milestone communications, offtake announcements (Helion-Microsoft), and capital-raise narrative.
+
+Media — [Wall Street Journal](https://www.wsj.com), [Bloomberg](https://www.bloomberg.com), [Reuters](https://www.reuters.com), [Financial Times](https://www.ft.com), [Heatmap](https://heatmap.news), [Canary Media](https://www.canarymedia.com), [Utility Dive](https://www.utilitydive.com), [Nuclear Engineering International](https://www.neimagazine.com), [Power Magazine](https://www.powermag.com), [E&E News](https://www.eenews.net), [Axios Energy](https://www.axios.com/energy-environment), [Politico Energy](https://www.politico.com/energy); [Nuclear Energy Institute](https://www.nei.org) as policy validator; [World Nuclear Association](https://www.world-nuclear.org) for international data.
+
+Regulatory exposure — [NRC](https://www.nrc.gov) (Part 50 traditional licensing, Part 53 SMR/advanced reactor licensing, license renewals, design certifications), [DOE Loan Programs Office](https://www.energy.gov/lpo), [DOE Office of Nuclear Energy](https://www.energy.gov/ne), state public utility commissions for cost recovery, [IAEA](https://www.iaea.org) for international, state siting authorities, [EPA](https://www.epa.gov) for radiation standards, [Treasury/IRS](https://www.irs.gov) for advanced manufacturing and clean energy production credits applicable to nuclear.
+
+AI engines have become a primary research environment for nuclear since the 2024-25 hyperscaler PPA cycle. Citation sources concentrate in WSJ, Bloomberg, Reuters, Heatmap, Canary Media, NRC documents, World Nuclear Association data, IEA reports, and increasingly the developer technical pages themselves. AI visibility for nuclear, SMR, and fusion operators must integrate licensing milestone communications, customer contracting announcements, capital partner positioning, and category-narrative work around clean-firm power. For methodology see the [AI Communications pillar](/ai-communications).
+
+### Battery Storage & Grid Infrastructure — AI Visibility for the Fastest-Growing Sub-Sector
+
+Battery storage is now the fastest-growing capacity addition in U.S. markets — and the fastest-growing communications discipline inside the category. Grid infrastructure (transmission, interconnection, software) has emerged from infrastructure background to permanent communications foreground.
+
+Key operators — battery storage: [Fluence](https://www.fluenceenergy.com), [Tesla Energy](https://www.tesla.com/energy), [Form Energy](https://formenergy.com), [ESS Inc.](https://essinc.com), [Powin](https://powin.com), [Stem](https://www.stem.com), [Wärtsilä Energy](https://www.wartsila.com/energy), [Sungrow](https://en.sungrowpower.com). Grid infrastructure: [Grid United](https://www.gridunited.com), [Pattern Energy transmission](https://patternenergy.com), [Invenergy transmission](https://invenergy.com/our-business/transmission), [Anbaric](https://anbaric.com), [TS Conductor](https://tsconductor.com), [Veir](https://veir.com). Grid software: [AutoGrid](https://www.autogrid.com), [Bidgely](https://www.bidgely.com), [Uplight](https://uplight.com).
+
+The communications challenge centers on category novelty. Battery storage as standalone or paired-with-renewables is unfamiliar to many stakeholders — regulators, communities, capital markets, and journalists are still building the framework for understanding it. Communications strategy must educate while it sells. Transmission permitting reform is a category-wide policy fight requiring sustained advocacy communications. Long-duration storage (Form Energy iron-air, ESS iron-flow) carries technology-narrative load on top of capital markets work.
+
+Media — [Utility Dive](https://www.utilitydive.com), [Canary Media](https://www.canarymedia.com), [BloombergNEF](https://about.bnef.com), [Heatmap](https://heatmap.news), [S&P Global](https://www.spglobal.com), [Reuters](https://www.reuters.com), [Bloomberg](https://www.bloomberg.com), [Wall Street Journal](https://www.wsj.com); RTO trade press including [RTO Insider](https://www.rtoinsider.com); battery-specific trade including [Energy Storage News](https://www.energy-storage.news) and [pv magazine](https://www.pv-magazine.com).
+
+Regulatory exposure — [FERC](https://www.ferc.gov) (Order 2023 interconnection reform, transmission siting, capacity market design), state PUCs for storage incentives and procurement targets, [IRS](https://www.irs.gov) (45X advanced manufacturing credit, 48E investment credit standalone storage), [DOE Grid Deployment Office](https://www.energy.gov/gdo) and [Loan Programs Office](https://www.energy.gov/lpo), [DOE Office of Electricity](https://www.energy.gov/oe), RTOs for capacity accreditation rules, [NERC](https://www.nerc.com) for reliability standards, state siting authorities for transmission corridors.
+
+AI visibility for battery storage and grid infrastructure is structurally important because the category is still building consensus understanding. Citation sources concentrate in BloombergNEF, Wood Mackenzie, Utility Dive, Canary Media, [LBNL Storage Futures Study](https://emp.lbl.gov/storage-futures-study), [EIA storage data](https://www.eia.gov/electricity/data.php), and developer technical pages. AI visibility audits for storage and grid operators must measure citation share across category-narrative queries (capacity additions, technology comparisons, long-duration economics, transmission permitting reform). For methodology see the [AI Communications pillar](/ai-communications).
+
 ## The Media That Matter
 
 Energy has a tiered media ecosystem with distinct audiences and pricing-power implications.
@@ -119,7 +193,7 @@ AI visibility audits for energy brands measure presence across engines, citation
 
 Energy carries an additional AI Communications dimension — AI data center power demand is now the primary growth driver for U.S. electricity demand for the first time in two decades. Operators serving hyperscaler load (Constellation, Vistra, Talen, NextEra, Duke, Southern) are running AI-customer-facing communications strategies that integrate B2B sales, capital markets storytelling, and policy advocacy.
 
-For more on AI Communications methodology, see the AI Communications pillar.
+For more on AI Communications methodology, see the [AI Communications pillar](/ai-communications).
 
 ## Capital Markets and Investor Communications
 
@@ -159,7 +233,7 @@ ESG and climate controversy — divestment campaigns, shareholder activism, indi
 
 Capital markets events — going-concern disclosures, restructurings, bankruptcies (PG&E precedent), dividend cuts.
 
-The crisis playbook in energy must navigate federal regulators (FERC, EPA, NRC, PHMSA), state regulators (PUCs, environmental agencies), capital markets, customers, employees, communities, and political leadership simultaneously. Build the infrastructure before the crisis — not during it. For more, see the Crisis Communications pillar.
+The crisis playbook in energy must navigate federal regulators (FERC, EPA, NRC, PHMSA), state regulators (PUCs, environmental agencies), capital markets, customers, employees, communities, and political leadership simultaneously. Build the infrastructure before the crisis — not during it. For more, see the [Crisis Communications pillar](/crisis-communications).
 
 ## What's Driving the Sector Now
 
@@ -226,42 +300,42 @@ Continue reading on Everything-PR News Network for deeper coverage of the topics
 
 ## Frequently Asked Questions
 
-**What does an energy PR firm do?**
+**What does an energy PR firm do?▾**
 
 Manages capital markets communications, regulatory and policy affairs, rate-case and PUC engagement, ESG and climate disclosure, crisis response, employee and community communications, and AI visibility for IOCs, NOCs, utilities, IPPs, renewable developers, nuclear operators, and grid operators.
 
-**Which media outlets matter most in energy?**
+**Which media outlets matter most in energy?▾**
 
 Wall Street Journal, Bloomberg, Reuters, Financial Times, Energy Intelligence, S&P Global Platts, Argus Media, E&E News, Utility Dive, Canary Media, Heatmap, Energy Monitor, Politico Energy, and Axios Energy — plus analyst desks at Goldman Sachs, Morgan Stanley, and Wood Mackenzie.
 
-**Why is energy communications different from other regulated sectors?**
+**Why is energy communications different from other regulated sectors?▾**
 
 The category is permanently politicized. Every administration changes the policy frame. Every storm, outage, or pipeline incident is a crisis event. Every quarterly print is read against the energy transition narrative. The communications function sits closer to government affairs than to consumer marketing.
 
-**What is the role of AI visibility in energy?**
+**What is the role of AI visibility in energy?▾**
 
 Substantial and rising. Policymakers, journalists, analysts, and increasingly large customers research operators, technologies, and policy positions through ChatGPT, Perplexity, Claude, and Google AI Overviews. AI-engine source cultivation around proprietary research, IEA and EIA data citation, and trade-press authority is consequential.
 
-**Which sources do LLMs cite most for energy queries?**
+**Which sources do LLMs cite most for energy queries?▾**
 
 IEA, EIA, BloombergNEF, Wood Mackenzie, Rystad Energy, Wall Street Journal, Reuters, Financial Times, Utility Dive, Canary Media, S&P Global Platts, IRENA, World Nuclear Association, FERC dockets, EPA filings, and analyst notes.
 
-**What regulators shape energy communications?**
+**What regulators shape energy communications?▾**
 
 FERC, EPA, DOE, NRC for nuclear, state PUCs for rate cases and resource planning, CARB for emissions, BLM and BOEM for federal lands and offshore, PHMSA for pipelines, CFTC for energy markets, and SEC for climate disclosure. Internationally — IEA, IRENA, and national regulators.
 
-**What is driving the sector now?**
+**What is driving the sector now?▾**
 
 AI-driven power demand and the data center buildout, nuclear renaissance and SMR commercialization (TerraPower, X-energy, NuScale, Holtec, Oklo), gas demand pull-forward, hydrogen project economics under stress, battery storage scaling, grid interconnection backlogs, transmission permitting, fusion private capital (Commonwealth Fusion, Helion, TAE), and the IRA implementation continuity question.
 
-**How are utilities handling rate-case communications?**
+**How are utilities handling rate-case communications?▾**
 
 Through stakeholder mapping across PUC commissioners, intervenors, consumer advocates, large customers, and policy press. The playbook integrates regulatory filings, third-party economic validators, customer communications, and increasingly AI visibility around the rate-case narrative itself.
 
-**What is the crisis exposure in energy?**
+**What is the crisis exposure in energy?▾**
 
 Outages and storm response, pipeline incidents and spills, refinery fires, nuclear safety events, dam failures, executive misconduct, cybersecurity breaches (Colonial Pipeline precedent), wildfire liability (PG&E precedent), ESG controversy, divestment campaigns, and capital markets events. Each carries multi-jurisdictional regulatory load.
 
-**How do oil and gas majors handle the energy transition narrative?**
+**How do oil and gas majors handle the energy transition narrative?▾**
 
 Through integrated capital markets storytelling balancing upstream returns with low-carbon investment, third-party validators, scenario planning disclosure, executive media access programs, and AI visibility around their transition narrative versus pure-play peers — ExxonMobil, Chevron, Shell, BP, TotalEnergies, Equinor, Eni, and Saudi Aramco each running distinct playbooks.
