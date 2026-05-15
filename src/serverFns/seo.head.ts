@@ -312,6 +312,25 @@ export function isPreviewHost(host: string | null | undefined): boolean {
 const PROD_INDEXABLE = "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1";
 const PREVIEW_NOINDEX = "noindex, follow, max-image-preview:large";
 
+export function buildPillarPlaceholderHead(opts: {
+  slug: string;
+  title: string;
+  subtitle?: string | null;
+}): HeadOutput {
+  const { slug, title: pillarTitle, subtitle } = opts;
+  const url = `${SITE_URL}/${slug}/`;
+  const title = `${pillarTitle} · ${SITE_NAME}`;
+  const description = truncate(
+    subtitle ||
+      `${pillarTitle} coverage hub launching soon on ${SITE_NAME}. Browse related articles below.`,
+  );
+  const meta = baseMeta(title, description, url, DEFAULT_OG_IMAGE, "website");
+  // Always noindex,follow — thin placeholder content.
+  meta.push({ name: "robots", content: "noindex, follow, max-image-preview:large" });
+  const links: Link = [{ rel: "canonical", href: url }];
+  return { meta, links, scripts: [] };
+}
+
 export function buildPillarHead(opts: {
   slug: string;
   title: string;
