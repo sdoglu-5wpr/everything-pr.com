@@ -147,6 +147,10 @@ export const Route = createFileRoute("/$slug")({
         seoOverrides: data.header.seo,
       });
     }
+    if (loaderData.kind === "pillar-placeholder") {
+      const p = loaderData.data.pillar;
+      return buildPillarPlaceholderHead({ slug: p.slug, title: p.title, subtitle: p.subtitle });
+    }
     if (loaderData.kind !== "article") return { meta: [{ title: "Everything-PR" }] };
     const { article } = loaderData.data;
     return buildArticleHead(article);
