@@ -131,6 +131,10 @@ type AuthorMeta = {
   bio: string | null;
   website: string | null;
   social: { twitter?: string | null; linkedin?: string | null; facebook?: string | null; instagram?: string | null } | null;
+  tags?: string[] | null;
+  job_title?: string | null;
+  knows_about?: string[] | null;
+  works_for?: Record<string, unknown> | null;
 } | undefined;
 
 export function buildArchiveHead(opts: {
@@ -247,10 +251,11 @@ export function buildArchiveHead(opts: {
       image: author.avatar_url
         ? { "@type": "ImageObject", url: rewriteLegacyUrl(author.avatar_url), contentUrl: rewriteLegacyUrl(author.avatar_url), caption: author.display_name }
         : undefined,
-      jobTitle: "Contributor at Everything-PR",
-      worksFor: { "@id": `${SITE_URL}/#organization` },
+      jobTitle: author.job_title || "Contributor at Everything-PR",
+      worksFor: author.works_for ?? { "@id": `${SITE_URL}/#organization` },
       mainEntityOfPage: { "@id": `${url}#webpage` },
     };
+    if (author.knows_about && author.knows_about.length) personNode.knowsAbout = author.knows_about;
     if (sameAs.length) personNode.sameAs = sameAs;
 
     const profilePage = {

@@ -85,12 +85,16 @@ export type Database = {
           display_name: string
           email: string | null
           id: number
+          job_title: string | null
+          knows_about: Json
           post_count: number
           slug: string
           social: Json
+          tags: Json
           updated_at: string
           user_id: string | null
           website: string | null
+          works_for: Json | null
         }
         Insert: {
           avatar_url?: string | null
@@ -99,12 +103,16 @@ export type Database = {
           display_name: string
           email?: string | null
           id: number
+          job_title?: string | null
+          knows_about?: Json
           post_count?: number
           slug: string
           social?: Json
+          tags?: Json
           updated_at?: string
           user_id?: string | null
           website?: string | null
+          works_for?: Json | null
         }
         Update: {
           avatar_url?: string | null
@@ -113,12 +121,16 @@ export type Database = {
           display_name?: string
           email?: string | null
           id?: number
+          job_title?: string | null
+          knows_about?: Json
           post_count?: number
           slug?: string
           social?: Json
+          tags?: Json
           updated_at?: string
           user_id?: string | null
           website?: string | null
+          works_for?: Json | null
         }
         Relationships: []
       }

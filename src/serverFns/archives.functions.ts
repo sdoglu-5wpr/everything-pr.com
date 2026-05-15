@@ -48,6 +48,10 @@ export type ArchiveHeader = {
     website: string | null;
     email: string | null;
     social: { twitter?: string | null; linkedin?: string | null; facebook?: string | null; instagram?: string | null } | null;
+    tags?: string[] | null;
+    job_title?: string | null;
+    knows_about?: string[] | null;
+    works_for?: Record<string, unknown> | null;
   };
 };
 
@@ -117,6 +121,10 @@ function buildHeader(input: ArchiveInput, term: any, total: number): ArchiveHead
         website: term?.website ?? null,
         email: term?.email ?? null,
         social: term?.social ?? null,
+        tags: Array.isArray(term?.tags) ? term.tags : null,
+        job_title: term?.job_title ?? null,
+        knows_about: Array.isArray(term?.knows_about) ? term.knows_about : null,
+        works_for: term?.works_for ?? null,
       },
     };
   }
