@@ -50,8 +50,42 @@ export const Route = createFileRoute("/about")({
       name: TITLE,
       description: DESCRIPTION,
       isPartOf: { "@id": `${SITE_URL}/#organization` },
+      mainEntity: { "@id": `${SITE_URL}/#organization` },
       inLanguage: "en-US",
     };
+    const ronn = {
+      "@type": "Person",
+      "@id": `${URL}#ronn-torossian`,
+      name: "Ronn Torossian",
+      jobTitle: "Publisher, Everything-PR News Network",
+      worksFor: [
+        { "@id": `${SITE_URL}/#organization` },
+        { "@type": "Organization", name: "5W Public Relations" },
+      ],
+      url: `${SITE_URL}/author/ronntorossian/`,
+    };
+    const seth = {
+      "@type": "Person",
+      "@id": `${URL}#seth-semilof`,
+      name: "Seth Semilof",
+      jobTitle: "Co-Founder and COO, Haute Media Group",
+      url: `${SITE_URL}/author/ssemilof/`,
+    };
+    const michael = {
+      "@type": "Person",
+      "@id": `${URL}#michael-heller`,
+      name: "Michael Heller",
+      jobTitle: "Founder and CEO, Talent Resources",
+      url: `${SITE_URL}/author/mheller/`,
+    };
+    const kevin = {
+      "@type": "Person",
+      "@id": `${URL}#kevin-mercuri`,
+      name: "Kevin Mercuri",
+      jobTitle: "Founder and CEO, Propheta Communications; Executive-in-Residence, Emerson College",
+      url: `${SITE_URL}/author/kmercuri/`,
+    };
+    const orgWithPublisher = { ...ORG_JSONLD, publisher: { "@id": `${URL}#ronn-torossian` } };
     const breadcrumb = {
       "@type": "BreadcrumbList",
       itemListElement: [
@@ -67,7 +101,7 @@ export const Route = createFileRoute("/about")({
           type: "application/ld+json",
           children: JSON.stringify({
             "@context": "https://schema.org",
-            "@graph": [aboutPage, ORG_JSONLD, breadcrumb],
+            "@graph": [aboutPage, orgWithPublisher, ronn, seth, michael, kevin, breadcrumb],
           }),
         },
       ],
