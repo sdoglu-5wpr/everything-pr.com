@@ -45,7 +45,7 @@ async function processPost(post) {
   const { mime, bytes, visual_prompt, alt_text } = await generateImageFor({
     apiKey: AI_KEY,
     title: post.title,
-    focusKeyword: post.focus_keyword,
+    focusKeyword: null,
     body: post.content_html,
     brandInstructions: null,
   });
