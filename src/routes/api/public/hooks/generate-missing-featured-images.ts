@@ -158,9 +158,10 @@ Negative prompt — do NOT include: any text, letters, words, captions, typograp
 async function generateForPost(
   supabase: any,
   aiKey: string,
-  post: { id: number; slug: string; title: string; excerpt: string | null },
+  post: { id: number; slug: string; title: string; excerpt: string | null; content_html?: string | null },
 ) {
-  const prompt = buildPrompt(post.title, post.excerpt);
+  const plan = await planVisual(aiKey, post.title, post.excerpt, post.content_html ?? null);
+  const rendererPrompt = wrapRenderer(plan.visual_prompt);
 
   const aiResp = await fetch(
     "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -172,7 +173,7 @@ async function generateForPost(
       },
       body: JSON.stringify({
         model: "google/gemini-3.1-flash-image-preview",
-        messages: [{ role: "user", content: prompt }],
+        messages: [{ role: "user", content: rendererPrompt }],
         modalities: ["image", "text"],
       }),
     },
@@ -194,8 +195,8 @@ async function generateForPost(
   const bytes = Buffer.from(b64, "base64");
 
   const ext = mime === "image/jpeg" ? "jpg" : mime === "image/webp" ? "webp" : "png";
-  const seoSlug = slugify(post.title);
-  const filename = `${seoSlug}-featured.${ext}`;
+  const seoSlug = slugify(post.slug);
+  const filename = `${seoSlug}.${ext}`;
   const now = new Date();
   const path = `auto-featured/${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, "0")}/${post.id}-${filename}`;
 
@@ -206,7 +207,7 @@ async function generateForPost(
 
   const { data: pub } = supabase.storage.from("wp-media").getPublicUrl(path);
   const publicUrl = pub.publicUrl;
-  const altText = buildAltText(post.title);
+  const altText = plan.alt_text;
 
   const { data: maxRow } = await supabase
     .from("media")
