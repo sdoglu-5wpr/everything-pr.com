@@ -380,7 +380,7 @@ function preCleanSource(md) {
   );
   // Pandoc-style nested bracket link wrapper for non-underline cases
   out = out.replace(
-    /\[\[(https?:\/\/[^\]\s]+)\]\]\((?:https?:\/\/[^)\s]+\)/g,
+    /\[\[(https?:\/\/[^\]\s]+)\]\]\((?:https?:\/\/[^)\s]+)\)/g,
     "$1",
   );
   out = out.replace(/\(file:\/\/+(\/[^)\s]*)\)/g, "($1)");
