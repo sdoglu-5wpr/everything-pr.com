@@ -229,7 +229,11 @@ function ArticlePage() {
     );
   }
 
-  const { article, topStories: rawTopStories = [], otherNews: rawOtherNews = [], relatedPosts: rawRelatedPosts = [] } = loaderData.data;
+  return <ArticleBody data={loaderData.data} />;
+}
+
+function ArticleBody({ data }: { data: ArticlePayload }) {
+  const { article, topStories: rawTopStories = [], otherNews: rawOtherNews = [], relatedPosts: rawRelatedPosts = [] } = data;
   const topStories = withHero(rawTopStories);
   const otherNews = withHero(rawOtherNews);
   const relatedPosts = withHero(rawRelatedPosts);
