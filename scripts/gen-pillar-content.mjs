@@ -74,6 +74,7 @@ async function callGemini(userPrompt) {
         { role: "user", content: userPrompt },
       ],
       response_format: { type: "json_object" },
+      max_tokens: 16000,
     }),
   });
   if (!res.ok) {
