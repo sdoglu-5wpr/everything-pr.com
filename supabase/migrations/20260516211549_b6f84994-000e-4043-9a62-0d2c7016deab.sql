@@ -1,0 +1,1 @@
+UPDATE public.pillars SET robots = NULL, published = true WHERE slug IN ('analyst-relations','automotive-mobility','content-marketing','crypto-web3','defense','energy','entertainment-media','fintech','media-training','podcast-pr','politics-government','public-affairs','real-estate','research','seo','travel');
