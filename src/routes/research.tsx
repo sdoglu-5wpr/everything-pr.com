@@ -1,12 +1,12 @@
 import { createFileRoute, stripSearchParams } from "@tanstack/react-router";
 import { z } from "zod";
 import { createServerFn } from "@tanstack/react-start";
-import { setResponseHeader } from "@tanstack/react-start/server";
+import { setResponseHeader, getRequestHost } from "@tanstack/react-start/server";
 import { supabaseAnon } from "@/integrations/supabase/client.anon.server";
-import { ArchiveView, type PageHref } from "@/components/site/ArchiveView";
-import type { ArchivePayload, ArchiveItem } from "@/serverFns/archives.functions";
+import { PillarView } from "@/components/site/PillarView";
 import { resolvePostImageUrl, rewriteLegacyUrl } from "@/lib/legacy-urls";
-import { buildStaticPageHead } from "@/serverFns/seo.head";
+import type { PillarPayload, PillarArticleItem } from "@/lib/pillars.shared";
+import { buildPillarHead } from "@/serverFns/seo.head";
 
 const PAGE_SIZE = 12;
 
@@ -14,32 +14,38 @@ const searchSchema = z.object({
   page: z.coerce.number().int().min(1).optional().default(1),
 });
 
-const getResearch = createServerFn({ method: "GET" })
+const getResearchPillar = createServerFn({ method: "GET" })
   .inputValidator((input: { page?: number }) => input)
-  .handler(async ({ data }): Promise<ArchivePayload> => {
+  .handler(async ({ data }): Promise<PillarPayload | null> => {
+    let host: string | null = null;
+    try { host = getRequestHost({ xForwardedHost: true }) ?? null; } catch {}
     try {
       setResponseHeader(
         "Cache-Control",
-        "public, max-age=60, s-maxage=120, stale-while-revalidate=300",
+        "public, max-age=120, s-maxage=300, stale-while-revalidate=600",
       );
     } catch {}
     const page = Math.max(1, Math.floor(Number(data?.page ?? 1)));
-    const { data: rpc, error } = await (supabaseAnon as any).rpc("get_research_list", {
+
+    const { data: pillarRow, error: pillarErr } = await (supabaseAnon as any)
+      .from("pillars")
+      .select("id, slug, title, subtitle, byline, body_html, schema_jsonld, faq, hero_image_url, robots")
+      .eq("slug", "research")
+      .eq("published", true)
+      .maybeSingle();
+    if (pillarErr || !pillarRow) {
+      console.error("research pillar fetch failed:", pillarErr);
+      return null;
+    }
+
+    // Items: all posts flagged article_type='research' across topical pillars,
+    // newest first (the live research catalog feed under the editorial body).
+    const { data: rpc } = await (supabaseAnon as any).rpc("get_research_list", {
       p_page: page,
       p_page_size: PAGE_SIZE,
     });
-    if (error || !rpc) {
-      console.error("get_research_list failed:", error);
-      return {
-        header: { kind: "category", title: "Research", subtitle: null },
-        items: [],
-        page,
-        totalItems: 0,
-        totalPages: 1,
-      };
-    }
-    const total = Number(rpc.total ?? 0);
-    const items: ArchiveItem[] = ((rpc.items ?? []) as any[]).map((r) => ({
+    const total = Number(rpc?.total ?? 0);
+    const items: PillarArticleItem[] = ((rpc?.items ?? []) as any[]).map((r) => ({
       id: r.id,
       slug: r.slug,
       title: r.title,
@@ -55,18 +61,26 @@ const getResearch = createServerFn({ method: "GET" })
         : null,
       category: r.category ?? null,
     }));
+
     return {
-      header: {
-        kind: "category",
-        title: "Research",
-        subtitle: total
-          ? `${total} studies, surveys & reports across PR, marketing & comms`
-          : null,
+      pillar: {
+        id: pillarRow.id,
+        slug: pillarRow.slug,
+        title: pillarRow.title,
+        subtitle: pillarRow.subtitle ?? null,
+        byline: pillarRow.byline ?? null,
+        body_html: pillarRow.body_html ?? "",
+        schema_jsonld: pillarRow.schema_jsonld ?? null,
+        faq: Array.isArray(pillarRow.faq) ? pillarRow.faq : [],
+        hero_image_url: rewriteLegacyUrl(pillarRow.hero_image_url ?? "") || null,
+        robots: pillarRow.robots ?? null,
       },
-      items,
+      total,
       page,
-      totalItems: total,
-      totalPages: Math.max(1, Math.ceil(total / PAGE_SIZE)),
+      pageSize: PAGE_SIZE,
+      items,
+      longForm: [],
+      host,
     };
   });
 
@@ -74,27 +88,36 @@ export const Route = createFileRoute("/research")({
   validateSearch: (s) => searchSchema.parse(s),
   search: { middlewares: [stripSearchParams({ page: 1 }) as any] },
   loaderDeps: ({ search }) => ({ page: search.page }),
-  loader: async ({ deps }) => getResearch({ data: { page: deps.page } }),
-  head: ({ loaderData }) =>
-    buildStaticPageHead({
-      path: "/research/",
-      title: "Research, Studies & Reports · Everything-PR",
-      description:
-        loaderData?.totalItems
-          ? `${loaderData.totalItems} research articles, studies, surveys, and industry reports on public relations, marketing, comms, and the business of media from Everything-PR.`
-          : "Browse Everything-PR's research, studies, surveys, and industry reports on public relations, marketing, comms, and the business of media.",
-      breadcrumbs: [{ name: "Research" }],
-    }),
+  loader: async ({ deps }) => getResearchPillar({ data: { page: deps.page } }),
+  head: ({ loaderData }) => {
+    if (!loaderData) {
+      return { meta: [{ title: "Research · Everything-PR" }] };
+    }
+    return buildPillarHead({
+      slug: loaderData.pillar.slug,
+      title: loaderData.pillar.title,
+      subtitle: loaderData.pillar.subtitle,
+      heroImage: loaderData.pillar.hero_image_url,
+      page: loaderData.page,
+      totalItems: loaderData.total,
+      items: loaderData.items.map((i) => ({ title: i.title, slug: i.slug })),
+      faq: loaderData.pillar.faq,
+      robots: loaderData.pillar.robots,
+      host: loaderData.host ?? null,
+    });
+  },
   component: Page,
 });
 
 function Page() {
   const data = Route.useLoaderData();
-  return (
-    <ArchiveView
-      data={data}
-      eyebrow="Research"
-      buildHref={(p): PageHref => ({ to: "/research", search: { page: p } })}
-    />
-  );
+  if (!data) {
+    return (
+      <div className="mx-auto max-w-3xl px-6 py-24 text-center">
+        <h1 className="text-3xl font-serif font-bold">Research</h1>
+        <p className="text-muted-foreground mt-4">Loading…</p>
+      </div>
+    );
+  }
+  return <PillarView data={data} />;
 }
