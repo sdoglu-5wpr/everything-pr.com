@@ -106,28 +106,59 @@ function AuthorCard({ author, featured }: { author: AuthorListItem; featured?: b
   );
 }
 
+// Curated display order — by author id
+const PRIORITY_IDS: number[] = [
+  1052,  // EPR Editorial Team
+  6,     // Ronn Torossian
+  4750,  // EPR Staff
+  20548, // Seth Semilof
+  20559, // Kyle Porter
+  20560, // Kevin Mercuri
+  20564, // Alex Shvarts
+  5,     // David A. Steinberg
+];
+const FEATURED_IDS: number[] = [6, 20548, 20560]; // Ronn, Seth, Kevin
+const PRIORITY_SET = new Set(PRIORITY_IDS);
+const FEATURED_SET = new Set(FEATURED_IDS);
+
 export function AuthorsIndex({ authors }: { authors: AuthorListItem[] }) {
   const [q, setQ] = useState("");
 
-  const { withAvatar, withoutAvatar } = useMemo(() => {
+  const { withAvatar, withoutAvatar, featured, total } = useMemo(() => {
     const needle = q.trim().toLowerCase();
+    // Hide authors with 0 articles unless they're in the curated priority list
+    const visible = authors.filter((a) => a.post_count > 0 || PRIORITY_SET.has(a.id));
     const filtered = needle
-      ? authors.filter(
+      ? visible.filter(
           (a) =>
             a.display_name.toLowerCase().includes(needle) ||
             (a.job_title ?? "").toLowerCase().includes(needle) ||
             (a.bio ?? "").toLowerCase().includes(needle),
         )
-      : authors;
+      : visible;
+
+    const byId = new Map(filtered.map((a) => [a.id, a]));
+    const priorityOrdered = PRIORITY_IDS.map((id) => byId.get(id)).filter(Boolean) as AuthorListItem[];
+    const rest = filtered.filter((a) => !PRIORITY_SET.has(a.id));
+
+    const featuredList = FEATURED_IDS
+      .map((id) => byId.get(id))
+      .filter(Boolean) as AuthorListItem[];
+
+    // All cards (priority first, then the rest with avatars), excluding featured from main grid when not searching
+    const mainPriority = q ? priorityOrdered : priorityOrdered.filter((a) => !FEATURED_SET.has(a.id));
+    const restWithAvatar = rest.filter(hasRealAvatar);
+    const allWithAvatar = [...mainPriority, ...restWithAvatar];
+
     return {
-      withAvatar: filtered.filter(hasRealAvatar),
-      withoutAvatar: filtered.filter((a) => !hasRealAvatar(a)),
+      withAvatar: allWithAvatar,
+      withoutAvatar: rest.filter((a) => !hasRealAvatar(a)),
+      featured: featuredList,
+      total: visible.length,
     };
   }, [authors, q]);
 
-  const total = authors.length;
-  const featured = withAvatar.slice(0, 3);
-  const restWithAvatar = withAvatar.slice(3);
+  const restWithAvatar = withAvatar;
 
   return (
     <SiteLayout>
