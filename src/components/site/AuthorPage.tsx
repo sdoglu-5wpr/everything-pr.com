@@ -204,7 +204,7 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
 
             <div className="min-w-0">
               <p className="text-sm text-muted-foreground">
-                Contributor · <span className="text-[color:var(--brand-blue)] font-semibold">Everything-PR</span>
+                {author.tags?.[0] || "Contributor"} · <span className="text-[color:var(--brand-blue)] font-semibold">Everything-PR</span>
               </p>
               {author.job_title ? (
                 <p className="mt-1 text-base font-semibold text-foreground">{author.job_title}</p>
