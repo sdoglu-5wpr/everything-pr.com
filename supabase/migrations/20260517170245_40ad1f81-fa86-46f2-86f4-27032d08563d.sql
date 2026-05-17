@@ -1,0 +1,1 @@
+UPDATE authors SET avatar_url = '/authors/michael-heller.jpeg', updated_at = now() WHERE id = 20558;
