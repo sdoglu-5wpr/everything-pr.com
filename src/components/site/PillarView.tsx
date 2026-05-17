@@ -29,6 +29,9 @@ export function PillarView({ data }: { data: PillarPayload }) {
     items: items.map((i) => ({ title: i.title, slug: i.slug })),
     faq: pillar.faq,
     extraSchema: pillar.schema_jsonld ?? null,
+    bodyHtml: pillar.body_html,
+    heroImage: pillar.hero_image_url,
+    byline: pillar.byline,
   });
   return (
     <SiteLayout>
