@@ -145,7 +145,8 @@ export function AuthorPage({ data }: { data: ArchivePayload }) {
   for (const s of extraSites) {
     if (s?.url) profiles.push({ icon: Globe, label: s.label || hostname(s.url) || s.url, sub: hostname(s.url) || s.url, href: s.url });
   }
-  if (social.email) profiles.push({ icon: Mail, label: "Email", sub: social.email, href: `mailto:${social.email}` });
+  const email = (social as Record<string, unknown>).email as string | undefined;
+  if (email) profiles.push({ icon: Mail, label: "Email", sub: email, href: `mailto:${email}` });
 
   const hasSidebar = profiles.length > 0;
 
