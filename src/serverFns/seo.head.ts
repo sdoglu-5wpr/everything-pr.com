@@ -522,6 +522,11 @@ export function buildPillarSchemaGraph(opts: {
   faq?: Array<{ q: string; a: string }>;
   definedTerm?: { name: string; description: string } | null;
   extraSchema?: unknown;
+  bodyHtml?: string | null;
+  heroImage?: string | null;
+  byline?: string | null;
+  datePublished?: string | null;
+  dateModified?: string | null;
 }): { primary: object; extra: object | null } {
   const url = `${SITE_URL}/${opts.slug}/`;
   const pillarTitle = opts.title;
@@ -532,6 +537,8 @@ export function buildPillarSchemaGraph(opts: {
     url, pillarTitle, title, description,
     page: opts.page, items: opts.items, faq: opts.faq,
     definedTerm: opts.definedTerm, extraSchema: opts.extraSchema,
+    bodyHtml: opts.bodyHtml, heroImage: opts.heroImage, byline: opts.byline,
+    datePublished: opts.datePublished, dateModified: opts.dateModified,
   });
   return {
     primary: { "@context": "https://schema.org", "@graph": graph },
