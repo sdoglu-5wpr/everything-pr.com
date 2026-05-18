@@ -28,6 +28,7 @@ const SECTOR_GROUPS: NavGroup[] = [
       path("Enterprise SaaS", "/enterprise-saas"),
       path("Fintech", "/fintech"),
       path("Startups & Venture", "/startups-venture"),
+      path("Technology", "/technology"),
     ],
   },
   {
