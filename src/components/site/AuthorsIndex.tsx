@@ -117,6 +117,8 @@ const PRIORITY_IDS: number[] = [
   20563, // Patrick Cullinane
   20564, // Alex Shvarts
   5,     // David A. Steinberg
+  20561, // Curium
+  20562, // Eduard Moraru
 ];
 const FEATURED_IDS: number[] = [6, 20548, 20560]; // Ronn, Seth, Kevin
 const PRIORITY_SET = new Set(PRIORITY_IDS);
