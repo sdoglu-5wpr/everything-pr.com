@@ -111,7 +111,7 @@ export function AboutPage() {
             and principal owner,{" "}
             <Link
               to="/author/$slug"
-              params={{ slug: "ronntorossian" }}
+              params={{ slug: "ronn-torossian" }}
               className="text-[color:var(--brand-blue)] font-semibold hover:underline"
             >
               Ronn Torossian
