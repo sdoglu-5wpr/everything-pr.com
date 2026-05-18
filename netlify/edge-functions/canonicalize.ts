@@ -40,6 +40,8 @@ export default async (request: Request, _context: Context) => {
   if (
     lowerPath.startsWith("/_serverfn") ||
     lowerPath.startsWith("/_server/") ||
+    lowerPath.startsWith("/ln/") ||
+    lowerPath === "/ln" ||
     lowerPath.startsWith("/api/") ||
     lowerPath.startsWith("/admin-everything") ||
     lowerPath.startsWith("/admin/") ||
@@ -136,6 +138,9 @@ export const config = {
     "/assets/*",
     "/wp-content/uploads/*",
     "/_serverFn/*",
+    "/ln/*",
+    "/api/*",
+    "/admin-everything/*",
     "/.netlify/*",
     "/*.js",
     "/*.css",

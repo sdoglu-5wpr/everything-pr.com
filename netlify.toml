@@ -54,6 +54,11 @@
   status = 200
   force = true
 [[redirects]]
+  from = "/ln/*"
+  to = "/.netlify/functions/server"
+  status = 200
+  force = true
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/server"
   status = 200
