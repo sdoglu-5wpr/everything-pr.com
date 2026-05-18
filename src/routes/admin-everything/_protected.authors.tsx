@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Plus, Trash2, Pencil, X, Loader2, ExternalLink, Upload } from "lucide-react";
-import { listAuthors, saveAuthor, deleteAuthor } from "@/serverFns/admin-taxonomy.functions";
+import { listAuthorsAdmin as listAuthors, saveAuthor, deleteAuthor } from "@/serverFns/admin-taxonomy.functions";
 import { uploadMediaFromBase64 } from "@/serverFns/admin-editor.functions";
 
 function fileToBase64(file: File): Promise<string> {

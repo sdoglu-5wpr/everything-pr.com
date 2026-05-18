@@ -155,7 +155,7 @@ export const deleteTag = createServerFn({ method: "POST" })
   });
 
 // ===================== AUTHORS =====================
-export const listAuthors = createServerFn({ method: "POST" })
+export const listAuthorsAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }): Promise<any> => {
     const { supabase, userId } = context;
