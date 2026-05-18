@@ -24,6 +24,21 @@ Disallow: /*?utm_
 Disallow: /*?fbclid=
 Disallow: /*?gclid=
 
+# Block legacy WordPress numeric-id permalinks like /slug/12345/
+# (duplicates of the canonical /slug/ form). The edge function also
+# 301s these to the canonical slug; the disallow saves crawl budget
+# for clients that hit them directly.
+Disallow: /*/0*
+Disallow: /*/1*
+Disallow: /*/2*
+Disallow: /*/3*
+Disallow: /*/4*
+Disallow: /*/5*
+Disallow: /*/6*
+Disallow: /*/7*
+Disallow: /*/8*
+Disallow: /*/9*
+
 # ============================================================
 # AI Crawlers — Explicitly ALLOWED (we want to be cited)
 # ============================================================
