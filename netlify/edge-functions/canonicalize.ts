@@ -94,6 +94,16 @@ export default async (request: Request, _context: Context) => {
     changed = true;
   }
 
+  // Legacy WordPress numeric-ID URLs: /{slug}/{digits}/ or /{slug}/{digits}
+  // are old WP post-id permalink variants that duplicate the canonical
+  // /{slug}/ form. Google reports them as "Crawled - currently not indexed"
+  // duplicates. 301 strip the trailing /digits segment.
+  const wpIdMatch = url.pathname.match(/^\/([^\/]+)\/(\d+)(\/?)$/);
+  if (wpIdMatch && !["author", "category", "tag", "page", "post", "glossary", "api", "admin", "admin-everything"].includes(wpIdMatch[1])) {
+    url.pathname = `/${wpIdMatch[1]}${wpIdMatch[3]}`;
+    changed = true;
+  }
+
   // Trailing-slash policy: DO NOT strip trailing slashes at the edge.
   // Netlify serves prerendered HTML from directories (e.g.
   // dist/client/about/index.html) and 301s the no-slash form to the slash
