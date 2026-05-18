@@ -55,37 +55,37 @@ export const Route = createFileRoute("/about")({
     };
     const ronn = {
       "@type": "Person",
-      "@id": `${URL}#ronn-torossian`,
+      "@id": `${SITE_URL}/author/ronn-torossian#person`,
       name: "Ronn Torossian",
       jobTitle: "Publisher, Everything-PR News Network",
       worksFor: [
         { "@id": `${SITE_URL}/#organization` },
         { "@type": "Organization", name: "5W Public Relations" },
       ],
-      url: `${SITE_URL}/author/ronntorossian/`,
+      url: `${SITE_URL}/author/ronn-torossian/`,
     };
     const seth = {
       "@type": "Person",
-      "@id": `${URL}#seth-semilof`,
+      "@id": `${SITE_URL}/author/seth-semilof#person`,
       name: "Seth Semilof",
       jobTitle: "Co-Founder and COO, Haute Media Group",
-      url: `${SITE_URL}/author/ssemilof/`,
+      url: `${SITE_URL}/author/seth-semilof/`,
     };
     const michael = {
       "@type": "Person",
-      "@id": `${URL}#michael-heller`,
+      "@id": `${SITE_URL}/author/michael-heller#person`,
       name: "Michael Heller",
       jobTitle: "Founder and CEO, Talent Resources",
-      url: `${SITE_URL}/author/mheller/`,
+      url: `${SITE_URL}/author/michael-heller/`,
     };
     const kevin = {
       "@type": "Person",
-      "@id": `${URL}#kevin-mercuri`,
+      "@id": `${SITE_URL}/author/kevin-mercuri#person`,
       name: "Kevin Mercuri",
       jobTitle: "Founder and CEO, Propheta Communications; Executive-in-Residence, Emerson College",
-      url: `${SITE_URL}/author/kmercuri/`,
+      url: `${SITE_URL}/author/kevin-mercuri/`,
     };
-    const orgWithPublisher = { ...ORG_JSONLD, publisher: { "@id": `${URL}#ronn-torossian` } };
+    const orgWithPublisher = { ...ORG_JSONLD, publisher: { "@id": `${SITE_URL}/author/ronn-torossian#person` } };
     const breadcrumb = {
       "@type": "BreadcrumbList",
       itemListElement: [
