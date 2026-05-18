@@ -120,7 +120,7 @@ const PRIORITY_IDS: number[] = [
   20561, // Curium
   20562, // Eduard Moraru
 ];
-const FEATURED_IDS: number[] = [6, 20548, 20560]; // Ronn, Seth, Kevin
+const FEATURED_IDS: number[] = [6, 20548, 20560, 20558]; // Ronn, Seth, Kevin, Michael Heller
 const PRIORITY_SET = new Set(PRIORITY_IDS);
 const FEATURED_SET = new Set(FEATURED_IDS);
 
@@ -211,7 +211,7 @@ export function AuthorsIndex({ authors }: { authors: AuthorListItem[] }) {
                 <h2 className="font-serif text-2xl md:text-3xl font-bold">Featured</h2>
               </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {featured.map((a) => (
                 <AuthorCard key={a.id} author={a} featured />
               ))}
