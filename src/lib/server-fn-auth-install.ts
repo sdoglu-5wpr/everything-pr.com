@@ -1,5 +1,5 @@
 // Browser-only: attach the Supabase access token as a Bearer header to every
-// /_serverFn/ request so server functions guarded by `requireSupabaseAuth`
+// /_serverFn/ (and TanStack's /ln/) requests so server functions guarded by `requireSupabaseAuth`
 // can authenticate. Without this, all admin server fns return 401 and the
 // raw Response is thrown to the UI as "[object Response]".
 import { supabase } from "@/integrations/supabase/client";
@@ -33,7 +33,7 @@ if (typeof window !== "undefined" && !installed) {
         catch { return url; }
       })();
 
-      if (pathname.startsWith("/_serverFn") || pathname.startsWith("/_serverfn") || pathname.startsWith("/_server")) {
+      if (pathname.startsWith("/_serverFn") || pathname.startsWith("/_serverfn") || pathname.startsWith("/_server") || pathname.startsWith("/ln/")) {
         const { data } = await supabase.auth.getSession();
         const token = data.session?.access_token;
         if (token) {

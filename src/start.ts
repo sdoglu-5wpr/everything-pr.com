@@ -1,4 +1,5 @@
 import { createMiddleware, createStart } from "@tanstack/react-start";
+import { attachSupabaseAuth } from "./integrations/supabase/auth-attacher";
 import redirectsData from "./generated/redirects.json";
 
 const NOINDEX_HEADER = "noindex, nofollow, noarchive, nosnippet, noimageindex";
@@ -85,4 +86,5 @@ const responseHeadersMiddleware = createMiddleware().server(async ({ request, ne
 
 export const startInstance = createStart(() => ({
   requestMiddleware: [imageProxyMiddleware, redirectMiddleware, responseHeadersMiddleware],
+  functionMiddleware: [attachSupabaseAuth],
 }));

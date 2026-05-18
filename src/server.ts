@@ -45,7 +45,13 @@ function normalizeServerFunctionRequest(request: Request): Request {
 }
 
 function isServerFunctionPath(path: string): boolean {
-  return path.startsWith("/_serverFn") || path.startsWith("/_serverfn") || path.startsWith("/_server");
+  return (
+    path.startsWith("/_serverFn") ||
+    path.startsWith("/_serverfn") ||
+    path.startsWith("/_server") ||
+    path.startsWith("/ln/") ||
+    path === "/ln"
+  );
 }
 
 function permanentRedirect(location: string): Response {
